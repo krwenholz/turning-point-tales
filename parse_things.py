@@ -35,7 +35,7 @@ def run():
     page = device.get_result()
 
     first_page_text = page.groups[0].get_text()
-    with open('foobar.txt', 'w') as some_text:
+    with open('site/foobar.txt', 'w') as some_text:
       some_text.write(first_page_text)
     return
 

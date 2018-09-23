@@ -1,4 +1,7 @@
 steps:
+  - name: 'python:3.7-stretch'
+    entrypoint: "bash"
+    args: ["parse.sh"]
   - name: gcr.io/cloud-builders/gsutil
     args: ["-m", "rsync", "-r", "-c", "-d", "./site", "gs://our_first_big_thing.howhardwoulditbe.com"]
   - name: gcr.io/cloud-builders/gsutil
