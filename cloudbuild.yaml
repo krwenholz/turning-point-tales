@@ -1,0 +1,5 @@
+steps:
+  - name: gcr.io/cloud-builders/gsutil
+    args: ["-m", "rsync", "-r", "-c", "-d", "./site", "gs://www.howhardwoulditbe.com"]
+  - name: gcr.io/cloud-builders/gsutil
+    args: ["acl", "ch", "-u", "AllUsers:R", "gs://www.howhardwoulditbe.com/*"]
