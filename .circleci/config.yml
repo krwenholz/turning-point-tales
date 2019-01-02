@@ -1,55 +1,121 @@
 version: 2.1
 commands:
-  checkout_install:
+  init_deploy:
     steps:
       - checkout
+      - attach_workspace:
+          at: /tmp/workspace
       - restore_cache:
-          key: pip-cache-{{ checksum "Pipfile.txt" }}
+          keys:
+            - build-python-{{ checksum "Pipfile.txt" }}
+            - build-python-
       - run: |
           python3 -m venv venv
           . ./venv/bin/activate
           pip install -r Pipfile.txt
       - save_cache:
-          key: pip-cache-{{ checksum "Pipfile.txt" }}
+          key: build-python-{{ checksum "Pipfile.txt" }}
           paths:
-            - ./venv
+            - /usr/local/cargo/registry
+            - /usr/local/cargo/git
+  init_rust:
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - build-rust-{{ checksum "Cargo.toml" }}-{{ checksum "Cargo.lock" }}
+            - build-rust-
+      - run: |
+          . $HOME/.cargo/env
+          cargo update
+          cargo fetch
+      - save_cache:
+          key: build-rust-{{ checksum "Cargo.toml" }}-{{ checksum "Cargo.lock" }}
+          paths:
+            - /usr/local/cargo/registry
+            - /usr/local/cargo/git
 
 jobs:
-  build:
+
+  api_build:
     docker:
-      - image: circleci/python:3.7.0
-    working_directory: ~/repo
+      - image: softprops/lambda-rust:latest
     steps:
-      - checkout_install
+      - init_rust
+      - run:
+          name: Build and test
+          command: |
+            . $HOME/.cargo/env
+            cargo build --release
+            yum install -y zip
+            zip -j target/release/final.zip ./target/release/bootstrap
+      - persist_to_workspace:
+          root: "."
+          paths:
+            - target/release/
+
+  api_test:
+    docker:
+      - image: softprops/lambda-rust:latest
+    steps:
+      - init_rust
+      - run:
+          name: Compile and test
+          command: |
+            . $HOME/.cargo/env
+            rustc --version; cargo --version
+            cargo test --verbose --frozen
+            for file in target/debug/* target/debug/.??*; do
+              [ -d $file -o ! -x $file ] && rm -r $file
+            done
+          environment:
+            # Need this for the coverage run
+            RUSTFLAGS: "-C link-dead-code"
+
+  api_test_release:
+    docker:
+      - image: softprops/lambda-rust:latest
+    steps:
+      - init_rust
+      - run:
+          name: Compile and test release
+          command: |
+            . $HOME/.cargo/env
+            rustc --version; cargo --version
+            cargo test --verbose --frozen --release
 
   deploy_test:
     docker:
       - image: circleci/python:3.7.0
-    working_directory: ~/repo
     steps:
-      - checkout_install
+      - init_deploy
       - run: |
           . ./venv/bin/activate
+          python3 -m awscli lambda update-function-code --region 'us-west-2' --function-name api-test --publish --zip-file fileb:///tmp/workspace/target/release/final.zip
           python3 -m awscli s3 sync site s3://test.howhardwoulditbe.com/$CIRCLE_BRANCH --delete
 
   deploy_prod:
     docker:
       - image: circleci/python:3.7.0
-    working_directory: ~/repo
     steps:
-      - checkout_install
+      - init_deploy
       - run: |
           . ./venv/bin/activate
+          python3 -m awscli lambda update-function-code --region 'us-west-2'--function-name api-prod --publish --zip-file fileb:///tmp/workspace/target/release/final.zip
           python3 -m awscli s3 sync site s3://ourfirstbigthing.howhardwoulditbe.com/$CIRCLE_BRANCH --delete
 
 workflows:
   version: 2.1
   ci:
     jobs:
-      - build
+      - api_build
+      - api_test
+      - api_test_release
       - deploy_test:
           requires:
-            - build
+            - api_build
+            - api_test
+            - api_test_release
       - deploy_prod:
           requires:
             - deploy_test
