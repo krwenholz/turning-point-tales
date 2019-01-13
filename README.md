@@ -1,4 +1,14 @@
-To get started
+>  TODO(kyle): Web server setup (going to be much simpler)
+>  TODO(kyle): Docker build this app and deploy it naively on AWS EC2
+>  TODO(kyle): web pages built with hugo?
+>  TODO(kyle): web page for login to connect to Patreon
+>  TODO(kyle): JSON API to do that Patreon connection
+>  TODO(kyle): svelte component to inspect cookie and know we're authenticated or not
+>  TODO(kyle): Ability to upload YAML stories (saved in S3)
+>  TODO(kyle): JSON API to serve up JSON formatted story
+>  TODO(kyle): Page for displaying said JSON
+
+# To get started
 
   python3 -m venv venv
   source bin/activate
