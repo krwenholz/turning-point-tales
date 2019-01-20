@@ -1,46 +1,254 @@
 <svelte:head>
-	<title>Sapper project template</title>
+	<title>Our first big thing</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<section class="wrapper">
+  <header>
+    <i class="header__icon icono-sitemap"></i>
+    <nav class="grouping">
+      <i class="header__icon icono-list"></i>
+      <i class="header__icon icono-chain"></i>
+    </nav>
+  </header>
 
-<figure>
-	<img alt='Borat' src='great-success.png'>
-	<figcaption>HIGH FIVE!</figcaption>
-</figure>
+  <section class='intro'>
+    <h1>Where will your adventure take you?</h1>
+    <h1><span class="h1__span">⚔</span></h1>
+    <p>
+      Dive into the world of grues, cardinal directions, and spooky houses.
+      Reading can be scary, and not just for people who are illiterate! Buckle
+      up, and prepare for the adventure ahead; The choice is yours.
+    </p>
 
-<p><strong>Try editing this file (routes/index.html) to test hot module reloading.</strong></p>
+    <nav class="links">
+      <a href="">You're standing in a dark, spooky house...</a>
+    </nav>
+  </section>
 
-<style>
-	h1, figure, p {
-		text-align: center;
-		margin: 0 auto;
-	}
+  <hr class="pre-story-blocks">
 
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
+  <section class='story-preview'>
+    <h2>
+      A wind in the Leaves
+    </h2>
+    <div class="story-tags">
+      <span class="story-tag">Spooky</span>
+      <span class="story-tag2">Erotic</span>
+      <span class="story-tag3">Gluten-Free</span>
+    </div>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi a veniam voluptatum qui eaque. Odit officiis atque doloribus, adipisci enim modi sunt velit porro odio quaerat? Rem provident sapiente ad?</p>
+    <nav>
+      <i class="icono-signIn"> </i>
+      <span>You head north, towards the burning bush...</span>
+    </nav>
+  </section>
 
-	figure {
-		margin: 0 0 1em 0;
-	}
+  <hr>
 
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
-	}
+  <section class='story-preview'>
+    <h2>
+      My Other Half
+    </h2>
+    <div class="story-tags">
+      <span class="story-tag">Spooky</span>
+      <span class="story-tag2">Erotic</span>
+      <span class="story-tag3">Gluten-Free</span>
+    </div>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates animi eligendi ut odit magnam quaerat autem molestiae culpa sequi, consequatur ipsum qui! Voluptas debitis illo eos dolor non dicta. Omnis!</p>
+    <nav>
+      <i class="icono-signIn"></i>
+      <span>You find yourself abandoned in a grass field</span>
+    </nav>
+  </section>
 
-	p {
-		margin: 1em auto;
-	}
+  <hr>
 
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
-	}
+  <section class='story-preview'>
+    <h2>
+      The End of Ze World
+    </h2>
+    <div class="story-tags">
+      <span class="story-tag">Vegan</span>
+      <span class="story-tag">Boring</span>
+      <span class="story-tag2">Tech</span>
+      <span class="story-tag3">Republican</span>
+      <span class="story-tag2">Magic</span>
+      <span class="story-tag2">Kerfuffle</span>
+    </div>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates animi eligendi ut odit magnam quaerat autem molestiae culpa sequi, consequatur ipsum qui! Voluptas debitis illo eos dolor non dicta. Omnis!</p>
+    <nav class="links">
+      <i class="icono-signIn"></i>
+      <span>Start reading</span>
+    </nav>
+  </section>
+
+  <hr>
+
+  <nav class="crumbs">
+    <ul class="pagination">
+      <li>&lt</li>
+      <li><a href="#">1</a></li>
+      <li><a href="#">2</a></li>
+      <li class="active"><a href="#">3</a></li>
+      <li><a href="#">4</a></li>
+      <li><a href="#">5</a></li>
+      <li>&gt</li>
+    </ul>
+   </nav>
+</section>
+
+<style type="text/sass">
+  .wrapper {
+    max-height: 100%;
+    max-width: 666px;
+  }
+
+  h1,h2,p {
+    line-height: 25px;
+    margin-bottom: 25px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 42px;
+    line-height: 50px;
+  }
+
+  .h1__span {
+    padding: 10px;
+    font-size: 50px;
+  }
+
+  a {
+    padding: 0;
+    font-style: italic;
+    color: #3D3522;
+    text-align: center;
+  }
+
+  p, a, span {
+    font-size: 14px;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+  }
+
+  [class^='icono-'] {
+    color: inherit;
+    transform: scale(.9);
+    margin-left: 30px;
+  }
+
+  .icono-sitemap {
+    margin-left: 0;
+    margin-right: auto !important;
+  }
+
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: calc(var(--vertical-space) * 2);
+  }
+
+  .header__i {
+    margin-left: 60px;
+  }
+
+  .intro {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .intro nav {
+    margin: 20px 0 20px 0;
+    justify-content: center;
+  }
+
+  .intro a:hover,
+  .intro i:hover {
+    text-decoration: underline;
+  }
+
+  .intro p {
+    margin-bottom: var(--vertical-space);
+  }
+
+  .story-preview {
+    display: flex;
+    flex-flow: column;
+    margin: var(--vertical-space) 0 var(--vertical-space) 0; 
+  }
+
+  .story-preview .story-tags {
+    min-height: 20px;
+    padding-left: 10px;
+    border-left: 3px solid gray;
+    border-radius: 3px;
+  }
+
+  .story-preview h2 {
+    font-size: 26px;
+    margin-bottom: 30px;
+  }
+
+  .story-preview i {
+    margin-right: 20px;
+  }
+
+  .story-preview span {
+    font-style: italic;
+  }
+
+  .story-tags {
+    margin-bottom: 35px;
+  }
+
+  .story-tag, .story-tag2, .story-tag3 {
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px;
+    font-style: italic;
+    color: #423a3a;
+  }
+
+  hr.pre-story-blocks {
+    margin-top: var(--vertical-space);
+    margin-bottom: calc(var(--vertical-space) * 2);
+    height: 0px;
+    overflow: visible; /* For IE */
+    padding: 0;
+    border: none;
+    border-top: medium double #333;
+    color: #333;
+    text-align: center;
+  }
+
+  hr.pre-story-blocks:after {
+    content: "§";
+    display: inline-block;
+    position: relative;
+    top: -0.7em;
+    font-size: 1.5em;
+    padding: 0 0.25em;
+    background: #E7ECEF;
+  }
+
+  .crumbs  {
+    margin: var(--vertical-space) 0 var(--vertical-space) 0;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .crumbs aside {
+    margin-right: 30px;
+  }
+
+  .crumbs ul {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+  }
 </style>
