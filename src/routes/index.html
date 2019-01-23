@@ -21,81 +21,42 @@
     </p>
 
     <nav class="links">
-      <a href="">You're standing in a dark, spooky house...</a>
+      <a href="story">You're standing in a dark, spooky house...</a>
     </nav>
   </section>
 
   <hr class="pre-story-blocks">
 
-  <section class='story-preview'>
-    <h2>
-      A wind in the Leaves
-    </h2>
-    <div class="story-tags">
-      <span class="story-tag">Spooky</span>
-      <span class="story-tag2">Erotic</span>
-      <span class="story-tag3">Gluten-Free</span>
-    </div>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi a veniam voluptatum qui eaque. Odit officiis atque doloribus, adipisci enim modi sunt velit porro odio quaerat? Rem provident sapiente ad?</p>
-    <nav>
-      <i class="icono-signIn"> </i>
-      <span>You head north, towards the burning bush...</span>
-    </nav>
-  </section>
+	{#each stories as story}
+    <section class='story-preview'>
+      <h2>
+        {story.title}
+      </h2>
+      <div class="story-tags">
+        {#each story.tags as tag}
+          <span class="story-tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
+        {/each}
+      </div>
+      <p>{story.preview}</p>
+      <nav class="links">
+        <i class="icono-signIn"></i>
+        <a href="story/{story.slug}">{story.previewPrompt}</a>
+      </nav>
+    </section>
 
-  <hr>
-
-  <section class='story-preview'>
-    <h2>
-      My Other Half
-    </h2>
-    <div class="story-tags">
-      <span class="story-tag">Spooky</span>
-      <span class="story-tag2">Erotic</span>
-      <span class="story-tag3">Gluten-Free</span>
-    </div>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates animi eligendi ut odit magnam quaerat autem molestiae culpa sequi, consequatur ipsum qui! Voluptas debitis illo eos dolor non dicta. Omnis!</p>
-    <nav>
-      <i class="icono-signIn"></i>
-      <span>You find yourself abandoned in a grass field</span>
-    </nav>
-  </section>
-
-  <hr>
-
-  <section class='story-preview'>
-    <h2>
-      The End of Ze World
-    </h2>
-    <div class="story-tags">
-      <span class="story-tag">Vegan</span>
-      <span class="story-tag">Boring</span>
-      <span class="story-tag2">Tech</span>
-      <span class="story-tag3">Republican</span>
-      <span class="story-tag2">Magic</span>
-      <span class="story-tag2">Kerfuffle</span>
-    </div>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptates animi eligendi ut odit magnam quaerat autem molestiae culpa sequi, consequatur ipsum qui! Voluptas debitis illo eos dolor non dicta. Omnis!</p>
-    <nav class="links">
-      <i class="icono-signIn"></i>
-      <span>Start reading</span>
-    </nav>
-  </section>
-
-  <hr>
-
-  <nav class="crumbs">
-    <ul class="pagination">
-      <li>&lt</li>
-      <li><a href="#">1</a></li>
-      <li><a href="#">2</a></li>
-      <li class="active"><a href="#">3</a></li>
-      <li><a href="#">4</a></li>
-      <li><a href="#">5</a></li>
-      <li>&gt</li>
-    </ul>
-   </nav>
+    <hr>
+	{/each}
 </section>
+
+<script>
+	export default {
+		preload({ params, query }) {
+			return this.fetch(`story.json`).then(r => r.json()).then(stories => {
+				return { stories };
+			});
+		}
+	};
+</script>
 
 <style type="text/sass">
   .wrapper {
@@ -234,21 +195,5 @@
     font-size: 1.5em;
     padding: 0 0.25em;
     background: #E7ECEF;
-  }
-
-  .crumbs  {
-    margin: var(--vertical-space) 0 var(--vertical-space) 0;
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  .crumbs aside {
-    margin-right: 30px;
-  }
-
-  .crumbs ul {
-    width: 50%;
-    display: flex;
-    justify-content: space-between;
   }
 </style>
