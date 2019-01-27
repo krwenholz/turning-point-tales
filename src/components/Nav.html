@@ -1,56 +1,58 @@
-<nav>
-	<ul>
-		<li><a class='{segment === undefined ? "selected" : ""}' href='.'>home</a></li>
-		<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
-		     the blog data when we hover over the link or tap it on a touchscreen -->
-		<li><a rel=prefetch class='{segment === "stories" ? "selected" : ""}' href='stories'>stories</a></li>
-		<li><a class='{segment === "about" ? "selected" : ""}' href='about'>about</a></li>
-	</ul>
-</nav>
+<header>
+  <a class='{segment === "home" ? "selected" : ""} i__wrapper' href='home'>
+    <i class="nav__i icono-home"></i>
+    <p>home</p>
+  </a>
+  <nav class="grouping">
+    <a class='{segment === "stories" ? "selected" : ""} i__wrapper' href='stories'><i class="nav__i icono-list"></i>stories</a>
+    <a class='{segment === "login" ? "selected" : ""} i__wrapper' href='login'><i class="nav__i icono-user"></i>login</a>
+  </nav>
+</header>
 
-<style>
-	nav {
-    background-color: #E7ECEF;
-		border-bottom: 1px solid;
-		font-weight: 300;
-		padding: 0 1em;
-	}
+<style type="text/sass">
+  header {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+  }
 
-	ul {
-		margin: 0;
-		padding: 0;
-	}
+  p {
+    margin: 0;
+  }
 
-	/* clearfix */
-	ul::after {
-		content: '';
-		display: block;
-		clear: both;
-	}
+  .i__wrapper {
+    display: flex;
+    flex-flow: column;
+    font-size: 12px;
 
-	li {
-		display: block;
-		float: left;
-	}
+  }
 
-	.selected {
-		position: relative;
-		display: inline-block;
-	}
+  .grouping {
+    display: flex;
 
-	.selected::after {
-		position: absolute;
-		content: '';
-		width: calc(100% - 1em);
-		height: 2px;
-		background-color: rgb(170,30,30);
-		display: block;
-		bottom: -1px;
-	}
+    > * {
+      margin-left: 20px;
+    }
+  }
 
-	a {
-		text-decoration: none;
-		padding: 1em 0.5em;
-		display: block;
-	}
+  a {
+    text-decoration: none;
+    padding: 1em 0.5em;
+    display: block;
+  }
+
+  .selected {
+    position: relative;
+    display: inline-block;
+  }
+
+  .selected::after {
+    position: absolute;
+    content: '';
+    width: calc(100% - 1em);
+    height: 2px;
+    background-color: rgb(170,30,30);
+    display: block;
+    bottom: -1px;
+  }
 </style>

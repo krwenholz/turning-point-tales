@@ -1,19 +1,12 @@
 <svelte:head>
-	<title>Our first big thing</title>
+  <title>Our first big thing</title>
 </svelte:head>
 
 <section class="wrapper">
-  <header>
-    <i class="header__icon icono-sitemap"></i>
-    <nav class="grouping">
-      <i class="header__icon icono-list"></i>
-      <i class="header__icon icono-chain"></i>
-    </nav>
-  </header>
 
   <section class='intro'>
     <h1>Where will your adventure take you?</h1>
-    <h1><span class="h1__span">⚔</span></h1>
+    <h1>⚔</h1>
     <p>
       Dive into the world of grues, cardinal directions, and spooky houses.
       Reading can be scary, and not just for people who are illiterate! Buckle
@@ -27,7 +20,7 @@
 
   <hr class="pre-story-blocks">
 
-	{#each stories as story}
+  {#each stories as story}
     <section class='story-preview'>
       <h2>
         {story.title}
@@ -45,48 +38,20 @@
     </section>
 
     <hr>
-	{/each}
+  {/each}
 </section>
 
 <script>
-	export default {
-		preload({ params, query }) {
-			return this.fetch(`story.json`).then(r => r.json()).then(stories => {
-				return { stories };
-			});
-		}
-	};
+  export default {
+    preload({ params, query }) {
+      return this.fetch(`story.json`).then(r => r.json()).then(stories => {
+        return { stories };
+      });
+    }
+  };
 </script>
 
 <style type="text/sass">
-  .wrapper {
-    max-height: 100%;
-    max-width: 666px;
-  }
-
-  h1,h2,p {
-    line-height: 25px;
-    margin-bottom: 25px;
-  }
-
-  h1 {
-    text-align: center;
-    font-size: 42px;
-    line-height: 50px;
-  }
-
-  .h1__span {
-    padding: 10px;
-    font-size: 50px;
-  }
-
-  a {
-    padding: 0;
-    font-style: italic;
-    color: #3D3522;
-    text-align: center;
-  }
-
   p, a, span {
     font-size: 14px;
   }
@@ -105,17 +70,6 @@
   .icono-sitemap {
     margin-left: 0;
     margin-right: auto !important;
-  }
-
-  header {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    margin-bottom: calc(var(--vertical-space) * 2);
-  }
-
-  .header__i {
-    margin-left: 60px;
   }
 
   .intro {
@@ -165,14 +119,6 @@
 
   .story-tags {
     margin-bottom: 35px;
-  }
-
-  .story-tag, .story-tag2, .story-tag3 {
-    font-size: 10px;
-    font-weight: bold;
-    padding: 5px;
-    font-style: italic;
-    color: #423a3a;
   }
 
   hr.pre-story-blocks {

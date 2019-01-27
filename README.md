@@ -1,6 +1,4 @@
->  TODO(kyle): Break the previews into a component we can loop over (store data as json?)
 >  TODO(kyle): story page
->  TODO(kyle): json route for stories
 >  TODO(kyle): login flow for oauth with Patreon
 >  TODO(kyle): guard json route
 >  TODO(kyle): get icono working for these icons https://codepen.io/KPaulsen/pen/vQEmNp?editors=1100
