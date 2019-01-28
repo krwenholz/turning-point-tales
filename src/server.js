@@ -6,13 +6,29 @@ import * as sapper from '../__sapper__/server.js';
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
-// Log every request
+/*
+ * Log every request
+ */
 function logger(req, res, next) {
   console.log(`~> Received ${req.method} on ${req.url}`);
   next(); // move on
 }
 
+/*
+ * Redirect to https.
+ */
+function requireHTTPS(req, res, next) {
+  // The 'x-forwarded-proto' check is for Heroku
+  if (req.headers['x-forwarded-proto'] !== 'https' && req.protocol !== 'https' && !req.headers['host'].startsWith('127.0.0.1') && !dev) {
+    const url = 'https://' + req.headers['host'] + req.url;
+    res.writeHead(302, { Location: url });
+    return res.end();
+  }
+  next();
+}
+
 const middleware = [
+  requireHTTPS,
   compression({ threshold: 0 }),
   sirv('static', { dev }),
   // WARN: Not sure why we can't serve these up without configuration but this hack works for now.
@@ -23,6 +39,6 @@ const middleware = [
 if(dev) middleware.push(logger);
 
 polka().use(...middleware)
-	.listen(PORT, err => {
-		if (err) console.log('error', err);
-	});
+  .listen(PORT, (err) => {
+    if (err) console.log('error', err);
+  });
