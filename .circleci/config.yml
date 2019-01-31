@@ -16,109 +16,40 @@ commands:
       - save_cache:
           key: build-python-{{ checksum "Pipfile.txt" }}
           paths:
-            - /usr/local/cargo/registry
-            - /usr/local/cargo/git
-  init_rust:
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - build-rust-{{ checksum "Cargo.toml" }}-{{ checksum "Cargo.lock" }}
-            - build-rust-
-      - run: |
-          . $HOME/.cargo/env
-          cargo update
-          cargo fetch
-      - save_cache:
-          key: build-rust-{{ checksum "Cargo.toml" }}-{{ checksum "Cargo.lock" }}
-          paths:
-            - /usr/local/cargo/registry
-            - /usr/local/cargo/git
-
+            - ./venv/
 jobs:
 
-  api_build:
-    docker:
-      - image: softprops/lambda-rust:latest
+  deploy:
+    machine: true
     steps:
-      - init_rust
+      - checkout
       - run:
-          name: Build and test
+          name: Build
           command: |
-            . $HOME/.cargo/env
-            cargo build --release
-            yum install -y zip
-            zip -j target/release/final.zip ./target/release/bootstrap
-      - persist_to_workspace:
-          root: "."
-          paths:
-            - target/release/
-
-  api_test:
-    docker:
-      - image: softprops/lambda-rust:latest
-    steps:
-      - init_rust
+              docker build -t app/$CIRCLE_SHA1 -t \
+              registry.heroku.com/our-first-big-thing/web .
       - run:
-          name: Compile and test
+          name: Push image
           command: |
-            . $HOME/.cargo/env
-            rustc --version; cargo --version
-            cargo test --verbose --frozen
-            for file in target/debug/* target/debug/.??*; do
-              [ -d $file -o ! -x $file ] && rm -r $file
-            done
-          environment:
-            # Need this for the coverage run
-            RUSTFLAGS: "-C link-dead-code"
-
-  api_test_release:
-    docker:
-      - image: softprops/lambda-rust:latest
-    steps:
-      - init_rust
+              docker login --username=_ --password=$HEROKU_AUTH_TOKEN_JANUARY_2019 registry.heroku.com
+              docker push registry.heroku.com/our-first-big-thing/web
       - run:
-          name: Compile and test release
+          name: Release image
           command: |
-            . $HOME/.cargo/env
-            rustc --version; cargo --version
-            cargo test --verbose --frozen --release
-
-  deploy_test:
-    docker:
-      - image: circleci/python:3.7.0
-    steps:
-      - init_deploy
-      - run: |
-          . ./venv/bin/activate
-          python3 -m awscli lambda update-function-code --region 'us-west-2' --function-name api-test --publish --zip-file fileb:///tmp/workspace/target/release/final.zip
-          python3 -m awscli s3 sync site s3://test.howhardwoulditbe.com/$CIRCLE_BRANCH --delete
-
-  deploy_prod:
-    docker:
-      - image: circleci/python:3.7.0
-    steps:
-      - init_deploy
-      - run: |
-          . ./venv/bin/activate
-          python3 -m awscli lambda update-function-code --region 'us-west-2'--function-name api-prod --publish --zip-file fileb:///tmp/workspace/target/release/final.zip
-          python3 -m awscli s3 sync site s3://ourfirstbigthing.howhardwoulditbe.com/$CIRCLE_BRANCH --delete
+              image_id=`docker inspect app/$CIRCLE_SHA1 --format={{.Id}}`
+              echo "Releasing image $image_id"
+              # Update this if we add a non-web worker
+              # https://devcenter.heroku.com/articles/container-registry-and-runtime#api
+              curl -n -X PATCH https://api.heroku.com/apps/our-first-big-thing/formation \
+              -d "{ \"updates\": [{\"type\": \"web\", \"docker_image\": \"$image_id\" }]}" \
+              -H "Authorization: Bearer $HEROKU_AUTH_TOKEN_JANUARY_2019" \
+              -H "Content-Type: application/json" \
+              -H "Accept: application/vnd.heroku+json; version=3.docker-releases"
 
 workflows:
   version: 2.1
   ci:
     jobs:
-      - api_build
-      - api_test
-      - api_test_release
-      - deploy_test:
-          requires:
-            - api_build
-            - api_test
-            - api_test_release
-      - deploy_prod:
-          requires:
-            - deploy_test
-          filters:
-            branches:
-              only: master
+      # TODO(kyle): for now we deploy straight to staging always, because that's convenient
+      # Later we can deploy production only on master
+      - deploy
