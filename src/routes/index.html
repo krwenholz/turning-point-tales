@@ -20,25 +20,27 @@
 
   <hr class="pre-story-blocks">
 
+  {JSON.stringify(stories)}
+
   {#each stories as story}
     <section class='story-preview'>
       <h2>
-        {story.title}
+        {story["title"]}
       </h2>
       <div class="story-tags">
-        {#each story.tags as tag}
+        {#each story["tags"] as tag}
           <span class="story-tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
         {/each}
       </div>
-      <p>{story.preview}</p>
+      <p>{story["content"]}</p>
       <nav class="links">
         <i class="icono-signIn"></i>
-        <a href="story/{story.slug}">{story.previewPrompt}</a>
+        <a href="story/{foo}">{story["previewPrompt"]}</a>
       </nav>
     </section>
-
     <hr>
   {/each}
+
 </section>
 
 <script>

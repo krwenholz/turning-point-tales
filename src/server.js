@@ -6,6 +6,8 @@ import * as sapper from '../__sapper__/server.js';
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === 'development';
 
+console.log('In mode', NODE_ENV);
+
 /*
  * Log every request
  */
@@ -36,9 +38,9 @@ const middleware = [
   sapper.middleware()
 ];
 
-if(dev) middleware.push(logger);
+if(dev) middleware.unshift(logger);
 
 polka().use(...middleware)
   .listen(PORT, (err) => {
-    if (err) console.log('error', err);
+    if(err) console.error(err);
   });
