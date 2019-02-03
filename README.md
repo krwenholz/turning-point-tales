@@ -1,17 +1,18 @@
->  TODO(kyle): story page
 >  TODO(kyle): login flow for oauth with Patreon
 >  TODO(kyle): guard json route
 >  TODO(kyle): get icono working for these icons https://codepen.io/KPaulsen/pen/vQEmNp?editors=1100
 
 # To get started
 
-  python3 -m venv venv
-  source bin/activate
-  pip install -r Pipfile.txt
   npm install
   npm run dev
 
-Then if you want to leave you just `deactivate`
+Because we like using databases though, you probably want to connect locally or to Heroku
+with the `DATABASE_URL` environment variable. You can grab the Heroku one with
+
+  heroku pg:credentials:url
+
+Set this before starting the server and you should be good to go.
 
 # Deploy
 

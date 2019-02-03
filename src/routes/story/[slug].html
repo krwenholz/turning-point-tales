@@ -1,0 +1,26 @@
+<svelte:head>
+	<title>{story.title}</title>
+</svelte:head>
+
+<h1>{story.title}</h1>
+
+{JSON.stringify(story.content)}
+
+<script>
+	export default {
+		async preload({ params, query }) {
+			// the `slug` parameter is available because
+			// this file is called [slug].html
+			const res = await this.fetch(`story/${params.slug}.json`);
+			const data = await res.json();
+      console.info('xxx', res)
+      console.info('yyy', data)
+			if (res.status === 200) {
+				return { story: data };
+			} else {
+        if(!res.status === 404) console.error(res);
+				this.error(res.status, data.message);
+			}
+		}
+	};
+</script>

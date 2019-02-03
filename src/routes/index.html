@@ -20,22 +20,20 @@
 
   <hr class="pre-story-blocks">
 
-  {JSON.stringify(stories)}
-
   {#each stories as story}
     <section class='story-preview'>
       <h2>
-        {story["title"]}
+        {story.title}
       </h2>
       <div class="story-tags">
-        {#each story["tags"] as tag}
+        {#each story.tags as tag}
           <span class="story-tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
         {/each}
       </div>
-      <p>{story["content"]}</p>
+      <p>{story.content.preview}</p>
       <nav class="links">
         <i class="icono-signIn"></i>
-        <a href="story/{foo}">{story["previewPrompt"]}</a>
+        <a href="story/{story.id}">{story.content.previewPrompt}</a>
       </nav>
     </section>
     <hr>
@@ -45,10 +43,15 @@
 
 <script>
   export default {
-    preload({ params, query }) {
-      return this.fetch(`story.json`).then(r => r.json()).then(stories => {
-        return { stories };
-      });
+    async preload({ params, query }) {
+      const res = await this.fetch(`story.json`);
+      if (res.status === 200) {
+        return { stories: await res.json() };
+      } else {
+        // TODO(kyle): We need a real logging library...
+        console.error(res);
+        this.error(res.status, res);
+      }
     }
   };
 </script>
