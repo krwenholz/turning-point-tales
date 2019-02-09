@@ -1,14 +1,21 @@
-import database from '../../data.js';
-import {listAllQuery} from './_stories.js';
+import Logger from 'js-logger';
+import database from '../../data';
+import {listAllQuery} from './_stories';
 
-export async function get(req, res) {
+function get(req, res) {
   console.info('Fetching data with query', listAllQuery);
-  const results = await database.query(listAllQuery);
-  const contents = JSON.stringify(results.rows);
 
-  res.writeHead(200, {
-    'Content-Type': 'application/json'
+  return database.query(listAllQuery).then((results) => {
+    const contents = JSON.stringify(results.rows)
+    res.writeHead(200, {
+      'Content-Type': 'application/json'
+    });
+
+    res.end(contents);
   });
 
-  res.end(contents);
+}
+
+export {
+  get
 }

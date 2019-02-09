@@ -35,9 +35,13 @@ span {
   font-size: 14px;
 }
 
-a {
+a, button {
   padding: 0;
   text-decoration: none;
   text-align: center;
   color: var(--root-color-primary);
+}
+
+.hidden {
+  display: none;
 }

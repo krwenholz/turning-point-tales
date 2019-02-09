@@ -6,23 +6,22 @@
 
 <script>
   export default {
-    async preload({ params, query }) {
-      // the `slug` parameter is available because
-      // this file is called [slug].html
-      const res = await this.fetch(`story/${params.slug}.json`);
-      const data = await res.json();
-      console.info('xxx', res)
-      console.info('yyy', data)
-      if (res.status === 200) {
-        console.log(JSON.stringify(data, null, 2));
+    preload({ params, query }) {
+      return this.fetch(`story/${params.slug}.json`, { credentials: 'include' }).then((res) => {
+        if (res.status == 200) {
+          return res.json();
+        } else if(res.status == 401) {
+          this.redirect(301, '/login');
+        } else {
+          console.error(res);
+          this.error(res.status, res);
+        }
+      }).then((data) => {
         return {
           story: data.content,
           title: data.title,
         };
-      } else {
-        if(!res.status === 404) console.error(res);
-        this.error(res.status, data.message);
-      }
+      });
     },
     components: {
       Adventure: '../../components/Adventure.html',

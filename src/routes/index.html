@@ -8,15 +8,17 @@
 
 <script>
   export default {
-    async preload({ params, query }) {
-      const res = await this.fetch(`story.json`);
-      if (res.status === 200) {
-        return { stories: await res.json() };
-      } else {
-        // TODO(kyle): We need a real logging library...
-        console.error(res);
-        this.error(res.status, res);
-      }
+    preload({ params, query }) {
+      return this.fetch('story.json', { credentials: 'include' }).then((res) => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          console.error(res);
+          this.error(res.status, res);
+        }
+      }).then((stories) => {
+        return { stories };
+      });
     },
     components: {
       Introduction: '../components/Introduction.html',

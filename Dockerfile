@@ -6,6 +6,7 @@ COPY package*.json ./
 
 RUN npm install
 
+#  TODO(kyle): Copy less stuff because now we have a bunch more
 COPY . .
 
 RUN npm run build

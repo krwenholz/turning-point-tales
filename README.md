@@ -1,6 +1,7 @@
->  TODO(kyle): login flow for oauth with Patreon
->  TODO(kyle): guard json route
->  TODO(kyle): get icono working for these icons https://codepen.io/KPaulsen/pen/vQEmNp?editors=1100
+// TODO(kyle):  and let them know the bit of information we store (basically point
+// them to our TOS and privacy policy) and cookie usage
+// https://www.docracy.com/application/learnmore
+// https://tosdr.org/
 
 # To get started
 

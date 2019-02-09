@@ -1,12 +1,19 @@
 <header>
   <nav class="grouping">
-    <a class="logo" href='home'>
+    <a class="logo" href='/'>
       <Logo />
       <span> Vinyetta </span>
     </a>
-    <a href='login'>
-      Login
+    {#if $user}
+    <a href='auth/logout'>
+      <img class="thumbnail" src={$user.patreonThumbUrl} alt="{$user.firstName}">
+      <span>Logout</span>
     </a>
+    {:else}
+    <a href='auth/initiate_login'>
+      <span>Login with Patreon</span>
+    </a>
+    {/if}
   </nav>
 </header>
 
@@ -35,6 +42,12 @@
 
   .logo span {
     margin-left: 16px;
+  }
+
+  .thumbnail {
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
   }
 
   a {

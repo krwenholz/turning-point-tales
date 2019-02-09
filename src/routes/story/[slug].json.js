@@ -1,23 +1,20 @@
+import Logger from 'js-logger';
 import database from '../../data.js';
 import {selectQuery} from './_stories.js';
 
-export function get(req, res, next) {
-	// the `slug` parameter is available because
-	// this file is called [slug].json.js
+function get(req, res, next) {
 	const { slug } = req.params;
   const query = selectQuery(slug);
 
-  database.query(query.text, query.values)
+  return database.query(query.text, query.values)
     .then(results => {
       if(results.rows[0]) {
         res.writeHead(200, {
           'Content-Type': 'application/json'
         });
 
-        console.info('zzz', results);
         res.end(JSON.stringify(results.rows[0]));
-      }
-      else {
+      } else {
         res.writeHead(404, {
           'Content-Type': 'application/json'
         });
@@ -36,4 +33,8 @@ export function get(req, res, next) {
         message: `Sorry! We encountered an error.`
       }));
     });
+}
+
+export {
+  get
 }

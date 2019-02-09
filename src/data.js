@@ -1,8 +1,6 @@
 import {Pool} from 'pg';
+import config from 'config';
 
-var connectionString = process.env.DATABASE_URL;
-connectionString = process.env.NODE_ENV === 'development' ? connectionString + '?ssl=true' : connectionString;
-
-const pool = new Pool({connectionString: connectionString});
+const pool = new Pool({connectionString: config.get('server.database.connectionString')});
 
 export default pool;
