@@ -1,7 +1,7 @@
 <div ref:container>
   {#each paragraphs as paragraph, idx}
     <TypedParagraph
-      on:childCreated='addChild(event)'
+      on:created='children.add(event)'
       on:typingDone='animateNext(event)'
       idx={idx}
       typingSpeed={typingSpeed}
@@ -21,32 +21,25 @@
 
 <script>
   import TypedParagraph from './TypedParagraph.html';
+  import Children from '../lib/Children';
 
   export default {
     data() {
       return {
-        children: [],
         paragraphs: [],
         timeBetweenParagraphs: 0,
         timeBetweenSentences: 0,
       };
     },
     methods: {
-      addChild({ child }) {
-        this.set({
-          children: [...this.get().children, child]
-        });
-      },
-      noChildrenLeft(idx) {
-        return this.get().children[idx + 1] ? false : true;
-      },
+      children: new Children,
       animateNext({ idx }) {
-        if (this.noChildrenLeft(idx)) {
+        if (!this.children.length()) {
           return this.fire('allTypingDone');
         }
 
         setTimeout(
-          () => this.get().children[idx + 1].set({ startTyping: true }),
+          () => this.children(idx + 1).set({ startTyping: true }),
           this.get().paragraphPause
         );
       }

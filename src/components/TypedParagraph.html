@@ -1,11 +1,12 @@
 <p ref:node></p>
 
 <script>
-  import { setDynamicInterval } from './lib/DynamicInterval.js';
+  import { setDynamicInterval } from '../lib/DynamicInterval';
+  import { childCreated } from '../lib/Children';
 
   export default {
     oncreate() {
-      this.fire('childCreated', { child: this });
+      childCreated(this);
     },
     onupdate({ startTyping }) {
       if (this.get().startTyping) {
@@ -25,7 +26,7 @@
     methods: {
       getTypingSpeed() {
         return this.get().typingSpeed +
-          Math.floor(Math.random() * this.get().jitter);
+               Math.floor(Math.random() * this.get().jitter);
       },
       isEndOfSentence(chars) {
         return chars.join('').match(/^(?=\.|\!|\?)/);
