@@ -20,7 +20,7 @@ export default class Children {
   }
 
   length() {
-    return this.children.length();
+    return this.children.length;
   }
 };
 

@@ -39,7 +39,7 @@
         }
 
         setTimeout(
-          () => this.children(idx + 1).set({ startTyping: true }),
+          () => this.children.at(idx + 1).set({ startTyping: true }),
           this.get().paragraphPause
         );
       }
