@@ -3,6 +3,7 @@
 <script>
   import { setDynamicInterval } from '../lib/DynamicInterval';
   import { childCreated } from '../lib/Children';
+  const { floor, random } = Math;
 
   export default {
     oncreate() {
@@ -25,8 +26,7 @@
     },
     methods: {
       getTypingSpeed() {
-        return this.get().typingSpeed +
-               Math.floor(Math.random() * this.get().jitter);
+        return this.get().typingSpeed + floor(random() * this.get().jitter);
       },
       isEndOfSentence(chars) {
         return chars.join('').match(/^(?=\.|\!|\?)/);
