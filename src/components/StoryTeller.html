@@ -1,0 +1,74 @@
+<section ref:wrapper>
+  <h3>A Wind in the Leaves 🍂</h3>
+  <small>- Kristopher C. Paulsen</small>
+  <TypedParagraphs
+    typingSpeed={10}
+    jitter={30}
+    sentencePause={600}
+    paragraphPause={600}
+    paragraphs={[
+
+      `Dolor excepturi omnis animi temporibus amet hic! Cupiditate excepturi distinctio alias ut fuga libero distinctio reiciendis Ipsa nobis a esse necessitatibus modi sint necessitatibus quod Cupiditate odit sit velit.  Amet aspernatur aliquam vitae labore atque. Voluptas magnam deserunt aut expedita in modi repellat Id in quia aliquid sapiente blanditiis. Molestiae natus excepturi recusandae sit nam perferendis quia. Dolore optio`,
+
+      `Dolor excepturi omnis animi temporibus amet hic! Cupiditate excepturi distinctio alias ut fuga libero distinctio reiciendis Ipsa nobis a esse necessitatibus modi sint necessitatibus quod Cupiditate odit sit velit. Amet aspernatur aliquam vitae labore atque. Voluptas magnam deserunt aut expedita in modi repellat Id in quia aliquid sapiente blanditiis. Molestiae natus excepturi recusandae sit nam perferendis quia. Dolore optio`,
+
+    ]}
+  />
+<nav>
+  <li>
+    <i class="icono-caretLeft"></i>
+  </li>
+  <li>Do Thing</li>
+  <li>Do other Thing</li>
+</nav>
+</section>
+
+<style>
+  :global(#adventure) {
+    width: 100%;
+    height: 100%;
+  }
+
+  ref:wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  small {
+    margin: -10px 0 20px 0;
+  }
+
+  :global(p) {
+    max-width: 80ch;
+    margin-bottom: 40px;
+  }
+
+  nav {
+    margin-top: auto;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  nav li {
+    display: inline-flex;
+    align-items: center;
+    padding: 30px;
+  }
+
+  .icono-caretLeft {
+    color: var(--global-color-accent);
+  }
+
+</style>
+
+<script>
+  import TypedParagraphs from './TypedParagraphs.html';
+
+  export default {
+    components: { TypedParagraphs, }
+  }
+</script>

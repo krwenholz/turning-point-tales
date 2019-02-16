@@ -1,0 +1,56 @@
+<p ref:node></p>
+
+<script>
+  import { setDynamicInterval } from './lib/DynamicInterval.js';
+
+  export default {
+    oncreate() {
+      this.fire('childCreated', { child: this });
+    },
+    onupdate({ startTyping }) {
+      if (this.get().startTyping) {
+        this.startTyping();
+      }
+    },
+    data() {
+      return {
+        jitter: 0,
+        paragraph: '',
+        startTyping: false,
+        typingSpeed: 0,
+        startTyping: false,
+        sentencePause: 0,
+      }
+    },
+    methods: {
+      getTypingSpeed() {
+        return this.get().typingSpeed +
+          Math.floor(Math.random() * this.get().jitter);
+      },
+      isEndOfSentence(chars) {
+        return chars.join('').match(/^(?=\.|\!|\?)/);
+      },
+      startTyping() {
+        let chars = this.get().paragraph.split('');
+
+        const interval = setDynamicInterval(() => {
+          if (!chars.length) {
+            return this.typingDone(interval);
+          }
+
+          interval.set({
+            time: this.isEndOfSentence(chars) ? this.get().sentencePause : this.getTypingSpeed()
+          });
+
+          this.refs.node.textContent += chars.shift();
+
+        }, this.getTypingSpeed());
+      },
+      typingDone(interval) {
+        interval.stop();
+
+        this.fire('typingDone', { idx: this.get().idx });
+      }
+    },
+  };
+</script>

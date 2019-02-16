@@ -1,0 +1,56 @@
+<div ref:container>
+  {#each paragraphs as paragraph, idx}
+    <TypedParagraph
+      on:childCreated='addChild(event)'
+      on:typingDone='animateNext(event)'
+      idx={idx}
+      typingSpeed={typingSpeed}
+      jitter={jitter}
+      sentencePause={sentencePause}
+      startTyping={idx === 0}
+      paragraph={paragraph}
+    />
+  {/each}
+</div>
+
+<style>
+  ref:container {
+    width: 100%;
+  }
+</style>
+
+<script>
+  import TypedParagraph from './TypedParagraph.html';
+
+  export default {
+    data() {
+      return {
+        children: [],
+        paragraphs: [],
+        timeBetweenParagraphs: 0,
+        timeBetweenSentences: 0,
+      };
+    },
+    methods: {
+      addChild({ child }) {
+        this.set({
+          children: [...this.get().children, child]
+        });
+      },
+      noChildrenLeft(idx) {
+        return this.get().children[idx + 1] ? false : true;
+      },
+      animateNext({ idx }) {
+        if (this.noChildrenLeft(idx)) {
+          return this.fire('allTypingDone');
+        }
+
+        setTimeout(
+          () => this.get().children[idx + 1].set({ startTyping: true }),
+          this.get().paragraphPause
+        );
+      }
+    },
+    components: { TypedParagraph }
+  };
+</script>
