@@ -3,29 +3,29 @@
 </svelte:head>
 
 <section class='intro'>
-<h1>Where will your next adventure take you?</h1>
-<h1>⚔</h1>
-<p>
-  Dive into the world of grues, cardinal directions, and spooky houses.
-  Reading can be scary, and not just for people who are illiterate! Buckle
-  up, and prepare for the adventure ahead; The choice is yours.
-</p>
+  <h1>Where will your next adventure take you?</h1>
+  <h1>⚔</h1>
+  <p>
+    Dive into the world of grues, cardinal directions, and spooky houses.
+    Reading can be scary, and not just for people who are illiterate! Buckle
+    up, and prepare for the adventure ahead; The choice is yours.
+  </p>
 
-<nav class="links">
-  <a href="story">You're standing in a dark, spooky house...</a>
-</nav>
+  <nav class="links">
+    <a href="story">You're standing in a dark, spooky house...</a>
+  </nav>
 </section>
 
 <hr class="pre-story-blocks">
 
 {#each stories as story}
-<StoryPreview
-  title={story.title}
-  tags={story.tags}
-  preview={story.content.preview}
-  id={story.id}
-  previewPrompt={story.content.previewPrompt}
-/>
+    <StoryPreview
+      title={story.title}
+      tags={story.tags}
+      preview={story.content.preview}
+      id={story.id}
+      previewPrompt={story.content.previewPrompt}
+    />
 {/each}
 
 <style type="text/sass">
@@ -101,18 +101,17 @@
 <script>
   export default {
     async preload({ params, query }) {
-        const res = await this.fetch(`story.json`);
-        if (res.status === 200) {
-          return { stories: await res.json() };
-        } else {
-          // TODO(kyle): We need a real logging library...
-          console.error(res);
-          this.error(res.status, res);
-        }
+      const res = await this.fetch(`story.json`);
+      if (res.status === 200) {
+        return { stories: await res.json() };
+      } else {
+        // TODO(kyle): We need a real logging library...
+        console.error(res);
+        this.error(res.status, res);
+      }
     },
     components: {
       StoryPreview: '../components/StoryPreview.html'
     },
   };
 </script>
-

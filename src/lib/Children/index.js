@@ -20,8 +20,7 @@ export default class Children {
   }
 
   length() {
-    return this.children.length;
-  }
+    return this.children.length;}
 };
 
 export const childCreated = (child) => child.fire('created', { child });

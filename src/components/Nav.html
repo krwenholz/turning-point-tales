@@ -2,15 +2,15 @@
   <nav class="grouping">
     <a class='{segment === "home" ? "selected" : ""} i__wrapper' href='home'>
       <Home />
-      home
+      <span>Home</span>
     </a>
     <a class='{segment === "stories" ? "selected" : ""} i__wrapper' href='stories'>
       <Stories />
-      stories
+      <span>Stories</span>
     </a>
     <a class='{segment === "login" ? "selected" : ""} i__wrapper' href='login'>
       <Login />
-      login
+      <span>Login</span>
     </a>
   </nav>
 </header>
@@ -34,7 +34,11 @@
   a {
     display: flex;
     flex-direction: column;
-    color: currentColor;
+    color: white;
+  }
+
+  span {
+    margin-top: 8px;
   }
 </style>
 
