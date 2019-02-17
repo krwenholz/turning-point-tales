@@ -1,11 +1,17 @@
 <header>
-  <a class='{segment === "home" ? "selected" : ""} i__wrapper' href='home'>
-    <i class="nav__i icono-home"></i>
-    <p>home</p>
-  </a>
   <nav class="grouping">
-    <a class='{segment === "stories" ? "selected" : ""} i__wrapper' href='stories'><i class="nav__i icono-list"></i>stories</a>
-    <a class='{segment === "login" ? "selected" : ""} i__wrapper' href='login'><i class="nav__i icono-user"></i>login</a>
+    <a class='{segment === "home" ? "selected" : ""} i__wrapper' href='home'>
+      <Home />
+      home
+    </a>
+    <a class='{segment === "stories" ? "selected" : ""} i__wrapper' href='stories'>
+      <Stories />
+      stories
+    </a>
+    <a class='{segment === "login" ? "selected" : ""} i__wrapper' href='login'>
+      <Login />
+      login
+    </a>
   </nav>
 </header>
 
@@ -14,45 +20,30 @@
     display: flex;
     justify-content: space-evenly;
     width: 100%;
+    background-color: orange;
   }
 
-  p {
-    margin: 0;
-  }
-
-  .i__wrapper {
+  nav {
     display: flex;
-    flex-flow: column;
-    font-size: 12px;
-
-  }
-
-  .grouping {
-    display: flex;
-
-    > * {
-      margin-left: 20px;
-    }
+    justify-content: space-evenly;
+    width: 100%;
+    max-width: 500px;
+    padding: 10px;
   }
 
   a {
-    text-decoration: none;
-    padding: 1em 0.5em;
-    display: block;
-  }
-
-  .selected {
-    position: relative;
-    display: inline-block;
-  }
-
-  .selected::after {
-    position: absolute;
-    content: '';
-    width: calc(100% - 1em);
-    height: 2px;
-    background-color: rgb(170,30,30);
-    display: block;
-    bottom: -1px;
+    display: flex;
+    flex-direction: column;
+    color: currentColor;
   }
 </style>
+
+<script>
+  export default {
+    components: {
+      Stories: './icons/Stories.html',
+      Login: './icons/Login.html',
+      Home: './icons/Home.html'
+    }
+  }
+</script>

@@ -1,21 +1,6 @@
-<Nav segment={child.segment}/>
+<Nav segment={child.segment} />
 
-<main>
-  <svelte:component this={child.component} {...child.props}/>
-</main>
-
-<style>
-main {
-  display: flex;
-  font-family: 'IBM Plex Mono', 'Menlo', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', Courier, monospace;
-  font-size: 14px;
-  justify-content: center;
-  line-height: 1.5;
-  margin: 0;
-  min-height: 100vh;
-  position: relative;
-}
-</style>
+<svelte:component this={child.component} {...child.props}/>
 
 <script>
   export default {
