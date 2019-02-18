@@ -1,11 +1,26 @@
-<Nav segment={child.segment} />
+<Header segment={child.segment} />
 
-<svelte:component this={child.component} {...child.props}/>
+<main>
+  <svelte:component this={child.component} {...child.props}/>
+</main>
+
+<style>
+
+  main {
+    display: flex;
+    flex-flow: column;
+    min-height: 100vh;
+    padding-top: 100px;
+    padding-right: var(--root-wrapper-padding);
+    padding-left: var(--root-wrapper-padding);
+    padding-bottom: var(--root-wrapper-padding);
+  }
+</style>
 
 <script>
   export default {
     components: {
-      Nav: '../components/Nav.html'
+      Header: '../components/Header.html'
     }
   };
 </script>

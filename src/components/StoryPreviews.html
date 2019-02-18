@@ -1,0 +1,80 @@
+<section class="story-previews">
+  {#each stories as story}
+    <article>
+      <h2>
+        {story.title}
+      </h2>
+      <div class="tags">
+        {#each story.tags as tag}
+        <span class="tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
+        {/each}
+      </div>
+      <p>{story.content.preview}</p>
+      <nav class="links">
+        <a href="story/{story.id}">{story.content.previewPrompt}</a>
+      </nav>
+    </article>
+  {/each}
+</section>
+
+<style>
+  .story-previews {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 16px;
+  }
+
+  h2 {
+    border-bottom: 1px solid var(--root-color-background);
+  }
+
+  a {
+    color: var(--root-color-background);
+  }
+
+  article {
+    position: relative;
+    overflow: hidden;
+    padding: var(--root-wrapper-padding);
+    padding-top: calc(var(--root-wrapper-padding) * 2);
+    margin-bottom: calc(var(--root-vertical-spacing) * 1);
+    color: var(--root-color-background);
+    background: var(--root-color-primary);
+  }
+
+  article::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    border-width: 0 32px 32px 0;
+    border-style: solid;
+    border-color:
+            var(--root-color-background)
+            var(--root-color-background)
+            var(--root-color-light);
+    box-shadow: 0 1px 1px #3a3a3a, -1px 1px 1px rgba(0,0,0,0.2);
+  }
+
+  p {
+    max-width: 80ch;
+  }
+
+  .tags {
+    display: flex;
+    flex-flow: row wrap;
+    min-height: 20px;
+    border-radius: 4px;
+    margin-bottom: calc(var(--root-vertical-spacing) * 2);
+  }
+
+  .tag {
+    font-size: 10px;
+    font-style: italic;
+    padding: 4px;
+    margin: 5px;
+    border: 1px solid var(--root-color-light);
+    border-radius: var(--root-border-radius);
+  }
+</style>

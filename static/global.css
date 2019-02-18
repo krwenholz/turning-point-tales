@@ -8,22 +8,49 @@
 /* THEME */
 
 :root {
-  --root-color-primary: gray;
+  --root-color-primary: #4a4a4a;
+  --root-color-light: #b3b3b3;
   --root-color-accent: black;
-  --root-color-hover: blue;
+  --root-color-background: whitesmoke;
+
+  --root-border-radius: 6px;
+  --root-vertical-spacing: 16px;
+  --root-wrapper-padding: 16px;
 }
 
 /* LAYOUT */
 
-body, html {
+html {
+  background-color: whitesmoke;
+  font-family: 'IBM Plex Mono', 'monospace';
+  position: relative;
+  color: var(--root-color-primary);
+  line-height: 1.8;
+}
+
+html, body {
+  min-height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: #E7ECEF;
-  font-family: 'IBM Plex Mono',
 }
+
+/* TYPOGRAPHY */
+
+h1,h2,h3,p {
+  margin: 0 0 var(--root-vertical-spacing) 0;
+}
+
+h1 { font-size: 32px }
+
+h2 { font-size: 24px }
+
+h3 { font-size: 16px }
+
+p { font-size: 14px; }
 
 a {
   padding: 0;
   text-decoration: none;
   text-align: center;
+  color: var(--root-color-primary);
 }

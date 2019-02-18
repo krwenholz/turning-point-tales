@@ -2,101 +2,9 @@
   <title>Our first big thing</title>
 </svelte:head>
 
-<section class='intro'>
-  <h1>Where will your next adventure take you?</h1>
-  <h1>⚔</h1>
-  <p>
-    Dive into the world of grues, cardinal directions, and spooky houses.
-    Reading can be scary, and not just for people who are illiterate! Buckle
-    up, and prepare for the adventure ahead; The choice is yours.
-  </p>
+<Introduction />
 
-  <nav class="links">
-    <a href="story">You're standing in a dark, spooky house...</a>
-  </nav>
-</section>
-
-<hr class="pre-story-blocks">
-
-{#each stories as story}
-    <StoryPreview
-      title={story.title}
-      tags={story.tags}
-      preview={story.content.preview}
-      id={story.id}
-      previewPrompt={story.content.previewPrompt}
-    />
-{/each}
-
-<style type="text/sass">
-  p, a, span {
-    font-size: 14px;
-  }
-
-  nav {
-    display: flex;
-    align-items: center;
-  }
-
-  .intro {
-    display: flex;
-    flex-flow: column;
-  }
-
-  .intro nav {
-    margin: 20px 0 20px 0;
-    justify-content: center;
-  }
-
-  .story-preview {
-    display: flex;
-    flex-flow: column;
-  }
-
-  .story-preview .story-tags {
-    min-height: 20px;
-    padding-left: 10px;
-    border-left: 3px solid gray;
-    border-radius: 3px;
-  }
-
-  .story-preview h2 {
-    font-size: 26px;
-    margin-bottom: 30px;
-  }
-
-  .story-preview i {
-    margin-right: 20px;
-  }
-
-  .story-preview span {
-    font-style: italic;
-  }
-
-  .story-tags {
-    margin-bottom: 35px;
-  }
-
-  hr.pre-story-blocks {
-    height: 0px;
-    overflow: visible; /* For IE */
-    padding: 0;
-    border: none;
-    border-top: medium double #333;
-    color: #333;
-    text-align: center;
-  }
-
-  hr.pre-story-blocks:after {
-    content: "§";
-    display: inline-block;
-    position: relative;
-    top: -0.7em;
-    font-size: 1.5em;
-    padding: 0 0.25em;
-    background: #E7ECEF;
-  }
-</style>
+<StoryPreviews {stories} />
 
 <script>
   export default {
@@ -111,7 +19,8 @@
       }
     },
     components: {
-      StoryPreview: '../components/StoryPreview.html'
+      Introduction: '../components/Introduction.html',
+      StoryPreviews: '../components/StoryPreviews.html'
     },
   };
 </script>

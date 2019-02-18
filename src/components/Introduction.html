@@ -1,0 +1,54 @@
+<section class='introduction'>
+  <h1>Where will your next adventure take you?</h1>
+
+  <nav>
+    <p>
+      Dive into the world of grues, cardinal directions, and spooky houses.
+      Reading can be scary, and not just for people who are illiterate! Buckle
+      up, and prepare for the adventure ahead; The choice is yours.
+    </p>
+    <a href="story">You're standing in a dark, spooky house...</a>
+  </nav>
+</section>
+
+<style>
+  .introduction {
+    display: flex;
+    flex: 1 0 auto;
+    margin-bottom: calc(var(--root-vertical-spacing) * 3);
+    flex-flow: column;
+  }
+
+  @media screen and (min-width: 600px) {
+    .introduction {
+      flex-flow: row;
+      margin-bottom: calc(var(--root-vertical-spacing) * 6);
+    }
+
+    h1,
+    nav {
+      width: 50%;
+    }
+
+    nav {
+      padding-left: 16px;
+    }
+  }
+
+  @media screen and (min-width: 1300px) {
+    .introduction {
+      margin-bottom: calc(var(--root-vertical-spacing) * 6);
+    }
+
+    h1,
+    nav {
+      width: 50%;
+    }
+
+    nav {
+      padding-left: 16px;
+    }
+  }
+
+</style>
+
