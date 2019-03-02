@@ -10,7 +10,7 @@
 :root {
   --root-color-primary: #4a4a4a;
   --root-color-light: #b3b3b3;
-  --root-color-accent: black;
+  --root-color-accent: darkolivegreen;
   --root-color-background: whitesmoke;
 
   --root-border-radius: 6px;
@@ -46,7 +46,10 @@ h2 { font-size: 24px }
 
 h3 { font-size: 16px }
 
-p { font-size: 14px; }
+p,
+span {
+  font-size: 14px;
+}
 
 a {
   padding: 0;

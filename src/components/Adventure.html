@@ -16,7 +16,8 @@
     <nav>
     {#each page.decisions as {key, label}}
       <button on:click="setNextPage(key)" >
-        {label}
+        <PickDecision />
+        <span class="label"> {label} </span>
       </button>
     {/each}
     </nav>
@@ -52,18 +53,38 @@
   nav {
     margin-top: auto;
     display: flex;
+    flex-flow: column;
     justify-content: flex-start;
   }
 
-  nav button {
-    display: inline-flex;
+  /* TODO: Make this a component */
+  button {
+    display: flex;
     align-items: center;
-    padding: 30px;
+    text-align: start;
+    border-radius: var(--root-border-radius);
+    padding: 16px;
+    background: none;
+    color: var(--root-color-primary);
+    border: 1px solid currentColor;
+    margin-bottom: 16px;
   }
+
+  button:hover {
+    color: var(--root-color-accent);
+  }
+
+  .label {
+    margin-left: 16px;
+  }
+
+  :global(svg) {
+    min-width: 36px;
+  }
+
 </style>
 
 <script>
-  import TypeText from './TypeText.html';
 
   export default {
     oncreate() {
@@ -85,6 +106,9 @@
         });
       }
     },
-    components: { TypeText, }
+    components: {
+      TypeText: './TypeText.html',
+      PickDecision: './icons/PickDecision.html',
+    }
   };
 </script>
