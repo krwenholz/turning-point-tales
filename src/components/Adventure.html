@@ -12,7 +12,7 @@
     />
   {/if}
 
-  {#if showDecisions && page.decisions }
+  {#if showDecisions && page.decisions}
     <nav>
     {#each page.decisions as {key, label}}
       <button on:click="setNextPage(key)" >
@@ -71,6 +71,7 @@
         story: this.get().story,
         page: this.get().story.start,
         finishedTyping: false,
+        showDecisions: false,
       });
     },
     methods: {
