@@ -33,8 +33,6 @@ const middleware = [
   requireHTTPS,
   compression({ threshold: 0 }),
   sirv('static', { dev }),
-  // WARN: Not sure why we can't serve these up without configuration but this hack works for now.
-  sirv('node_modules/icono/dist', { dev }),
   sapper.middleware()
 ];
 
