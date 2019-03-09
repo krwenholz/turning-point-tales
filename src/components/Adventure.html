@@ -13,13 +13,20 @@
   {/if}
 
   {#if showDecisions && page.decisions}
+    <nav ref:decisions >
+      {#each page.decisions as {key, label}}
+        <button on:click="setNextPage(key)" >
+          <PickDecision />
+          <span class="label"> {label} </span>
+        </button>
+      {/each}
+    </nav>
+  {:else}
     <nav>
-    {#each page.decisions as {key, label}}
-      <button on:click="setNextPage(key)" >
-        <PickDecision />
-        <span class="label"> {label} </span>
+      <button on:click="skipTyping()">
+        <CrossOut/>
+        <span class="label"> Skip</span>
       </button>
-    {/each}
     </nav>
   {/if}
 </section>
@@ -34,7 +41,7 @@
 
   .adventure {
     width: 100%;
-    height: 100%;
+    flex: 1 0 auto;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
@@ -98,6 +105,9 @@
     methods: {
       skipTyping() {
         this.refs.TypeText.skipTyping();
+        this.refs.TypeText.on('typingEnd', () => (
+          this.refs.decisions.scrollIntoView({ behavior: 'smooth'})
+        ));
       },
       setNextPage(key) {
         this.set({
@@ -109,6 +119,6 @@
     components: {
       TypeText: './TypeText.html',
       PickDecision: './icons/PickDecision.html',
+      CrossOut: './icons/CrossOut.html',
     }
-  };
-</script>
+  }; </script>
