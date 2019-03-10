@@ -18,22 +18,6 @@
   --root-wrapper-padding: 16px;
 }
 
-/* LAYOUT */
-
-html {
-  background-color: whitesmoke;
-  font-family: 'IBM Plex Mono', 'monospace';
-  position: relative;
-  color: var(--root-color-primary);
-  line-height: 1.8;
-}
-
-html, body {
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-
 /* TYPOGRAPHY */
 
 h1,h2,h3,p {

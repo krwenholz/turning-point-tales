@@ -6,6 +6,28 @@
 
 <style>
 
+  :global(html) {
+    background-color: whitesmoke;
+    font-family: 'IBM Plex Mono', 'monospace';
+    color: var(--root-color-primary);
+    line-height: 1.8;
+  }
+
+  :global(html, body) {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  :global(body) {
+    margin: auto;
+    max-width: 1200px;
+  }
+
+  :global(header) {
+    max-width: 1200px;
+  }
+
   main {
     display: flex;
     flex-flow: column;
@@ -15,6 +37,7 @@
     padding-left: var(--root-wrapper-padding);
     padding-bottom: var(--root-wrapper-padding);
   }
+
 </style>
 
 <script>
