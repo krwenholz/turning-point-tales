@@ -1,30 +1,31 @@
 import Logger from 'js-logger';
 import config from 'config';
 
+const allowedAbsolutes = [
+  '/',
+  '/about',
+  '/auth/fake_login',
+  '/auth/logout',
+  '/auth/initiate_login',
+  '/index',
+  '/login',
+  '/service-worker.js',
+  '/story.json',
+];
+
+const allowedPrefixes = [
+  '/?',
+  '/auth/login',
+  '/client',
+  '/favicon',
+];
+
 function protectNonDefaultRoutes(req, res, next) {
-
-  const allowedAbsolutes = [
-    '/',
-    '/about',
-    '/auth/fake_login',
-    '/auth/logout',
-    '/auth/initiate_login',
-    '/index',
-    '/login',
-    '/service-worker.js',
-    '/story.json',
-  ];
-
-  const allowedPrefixes = [
-    '/auth/login',
-    '/client',
-    '/favicon'
-  ];
 
   const isProtected = allowedAbsolutes.indexOf(req.url) == -1
     && !allowedPrefixes.some((prefix) => req.url.startsWith(prefix));
 
-  if( isProtected && !req.session.user ) {
+  if( isProtected && !req.session.paidUp ) {
     Logger.info('Unauthenticated access found on url: ', req.url);
     res.writeHead(401);
     res.end();

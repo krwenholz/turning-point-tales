@@ -38,16 +38,24 @@ function get(req, res) {
         Logger.debug('Successfully fetched user information');
         const user = userResponse.data.attributes;
 
-        req.session.user = {
+        // TODO(kyle): Verify it's our campaign
+        req.session.paidUp = true;
+        req.session.patreonId = userResponse.data.id;
+
+        res.cookie('user', {
           patreonId: userResponse.data.id,
           patreonThumbUrl: user.thumb_url,
           firstName: user.first_name,
           email: user.email,
-          // TODO(kyle): Verify it's our campaign
-          paidUp: true,
-        };
+        }, {
+          domain: config.get('server.domain'),
+          httpOnly: false,
+          maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+          sameSite: 'lax',
+          secure: !config.get('dev'),
+        });
 
-        res.writeHead(301, { Location: '/' });
+        res.writeHead(301, { Location: '/?user=set' });
         return res.end();
       })
       .catch((error) => {

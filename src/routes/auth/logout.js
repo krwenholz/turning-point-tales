@@ -1,10 +1,18 @@
 import Logger from 'js-logger';
+import config from 'config';
 
 function get(req, res) {
-  if(req.session.user) Logger.info('Logging out', req.session.user.patreonId);
+  if(req.session && req.session.patreonId) Logger.info('Logging out', req.session.patreonId);
 
   req.session = null;
-  res.writeHead(301, { Location: '/', 'Cache-Control': 'no-store' });
+  res.clearCookie('user', {
+      domain: config.get('server.domain'),
+      httpOnly: false,
+      sameSite: 'lax',
+      secure: !config.get('dev'),
+  });
+    //config.get('basicCookies.options'));
+  res.writeHead(301, { Location: '/?user=clear', 'Cache-Control': 'no-store' });
   res.end();
 }
 

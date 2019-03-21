@@ -20,6 +20,16 @@
         return { stories };
       });
     },
+    onupdate() {
+      const query = new URLSearchParams(window.location.search)
+      if(query.get('user') === 'set' && !this.store.get().user) {
+        const cookie = document.cookie.split(';').filter((item) => item.startsWith('user'))[0];
+        console.log('setting user')
+        this.store.set({ user: JSON.parse(cookie) });
+      } else if(query.get('user') === 'clear' && this.store.get().user) {
+        this.store.set({ user: null });
+      }
+    },
     components: {
       Introduction: '../components/Introduction.html',
       StoryPreviews: '../components/StoryPreviews.html'
