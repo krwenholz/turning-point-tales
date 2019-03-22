@@ -5,12 +5,14 @@ const allowedAbsolutes = [
   '/',
   '/about',
   '/auth/fake_login',
-  '/auth/logout',
   '/auth/initiate_login',
+  '/auth/logout',
   '/index',
   '/login',
+  '/privacy',
   '/service-worker.js',
   '/story.json',
+  '/tos',
 ];
 
 const allowedPrefixes = [
