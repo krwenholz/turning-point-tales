@@ -17,22 +17,23 @@ commands:
           key: build-python-{{ checksum "Pipfile.txt" }}
           paths:
             - ./venv/
-jobs:
 
   deploy:
-    machine: true
+    parameters:
+      app:
+        type: string
     steps:
       - checkout
       - run:
           name: Build
           command: |
               docker build -t app/$CIRCLE_SHA1 -t \
-              registry.heroku.com/our-first-big-thing/web .
+              registry.heroku.com/<< parameters.app >>/web .
       - run:
           name: Push image
           command: |
               docker login --username=_ --password=$HEROKU_AUTH_TOKEN_JANUARY_2019 registry.heroku.com
-              docker push registry.heroku.com/our-first-big-thing/web
+              docker push registry.heroku.com/<< parameters.app >>/web
       - run:
           name: Release image
           command: |
@@ -40,11 +41,24 @@ jobs:
               echo "Releasing image $image_id"
               # Update this if we add a non-web worker
               # https://devcenter.heroku.com/articles/container-registry-and-runtime#api
-              curl -n -X PATCH https://api.heroku.com/apps/our-first-big-thing/formation \
+              curl -n -X PATCH https://api.heroku.com/apps/<< parameters.app >>/formation \
               -d "{ \"updates\": [{\"type\": \"web\", \"docker_image\": \"$image_id\" }]}" \
               -H "Authorization: Bearer $HEROKU_AUTH_TOKEN_JANUARY_2019" \
               -H "Content-Type: application/json" \
               -H "Accept: application/vnd.heroku+json; version=3.docker-releases"
+
+jobs:
+
+  deploy-staging:
+    machine: true
+    steps:
+      - app: our-first-big-thing
+
+  deploy-production:
+    machine: true
+    steps:
+      - app: turning-point-tales
+
 
 workflows:
   version: 2.1
@@ -52,4 +66,11 @@ workflows:
     jobs:
       # TODO(kyle): for now we deploy straight to staging always, because that's convenient
       # Later we can deploy production only on master
-      - deploy
+      - deploy-staging
+      - deploy-production:
+          requires:
+            - deploy-staging
+          branches:
+            only:
+              - master
+
