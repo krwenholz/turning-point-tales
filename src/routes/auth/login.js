@@ -55,7 +55,7 @@ function get(req, res) {
           secure: !config.get('dev'),
         });
 
-        res.writeHead(301, { Location: '/?user=set' });
+        res.writeHead(302, { Location: '/?user=set' });
         return res.end();
       })
       .catch((error) => {

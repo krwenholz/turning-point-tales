@@ -11,8 +11,8 @@ function get(req, res) {
       sameSite: 'lax',
       secure: !config.get('dev'),
   });
-    //config.get('basicCookies.options'));
-  res.writeHead(301, { Location: '/?user=clear', 'Cache-Control': 'no-store' });
+
+  res.writeHead(302, { Location: '/?user=clear', 'Cache-Control': 'no-store' });
   res.end();
 }
 

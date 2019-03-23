@@ -6,7 +6,7 @@ function get(req, res) {
     + `&client_id=${config.get('patreon.client.id')}`
     + `&redirect_uri=${config.get('patreon.redirect')}`
     + `&state=${req.csrfToken()}`;
-  res.writeHead(301, { Location: url, 'Cache-Control': 'no-store' });
+  res.writeHead(302, { Location: url, 'Cache-Control': 'no-store' });
   return res.end();
 }
 
