@@ -52,25 +52,26 @@ jobs:
   deploy-staging:
     machine: true
     steps:
-      - app: our-first-big-thing
+      - deploy:
+          app: our-first-big-thing
 
   deploy-production:
     machine: true
     steps:
-      - app: turning-point-tales
+      - deploy:
+          app: turning-point-tales
 
 
 workflows:
   version: 2.1
   ci:
     jobs:
-      # TODO(kyle): for now we deploy straight to staging always, because that's convenient
-      # Later we can deploy production only on master
       - deploy-staging
       - deploy-production:
           requires:
             - deploy-staging
-          branches:
-            only:
-              - master
+          filters:
+            branches:
+              only:
+                - master
 
