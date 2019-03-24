@@ -1,7 +1,5 @@
-// TODO(kyle):  and let them know the bit of information we store (basically point
-// them to our TOS and privacy policy) and cookie usage
-// https://www.docracy.com/application/learnmore
-// https://tosdr.org/
+>  TODO(kyle): Politely point to TOS and Privacy policy on signup
+>  TODO(kyle): https://goaccess.io/ for log viewing
 
 # To get started
 
@@ -16,6 +14,7 @@ with the `DATABASE_URL` environment variable. You can grab the Heroku one with
 Set this before starting the server and you should be good to go.
 
 # Deploy
+All of this is in our CircleCI file as well :)
 
   docker build .
   heroku container:push web

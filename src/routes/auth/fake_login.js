@@ -2,8 +2,10 @@ import Logger from 'js-logger';
 import config from 'config';
 
 function get(req, res) {
-  if(!config.get('dev')) {
-    res.writeHead(302, { Location: '/', });
+  if (!config.get('dev')) {
+    res.writeHead(302, {
+      Location: '/',
+    });
     res.end();
     return;
   }
@@ -26,11 +28,12 @@ function get(req, res) {
     secure: !config.get('dev'),
   });
 
-  res.writeHead(302, { Location: '/' });
+  res.writeHead(302, {
+    Location: '/'
+  });
   res.end();
 }
 
 export {
   get
 }
-

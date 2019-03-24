@@ -1,5 +1,7 @@
 import Logger from 'js-logger';
-import {stories} from './_stories';
+import {
+  stories
+} from './_stories';
 
 function get(req, res) {
   const contents = JSON.stringify(stories);

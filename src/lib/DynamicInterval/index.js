@@ -1,8 +1,8 @@
 class DynamicInterval {
   constructor(func, time) {
-    this.id       = 0;
-    this.time     = time;
-    this.func     = func;
+    this.id = 0;
+    this.time = time;
+    this.func = func;
     this.continue = true;
   }
   start() {
@@ -20,7 +20,10 @@ class DynamicInterval {
     clearTimeout(this.id);
     setTimeout(callback, this.time);
   }
-  set({ func = this.func, time = this.time }) {
+  set({
+    func = this.func,
+    time = this.time
+  }) {
     clearTimeout(this.id);
     this.time = time;
     this.func = func;

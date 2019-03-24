@@ -1,11 +1,15 @@
 import Logger from 'js-logger';
-import {stories} from './_stories.js';
+import {
+  stories
+} from './_stories.js';
 
 function get(req, res, next) {
-	const { slug } = req.params;
+  const {
+    slug
+  } = req.params;
   const story = stories.filter((story) => story.id == slug)[0];
 
-  if(story) {
+  if (story) {
     res.writeHead(200, {
       'Content-Type': 'application/json'
     });
