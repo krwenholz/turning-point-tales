@@ -15,7 +15,6 @@ function get(req, res, next) {
     });
 
     res.end(JSON.stringify(story));
-    Logger.info(JSON.stringify(story))
   } else {
     res.writeHead(404, {
       'Content-Type': 'application/json'

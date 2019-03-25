@@ -13,6 +13,8 @@ const patreonOAuthClient = patreonOAuth(config.get('patreon.client.id'), config.
 function get(req, res) {
   const oauthGrantCode = req.query.code;
 
+  const userData = {};
+
   return request
     .post({
       url: 'https://www.patreon.com/api/oauth2/token' +
@@ -24,6 +26,7 @@ function get(req, res) {
       json: true,
     })
     .then((tokensResponse) => {
+      Logger.debug("Successfully retrieved Patreon tokens", tokensResponse);
       req.session.patreonTokens = {
         accessToken: tokensResponse.access_token,
         refresh_token: tokensResponse.refresh_token,
@@ -33,42 +36,78 @@ function get(req, res) {
       };
 
       return request.get({
-          url: 'https://www.patreon.com/api/oauth2/api/current_user',
-          headers: {
-            'authorization': `Bearer ${tokensResponse.access_token}`
-          },
-          json: true,
-        }).then((userResponse) => {
-          Logger.debug('Successfully fetched user information');
-          const user = userResponse.data.attributes;
+        url: 'https://www.patreon.com/api/oauth2/v2/identity?' +
+          'include=memberships' +
+          `&${encodeURIComponent('fields[user]')}=first_name,thumb_url`,
+        headers: {
+          'authorization': `Bearer ${tokensResponse.access_token}`
+        },
+        json: true
+      });
+    })
+    .then((userResponse) => {
+      Logger.debug('Successfully fetched user information', userResponse.data);
 
-          // TODO(kyle): Verify it's our campaign
-          req.session.paidUp = true;
-          req.session.patreonId = userResponse.data.id;
+      const memberships = userResponse.included.filter((data) => data.type == 'member');
+      if (!memberships) {
+        // TODO(kyle): Do this better
+        Logger.error('Not a patron', userResponse.data.id);
+        res.writeHead(403);
+        res.end('Sorry! Looks like you are not a patron yet.');
+        return;
+      }
 
-          res.cookie('user', {
-            patreonId: userResponse.data.id,
-            patreonThumbUrl: user.thumb_url,
-            firstName: user.first_name,
-            email: user.email,
-          }, {
-            domain: config.get('server.domain'),
-            httpOnly: false,
-            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-            sameSite: 'lax',
-            secure: !config.get('dev'),
-          });
+      userData.patreonId = userResponse.data.id;
+      userData.patreonThumbUrl = userResponse.data.attributes.thumb_url;
+      userData.firstName = userResponse.data.attributes.first_name;
 
-          res.writeHead(302, {
-            Location: '/?user=set'
-          });
-          return res.end();
-        })
-        .catch((error) => {
-          Logger.error('Patreon error', error.message);
-          res.writeHead(500);
-          res.end('Sorry! Looks like something went wrong authenticating with Patreon. Please try again or contact support at support@turningpointtales.com.');
-        });
+      const memberId = memberships[0].id
+
+      return request.get({
+        url: `https://www.patreon.com/api/oauth2/v2/members/${memberId}?` +
+          encodeURIComponent('fields[member]') + '=patron_status&' +
+          'include=currently_entitled_tiers&' +
+          encodeURIComponent('fields[tier]') + '=title',
+        headers: {
+          'authorization': `Bearer ${config.get('patreon.client.accessToken')}`
+        },
+        json: true
+      });
+    }).then((campaignInformation) => {
+      Logger.debug('Campaign shit', JSON.stringify(campaignInformation));
+      const tiers = campaignInformation.included.filter((include) => include.type === 'tier');
+      const tier = campaignInformation.data.relationships.currently_entitled_tiers.data
+        .map((etier) => tiers.filter((tier) => tier.id === etier.id)[0].attributes.title)
+        .filter((etier) => config.get('patreon.tiers').includes(etier))[0];
+
+      if (campaignInformation.data.attributes.patron_status !== 'active_patron' || !tier) {
+        // TODO(kyle): Do this better
+        Logger.error('Not a patron', userData.patreonId);
+        res.writeHead(403);
+        res.end('Whoops! Looks like you are not a patron of a known tier.');
+        return;
+      }
+
+      req.session.tier = tier;
+      userData.tier = tier;
+
+      res.cookie('user', userData, {
+        domain: config.get('server.domain'),
+        httpOnly: false,
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        sameSite: 'lax',
+        secure: !config.get('dev'),
+      });
+
+      res.writeHead(302, {
+        Location: '/?user=set'
+      });
+      return res.end();
+    })
+    .catch((error) => {
+      Logger.error('Patreon error', error.message);
+      res.writeHead(500);
+      res.end('Sorry! Looks like something went wrong authenticating with Patreon. Please try again or contact support at support@turningpointtales.com.');
     });
 }
 

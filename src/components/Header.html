@@ -6,6 +6,7 @@
     </a>
     {#if $user}
     <a href='auth/logout'>
+      <span>{$user.tier}</span>
       <img class="thumbnail" src={$user.patreonThumbUrl} alt="{$user.firstName}">
       <span>Logout</span>
     </a>

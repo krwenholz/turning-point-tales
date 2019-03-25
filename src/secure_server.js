@@ -27,7 +27,7 @@ function protectNonDefaultRoutes(req, res, next) {
   const isProtected = allowedAbsolutes.indexOf(req.url) == -1 &&
     !allowedPrefixes.some((prefix) => req.url.startsWith(prefix));
 
-  if (isProtected && !req.session.paidUp) {
+  if (isProtected && !req.session.tier) {
     Logger.info('Unauthenticated access found on url: ', req.url);
     res.writeHead(401);
     res.end();
