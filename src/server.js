@@ -65,6 +65,7 @@ const middleware = [
 app.use(...middleware)
   .listen(config.get('server.port'), (err) => {
     if (err) {
+      Logger.error('XXX');
       Logger.error(err);
       // TODO(kyle): Would be better to return an error code and serve the error page
     }

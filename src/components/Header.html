@@ -1,17 +1,22 @@
 <header>
-  <nav class="grouping">
+  <nav>
     <a class="logo" href='/'>
       <Logo />
-      <span> Vinyetta </span>
+      <span> Turning Point Tales </span>
     </a>
     {#if $user}
-    <a href='auth/logout'>
-      <span>{$user.tier}</span>
+    <div class="user-block">
       <img class="thumbnail" src={$user.patreonThumbUrl} alt="{$user.firstName}">
-      <span>Logout</span>
-    </a>
+      <div class="menu">
+        <h3 class="tier">{$user.firstName} the {$user.tier}</h3>
+        <ul>
+          <li><a href='auth/logout'>Logout</a></li>
+          <li><a href='https://www.patreon.com/join/turningpointtales/checkout'>Adjust contribution</a></li>
+        </ul>
+      </div>
+    </div>
     {:else}
-    <a href='auth/initiate_login'>
+    <a href='auth/initiate_login' class="nav-vert">
       <span>Login with Patreon</span>
     </a>
     {/if}
@@ -20,10 +25,8 @@
 
 <style>
   header {
-    position: fixed;
     display: flex;
     width: 100%;
-    z-index: 2;
     justify-content: space-evenly; align-items: center;
     background-color: var(--root-color-background);
     padding: 0 var(--root-wrapper-padding);
@@ -32,8 +35,62 @@
   nav {
     flex: 1;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     border-bottom: 1px solid gray;
+  }
+
+  nav > * {
+    padding: var(--root-vertical-spacing);
+    text-decoration: none;
+    align-items: center;
+  }
+
+  .nav-vert {
+    float: left;
+    color: var(--root-color-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .user-block {
+    margin-right: 16px;
+  }
+
+  .user-block:hover .menu, .user-block:active .menu {
+    left: auto;
+    right: 16px;
+  }
+
+  .menu {
+    background-color: var(--root-color-background);
+    border-radius: var(--root-border-radius);
+    border: 1px solid gray;
+    position: absolute;
+    left: -999em;
+    margin-top: 5px;
+    padding: 5px;
+  }
+
+  .menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu li {
+    border-bottom: 1px solid #ccc;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+  }
+
+  .menu li:last-child {
+    border: none;
+  }
+
+  .menu li:hover {
+    font-size: 20px;
+    background: #f6f6f6;
   }
 
   .logo {
@@ -46,25 +103,11 @@
   }
 
   .thumbnail {
+    display: block;
     height: 44px;
     width: 44px;
     border-radius: 50%;
   }
-
-  a {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: var(--root-color-primary);
-    padding: var(--root-vertical-spacing);
-    text-decoration: none;
-  }
-
-  a:first-child {
-    margin: 0 auto 0 0;
-  }
-
 </style>
 
 <script>

@@ -17,7 +17,7 @@ module.exports = {
       accessToken: process.env['PATREON_ACCESS_TOKEN'],
       refreshToken: process.env['PATREON_REFRESH_TOKEN'],
     },
-    tiers: ['Townsfolk', 'Wanderer'],
+    tiers: ['Townsperson', 'Wanderer'],
     redirect: `${dev ? 'http' : 'https'}://${process.env['HOST']}${dev ? `:3000` : ''}/auth/login`,
   }
 }
