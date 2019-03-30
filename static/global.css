@@ -1,15 +1,13 @@
 /* RESET */
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 
 /* THEME */
 
 :root {
   --root-color-primary: #4a4a4a;
-  --root-color-light: #b3b3b3;
+  --root-color-light: dimgray;
   --root-color-accent: darkolivegreen;
   --root-color-background: whitesmoke;
 
@@ -21,18 +19,17 @@
 /* TYPOGRAPHY */
 
 h1,h2,h3,p {
-  margin: 0 0 var(--root-vertical-spacing) 0;
+  margin: 0 0 32px 0;
 }
 
-h1 { font-size: 32px }
+h1 { font-size: 24px }
 
-h2 { font-size: 24px }
-
-h3 { font-size: 16px }
+h2 { font-size: 16px }
 
 p,
 span {
   font-size: 14px;
+  color: var(--root-color-light);
 }
 
 a, button {

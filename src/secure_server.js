@@ -1,8 +1,11 @@
 import Logger from 'js-logger';
 import config from 'config';
 
-const allowedAbsolutes = [
+const allowedBaseRoutes = [
   '/',
+  '/example-story',
+  '/landing',
+  '/stories',
   '/about',
   '/auth/fake_login',
   '/auth/initiate_login',
@@ -24,8 +27,8 @@ const allowedPrefixes = [
 
 function protectNonDefaultRoutes(req, res, next) {
 
-  const isProtected = allowedAbsolutes.indexOf(req.url) == -1 &&
-    !allowedPrefixes.some((prefix) => req.url.startsWith(prefix));
+  const isProtected = !allowedBaseRoutes.includes(req.path)
+    && !allowedPrefixes.some((prefix) => req.path.startsWith(prefix));
 
   if (isProtected && !req.session.tier) {
     Logger.info('Unauthenticated access found on url: ', req.url);

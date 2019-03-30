@@ -1,0 +1,39 @@
+<button
+  class="button"
+  on:click="fire('click', this)"
+>
+  {text}
+  <slot name="icon"></slot>
+</button>
+
+<style>
+  button {
+    display: flex;
+    height: 48px;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    border-radius: var(--root-border-radius);
+    background: none;
+    border: 1px solid currentColor;
+    color: var(--root-color-accent);
+  }
+
+  .button :global(svg) {
+    width: 24px;
+    height: auto;
+    margin-left: 16px;
+  }
+
+  button:hover {
+    background: var(--root-color-accent);
+    color: var(--root-color-background);
+  }
+
+</style>
+
+<script>
+  export default {
+  }
+</script>

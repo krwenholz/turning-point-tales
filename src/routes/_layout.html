@@ -22,6 +22,8 @@
   }
 
   :global(body) {
+    display: flex;
+    flex-flow: column;
     margin: auto;
     max-width: 1200px;
   }
@@ -37,7 +39,7 @@
   main {
     display: flex;
     flex-flow: column;
-    min-height: 100vh;
+    flex: 1 1 auto;
     padding-top: 100px;
     padding-right: var(--root-wrapper-padding);
     padding-left: var(--root-wrapper-padding);

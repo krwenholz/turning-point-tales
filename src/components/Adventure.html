@@ -1,10 +1,9 @@
-<section class="adventure" >
+<section class="adventure">
   <h3 on:click="skipTyping()">{title}</h3>
-  <small>- Kristopher C. Paulsen</small>
   {#if page}
     <TypeText
       ref:TypeText
-      on:typingEnd='set({ showDecisions: true })'
+      on:typingEnd='showDecisions()'
       typingSpeed={0}
       jitter={80}
       paragraphPause={600}
@@ -12,20 +11,25 @@
     />
   {/if}
 
-  {#if showDecisions && page.decisions}
+  {#if showDecisions}
     <nav ref:decisions >
       {#each page.decisions as {key, label}}
-        <button on:click="setNextPage(key)" >
-          <PickDecision />
-          <span class="label"> {label} </span>
-        </button>
+        <Button
+          on:click="setNextPage(key)"
+          text={label}
+        />
       {/each}
     </nav>
-  {:else}
+  {/if}
+
+  {#if currentlyTyping }
     <nav>
-      <button on:click="skipTyping()">
-        <CrossOut/>
-        <span class="label"> Skip</span>
+      <button
+        on:click="skipTyping()"
+        class="skip"
+      >
+          <span>skip</span>
+          <CrossOut/>
       </button>
     </nav>
   {/if}
@@ -48,15 +52,6 @@
     align-items: center;
   }
 
-  small {
-    margin: -10px 0 20px 0;
-  }
-
-  :global(p) {
-    max-width: 80ch;
-    margin-bottom: 40px;
-  }
-
   nav {
     margin-top: auto;
     display: flex;
@@ -64,61 +59,89 @@
     justify-content: flex-start;
   }
 
-  /* TODO: Make this a component */
-  button {
-    display: flex;
-    align-items: center;
-    text-align: start;
-    border-radius: var(--root-border-radius);
-    padding: 16px;
-    background: none;
-    color: var(--root-color-primary);
-    border: 1px solid currentColor;
+  :global(.button) {
     margin-bottom: 16px;
+    width: 100%;
   }
 
-  button:hover {
+  .skip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
     color: var(--root-color-accent);
   }
 
-  .label {
+  .skip span {
+    color: currentColor;
+  }
+
+  .skip :global(svg) {
+    width: 24px;
+    height: auto;
     margin-left: 16px;
   }
 
-  :global(svg) {
-    min-width: 36px;
+  .skip:hover {
+    font-weight: bold;
+  }
+
+  @media only screen and (min-height: 700px) {
+    nav :global(.button) {
+      width: fit-content;
+    }
   }
 
 </style>
 
 <script>
-
   export default {
     oncreate() {
       this.set({
         story: this.get().story,
-        page: this.get().story.start,
-        finishedTyping: false,
+        page: this.get().story[this.get().key],
+        currentlyTyping: true,
         showDecisions: false,
       });
+
+      this.saveToHistory();
     },
     methods: {
       skipTyping() {
         this.refs.TypeText.skipTyping();
         this.refs.TypeText.on('typingEnd', () => (
-          this.refs.decisions.scrollIntoView({ behavior: 'smooth'})
+          window.scrollBy({ top: document.body.scrollHeight, behavior: "smooth" })
         ));
       },
+      showDecisions() {
+        this.set({
+          showDecisions: this.get().page.decisions,
+          currentlyTyping: false,
+        });
+
+        if (!this.get().page.decisions) {
+          this.fire('storyEnd');
+        }
+      },
       setNextPage(key) {
+       window.scrollTo(0, 0);
+
         this.set({
           page: this.get().story[key],
           showDecisions: false,
+          currentlyTyping: true,
         });
+
+        this.saveToHistory();
+      },
+      saveToHistory() {
+        window.history.pushState( '', '', `${window.location.pathname}?key=${this.get().key}`);
       }
     },
     components: {
+      Button: './Button.html',
       TypeText: './TypeText.html',
-      PickDecision: './icons/PickDecision.html',
       CrossOut: './icons/CrossOut.html',
     }
   }; </script>

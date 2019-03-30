@@ -1,13 +1,16 @@
 <svelte:head>
-  <title>{story.title}</title>
+  <title>{title}</title>
 </svelte:head>
 
-<Adventure {story} {title} />
+<Adventure {key} {story} {title} />
 
 <script>
   export default {
-    preload({ params, query }) {
-      return this.fetch(`story/${params.slug}.json`, { credentials: 'include' }).then((res) => {
+    preload({
+      query: { key = 'start' },
+      params: { slug }
+    }) {
+      return this.fetch(`story/${slug}.json`, { credentials: 'include' }).then((res) => {
         if (res.status == 200) {
           return res.json();
         } else if(res.status == 401) {
@@ -16,11 +19,8 @@
           console.error(res);
           this.error(res.status, res);
         }
-      }).then((data) => {
-        return {
-          story: data.content,
-          title: data.title,
-        };
+      }).then(({ content: story, title }) => {
+        return { key, story, title, };
       });
     },
     components: {
