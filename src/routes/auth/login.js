@@ -106,8 +106,9 @@ function get(req, res) {
     })
     .catch((error) => {
       Logger.error('Patreon error', error.message);
-      res.writeHead(500);
-      res.end('Sorry! Looks like something went wrong authenticating with Patreon. Please try again or contact support at support@turningpointtales.com.');
+      res.writeHead(302, { Location: '/auth/login_failed' });
+      res.end();
+      return;
     });
 }
 

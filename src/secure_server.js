@@ -1,6 +1,9 @@
 import Logger from 'js-logger';
 import config from 'config';
 
+// TODO(kyle): Should add a CSP
+// https://sapper.svelte.technology/guide#security
+
 const allowedBaseRoutes = [
   '/',
   '/example-story',
@@ -22,6 +25,7 @@ const allowedPrefixes = [
   '/?',
   '/auth/login',
   '/client',
+  '/error',
   '/favicon',
 ];
 
@@ -32,7 +36,14 @@ function protectNonDefaultRoutes(req, res, next) {
 
   if (isProtected && !req.session.tier) {
     Logger.info('Unauthenticated access found on url: ', req.url);
-    res.writeHead(401);
+
+    if (req.path.endsWith(".js") || req.path.endsWith(".json")) {
+      res.writeHead(401);
+    } else {
+      res.writeHead(302, {
+        Location: "/login"
+      });
+    }
     res.end();
     return;
   }
