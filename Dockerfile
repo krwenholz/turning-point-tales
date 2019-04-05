@@ -2,12 +2,13 @@ FROM node:11
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package*.json webpack.config.js ./
+COPY config ./config
+COPY src ./src
+COPY static ./static
+RUN ls -lh
 
 RUN npm install
-
-#  TODO(kyle): Copy less stuff because now we have a bunch more
-COPY . .
 
 RUN npm run build
 
