@@ -6,7 +6,6 @@ COPY package*.json webpack.config.js ./
 COPY config ./config
 COPY src ./src
 COPY static ./static
-RUN ls -lh
 
 RUN npm install
 
