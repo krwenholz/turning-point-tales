@@ -5,7 +5,6 @@ import config from 'config';
 // https://sapper.svelte.technology/guide#security
 
 const allowedBaseRoutes = [
-  '/',
   '/example-story',
   '/landing',
   '/stories',
@@ -41,7 +40,7 @@ function protectNonDefaultRoutes(req, res, next) {
       res.writeHead(401);
     } else {
       res.writeHead(302, {
-        Location: "/login"
+        Location: "/landing"
       });
     }
     res.end();

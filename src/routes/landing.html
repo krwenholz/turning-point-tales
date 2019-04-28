@@ -1,25 +1,28 @@
 <section class="landing">
-  <h1>Adventures you choose, tales you get lost in.</h1>
-
-  <div class="prompt">
-    <TypeText
-      on:typingEnd="set({ typingEnd: true })"
-      typingSpeed={0}
-      jitter={100}
-      text={[ `You're standing alone, with some time to spare...` ]}
-    />
+  <div class="text">
+    <h1>Adventures you choose, tales you get lost in.</h1>
+    <div class="prompt" in:fade>
+      <TypeText
+        on:typingEnd="set({ typingEnd: true })"
+        typingSpeed={0}
+        jitter={'100'}
+        text={[`On an intergalatic startship, traveling at half the speed of light, one man sat bored to death in his stuffy office.`]}
+      />
+    </div>
   </div>
 
+  <img src="/landing.png">
+
   {#if typingEnd}
-  <nav>
+  <nav transition:fade >
     <Button
-      text="Look down at your phone"
-      on:click="redirect('/example-story', 'phone')"
+      text="A day in the life of Mr. Banks"
+      on:click="redirect('/example-story', 'banks')"
     />
 
     <Button
-      text="Pop open your laptop"
-      on:click="redirect('/example-story', 'laptop')"
+      text="Becoming a patreon"
+      on:click="redirect('/example-story', 'patreon')"
     />
   </nav>
   {/if}
@@ -34,10 +37,9 @@
     align-self: center;
   }
 
-  h1 {
-    text-align: center;
-    align-self: center;
-    max-width: 400px;
+  .text {
+    display: flex;
+    flex-flow: column;
   }
 
   .prompt {
@@ -46,6 +48,19 @@
     justify-content: center;
     text-align: center;
     margin-bottom: 64px;
+  }
+
+  h1 {
+    text-align: center;
+    align-self: center;
+    max-width: 400px;
+  }
+
+  img {
+    display: none;
+    width: auto;
+    height: 500px;
+    transform: translate(0, -25%);
   }
 
   nav {
@@ -66,9 +81,37 @@
     }
   }
 
+  @media only screen and (min-width: 1150px) {
+    .landing {
+      flex-flow: row wrap;
+      justify-content: space-around;
+    }
+
+    .prompt :global(p) {
+      font-size: 16px;
+    }
+
+    h1 {
+      font-size: 48px;
+      line-height: 1.3;
+    }
+
+    .text {
+      max-width: 50%;
+    }
+
+    img {
+      display: flex;
+      transform: none;
+      max-width: 50%;
+    }
+  }
+
 </style>
 
 <script>
+  import { fade } from '../lib/Transition';
+
   export default {
     methods: {
       redirect(href, page) {
@@ -79,5 +122,8 @@
       TypeText: '../components/TypeText.html',
       Button: '../components/Button.html',
     },
+    transitions: {
+      fade,
+    }
   }
 </script>

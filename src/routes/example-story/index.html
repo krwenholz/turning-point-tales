@@ -11,7 +11,7 @@
   />
 
   {#if showDecisions }
-  <nav>
+  <nav transition:fade >
     <Button
       text="Learn about us"
       on:click="redirect('/about')"
@@ -54,6 +54,8 @@
 
 <script>
   import exampleStory from './exampleStory.js';
+  import { fade } from '../../lib/Transition';
+
   export default {
     preload({ query: { key} }) {
       return { story: exampleStory, key, };
@@ -68,6 +70,9 @@
       Button: '../../components/Button.html',
       Patreon: '../../components/icons/Patreon.html',
       Book: '../../components/icons/Book.html',
+    },
+    transitions: {
+      fade,
     }
   };
 </script>

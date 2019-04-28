@@ -1,5 +1,8 @@
 <section class="adventure">
-  <h3 on:click="skipTyping()">{title}</h3>
+  {#if title}
+    <h3 on:click="skipTyping()">{title}</h3>
+  {/if}
+
   {#if page}
     <TypeText
       ref:TypeText
@@ -12,7 +15,10 @@
   {/if}
 
   {#if showDecisions}
-    <nav ref:decisions >
+    <nav
+      ref:decisions
+      transition:fade
+    >
       {#each page.decisions as {key, label}}
         <Button
           on:click="setNextPage(key)"
@@ -23,7 +29,7 @@
   {/if}
 
   {#if currentlyTyping }
-    <nav>
+    <nav in:fade >
       <button
         on:click="skipTyping()"
         class="skip"
@@ -96,6 +102,8 @@
 </style>
 
 <script>
+  import { fade } from '../lib/Transition';
+
   export default {
     oncreate() {
       this.set({
@@ -143,5 +151,9 @@
       Button: './Button.html',
       TypeText: './TypeText.html',
       CrossOut: './icons/CrossOut.html',
+    },
+    transitions: {
+      fade,
     }
-  }; </script>
+  };
+</script>
