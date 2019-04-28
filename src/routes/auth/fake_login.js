@@ -13,13 +13,15 @@ function get(req, res) {
   Logger.info('Setting fake user');
   req.session.paidUp = true;
   req.session.patreonId = 'foo';
+  req.session.tier = 'Townsperson';
 
   res.cookie('user', {
+    email: 'foo@bar.example',
+    firstName: 'Square',
+    paidUp: true,
     patreonId: 'Spongebob',
     patreonThumbUrl: 'https://vignette.wikia.nocookie.net/spongebob/images/2/2a/SpongeBob_SquarePants%28copy%290.png/revision/latest?cb=20160507142128',
-    firstName: 'Square',
-    email: 'foo@bar.example',
-    paidUp: true,
+    tier: 'Townsperson',
   }, {
     domain: config.get('server.domain'),
     httpOnly: false,
