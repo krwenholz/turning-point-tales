@@ -25,7 +25,6 @@ const allowedPrefixes = [
   '/auth/login',
   '/client',
   '/error',
-  '/favicon',
 ];
 
 function protectNonDefaultRoutes(req, res, next) {

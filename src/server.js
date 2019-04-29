@@ -38,7 +38,9 @@ const middleware = [
     threshold: 0
   }),
   sirv('static', {
-    dev
+    dev,
+    maxAge: 31536000, // 1Y
+    immutable: true
   }),
   cookieParser(process.env.SECRET),
   cookieSession({
