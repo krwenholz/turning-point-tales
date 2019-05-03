@@ -5,7 +5,7 @@
 	https://github.com/nodeca/js-yaml
   -->
 
-<input type="text" id="story" size="120">
+<textarea id="story" rows="30"></textarea>
 
 <button class="loader" on:click="load()">Load it up!</button>
 
@@ -13,8 +13,8 @@
 
 
 <style>
-  input {
-    min-height: 30rem;
+  #story {
+    max-width: 100ch;
   }
 
   .visual_story {
@@ -197,14 +197,12 @@
       load() {
         const data = document.querySelector("#story").value;
         if(simulation) simulation.stop();
-        simulation = draw(JSON.parse(data));
+        simulation = draw(yaml.safeLoad(data));
       }
     },
     async oncreate() {
       const story = document.querySelector("#story");
-      const data = {"nodes":[{"name":"Peter","label":"Person","id":1},{"name":"Michael","label":"Person","id":2},{"name":"Neo4j","label":"Database","id":3},{"name":"Graph Database","label":"Database","id":4}],"links":[{"source":1,"target":2,"type":"KNOWS","since":2010},{"source":1,"target":3,"type":"FOUNDED"},{"source":2,"target":3,"type":"WORKS_ON"},{"source":3,"target":4,"type":"IS_A"}]};
-
-      story.value = JSON.stringify(data);
+      story.value = yaml.safeDump({"nodes":[{"name":"Peter","label":"Person","id":1},{"name":"Michael","label":"Person","id":2},{"name":"Neo4j","label":"Database","id":3},{"name":"Graph Database","label":"Database","id":4}],"links":[{"source":1,"target":2,"type":"KNOWS","since":2010},{"source":1,"target":3,"type":"FOUNDED"},{"source":2,"target":3,"type":"WORKS_ON"},{"source":3,"target":4,"type":"IS_A"}]});
     }
   }
 </script>
