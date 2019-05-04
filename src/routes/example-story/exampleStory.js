@@ -1,18 +1,198 @@
 export default {
-  "banks": {
-    "text": [
-      "It was a beautiful summer’s day, 70 degrees, with scattered clouds and the occasional cool breeze. It had been that way every moment, of every day, for the last 5 years, save for the pre-scheduled rain burst at exactly 12:01 to 1:35. People had, and continued to be, very particular about the weather. Some wanted downpours, others a gentle trickle. It couldn’t occur in the early hours, or too late in the evening. Every drop was meticulously orchestrated and accounted for.",
+  start: {
+    text: [
+      "Lets help you learn about navigating stories, and branching through decisions.",
+      "Choose an option below",
+    ],
+    decisions: [
+      {
+        key: 'option_a',
+        label: 'Choose option a',
+      },
+      {
+        key: 'option_b',
+        label: 'Choose option b',
+      }
+    ]
+  },
+  option_a: {
+    text: [
+      "Awesome, you chose 'option a'. That's a great option, way better than 'option b' (Can you believe that some people even choose that option?)",
+      "At this point, we've started branching off in two different directions in our story, but we can always 'jump over' into another branch by linking a key with a decision",
+      "If you want, you can jump over into the 'option b' timeline, else, continue on."
+    ],
+    decisions: [
+      {
+        key: 'option_b',
+        label: 'jump over into option b',
+      },
+      {
+        key: 'continue_on',
+        label: 'continue onto!',
+      }
+    ]
+  },
+  option_b: {
+    text: [
+      "Awesome, you chose 'option a'. That's a great option, way better than 'option a' (Can you believe that some people even choose that option?)",
 
-      "It had never rained in the morning, or on a sunday. Evenings were off-limits, of course, and those times that had been chosen were only agreed upon after an arduous and lengthy process of debate. Each neighborhood meet on a bi-weekly basis to discuss the matter, always requiring a quorum, where all the minutiae of the day would be discussed and recorded in triplicate for the benefit of those later needing to review the proceedings.",
+      "At this point, we've started branching off in two different directions in our story, but we can always 'jump over' into another branch by linking a key with a decision",
 
-      "Mondays were already too difficult to even consider including spontaneous weather, and as Tuesdays followed mondays, they were also a settled matter. Wednesdays were, and always had been, reserved for sport tournaments. Only once had it rained on a wednesday, and that regrettable oversight led to a dozen ruined paint jobs, a hand full of arrests, and a panic stricken individual convinced they were drowning in the comfort of their porch rocking chair. Three emergency sessions later, and thru countless mountains of paperwork, it seemed the matter had all but been resolved through democratic debate. So for the interim Wednesday was strictly off limits for weather.", "Thursday and Friday were no better, as those leaving work were finally free to take the weekend as they wished, so rain was not a welcome sight there either. Saturdays, as one could guess, were busy catching up on all things left to the last minute. Sadly, that left sunday, and only for a single slot of time. Only then could everyone nuzzle up during the lull of the day, and stare out their windows as the perfectly tuned and precisely executed downpour pounded the city for the pre-agreed up time of exactly 1 hour 36 minutes. Not one minute more, or one drop less.", "And above all this, orchestrating this weather, was a man sitting in an orthopaedically approved chair, in an air-conditioned room high above the city. Basking in the gentle loving glow of fluorescent lighting, in the midst of all this malaise, at the heart of all this weather, was James Icarus Banks.", "Mr Banks watched the weather every day from nine to five. He was a weatherman, and he oversaw the most complex meteorological system ever devised, on board one of the most technologically advanced machines ever conceived. It was known as the Leviathan. His ship was accompanied by two others, The Memento, and the Ark. They were its sisters, each equally impressive in their size and achievement. A single ship stretched the length of New York’s Manhattan, as if a great knife had descended down and slipped into the earth, cutting away a raw slice of flesh.", "And with that wound left behind, that raw flesh bled life, seeping out to pool into thousands of schools, parks, homes, skyscrapers and streets. In those small corners of the ship, people lived, laughed, started families, died, were born, played music, competed, lost, flipped burgers, mopped floors, wrote stories, and lived their lives with only the thin hull of the ship protecting them from the oblivion of nothingness that was the expanse of space.", "And Mr Banks, who oversaw this triumphant testament of man’s ability to carve in the vast desert of space a single bastion of life, knew only two things would never change. The first, as he knew all too well, was the weather. The second was this; He was unbelievably, undeniably, bored out of his mind.", "Something had to change"
+      "If you want, you can jump over into the 'option a' timeline, else, continue on.",
+    ],
+    decisions: [
+      {
+        key: 'option_a',
+        label: 'jump over into option a',
+      },
+      {
+        key: 'continue_on',
+        label: 'continue on',
+      }
+    ]
+  },
+  continue_on: {
+    text: [
+      "Seems like all the decisions have ended up at one single branch.",
+      "While nice to have, we don't have to go that route, they can diverge immensely."
+    ],
+    decisions: [
+      {
+        key: 'go_left',
+          label: 'go left',
+      },
+      {
+        key: 'go_right',
+        label: 'go right',
+      }
     ],
   },
-  "patreon": {
-    "text": [
-      "Hooked already? That was fast! Sounds like you're ready for some excitement.",
+  go_left: {
+    text: [
+      'We have to go deeper',
+    ],
+    decisions: [
+      {
+        key: 'deeper_left',
+        label: 'Go deeper left',
+      },
+      {
+        key: 'deeper_right',
+        label: 'Go deeper right',
+      }
+    ]
+  },
+  go_right: {
+    text: [
+      'Lets see how deep this rabbit hole can go',
+    ],
+    decisions: [
+      {
+        key: 'left_rabbit_hole',
+        label: 'Go down the left rabbit hole',
+      },
+      {
+        key: 'right_rabbit_hole',
+        label: 'Go down the right rabbit hole',
+      }
+    ]
+  },
+  deeper_left: {
+    text: [
+      "Okay, this is starting to get out of hand, your decision making priveleges  are behing revoked",
+      "Sometimes this is cheesy, but it can be used for interesting narrative effects..."
+    ],
+    decisions: [
+      {
+        key: 'only_option',
+        label: 'Only option',
+      }
+    ]
+  },
+  deeper_right: {
+    text: [
+      "Okay, this is starting to get out of hand, your decision making priveleges are behing revoked",
+      "Sometimes this is cheesy, but it can be used for interesting narrative effects..."
+    ],
+    decisions: [
+      {
+        key: 'only_option',
+        label: 'Only option',
+      }
+    ]
+  },
+  left_rabbit_hole: {
+    text: [
+      "Okay, this is starting to get out of hand, your decision making priveleges are being revoked",
+      "Sometimes this is cheesy, but it can be used for interesting narrative effects..."
+    ],
+    decisions: [
+      {
+        key: 'only_option',
+        label: 'Only option',
+      }
+    ]
+  },
+  right_rabbit_hole: {
+    text: [
+      "Okay, this is starting to get out of hand, your decision making priveleges are being revoked",
+      "Giving the reader one option is sometimes a bit cheesy, but it can be used for interesting narrative effects..."
+    ],
+    decisions: [
+      {
+        key: 'only_option',
+        label: 'Only option',
+      }
+    ]
+  },
+  only_option: {
+    text: [
+      'Hold onto your butts!'
+    ],
+    decisions: [
+      {
+        key: 'only_option_2',
+        label: 'more more more!'
+      }
+    ]
+  },
+  only_option_2: {
+    text: [
+      'Turn on the ludicrous speed!'
+    ],
+    decisions: [
+      {
+        key: 'has_dead_end',
+        label: 'here we go again!'
+      }
+    ]
+  },
+  has_dead_end: {
+    text: [
+      "There is one more important part of writing stories that we need to cover, and that's the 'ending'",
 
-      "Be sure to adventure safely."
+      "Sometimes your reader will choose a path that ends the story, and that's great! All good things must come to an end.",
+
+      "To create an ending, just give them a route with no decisions."
+    ],
+    decisions: [
+      {
+        key: 'dead_end',
+        label: 'You have met with a terrible fate'
+      },
+      {
+        key: 'a_bit_more',
+        label: 'Wait! I need just a bit more'
+      }
+    ],
+  },
+  dead_end: {
+    text: [
+      "Well, you've done it, you've ended it all. There's no where left for the reader to go. This would be considered the end of the story.",
+
+      "Don't worry about a 'back button', we give the reader the option of starting the story over.",
+
+      "Maybe, just maybe, they'll choose better options next time.",
     ],
   }
 };

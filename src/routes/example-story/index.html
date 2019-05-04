@@ -6,59 +6,24 @@
   <Adventure
     {story}
     {key}
-    title=""
-    on:storyEnd="set({ showDecisions: true })"
+    title="A gentle introduction"
   />
-
-  {#if showDecisions }
-  <nav transition:fade >
-    <Button
-      text="Learn about us"
-      on:click="redirect('/about')"
-    >
-      <div slot="icon">
-          <Book />
-      </div>
-    </Button>
-
-    <Button
-      text="Become a patron!"
-      on:click="redirect('/auth/initiate_login')"
-    >
-      <div slot="icon">
-        <Patreon />
-      </div>
-    </Button>
-  </nav>
-  {/if}
-
 </section>
 
 <style>
   .example-story {
-    width: 100%;
+    display: flex;
     flex: 1 0 auto;
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: center;
-  }
-
-  nav {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    margin: 0 auto 0 auto;
   }
 </style>
 
 <script>
-  import exampleStory from './exampleStory.js';
+  import exampleStory from './exampleStory';
   import { fade } from '../../lib/Transition';
 
   export default {
-    preload({ query: { key} }) {
-      return { story: exampleStory, key, };
+    preload({ query: { key }}) {
+      return { story: exampleStory, key};
     },
     methods: {
       redirect(page) {
@@ -67,12 +32,7 @@
     },
     components: {
       Adventure: '../../components/Adventure.html',
-      Button: '../../components/Button.html',
-      Patreon: '../../components/icons/Patreon.html',
-      Book: '../../components/icons/Book.html',
     },
-    transitions: {
-      fade,
-    }
+    transitions: { fade }
   };
 </script>

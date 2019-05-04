@@ -17,7 +17,7 @@
   {#if showDecisions}
     <nav
       ref:decisions
-      transition:fade
+      in:fade
     >
       {#each page.decisions as {key, label}}
         <Button
@@ -111,6 +111,7 @@
         page: this.get().story[this.get().key],
         currentlyTyping: true,
         showDecisions: false,
+        key: 'start',
       });
 
       this.saveToHistory();
@@ -139,6 +140,7 @@
           page: this.get().story[key],
           showDecisions: false,
           currentlyTyping: true,
+          key,
         });
 
         this.saveToHistory();
