@@ -5,7 +5,7 @@
 <section class="teaser-story">
   <Adventure
     {story}
-    {key}
+    {storyNode}
     title=""
     on:storyEnd="set({ showDecisions: true })"
   />
@@ -57,8 +57,8 @@
   import { fade } from '../../lib/Transition';
 
   export default {
-    preload({ query: { key} }) {
-      return { story: teaserStory, key, };
+    preload({ query: { storyNode } }) {
+      return { story: teaserStory, storyNode, };
     },
     methods: {
       redirect(page) {
