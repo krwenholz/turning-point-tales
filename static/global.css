@@ -10,8 +10,9 @@
   --root-color-light: dimgray;
   --root-color-accent: #072957;
   --root-color-background: whitesmoke;
+  --root-call-to-action: darkolivegreen;
 
-  --root-border-radius: 6px;
+  --root-border-radius: 8px;
   --root-vertical-spacing: 16px;
   --root-wrapper-padding: 16px;
 }
@@ -34,9 +35,17 @@ span {
 
 a, button {
   padding: 0;
-  text-decoration: none;
   text-align: center;
-  color: var(--root-color-primary);
+}
+
+a:link {
+  color: var(--root-color-accent);
+}
+a:visited {
+  color: #7c649c;
+}
+a:hover {
+  font-weight: bold;
 }
 
 .hidden {
