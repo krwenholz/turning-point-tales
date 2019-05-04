@@ -2,36 +2,6 @@ import * as d3 from 'd3';
 import 'd3-selection-multi';
 
 /**
- * nodes:
-  - name: Peter
-    label: Person
-    id: 1
-  - name: Michael
-    label: Person
-    id: 2
-  - name: Neo4j
-    label: Database
-    id: 3
-  - name: Graph Database
-    label: Database
-    id: 4
-links:
-  - source: 1
-    target: 2
-    type: KNOWS
-    since: 2010
-  - source: 1
-    target: 3
-    type: FOUNDED
-  - source: 2
-    target: 3
-    type: WORKS_ON
-  - source: 3
-    target: 4
-    type: IS_A
-*/
-
-/**
  * Starts a story graph animation on the specificed svg and for the given data.
  *
  * @param {Object} storyData The story to render.
@@ -71,63 +41,97 @@ function draw(storyData, svgSelector) {
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-  const graphData = graphFrom(storyData);
+  const {
+    nodes,
+    links
+  } = graphFrom(storyData);
 
-  startAnimation(svg, simulation, graphData.links, graphData.nodes);
+  startAnimation(svg, simulation, nodes, links);
 
   return simulation;
 }
 
 function graphFrom(storyData) {
-  const toVisit = [{ title: "start", node: storyData.start }]
+  const toVisit = [{
+    title: "start",
+    node: storyData.start
+  }]
   const visited = new Set([]);
-  const nodes = []; // name, label, id
-  const links = []; // source, target, type
+  const nodes = []; // name, id
+  const links = []; // source, target, label
 
-  while(toVisit.length) {
-    const { title, node } = toVisit.pop();
+  while (toVisit.length) {
+    const {
+      title,
+      node
+    } = toVisit.shift();
     validateStoryNode(title, node);
+
+    // Avoid loops
+    if (visited.has(title)) continue;
     visited.add(title);
 
-    nodes.push({ name: title, id: title });
+    nodes.push({
+      name: title,
+      id: title
+    });
 
     const decisions = node.decisions || [];
-    for(const decision of decisions) {
+    for (const decision of decisions) {
       const next = decision.storyNode;
-      // Avoid loops
-      if(visited.has(next)) continue;
 
-      links.push({ source: title, target: next, label: decision.label })
-      toVisit.push({ title: next, node: storyData[next] })
+      links.push({
+        source: title,
+        target: next,
+        label: decision.label
+      })
+      toVisit.push({
+        title: next,
+        node: storyData[next]
+      })
     }
   }
 
-  return { nodes, links }
+  return {
+    nodes,
+    links
+  }
 }
 
 function validateStoryNode(title, node) {
-  if(!node) {
+  if (!node) {
     alert(`Expected to find a storyNode "${title}" but didn't`);
     throw "NoNode";
   }
-  if(!node["text"]) {
+  if (!node["text"]) {
     alert(`Your storyNode "${title}" needs a text field`);
     throw "NoText";
   }
 
-  if(node["final"]) return;
+  if (node["final"]) return;
 
-  if(!node["decisions"]) {
+  if (!node["decisions"]) {
     alert(`Your storyNode "${title}" needs a decisions field`);
     throw "NoDecisions";
   }
-  if(node["decisions"].length < 1) {
+  if (node["decisions"].length < 1) {
     alert(`Your storyNode "${title}" needs at least one decision`);
     throw "NotEnoughDecisions";
   }
+  const decisions = node["decisions"];
+  for (const ii in node["decisions"]) {
+    if (!decisions[ii]["label"]) {
+      alert(`Your decision "${title}.${ii}" needs a label field`);
+      throw "BadDecisions";
+    }
+    if (!decisions[ii]["storyNode"]) {
+      alert(`Your decision "${title}.${ii}" needs a storyNode field`);
+      throw "BadDecisions";
+    }
+  }
 }
 
-function startAnimation(svg, simulation, linkData, nodeData) {
+function startAnimation(svg, simulation, nodeData, linkData) {
   const colors = d3.scaleOrdinal(d3.schemeCategory10);
 
   const links = svg.selectAll(".link")
@@ -178,7 +182,7 @@ function startAnimation(svg, simulation, linkData, nodeData) {
     .style("pointer-events", "none")
     .attr("startOffset", "50%")
     .text(function(d) {
-      return d.type
+      return d.label
     });
 
   const nodes = svg.selectAll(".node")
