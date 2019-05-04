@@ -65,7 +65,6 @@ function graphFrom(storyData) {
       title,
       node
     } = toVisit.shift();
-    validateStoryNode(title, node);
 
     // Avoid loops
     if (visited.has(title)) continue;
@@ -95,39 +94,6 @@ function graphFrom(storyData) {
   return {
     nodes,
     links
-  }
-}
-
-function validateStoryNode(title, node) {
-  if (!node) {
-    alert(`Expected to find a storyNode "${title}" but didn't`);
-    throw "NoNode";
-  }
-  if (!node["text"]) {
-    alert(`Your storyNode "${title}" needs a text field`);
-    throw "NoText";
-  }
-
-  if (node["final"]) return;
-
-  if (!node["decisions"]) {
-    alert(`Your storyNode "${title}" needs a decisions field`);
-    throw "NoDecisions";
-  }
-  if (node["decisions"].length < 1) {
-    alert(`Your storyNode "${title}" needs at least one decision`);
-    throw "NotEnoughDecisions";
-  }
-  const decisions = node["decisions"];
-  for (const ii in node["decisions"]) {
-    if (!decisions[ii]["label"]) {
-      alert(`Your decision "${title}.${ii}" needs a label field`);
-      throw "BadDecisions";
-    }
-    if (!decisions[ii]["storyNode"]) {
-      alert(`Your decision "${title}.${ii}" needs a storyNode field`);
-      throw "BadDecisions";
-    }
   }
 }
 
@@ -268,6 +234,34 @@ function dragged(d) {
   d.fy = d3.event.y;
 }
 
+function validateStoryNode(title, node) {
+  if (!node) {
+    throw `Expected to find a storyNode "${title}" but failed`;
+  }
+  if (!node["text"]) {
+    throw `Your storyNode "${title}" needs a text field`;
+  }
+
+  if (node["final"]) return;
+
+  if (!node["decisions"]) {
+    throw `Your storyNode "${title}" needs a decisions field`;
+  }
+  if (node["decisions"].length < 1) {
+    throw `Your storyNode "${title}" needs at least one decision`;
+  }
+  const decisions = node["decisions"];
+  for (const ii in node["decisions"]) {
+    if (!decisions[ii]["label"]) {
+      throw `Your decision "${title}.${ii}" needs a label field`;
+    }
+    if (!decisions[ii]["storyNode"]) {
+      throw `Your decision "${title}.${ii}" needs a storyNode field`;
+    }
+  }
+}
+
 export {
-  draw
+  draw,
+  validateStoryNode
 }
