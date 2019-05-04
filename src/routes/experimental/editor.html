@@ -7,7 +7,7 @@
 
 <textarea id="story" rows="30"></textarea>
 
-<button class="loader" on:click="load()">Load it up!</button>
+<button class="loader" on:click="load()">Draw</button>
 
 <svg class="visual_story"></svg>
 
@@ -38,6 +38,7 @@
 <script>
   import yaml from 'js-yaml';
   import { draw } from '../../lib/story_graphs.js';
+  import example from '../example-story/exampleStory.js';
 
   let simulation;
 
@@ -51,7 +52,7 @@
     },
     async oncreate() {
       const story = document.querySelector("#story");
-      story.value = yaml.safeDump({"nodes":[{"name":"Peter","label":"Person","id":1},{"name":"Michael","label":"Person","id":2},{"name":"Neo4j","label":"Database","id":3},{"name":"Graph Database","label":"Database","id":4}],"links":[{"source":1,"target":2,"type":"KNOWS","since":2010},{"source":1,"target":3,"type":"FOUNDED"},{"source":2,"target":3,"type":"WORKS_ON"},{"source":3,"target":4,"type":"IS_A"}]});
+      story.value = yaml.safeDump(example);
     }
   }
 </script>

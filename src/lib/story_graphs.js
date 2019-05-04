@@ -2,13 +2,43 @@ import * as d3 from 'd3';
 import 'd3-selection-multi';
 
 /**
+ * nodes:
+  - name: Peter
+    label: Person
+    id: 1
+  - name: Michael
+    label: Person
+    id: 2
+  - name: Neo4j
+    label: Database
+    id: 3
+  - name: Graph Database
+    label: Database
+    id: 4
+links:
+  - source: 1
+    target: 2
+    type: KNOWS
+    since: 2010
+  - source: 1
+    target: 3
+    type: FOUNDED
+  - source: 2
+    target: 3
+    type: WORKS_ON
+  - source: 3
+    target: 4
+    type: IS_A
+*/
+
+/**
  * Starts a story graph animation on the specificed svg and for the given data.
  *
- * @param {Object} data The story to render.
+ * @param {Object} storyData The story to render.
  * @param {String} svgSelector The svg query selector.
  * @returns {Object} Returns the simulation object (so you can stop it if you want to redraw).
  */
-function draw(data, svgSelector) {
+function draw(storyData, svgSelector) {
   const targetSvg = document.querySelector(svgSelector);
   while (targetSvg.firstChild) {
     targetSvg.removeChild(targetSvg.firstChild);
@@ -41,28 +71,79 @@ function draw(data, svgSelector) {
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-  startAnimation(svg, simulation, data.links, data.nodes);
+  const graphData = graphFrom(storyData);
+
+  startAnimation(svg, simulation, graphData.links, graphData.nodes);
 
   return simulation;
 }
 
-function startAnimation(svg, simulation, links, nodes) {
+function graphFrom(storyData) {
+  const toVisit = [{ title: "start", node: storyData.start }]
+  const visited = new Set([]);
+  const nodes = []; // name, label, id
+  const links = []; // source, target, type
+
+  while(toVisit.length) {
+    const { title, node } = toVisit.pop();
+    validateStoryNode(title, node);
+    visited.add(title);
+
+    nodes.push({ name: title, id: title });
+
+    const decisions = node.decisions || [];
+    for(const decision of decisions) {
+      const next = decision.storyNode;
+      // Avoid loops
+      if(visited.has(next)) continue;
+
+      links.push({ source: title, target: next, label: decision.label })
+      toVisit.push({ title: next, node: storyData[next] })
+    }
+  }
+
+  return { nodes, links }
+}
+
+function validateStoryNode(title, node) {
+  if(!node) {
+    alert(`Expected to find a storyNode "${title}" but didn't`);
+    throw "NoNode";
+  }
+  if(!node["text"]) {
+    alert(`Your storyNode "${title}" needs a text field`);
+    throw "NoText";
+  }
+
+  if(node["final"]) return;
+
+  if(!node["decisions"]) {
+    alert(`Your storyNode "${title}" needs a decisions field`);
+    throw "NoDecisions";
+  }
+  if(node["decisions"].length < 1) {
+    alert(`Your storyNode "${title}" needs at least one decision`);
+    throw "NotEnoughDecisions";
+  }
+}
+
+function startAnimation(svg, simulation, linkData, nodeData) {
   const colors = d3.scaleOrdinal(d3.schemeCategory10);
 
-  const link = svg.selectAll(".link")
-    .data(links)
+  const links = svg.selectAll(".link")
+    .data(linkData)
     .enter()
     .append("line")
     .attr("class", "link")
     .attr('marker-end', 'url(#arrowhead)')
 
-  link.append("title")
+  links.append("title")
     .text(function(d) {
-      return d.type;
+      return d.label;
     });
 
   const edgepaths = svg.selectAll(".edgepath")
-    .data(links)
+    .data(linkData)
     .enter()
     .append('path')
     .attrs({
@@ -76,7 +157,7 @@ function startAnimation(svg, simulation, links, nodes) {
     .style("pointer-events", "none");
 
   const edgelabels = svg.selectAll(".edgelabel")
-    .data(links)
+    .data(linkData)
     .enter()
     .append('text')
     .style("pointer-events", "none")
@@ -100,8 +181,8 @@ function startAnimation(svg, simulation, links, nodes) {
       return d.type
     });
 
-  const node = svg.selectAll(".node")
-    .data(nodes)
+  const nodes = svg.selectAll(".node")
+    .data(nodeData)
     .enter()
     .append("g")
     .attr("class", "node")
@@ -111,29 +192,29 @@ function startAnimation(svg, simulation, links, nodes) {
       //.on("end", dragended)
     );
 
-  node.append("circle")
+  nodes.append("circle")
     .attr("r", 5)
     .style("fill", function(d, i) {
       return colors(i);
     })
 
-  node.append("title")
+  nodes.append("title")
     .text(function(d) {
       return d.id;
     });
 
-  node.append("text")
+  nodes.append("text")
     .attr("dy", -3)
     .text(function(d) {
-      return d.name + ":" + d.label;
+      return d.name;
     });
 
   simulation
-    .nodes(nodes)
-    .on("tick", () => ticked(link, node, edgelabels, edgepaths));
+    .nodes(nodeData)
+    .on("tick", () => ticked(links, nodes, edgelabels, edgepaths));
 
   simulation.force("link")
-    .links(links);
+    .links(linkData);
 }
 
 function ticked(link, node, edgelabels, edgepaths) {

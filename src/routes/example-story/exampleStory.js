@@ -194,6 +194,7 @@ export default {
 
       "Maybe, just maybe, they'll choose better options next time.",
     ],
+    final: true,
   },
   a_bit_more: {
     text: [
@@ -214,10 +215,12 @@ export default {
     text: [
       'So long, and thanks for all the first!'
     ],
+    final: true,
   },
   farewell: {
     text: [
       'Farewell, goodbye, so long!'
     ],
+    final: true,
   }
 };
