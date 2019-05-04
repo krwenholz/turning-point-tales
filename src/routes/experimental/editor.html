@@ -1,29 +1,48 @@
-<!--
-  http://bl.ocks.org/fancellu/2c782394602a93921faff74e594d1bb1
-  https://github.com/sveltejs/realworld/blob/688379caec5c2807aa4c61a67f3707a36db9de0a/src/routes/article/_CommentContainer.html
-  https://stackoverflow.com/questions/10100742/modelling-a-simple-graph-with-nodes-and-edges
-	https://github.com/nodeca/js-yaml
-  -->
+<svelte:head>
+  <title>Editor</title>
+</svelte:head>
 
-<textarea id="story" rows="30"></textarea>
+<details open="true">
+  <summary>Write your story</summary>
+  <textarea class="story-editor" rows="30"></textarea>
+</details>
 
-<button class="loader" on:click="load()">Draw</button>
+<details>
+  <summary>Visualize your story</summary>
+  <button class="loader" on:click="load()">Draw</button>
 
-<svg class="visual_story"></svg>
+  <svg class="visual_story"></svg>
+</details>
 
+<details>
+  <summary>Experience your story</summary>
+  <section class="story-experience">
+    <Adventure
+      {storyNode}
+      {story}
+      title="A gentle introduction"
+    />
+  </section>
+</details>
 
 <style>
-  #story {
-    max-width: 100ch;
+  .story-editor {
+    width: 100ch;
   }
 
   .visual_story {
     height: 600px;
     width: 960px;
+    border: solid;
   }
 
   .loader {
     max-width: 10rem;
+    display: block;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 14px;
   }
 
   /* Need a nasty global here because it's unused until later and we don't want svelte
@@ -33,26 +52,44 @@
     stroke-opacity: .6;
     stroke-width: 1px;
   }
+
+  .story-experience {
+    display: flex;
+    flex: 1 0 auto;
+  }
+
+  summary {
+    cursor: pointer;
+  }
 </style>
 
 <script>
   import yaml from 'js-yaml';
   import { draw } from '../../lib/story_graphs.js';
-  import example from '../example-story/exampleStory.js';
+  import exampleStory from '../example-story/exampleStory.js';
 
   let simulation;
 
   export default {
+    preload({ query: { storyNode }}) {
+      return { story: exampleStory, storyNode};
+    },
     methods: {
       load() {
-        const data = document.querySelector("#story").value;
+        const data = document.querySelector(".story-editor").value;
         if(simulation) simulation.stop();
         simulation = draw(yaml.safeLoad(data), "svg.visual_story");
-      }
+      },
+      redirect(page) {
+        window.location = page;
+      },
+    },
+    components: {
+      Adventure: '../../components/Adventure.html',
     },
     async oncreate() {
-      const story = document.querySelector("#story");
-      story.value = yaml.safeDump(example);
-    }
+      const story = document.querySelector(".story-editor");
+      story.value = yaml.safeDump(exampleStory);
+    },
   }
 </script>
