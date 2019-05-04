@@ -2,7 +2,7 @@ export default {
   start: {
     text: [
       "Lets help you learn about navigating stories, and branching through decisions.",
-      "Choose an option below",
+      "Choose an option below.",
     ],
     decisions: [
       {
@@ -193,6 +193,31 @@ export default {
       "Don't worry about a 'back button', we give the reader the option of starting the story over.",
 
       "Maybe, just maybe, they'll choose better options next time.",
+    ],
+  },
+  a_bit_more: {
+    text: [
+      "You wanted one more set of questions, the story isn't quite over yet!"
+    ],
+    decisions: [
+      {
+        key: 'so_long',
+        label: "So long!",
+      },
+      {
+        key: 'farewell',
+        label: "Farewell!",
+      }
+    ]
+  },
+  so_long: {
+    text: [
+      'So long, and thanks for all the first!'
+    ],
+  },
+  farewell: {
+    text: [
+      'Farewell, goodbye, so long!'
     ],
   }
 };
