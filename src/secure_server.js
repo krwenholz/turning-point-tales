@@ -6,6 +6,7 @@ import config from 'config';
 
 const allowedBaseRoutes = [
   '/example-story',
+  '/teaser-story',
   '/landing',
   '/stories',
   '/about',
