@@ -4,8 +4,8 @@
 
 <section class="example-story">
   <Adventure
+    {storyNode}
     {story}
-    {key}
     title="A gentle introduction"
   />
 </section>
@@ -22,8 +22,8 @@
   import { fade } from '../../lib/Transition';
 
   export default {
-    preload({ query: { key }}) {
-      return { story: exampleStory, key};
+    preload({ query: { storyNode }}) {
+      return { story: exampleStory, storyNode};
     },
     methods: {
       redirect(page) {

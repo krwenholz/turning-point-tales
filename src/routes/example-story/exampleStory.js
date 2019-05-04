@@ -6,11 +6,11 @@ export default {
     ],
     decisions: [
       {
-        key: 'option_a',
+        storyNode: 'option_a',
         label: 'Choose option a',
       },
       {
-        key: 'option_b',
+        storyNode: 'option_b',
         label: 'Choose option b',
       }
     ]
@@ -23,11 +23,11 @@ export default {
     ],
     decisions: [
       {
-        key: 'option_b',
+        storyNode: 'option_b',
         label: 'jump over into option b',
       },
       {
-        key: 'continue_on',
+        storyNode: 'continue_on',
         label: 'continue onto!',
       }
     ]
@@ -42,11 +42,11 @@ export default {
     ],
     decisions: [
       {
-        key: 'option_a',
+        storyNode: 'option_a',
         label: 'jump over into option a',
       },
       {
-        key: 'continue_on',
+        storyNode: 'continue_on',
         label: 'continue on',
       }
     ]
@@ -58,11 +58,11 @@ export default {
     ],
     decisions: [
       {
-        key: 'go_left',
+        storyNode: 'go_left',
           label: 'go left',
       },
       {
-        key: 'go_right',
+        storyNode: 'go_right',
         label: 'go right',
       }
     ],
@@ -73,11 +73,11 @@ export default {
     ],
     decisions: [
       {
-        key: 'deeper_left',
+        storyNode: 'deeper_left',
         label: 'Go deeper left',
       },
       {
-        key: 'deeper_right',
+        storyNode: 'deeper_right',
         label: 'Go deeper right',
       }
     ]
@@ -88,11 +88,11 @@ export default {
     ],
     decisions: [
       {
-        key: 'left_rabbit_hole',
+        storyNode: 'left_rabbit_hole',
         label: 'Go down the left rabbit hole',
       },
       {
-        key: 'right_rabbit_hole',
+        storyNode: 'right_rabbit_hole',
         label: 'Go down the right rabbit hole',
       }
     ]
@@ -104,7 +104,7 @@ export default {
     ],
     decisions: [
       {
-        key: 'only_option',
+        storyNode: 'only_option',
         label: 'Only option',
       }
     ]
@@ -116,7 +116,7 @@ export default {
     ],
     decisions: [
       {
-        key: 'only_option',
+        storyNode: 'only_option',
         label: 'Only option',
       }
     ]
@@ -128,7 +128,7 @@ export default {
     ],
     decisions: [
       {
-        key: 'only_option',
+        storyNode: 'only_option',
         label: 'Only option',
       }
     ]
@@ -140,7 +140,7 @@ export default {
     ],
     decisions: [
       {
-        key: 'only_option',
+        storyNode: 'only_option',
         label: 'Only option',
       }
     ]
@@ -151,7 +151,7 @@ export default {
     ],
     decisions: [
       {
-        key: 'only_option_2',
+        storyNode: 'only_option_2',
         label: 'more more more!'
       }
     ]
@@ -162,7 +162,7 @@ export default {
     ],
     decisions: [
       {
-        key: 'has_dead_end',
+        storyNode: 'has_dead_end',
         label: 'here we go again!'
       }
     ]
@@ -177,11 +177,11 @@ export default {
     ],
     decisions: [
       {
-        key: 'dead_end',
+        storyNode: 'dead_end',
         label: 'You have met with a terrible fate'
       },
       {
-        key: 'a_bit_more',
+        storyNode: 'a_bit_more',
         label: 'Wait! I need just a bit more'
       }
     ],
@@ -201,11 +201,11 @@ export default {
     ],
     decisions: [
       {
-        key: 'so_long',
+        storyNode: 'so_long',
         label: "So long!",
       },
       {
-        key: 'farewell',
+        storyNode: 'farewell',
         label: "Farewell!",
       }
     ]

@@ -2,12 +2,12 @@
   <title>{title}</title>
 </svelte:head>
 
-<Adventure {key} {story} {title} />
+<Adventure {storyNode} {story} {title} />
 
 <script>
   export default {
     preload({
-      query: { key = 'start' },
+      query: { storyNode = 'start' },
       params: { slug }
     }) {
       return this.fetch(`story/${slug}.json`, { credentials: 'include' }).then((res) => {
@@ -20,7 +20,7 @@
           this.error(res.status, res);
         }
       }).then(({ content: story, title }) => {
-        return { key, story, title, };
+        return { storyNode, story, title, };
       });
     },
     components: {

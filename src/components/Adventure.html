@@ -19,9 +19,9 @@
       ref:decisions
       in:fade
     >
-      {#each page.decisions as {key, label}}
+      {#each page.decisions as {storyNode, label}}
         <Button
-          on:click="setNextPage(key)"
+          on:click="setNextPage(storyNode)"
           text={label}
         />
       {/each}
@@ -108,10 +108,10 @@
     oncreate() {
       this.set({
         story: this.get().story,
-        page: this.get().story[this.get().key],
+        page: this.get().story[this.get().storyNode],
         currentlyTyping: true,
         showDecisions: false,
-        key: 'start',
+        storyNode: 'start',
       });
 
       this.saveToHistory();
@@ -133,20 +133,21 @@
           this.fire('storyEnd');
         }
       },
-      setNextPage(key) {
+      setNextPage(storyNode) {
        window.scrollTo(0, 0);
 
         this.set({
-          page: this.get().story[key],
+          page: this.get().story[storyNode],
+          storyNode: storyNode,
           showDecisions: false,
           currentlyTyping: true,
-          key,
         });
 
         this.saveToHistory();
       },
       saveToHistory() {
-        window.history.pushState( '', '', `${window.location.pathname}?key=${this.get().key}`);
+        console.info("saving", this.get().storyNode);
+        window.history.pushState( '', '', `${window.location.pathname}?storyNode=${this.get().storyNode}`);
       }
     },
     components: {
