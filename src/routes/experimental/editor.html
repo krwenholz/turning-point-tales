@@ -109,7 +109,7 @@
         this.draw(this.get().story);
       },
       draw(story) {
-        if(!document.querySelector("details.visual").open) return;
+        if(!document.querySelector(".story-editor").open) return;
 
         if(simulation) simulation.stop();
         simulation = draw(story, "svg.visual-story");

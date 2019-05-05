@@ -15,7 +15,7 @@
       <p>{story.content.preview}</p>
       <Button
         text="{story.content.previewPrompt}"
-        on:click="redirect('/story/{storyId}')"
+        on:click="redirect(`/story/${story.id}`)"
       />
     </article>
   {/each}
