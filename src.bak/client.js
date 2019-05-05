@@ -1,4 +1,4 @@
-import * as sapper from '@sapper/app';
+import * as sapper from '../__sapper__/client.js';
 import {
   Store
 } from 'svelte/store.js';

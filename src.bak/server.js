@@ -1,4 +1,4 @@
-import * as sapper from '@sapper/server';
+import * as sapper from '../__sapper__/server.js';
 import Logger from 'js-logger';
 import compression from 'compression';
 import config from 'config';
