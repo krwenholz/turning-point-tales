@@ -2,38 +2,58 @@
   <title>Editor</title>
 </svelte:head>
 
-<details open="true">
-  <summary>Write your story</summary>
-  <textarea class="story-editor" rows="30"></textarea>
-</details>
+<section class='editor'>
 
-<details>
-  <summary>Visualize your story</summary>
-  <button class="loader" on:click="load()">Draw</button>
+  <article>
+    <h2>Story Editor</h2>
+    <textarea class='story-editor' rows="30"></textarea>
+  </article>
 
-  <svg class="visual_story"></svg>
-</details>
+  <aside>
+    <h2>Preview</h2>
+    <details>
+      <summary>Experience your story</summary>
+      <Adventure
+        {storyNode}
+        {story}
+        title="A gentle introduction"
+      />
+    </details>
 
-<details>
-  <summary>Experience your story</summary>
-  <section class="story-experience">
-    <Adventure
-      {storyNode}
-      {story}
-      title="A gentle introduction"
-    />
-  </section>
-</details>
+    <details>
+      <summary>Visualize your story</summary>
+      <button class="loader" on:click="load()">Draw</button>
+
+      <svg class="visual-story"></svg>
+    </details>
+
+  </aside>
+</section>
 
 <style>
-  .story-editor {
-    width: 100ch;
+
+  .editor {
+    display: flex;
   }
 
-  .visual_story {
-    height: 600px;
-    width: 960px;
+  .story-editor {
+    min-height: 80vh;
+    width: 100ch;
+    margin-right: 40px;
+  }
+
+  aside {
+    width: 100%;
+  }
+
+  .visual-story {
+    width: 100%;
+    min-height: 60vh;
     border: solid;
+  }
+
+  .editor :global(.adventure) {
+    min-height: 70vh;
   }
 
   .loader {
@@ -51,11 +71,6 @@
     stroke: #999;
     stroke-opacity: .6;
     stroke-width: 1px;
-  }
-
-  .story-experience {
-    display: flex;
-    flex: 1 0 auto;
   }
 
   summary {
@@ -78,7 +93,7 @@
       load() {
         const data = document.querySelector(".story-editor").value;
         if(simulation) simulation.stop();
-        simulation = draw(yaml.safeLoad(data), "svg.visual_story");
+        simulation = draw(yaml.safeLoad(data), "svg.visual-story");
       },
       redirect(page) {
         window.location = page;
