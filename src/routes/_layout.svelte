@@ -1,7 +1,7 @@
-<Header segment={child.segment} />
+<Header/>
 
 <main>
-  <svelte:component this={child.component} {...child.props}/>
+  <slot></slot>
 </main>
 
 <Footer/>
@@ -40,10 +40,8 @@
 </style>
 
 <script>
-  export default {
-    components: {
-      Header: '../components/Header.html',
-      Footer: '../components/Footer.html'
-    }
-  };
+  import Header from '../components/Header.svelte';
+  import Footer from '../components/Footer.svelte';
+
+  export let child;
 </script>

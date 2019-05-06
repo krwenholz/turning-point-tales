@@ -1,6 +1,6 @@
 <button
   class="button"
-  on:click="fire('click', this)"
+  on:click={this.fire('click', this)}
 >
   {text}
   <slot name="icon"></slot>
@@ -33,3 +33,7 @@
     cursor: pointer;
   }
 </style>
+
+<script>
+  export let text;
+</script>

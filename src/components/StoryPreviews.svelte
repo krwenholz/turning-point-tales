@@ -15,7 +15,7 @@
       <p>{story.content.preview}</p>
       <Button
         text="{story.content.previewPrompt}"
-        on:click="redirect(`/story/${story.id}`)"
+        on:click={redirect(`/story/${story.id}`)}
       />
     </article>
   {/each}
@@ -81,14 +81,11 @@
 </style>
 
 <script>
-  export default {
-    methods: {
-      redirect(href, page) {
-        window.location = `${href}?storyNode=${page}`;
-      }
-    },
-    components: {
-      Button: '../components/Button.html',
-    }
+  import Button from '../components/Button.svelte';
+
+  export let stories;
+
+  export function redirect(href, page) {
+    window.location = `${href}?storyNode=${page}`;
   }
 </script>

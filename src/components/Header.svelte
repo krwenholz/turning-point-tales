@@ -108,9 +108,12 @@
 </style>
 
 <script>
-  export default {
-    components: {
-      Logo: './icons/Logo.html',
-    }
-  }
+  import Logo from './icons/Logo.html';
+  import { store } from '@sapper/app';
+
+  // TODO(kyle): This is the broken bit, it used to use "this" but we don't have access to
+  // "this" outside of the good old sapper functions, need to figure out what exports that
+  // store and grab it. Looks like it may be here:
+  // https://github.com/sveltejs/sapper/blob/c99b787632acd33efec38e3fcc0a69884b54f20b/runtime/src/app/app.ts
+  let user = store.get().user;
 </script>
