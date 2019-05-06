@@ -1,14 +1,3 @@
-<section class='introduction'>
-  <h1>Where will your next adventure take you?</h1>
-
-  <p>
-    Dive into the world of grues, cardinal directions, and spooky houses.
-    Reading can be scary, and not just for people who are illiterate! Buckle
-    up, and prepare for the adventure ahead; The choice is yours.
-    Your first adventure is up to you; Adventure wisely.
-  </p>
-</section>
-
 <style>
   .introduction {
     display: flex;
@@ -50,3 +39,14 @@
   }
 
 </style>
+
+<section class='introduction'>
+  <h1>Where will your next adventure take you?</h1>
+
+  <p>
+    Dive into the world of grues, cardinal directions, and spooky houses.
+    Reading can be scary, and not just for people who are illiterate! Buckle
+    up, and prepare for the adventure ahead; The choice is yours.
+    Your first adventure is up to you; Adventure wisely.
+  </p>
+</section>

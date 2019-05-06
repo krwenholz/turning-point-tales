@@ -1,17 +1,3 @@
-<footer>
-  <nav class="grouping">
-    <a href='/about'>
-      <span>About Us</span>
-    </a>
-    <a href='/tos'>
-      <span>Terms of Service</span>
-    </a>
-    <a href='/privacy'>
-      <span>Privacy Policy</span>
-    </a>
-  </nav>
-</footer>
-
 <style>
   footer {
     display: flex;
@@ -44,3 +30,17 @@
   }
 
 </style>
+
+<footer>
+  <nav class="grouping">
+    <a href='/about'>
+      <span>About Us</span>
+    </a>
+    <a href='/tos'>
+      <span>Terms of Service</span>
+    </a>
+    <a href='/privacy'>
+      <span>Privacy Policy</span>
+    </a>
+  </nav>
+</footer>

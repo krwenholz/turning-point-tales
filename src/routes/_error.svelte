@@ -1,3 +1,22 @@
+<script>
+  export const dev = process.env.NODE_ENV === 'development';
+  export let error;
+  export let status;
+
+  export function preload() {
+    // WARNING: I am empty, but I am incredibly important because Sapper has a dumb bug
+    // that's filed on GitHub (I can't find it right now). Basically if you remove this
+    // empty preload, then you can't navigate away from error pages because preload
+    // methods on other components won't be called. Dumb.
+  }
+</script>
+
+<style>
+	p {
+		margin: 1em auto;
+	}
+</style>
+
 <svelte:head>
 	<title>{status}</title>
 </svelte:head>
@@ -11,22 +30,3 @@
 {#if dev && error.stack}
 <pre>{error.stack}</pre>
 {/if}
-
-<style>
-	p {
-		margin: 1em auto;
-	}
-</style>
-
-<script>
-  export const dev = process.env.NODE_ENV === 'development';
-  export let error;
-  export let status;
-
-  export function preload() {
-    // WARNING: I am empty, but I am incredibly important because Sapper has a dumb bug
-    // that's filed on GitHub (I can't find it right now). Basically if you remove this
-    // empty preload, then you can't navigate away from error pages because preload
-    // methods on other components won't be called. Dumb.
-  }
-</script>

@@ -49,4 +49,3 @@
 <p>If you are an owner of an account on this website, you are solely responsible for maintaining the confidentiality of your private user details (username and password). You are responsible for all activities that occur under your account or password.</p>
 
 <p>We reserve all rights to terminate accounts, edit or remove content and cancel orders in their sole discretion.</p>
-

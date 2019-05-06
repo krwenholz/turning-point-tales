@@ -1,10 +1,6 @@
-<button
-  class="button"
-  on:click={this.fire('click', this)}
->
-  {text}
-  <slot name="icon"></slot>
-</button>
+<script>
+  export let text;
+</script>
 
 <style>
   button {
@@ -34,6 +30,10 @@
   }
 </style>
 
-<script>
-  export let text;
-</script>
+<button
+  class="button"
+  on:click={this.fire('click', this)}
+>
+  {text}
+  <slot name="icon"></slot>
+</button>

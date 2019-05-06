@@ -1,25 +1,12 @@
-<section class="story-previews">
-  {#each stories as story}
-    <article>
-      <header>
-        <h2>
-          {story.title}
-        </h2>
-        <small>by Kristopher C. Paulsen</small>
-      </header>
-      <div class="tags">
-        {#each story.tags as tag}
-        <span class="tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
-        {/each}
-      </div>
-      <p>{story.content.preview}</p>
-      <Button
-        text="{story.content.previewPrompt}"
-        on:click={redirect(`/story/${story.id}`)}
-      />
-    </article>
-  {/each}
-</section>
+<script>
+  import Button from '../components/Button.svelte';
+
+  export let stories = [];
+
+  export function redirect(href, page) {
+    window.location = `${href}?storyNode=${page}`;
+  }
+</script>
 
 <style>
   .story-previews {
@@ -80,12 +67,25 @@
 
 </style>
 
-<script>
-  import Button from '../components/Button.svelte';
-
-  export let stories;
-
-  export function redirect(href, page) {
-    window.location = `${href}?storyNode=${page}`;
-  }
-</script>
+<section class="story-previews">
+  {#each stories as story}
+    <article>
+      <header>
+        <h2>
+          {story.title}
+        </h2>
+        <small>by Kristopher C. Paulsen</small>
+      </header>
+      <div class="tags">
+        {#each story.tags as tag}
+        <span class="tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
+        {/each}
+      </div>
+      <p>{story.content.preview}</p>
+      <Button
+        text="{story.content.previewPrompt}"
+        on:click={redirect(`/story/${story.id}`)}
+      />
+    </article>
+  {/each}
+</section>

@@ -1,10 +1,9 @@
-<Header/>
+<script>
+  import Header from '../components/Header.svelte';
+  import Footer from '../components/Footer.svelte';
 
-<main>
-  <slot></slot>
-</main>
-
-<Footer/>
+  export let child;
+</script>
 
 <style>
   :global(html) {
@@ -39,9 +38,10 @@
 
 </style>
 
-<script>
-  import Header from '../components/Header.svelte';
-  import Footer from '../components/Footer.svelte';
+<Header/>
 
-  export let child;
-</script>
+<main>
+  <slot></slot>
+</main>
+
+<Footer/>

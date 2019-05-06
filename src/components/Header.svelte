@@ -1,27 +1,14 @@
-<header>
-  <nav>
-    <a class="logo" href='/'>
-      <Logo />
-      <span> Turning Point Tales </span>
-    </a>
-    {#if $user}
-    <div class="user-block">
-      <img class="thumbnail" src={$user.patreonThumbUrl} alt="{$user.firstName}">
-      <div class="menu">
-        <h3 class="tier">{$user.firstName} the {$user.tier}</h3>
-        <ul>
-          <li><a href='auth/logout'>Logout</a></li>
-          <li><a href='https://www.patreon.com/join/turningpointtales/checkout'>Adjust contribution</a></li>
-        </ul>
-      </div>
-    </div>
-    {:else}
-    <a href='auth/initiate_login' class="nav-vert">
-      <span>Login with Patreon</span>
-    </a>
-    {/if}
-  </nav>
-</header>
+<script>
+  import Logo from './icons/Logo.html';
+  import * as sapper from '@sapper/app';
+
+  const { session } = sapper.stores();
+  // TODO(kyle): This may not be working. I don't understand the new stores very well, but
+  // I think I'm grabbing the user out of the session store here (which may be null). That
+  // should get us subscribed, maybe.
+  // https://github.com/sveltejs/sapper/commit/bca88831dab9f8a3ff38c56e68229e7b3d63d3f1
+  let user = session.user;
+</script>
 
 <style>
   header {
@@ -107,13 +94,27 @@
   }
 </style>
 
-<script>
-  import Logo from './icons/Logo.html';
-  import { store } from '@sapper/app';
-
-  // TODO(kyle): This is the broken bit, it used to use "this" but we don't have access to
-  // "this" outside of the good old sapper functions, need to figure out what exports that
-  // store and grab it. Looks like it may be here:
-  // https://github.com/sveltejs/sapper/blob/c99b787632acd33efec38e3fcc0a69884b54f20b/runtime/src/app/app.ts
-  let user = store.get().user;
-</script>
+<header>
+  <nav>
+    <a class="logo" href='/'>
+      <Logo />
+      <span> Turning Point Tales </span>
+    </a>
+    {#if user}
+    <div class="user-block">
+      <img class="thumbnail" src={user.patreonThumbUrl} alt="{user.firstName}">
+      <div class="menu">
+        <h3 class="tier">{user.firstName} the {user.tier}</h3>
+        <ul>
+          <li><a href='auth/logout'>Logout</a></li>
+          <li><a href='https://www.patreon.com/join/turningpointtales/checkout'>Adjust contribution</a></li>
+        </ul>
+      </div>
+    </div>
+    {:else}
+    <a href='auth/initiate_login' class="nav-vert">
+      <span>Login with Patreon</span>
+    </a>
+    {/if}
+  </nav>
+</header>
