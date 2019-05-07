@@ -1,14 +1,16 @@
-<script>
-  export const dev = process.env.NODE_ENV === 'development';
-  export let error;
-  export let status;
-
+<script context="module">
   export function preload() {
     // WARNING: I am empty, but I am incredibly important because Sapper has a dumb bug
     // that's filed on GitHub (I can't find it right now). Basically if you remove this
     // empty preload, then you can't navigate away from error pages because preload
     // methods on other components won't be called. Dumb.
   }
+</script>
+
+<script>
+  export const dev = process.env.NODE_ENV === 'development';
+  export let error;
+  export let status;
 </script>
 
 <style>

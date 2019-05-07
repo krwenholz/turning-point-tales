@@ -1,13 +1,10 @@
 <script context="module">
-  export function preload(page, session) {
-    // TODO(kyle): This preload isn't being called, that's bad.
-    console.info("Preloading index")
-    const { path, params, query } = page;
+  export function preload({params, query}) {
     return this.fetch('story.json', { credentials: 'include' }).then((res) => {
       if (res.status === 200) {
         return res.json();
       } else {
-        console.error(res);
+        console.error('Index story fetching error', res);
         this.error(res.status, res);
       }
     }).then((stories) => {

@@ -56,11 +56,9 @@ const middleware = [
   logSession,
   protectNonDefaultRoutes,
   sapper.middleware({
-    store: (req) => {
-      return new Store({
-        user: req.cookies.user,
-      });
-    }
+    session: (req) => ({
+      user: req.cookies.user,
+    }),
   }),
 ];
 
