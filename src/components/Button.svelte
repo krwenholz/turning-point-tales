@@ -34,10 +34,7 @@
   }
 </style>
 
-<button
-  class="button"
-  on:click={dispatch('click', this)}
->
+<button class="button" on:click={() => dispatch('click', this)}>
   {text}
   <slot name="icon"></slot>
 </button>

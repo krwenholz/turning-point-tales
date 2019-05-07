@@ -3,10 +3,7 @@
   import * as sapper from '@sapper/app';
 
   const { session } = sapper.stores();
-  // TODO(kyle): This may not be working. I don't understand the new stores very well, but
-  // I think I'm grabbing the user out of the session store here (which may be null). That
-  // should get us subscribed, maybe.
-  // https://github.com/sveltejs/sapper/commit/bca88831dab9f8a3ff38c56e68229e7b3d63d3f1
+
   let user = session.user;
 </script>
 

@@ -3,7 +3,7 @@
 
   export let stories = [];
 
-  export function redirect(href, page) {
+  function redirect(href, page) {
     window.location = `${href}?storyNode=${page}`;
   }
 </script>
@@ -84,7 +84,7 @@
       <p>{story.content.preview}</p>
       <Button
         text="{story.content.previewPrompt}"
-        on:click={redirect(`/story/${story.id}`)}
+        on:click={() => redirect(`/story/${story.id}`)}
       />
     </article>
   {/each}
