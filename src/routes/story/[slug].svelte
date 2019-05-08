@@ -1,5 +1,5 @@
 <script context="module">
-  export function preload({ params }) {
+  export function preload({ params, query }) {
     return this.fetch(`story/${params.slug}.json`, { credentials: 'include' }).then((res) => {
       if (res.status == 200) {
         return res.json();
@@ -10,7 +10,7 @@
         this.error(res.status, res);
       }
     }).then(({ content: story, title }) => {
-      return { storyNode, story, title, };
+      return { story, title, };
     });
   }
 </script>
@@ -21,7 +21,9 @@
 
   const { page } = sapper.stores();
 
-  const storyNode = ($page.query.storyNode || 'start');
+  export let story;
+  export let title;
+  $: storyNode = typeof($page.query.storyNode) === 'undefined' ? 'start' : $page.query.storyNode;
 </script>
 
 <svelte:head>

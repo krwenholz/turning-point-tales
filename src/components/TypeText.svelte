@@ -4,15 +4,17 @@
   const { floor, random } = Math;
   const dispatch = createEventDispatcher();
 
-  let interval = {};
+  let interval = null;
   export let jitter = 0;
   export let typedText = '';
   export let text = '';
   export let typingSpeed = 0;
   export let linebreakPause = 0;
+  export let paragraphPause = 0;
 
-  $: if(text){
-    startTyping();
+  $: if(text) {
+    if(interval === null) startTyping();
+    else if (interval.stopped()) interval.stop(() => startTyping());
   }
 
   const getTypingSpeed = () => {
@@ -30,14 +32,15 @@
     .map(char => char.replace(/\n/, '<br/><br/>'))
   };
 
-  const skipTyping = () => {
+  export const skipTyping = () => {
     interval.stop(() => {
       typedText = getChars().join(''),
-      dispatch('typingEnd');
+      dispatch('end');
     });
   };
 
-  const startTyping = () => {
+  export const startTyping = () => {
+    interval = null;
     typedText = '';
     let chars = getChars();
 
@@ -61,7 +64,7 @@
   const typingEnd = (interval) => {
     interval.stop();
 
-    dispatch('typingEnd');
+    dispatch('end');
   };
 </script>
 

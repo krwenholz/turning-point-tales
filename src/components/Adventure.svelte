@@ -5,47 +5,41 @@
   import TypeText from './TypeText.svelte';
   import { fade } from '../lib/Transition';
 
-  const { page, session } = sapper.stores();
-
-  export let story;
-  export let storyNode = 'start';
-  export let currentPage =  story[storyNode];
   export let currentlyTyping =  true;
   export let showDecisions = false;
+  export let story;
+  export let storyNode = 'start';
+  export let title;
 
-  this.saveToHistory();
+  const { page, session } = sapper.stores();
+  let typer;
+  let scrollY;
 
-  function skipTyping() {
-    this.refs.TypeText.skipTyping();
-    this.refs.TypeText.on('typingEnd', () => (
-      window.scrollBy({ top: document.body.scrollHeight, behavior: "smooth" })
-    ));
+  $: currentPage = story[storyNode];
+  $: if(typeof(window) !== 'undefined') {
+    window.history.pushState( '', '', `${window.location.pathname}?storyNode=${storyNode}`);
   }
 
-  // function revealDecisions() {
-  //   showDecisions =  currentPage.decisions;
-  //   currentlyTyping =  false;
-  //
-  //   if (!currentPage.decisions) {
-  //     this.fire('storyEnd');
-  //   }
-  // }
+  function skipTyping() {
+    typer.skipTyping();
+  }
+
+  function endTyping(event) {
+    showDecisions = true;
+    currentlyTyping = false;
+    if(typeof(window) !== 'undefined') {
+      // TODO(kyle): Not working for some, likely dumb, reason
+      console.info('scrolling',document.body.scrollHeight )
+      window.scrollBy({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+  }
 
   function setNextPage(nextStoryNode) {
     window.scrollTo(0, 0);
 
-    currentPage = story[nextStoryNode];
     storyNode = nextStoryNode;
     showDecisions = false;
     currentlyTyping = true;
-
-    this.saveToHistory();
-  }
-
-  function saveToHistory() {
-    console.info("saving", this.get().storyNode);
-    // TODO(kyle): need to make this safe for when no window exists
-    window.history.pushState( '', '', `${window.location.pathname}?storyNode=${storyNode}`);
   }
 </script>
 
@@ -116,8 +110,8 @@
 
   {#if currentPage}
     <TypeText
-      bind:this={TypeText}
-      on:typingEnd={showDecisions}
+      bind:this={typer}
+      on:end={endTyping}
       typingSpeed={0}
       jitter={80}
       paragraphPause={600}
@@ -126,10 +120,7 @@
   {/if}
 
   {#if showDecisions}
-    <nav
-      bind:this={currentPage.decisions}
-      in:fade
-    >
+    <nav in:fade>
       {#each currentPage.decisions as {storyNode, label}}
         <Button
           on:click={() => setNextPage(storyNode)}

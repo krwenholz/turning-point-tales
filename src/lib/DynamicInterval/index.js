@@ -29,6 +29,9 @@ class DynamicInterval {
     this.func = func;
     this.start();
   }
+  stopped() {
+    return !this.continue;
+  }
 };
 
 export const setDynamicInterval = (func, time) => {
