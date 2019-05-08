@@ -3,8 +3,6 @@
   import * as sapper from '@sapper/app';
 
   const { session } = sapper.stores();
-
-  let user = session.user;
 </script>
 
 <style>
@@ -97,11 +95,11 @@
       <Logo />
       <span> Turning Point Tales </span>
     </a>
-    {#if user}
+    {#if $session.user}
     <div class="user-block">
-      <img class="thumbnail" src={user.patreonThumbUrl} alt="{user.firstName}">
+      <img class="thumbnail" src={$session.user.patreonThumbUrl} alt="{$session.user.firstName}">
       <div class="menu">
-        <h3 class="tier">{user.firstName} the {user.tier}</h3>
+        <h3 class="tier">{$session.user.firstName} the {$session.user.tier}</h3>
         <ul>
           <li><a href='auth/logout'>Logout</a></li>
           <li><a href='https://www.patreon.com/join/turningpointtales/checkout'>Adjust contribution</a></li>

@@ -100,7 +100,9 @@ function get(req, res) {
       });
 
       res.writeHead(302, {
-        Location: '/?user=set'
+        // We also toss the user data in the URL because that's the easiest way to access
+        // it from Svelte
+        Location: `/?user=set&data=${encodeURIComponent(JSON.stringify(userData))}`
       });
       return res.end();
     })
