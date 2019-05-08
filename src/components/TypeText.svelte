@@ -1,88 +1,79 @@
-<p ref:node>
-    {#if typedText }
-        {@html typedText }
-    {/if}
-</p>
+<script>
+  import { setDynamicInterval } from '../lib/DynamicInterval';
+  import { createEventDispatcher } from 'svelte';
+  const { floor, random } = Math;
+  const dispatch = createEventDispatcher();
+
+  let interval = {};
+  export let jitter = 0;
+  export let typedText = '';
+  export let text = '';
+  export let typingSpeed = 0;
+  export let linebreakPause = 0;
+
+  $: if(text){
+    startTyping();
+  }
+
+  const getTypingSpeed = () => {
+    return typingSpeed + floor(random() * jitter);
+  };
+
+  const isLinebreak = (char) => {
+    return char.match(/<br/);
+  };
+
+  const getChars = () => {
+    return text
+    .join('\n')
+    .split('')
+    .map(char => char.replace(/\n/, '<br/><br/>'))
+  };
+
+  const skipTyping = () => {
+    interval.stop(() => {
+      typedText = getChars().join(''),
+      dispatch('typingEnd');
+    });
+  };
+
+  const startTyping = () => {
+    typedText = '';
+    let chars = getChars();
+
+    // really need to find a simpler way to do this...
+    interval = setDynamicInterval(() => {
+      if (!chars.length) {
+        return typingEnd(interval);
+      }
+
+      const char = chars.shift();
+
+      interval.set({
+        time: isLinebreak(char) ? paragraphPause: getTypingSpeed()
+      });
+
+      typedText = typedText + char;
+
+    }, getTypingSpeed());
+  };
+
+  const typingEnd = (interval) => {
+    interval.stop();
+
+    dispatch('typingEnd');
+  };
+</script>
 
 <style>
-  ref:node {
+  .type-text {
     width: 80ch;
     max-width: 90%;
   }
 </style>
 
-<script>
-  import { setDynamicInterval } from '../lib/DynamicInterval';
-  const { floor, random } = Math;
-
-  export default {
-    data() {
-      return {
-        jitter: 0,
-        typedText: '',
-        text: '',
-        typingSpeed: 0,
-        startTyping: false,
-        linebreakPause: 0,
-      };
-    },
-    onupdate({ current = {}, previous = {} }) {
-      if(current.text !== previous.text ) {
-        this.startTyping();
-      }
-    },
-    methods: {
-      getTypingSpeed() {
-        return this.get().typingSpeed + floor(random() * this.get().jitter);
-      },
-      isLinebreak(char) {
-        return char.match(/\<br/);
-      },
-      getChars() {
-        return this.get().text
-          .join('\n')
-          .split('')
-          .map(char => char.replace(/\n/, '<br/><br/>'))
-      },
-      skipTyping() {
-        this.get().interval.stop(() => {
-
-          this.set({
-            typedText: this.getChars().join(''),
-          });
-
-          this.fire('typingEnd');
-        });
-      },
-      startTyping() {
-        this.set({ typedText: '' });
-        let chars = this.getChars();
-
-        // really need to find a simpler way to do this...
-        const interval = setDynamicInterval(() => {
-          if (!chars.length) {
-            return this.typingEnd(interval);
-          }
-
-          const char = chars.shift();
-
-          interval.set({
-            time: this.isLinebreak(char) ? this.get().paragraphPause: this.getTypingSpeed()
-          });
-
-          this.set({
-            typedText: this.get().typedText + char,
-          });
-
-        }, this.getTypingSpeed());
-
-        this.set({ interval });
-      },
-      typingEnd(interval) {
-        interval.stop();
-
-        this.fire('typingEnd');
-      }
-    },
-  };
-</script>
+<p class="type-text">
+  {#if typedText }
+  {@html typedText }
+  {/if}
+</p>

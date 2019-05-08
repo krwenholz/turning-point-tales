@@ -7,19 +7,13 @@
 
   const { page, session } = sapper.stores();
 
-  function oncreate() {
-    // TODO(kyle): I think these all just need to be let/const on their own here to be
-    // reactive (even the history call)
-    this.set({
-      story: this.get().story,
-      page: this.get().story[this.get().storyNode],
-      currentlyTyping: true,
-      showDecisions: false,
-      storyNode: 'start',
-    });
+  export let story;
+  export let storyNode = 'start';
+  export let currentPage =  story[storyNode];
+  export let currentlyTyping =  true;
+  export let showDecisions = false;
 
-    this.saveToHistory();
-  }
+  this.saveToHistory();
 
   function skipTyping() {
     this.refs.TypeText.skipTyping();
@@ -28,34 +22,30 @@
     ));
   }
 
-  function showDecisions() {
-    this.set({
-      showDecisions: this.get().page.decisions,
-      currentlyTyping: false,
-    });
+  // function revealDecisions() {
+  //   showDecisions =  currentPage.decisions;
+  //   currentlyTyping =  false;
+  //
+  //   if (!currentPage.decisions) {
+  //     this.fire('storyEnd');
+  //   }
+  // }
 
-    if (!this.get().page.decisions) {
-      this.fire('storyEnd');
-    }
-  }
-
-  function setNextPage(storyNode) {
+  function setNextPage(nextStoryNode) {
     window.scrollTo(0, 0);
 
-      this.set({
-        page: this.get().story[storyNode],
-        storyNode: storyNode,
-        showDecisions: false,
-        currentlyTyping: true,
-      });
+    currentPage = story[nextStoryNode];
+    storyNode = nextStoryNode;
+    showDecisions = false;
+    currentlyTyping = true;
 
-      this.saveToHistory();
+    this.saveToHistory();
   }
 
   function saveToHistory() {
     console.info("saving", this.get().storyNode);
     // TODO(kyle): need to make this safe for when no window exists
-    window.history.pushState( '', '', `${window.location.pathname}?storyNode=${this.get().storyNode}`);
+    window.history.pushState( '', '', `${window.location.pathname}?storyNode=${storyNode}`);
   }
 </script>
 
@@ -124,23 +114,23 @@
     <h3 on:click={skipTyping}>{title}</h3>
   {/if}
 
-  {#if page}
+  {#if currentPage}
     <TypeText
       bind:this={TypeText}
       on:typingEnd={showDecisions}
       typingSpeed={0}
       jitter={80}
       paragraphPause={600}
-      text={page.text}
+      text={currentPage.text}
     />
   {/if}
 
   {#if showDecisions}
     <nav
-      bind:this={decisions}
+      bind:this={currentPage.decisions}
       in:fade
     >
-      {#each page.decisions as {storyNode, label}}
+      {#each currentPage.decisions as {storyNode, label}}
         <Button
           on:click={() => setNextPage(storyNode)}
           text={label}
