@@ -8,7 +8,7 @@ import 'd3-selection-multi';
  * @param {String} svgSelector The svg query selector.
  * @returns {Object} Returns the simulation object (so you can stop it if you want to redraw).
  */
-function draw(storyData, svgSelector) {
+function graph(storyData, svgSelector) {
   const targetSvg = document.querySelector(svgSelector);
   while (targetSvg.firstChild) {
     targetSvg.removeChild(targetSvg.firstChild);
@@ -262,6 +262,6 @@ function validateStoryNode(title, node) {
 }
 
 export {
-  draw,
+  graph,
   validateStoryNode
 }
