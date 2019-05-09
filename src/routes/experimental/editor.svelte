@@ -10,7 +10,7 @@
   let simulation;
   let story = exampleStory;
   let storyText = yaml.safeDump(exampleStory);
-  $: storyNode = typeof($page.query.storyNode) === 'undefined' ? 'start' : $page.query.storyNode;
+  let storyNode = typeof($page.query.storyNode) === 'undefined' ? 'start' : $page.query.storyNode;
 
   const draw = (story) => {
     if(!document.querySelector(".story-editor").open) return;
@@ -108,11 +108,13 @@ your decision tree and even experience the whole thing at the bottom of this pag
 
 <section class='experience'>
   <details>
+    {#if story && storyNode}
     <summary>Experience your story</summary>
     <Adventure
       {storyNode}
       {story}
-      title="A gentle introduction"
+      title="Self titled adventure: Number One"
       />
+    {/if}
   </details>
 </section>

@@ -3,8 +3,8 @@
 
   export let stories = [];
 
-  function redirect(href, page) {
-    window.location = `${href}?storyNode=${page}`;
+  function redirect(href) {
+    window.location = `${href}`;
   }
 </script>
 

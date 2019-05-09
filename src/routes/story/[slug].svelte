@@ -23,7 +23,9 @@
 
   export let story;
   export let title;
-  $: storyNode = typeof($page.query.storyNode) === 'undefined' ? 'start' : $page.query.storyNode;
+  let storyNode = typeof($page.query.storyNode) === 'undefined' ? 'start' : $page.query.storyNode;
+
+  console.log(storyNode)
 </script>
 
 <svelte:head>
