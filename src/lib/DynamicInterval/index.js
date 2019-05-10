@@ -15,7 +15,7 @@ class DynamicInterval {
       this.start();
     }, this.time);
   }
-  stop(callback) {
+  stop(callback = () => {}) {
     this.continue = false;
     clearTimeout(this.id);
     setTimeout(callback, this.time);
