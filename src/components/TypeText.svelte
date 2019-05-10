@@ -4,13 +4,14 @@
   const { floor, random } = Math;
   const dispatch = createEventDispatcher();
 
-  let interval = null;
   export let jitter = 0;
   export let typedText = '';
   export let text = '';
   export let typingSpeed = 0;
   export let linebreakPause = 0;
   export let paragraphPause = 0;
+
+  let interval = null;
 
   $: if(text) {
     if(interval === null) startTyping();
@@ -40,8 +41,8 @@
   };
 
   export const startTyping = () => {
-    interval = null;
     typedText = '';
+
     let chars = getChars();
 
     // really need to find a simpler way to do this...
@@ -64,7 +65,7 @@
   const typingEnd = (interval) => {
     interval.stop();
 
-    dispatch('end');
+    return dispatch('typingEnd', {});
   };
 </script>
 
@@ -77,6 +78,6 @@
 
 <p class="type-text">
   {#if typedText }
-  {@html typedText }
+    {@html typedText }
   {/if}
 </p>

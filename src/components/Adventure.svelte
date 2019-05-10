@@ -11,7 +11,6 @@
   export let storyNode = 'start';
   export let title;
 
-  const { page, session } = sapper.stores();
   let typer;
   let scrollY;
 
@@ -20,7 +19,7 @@
     window.history.pushState( '', '', `${window.location.pathname}?storyNode=${storyNode}`);
   }
 
-  function skipTyping() {
+  const skipTyping = () => {
     typer.skipTyping();
   }
 
