@@ -65,7 +65,7 @@
   const typingEnd = (interval) => {
     interval.stop();
 
-    return dispatch('typingEnd', {});
+    return dispatch('end', {});
   };
 </script>
 
