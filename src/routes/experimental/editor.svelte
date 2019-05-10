@@ -12,13 +12,6 @@
   let storyText = yaml.safeDump(exampleStory);
   let storyNode = typeof($page.query.storyNode) === 'undefined' ? 'start' : $page.query.storyNode;
 
-  const draw = (story) => {
-    if(!document.querySelector(".story-editor").open) return;
-
-    if(simulation) simulation.stop();
-    simulation = graph(story, "svg.visual-story");
-  }
-
   const load = () => {
     let uncheckedStory;
     try {
@@ -32,9 +25,9 @@
       return;
     }
 
-    // TODO(kyle): Pretty sure I need to reload the Adventure component or sumting
     story = uncheckedStory;
-    draw(story);
+    if(simulation) simulation.stop();
+    simulation = graph(story, "svg.visual-story");
   }
 </script>
 
@@ -46,7 +39,7 @@
 
   .story-editor {
     min-height: 80vh;
-    width: 100ch;
+    width: 80ch;
     margin-right: 40px;
   }
 
@@ -80,10 +73,6 @@
     stroke-opacity: .6;
     stroke-width: 1px;
   }
-
-  summary {
-    cursor: pointer;
-  }
 </style>
 
 <svelte:head>
@@ -106,15 +95,12 @@ your decision tree and even experience the whole thing at the bottom of this pag
   </aside>
 </section>
 
-<section class='experience'>
-  <details>
-    {#if story && storyNode}
-    <summary>Experience your story</summary>
+{#if story && storyNode}
+  <section class='experience'>
     <Adventure
       {storyNode}
       {story}
       title="Self titled adventure: Number One"
       />
-    {/if}
-  </details>
-</section>
+  </section>
+{/if}
