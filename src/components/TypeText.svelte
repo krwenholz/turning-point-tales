@@ -34,15 +34,15 @@
   };
 
   export const skipTyping = () => {
-    typedText = getChars().join('');
+    typedText = getChars().join(''); // clear before event loop;
 
     interval.stop(() => {
-      typedText = getChars().join('');
+      typedText = getChars().join(''); // clear after event loop;
       dispatch('end');
     });
   };
 
-  const typingEnd = (interval) => interval.stop(() => dispatch('end'));
+  const typingEnd = () => interval.stop(() => dispatch('end'));
 
   export const startTyping = () => {
     typedText = '';
@@ -52,7 +52,7 @@
     // really need to find a simpler way to do this...
     interval = setDynamicInterval(() => {
       if (!chars.length) {
-        return typingEnd(interval);
+        return typingEnd();
       }
 
       const char = chars.shift();
