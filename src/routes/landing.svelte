@@ -116,7 +116,7 @@
   a silly human pretending to read">
 
   {#if typingEnd}
-  <nav transition:fade >
+  <nav in:fade >
     <Button
       on:click={redirect("/teaser-story", "banks")}
       text="A day in the life of Mr. Banks"

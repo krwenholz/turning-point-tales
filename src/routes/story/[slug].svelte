@@ -23,7 +23,8 @@
 
   export let story;
   export let title;
-  let storyNode = typeof($page.query.storyNode) === 'undefined' ? 'start' : $page.query.storyNode;
+
+  let storyNode = $page.query.storyNode;
 
 </script>
 

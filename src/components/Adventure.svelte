@@ -9,27 +9,26 @@
   const dispatch = createEventDispatcher();
 
   export let currentlyTyping =  true;
-  export let showDecisions = false;
   export let story;
-  export let storyNode = 'start';
   export let title;
+  export let storyNode = 'start';
 
   let typer;
-  let scrollY;
 
   $: haveRemainingDecisions = !story[storyNode].final;
+  $: showDecisions = !currentlyTyping && haveRemainingDecisions;
   $: currentPage = story[storyNode];
   $: if(typeof(window) !== 'undefined') {
     window.history.pushState( '', '', `${window.location.pathname}?storyNode=${storyNode}`);
   }
 
-  const skipTyping = () =>  typer.skipTyping();
-
-  const endTyping = (event) => {
-    window.scrollBy({ top: document.body.scrollHeight, behavior: "smooth" });
-
-    showDecisions = true;
+  const skipTyping = () =>  {
+    typer.skipTyping();
     currentlyTyping = false;
+  }
+
+  const typingHasFinished = () => {
+    window.scrollBy({ top: document.body.scrollHeight, behavior: "smooth" });
     dispatch('end');
   }
 
@@ -99,18 +98,17 @@
       width: fit-content;
     }
   }
-
 </style>
 
 <section class="adventure">
   {#if title}
-    <h3 on:click={skipTyping}>{title}</h3>
+    <h3>{title}</h3>
   {/if}
 
   {#if currentPage}
     <TypeText
       bind:this={typer}
-      on:end={endTyping}
+      on:end={typingHasFinished}
       typingSpeed={0}
       jitter={80}
       paragraphPause={600}
@@ -118,9 +116,8 @@
     />
   {/if}
 
-  {#if haveRemainingDecisions }
+  {#if showDecisions }
     <nav in:fade>
-      { console.log(haveRemainingDecisions)}
       {#each currentPage.decisions as {storyNode, label}}
         <Button
           on:click={() => setNextPage(storyNode)}
