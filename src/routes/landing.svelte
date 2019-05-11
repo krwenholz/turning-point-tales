@@ -87,6 +87,15 @@
       transform: none;
       max-width: 50%;
     }
+
+    nav {
+      width: 100%;
+      display: flex;
+    }
+
+    nav :global(.button) {
+      width: fit-content;
+    }
   }
 </style>
 
