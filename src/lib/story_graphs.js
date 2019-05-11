@@ -1,6 +1,11 @@
 import * as d3 from 'd3';
 import 'd3-selection-multi';
 
+// TODO(kyle): Get the damn labels working in FF
+// TODO(kyle): make the SVG panable/scrollable
+// TODO(kyle): better default layout
+// TODO(kyle): truncated labels
+
 /**
  * Starts a story graph animation on the specificed svg and for the given data.
  *
