@@ -5,7 +5,7 @@
 
   let typingEnd = false;
 
-  const redirect = (href, storyNode) => (
+  const redirect = (href, storyNode) => () => (
     window.location = `${href}?storyNode=${storyNode}`
   );
 </script>
@@ -95,7 +95,7 @@
     <h1>Adventures you choose, tales you get lost in.</h1>
     <div class="prompt" in:fade>
       <TypeText
-        on:typingEnd={() => typingEnd = true}
+        on:end={() => typingEnd = true}
         typingSpeed={0}
         jitter={'100'}
         text={[`On an intergalatic startship, traveling at half the speed of light, one man sat bored to death in his stuffy office.`]}
@@ -109,13 +109,13 @@
   {#if typingEnd}
   <nav transition:fade >
     <Button
-      on:click={() => redirect("/teaser-story", "banks")}
+      on:click={redirect("/teaser-story", "banks")}
       text="A day in the life of Mr. Banks"
     />
 
     <Button
       text="Becoming a patreon"
-      on:click={() => redirect("/teaser-story", "patreon")}
+      on:click={redirect("/teaser-story", "patreon")}
     />
   </nav>
   {/if}

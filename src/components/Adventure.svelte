@@ -4,6 +4,9 @@
   import CrossOut from './icons/CrossOut.html';
   import TypeText from './TypeText.svelte';
   import { fade } from '../lib/Transition';
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
 
   export let currentlyTyping =  true;
   export let showDecisions = false;
@@ -14,23 +17,20 @@
   let typer;
   let scrollY;
 
+  $: haveRemainingDecisions = !story[storyNode].final;
   $: currentPage = story[storyNode];
   $: if(typeof(window) !== 'undefined') {
     window.history.pushState( '', '', `${window.location.pathname}?storyNode=${storyNode}`);
   }
 
-  const skipTyping = () => {
-    typer.skipTyping();
-  }
+  const skipTyping = () =>  typer.skipTyping();
 
-  function endTyping(event) {
+  const endTyping = (event) => {
+    window.scrollBy({ top: document.body.scrollHeight, behavior: "smooth" });
+
     showDecisions = true;
     currentlyTyping = false;
-    if(typeof(window) !== 'undefined') {
-      // TODO(kyle): Not working for some, likely dumb, reason
-      console.info('scrolling',document.body.scrollHeight )
-      window.scrollBy({ top: document.body.scrollHeight, behavior: "smooth" });
-    }
+    dispatch('end');
   }
 
   function setNextPage(nextStoryNode) {
@@ -118,8 +118,9 @@
     />
   {/if}
 
-  {#if showDecisions}
+  {#if haveRemainingDecisions }
     <nav in:fade>
+      { console.log(haveRemainingDecisions)}
       {#each currentPage.decisions as {storyNode, label}}
         <Button
           on:click={() => setNextPage(storyNode)}

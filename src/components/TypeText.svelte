@@ -14,8 +14,8 @@
   let interval = null;
 
   $: if(text) {
-    if(interval === null) startTyping();
-    else if (interval.stopped()) interval.stop(() => startTyping());
+     if(interval === null) startTyping();
+     else if (interval.stopped()) interval.stop(() => startTyping());
   }
 
   const getTypingSpeed = () => {
@@ -34,11 +34,15 @@
   };
 
   export const skipTyping = () => {
+    typedText = getChars().join('');
+
     interval.stop(() => {
-      typedText = getChars().join(''),
+      typedText = getChars().join('');
       dispatch('end');
     });
   };
+
+  const typingEnd = (interval) => interval.stop(() => dispatch('end'));
 
   export const startTyping = () => {
     typedText = '';
@@ -60,12 +64,6 @@
       typedText = typedText + char;
 
     }, getTypingSpeed());
-  };
-
-  const typingEnd = (interval) => {
-    interval.stop();
-
-    return dispatch('end', {});
   };
 </script>
 
