@@ -100,6 +100,7 @@ your decision tree and even experience the whole thing at the bottom of this pag
     <Adventure
       {storyNode}
       {story}
+      enableScroll={false}
       title="Self titled adventure: Number One"
       />
   </section>

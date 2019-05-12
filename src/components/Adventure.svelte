@@ -35,7 +35,9 @@
   }
 
   const setNextPage =(nextStoryNode) => {
-    window.scrollTo(0, 0);
+    if (enableScroll) {
+      window.scrollTo(0, 0);
+    }
     storyNode = nextStoryNode;
     currentlyTyping = showTypingAnimation;
   }
