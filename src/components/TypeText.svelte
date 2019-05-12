@@ -75,8 +75,8 @@
 
 <style>
   .type-text {
-    width: 80ch;
-    max-width: 90%;
+    width: 90%;
+    max-width: 80ch;
   }
 </style>
 

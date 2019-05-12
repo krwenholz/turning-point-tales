@@ -35,16 +35,23 @@
 
   .workbench {
     display: flex;
+    flex-flow: column;
+    min-height: 80vh;
   }
 
   .story-editor {
-    min-height: 80vh;
-    width: 80ch;
-    margin-right: 40px;
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .story-editor textarea {
+    flex: 1;
   }
 
   .story-preview {
-    width: 100%;
+    flex: 1;
   }
 
   .story-graph {
@@ -69,6 +76,12 @@
     stroke-opacity: .6;
     stroke-width: 1px;
   }
+
+  @media only screen and (min-width: 1150px) {
+    .workbench {
+      flex-flow: row;
+    }
+  }
 </style>
 
 <svelte:head>
@@ -79,9 +92,9 @@
 your decision tree and even experience the whole thing at the bottom of this page.</p>
 
 <section class='workbench'>
-  <article>
+  <article class="story-editor">
     <h2 on:click={ e => console.log(e) }>Edit your story</h2>
-    <textarea class="story-editor" rows="30" bind:value={storyText}></textarea>
+    <textarea rows="30" bind:value={storyText}></textarea>
     <button class="loader" on:click={load}>Load</button>
   </article>
 
