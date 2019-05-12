@@ -1,11 +1,13 @@
 <script>
   export let className = '';
   export let checked = false;
+  export let name = '';
   export let onChange;
 </script>
 
 <style>
-  .checkbox {
+  /* Customize the label (the container) */
+  .radio {
     display: block;
     position: relative;
     cursor: pointer;
@@ -14,7 +16,7 @@
     width: 26px;
   }
 
-  .checkbox input {
+  .radio input {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -26,41 +28,41 @@
   .box {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     border: 2px solid var(--root-color-accent);
-    border-radius: var(--root-border-radius);
+    border-radius: 100%;
   }
 
-  .checkbox input:checked ~ .mark {
+  .radio input:checked ~ .center-circle {
     opacity: 1;
     transition: all .2s ease-out;
   }
 
-  .checkbox .mark {
+  .radio .center-circle {
+    content: "";
     opacity: 0;
-    visibility: none;
     position: absolute;
-    top: 6px;
-    left: 10px;
-    width: 7px;
-    height: 12px;
-    margin: 0;
-    border: solid var(--root-color-accent);
-    border-width: 0 3px 3px 0;
+    top: 50%;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    transform: translate(-50%, -50%);
+    background-color: var(--root-color-accent);
     transition: all .2s ease-out;
-    transform: rotate(45deg);
+    border-radius: 100%;
   }
 </style>
 
-<label class="checkbox">
+<label class="radio">
   <input
     {className}
+    {name}
     {checked}
     on:click={onChange}
-    type="checkbox"
+    type="radio"
   />
   <div class="box" />
-  <div class="mark" />
+  <div class="center-circle" />
 </label>
