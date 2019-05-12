@@ -27,13 +27,13 @@
 
     story = uncheckedStory;
     if(simulation) simulation.stop();
-    simulation = graph(story, "svg.visual-story");
+    simulation = graph(story, "svg.story-graph");
   }
 </script>
 
 <style>
 
-  .editor {
+  .workbench {
     display: flex;
   }
 
@@ -43,18 +43,14 @@
     margin-right: 40px;
   }
 
-  aside {
+  .story-preview {
     width: 100%;
   }
 
-  .visual-story {
+  .story-graph {
     width: 100%;
     min-height: 60vh;
     border: solid;
-  }
-
-  .editor :global(.adventure) {
-    min-height: 70vh;
   }
 
   .loader {
@@ -68,7 +64,7 @@
 
   /* Need a nasty global here because it's unused until later and we don't want svelte
      stripping it*/
-  :global(svg.visual-story .link) {
+  :global(svg.story-graph .link) {
     stroke: #999;
     stroke-opacity: .6;
     stroke-width: 1px;
@@ -82,26 +78,26 @@
 <p>Time to experiment. Go ahead and mess around with the example story. You can draw out
 your decision tree and even experience the whole thing at the bottom of this page.</p>
 
-<section class='editor'>
+<section class='workbench'>
   <article>
-    <h2>Edit your story</h2>
+    <h2 on:click={ e => console.log(e) }>Edit your story</h2>
     <textarea class="story-editor" rows="30" bind:value={storyText}></textarea>
     <button class="loader" on:click={load}>Load</button>
   </article>
 
-  <aside>
-    <h2>Preview</h2>
-    <svg class="visual-story"></svg>
-  </aside>
-</section>
-
-{#if story && storyNode}
-  <section class='experience'>
+  <aside class='story-preview'>
     <Adventure
       {storyNode}
       {story}
       enableScroll={false}
       title="Self titled adventure: Number One"
-      />
-  </section>
+    />
+  </aside>
+</section>
+
+{#if story && storyNode}
+<section>
+  <h2>Preview</h2>
+  <svg class="story-graph"></svg>
+</section>
 {/if}
