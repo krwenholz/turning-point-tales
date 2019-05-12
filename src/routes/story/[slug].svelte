@@ -32,4 +32,8 @@
   <title>{title}</title>
 </svelte:head>
 
-<Adventure {storyNode} {story} {title} />
+<Adventure
+  {storyNode}
+  {story}
+  {title}
+/>

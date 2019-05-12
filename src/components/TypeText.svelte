@@ -7,6 +7,7 @@
   export let jitter = 0;
   export let typedText = '';
   export let text = '';
+  export let showTypingAnimation = true;
   export let typingSpeed = 0;
   export let linebreakPause = 0;
   export let paragraphPause = 0;
@@ -15,8 +16,13 @@
 
   $: if(text) {
      if(interval === null) startTyping();
+     if(!showTypingAnimation) typeWithoutAnimation();
      else if (interval.stopped()) interval.stop(() => startTyping());
   }
+
+  const typeWithoutAnimation = () => {
+    skipTyping();
+  };
 
   const getTypingSpeed = () => {
     return typingSpeed + floor(random() * jitter);
