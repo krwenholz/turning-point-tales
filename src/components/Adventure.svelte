@@ -3,42 +3,48 @@
   import Button from './Button.svelte';
   import CrossOut from './icons/CrossOut.html';
   import TypeText from './TypeText.svelte';
+  import Checkbox from '../components/Form/Checkbox.svelte';
   import { fade } from '../lib/Transition';
+  import { createEventDispatcher } from 'svelte';
 
+  const dispatch = createEventDispatcher();
+
+  export let showTypingAnimation = true;
+  export let enableScroll = true;
   export let currentlyTyping =  true;
-  export let showDecisions = false;
-  export let story;
   export let storyNode = 'start';
+  export let story;
   export let title;
 
   let typer;
-  let scrollY;
 
+  $: haveRemainingDecisions = !story[storyNode].final;
   $: currentPage = story[storyNode];
   $: if(typeof(window) !== 'undefined') {
     window.history.pushState( '', '', `${window.location.pathname}?storyNode=${storyNode}`);
   }
 
-  const skipTyping = () => {
-    typer.skipTyping();
-  }
+  const skipTyping = () => typer.skipTyping()
 
-  function endTyping(event) {
-    showDecisions = true;
-    currentlyTyping = false;
-    if(typeof(window) !== 'undefined') {
-      // TODO(kyle): Not working for some, likely dumb, reason
-      console.info('scrolling',document.body.scrollHeight )
-      window.scrollBy({ top: document.body.scrollHeight, behavior: "smooth" });
+  const typingHasFinished = () => {
+    if(showTypingAnimation && enableScroll) {
+      window.scrollBy({top: document.body.scrollHeight, behavior: "smooth"});
     }
+    currentlyTyping = false;
+    dispatch('end');
   }
 
-  function setNextPage(nextStoryNode) {
-    window.scrollTo(0, 0);
-
+  const setNextPage =(nextStoryNode) => {
+    if (enableScroll) {
+      window.scrollTo(0, 0);
+    }
     storyNode = nextStoryNode;
-    showDecisions = false;
-    currentlyTyping = true;
+    currentlyTyping = showTypingAnimation;
+  }
+
+  const toggleAutoSkip = () => {
+    showTypingAnimation = !showTypingAnimation
+    currentlyTyping = showTypingAnimation;
   }
 </script>
 
@@ -57,6 +63,21 @@
     flex-flow: column;
     justify-content: flex-start;
     align-items: center;
+  }
+
+  header {
+    display: flex;
+    flex-flow: column;
+    margin-bottom: 24px;
+  }
+
+  header span {
+    display: flex;
+    justify-content: center;
+  }
+
+  header :global(.checkbox) {
+    margin-right: 16px;
   }
 
   nav {
@@ -99,18 +120,24 @@
       width: fit-content;
     }
   }
-
 </style>
 
 <section class="adventure">
   {#if title}
-    <h3 on:click={skipTyping}>{title}</h3>
+    <header>
+      <h3>{title}</h3>
+      <span>
+        <Checkbox checked={!showTypingAnimation} onChange={toggleAutoSkip} />
+        auto-skip
+      </span>
+    </header>
   {/if}
 
   {#if currentPage}
     <TypeText
       bind:this={typer}
-      on:end={endTyping}
+      on:end={typingHasFinished}
+      {showTypingAnimation}
       typingSpeed={0}
       jitter={80}
       paragraphPause={600}
@@ -118,7 +145,7 @@
     />
   {/if}
 
-  {#if showDecisions}
+  {#if !currentlyTyping && haveRemainingDecisions }
     <nav in:fade>
       {#each currentPage.decisions as {storyNode, label}}
         <Button

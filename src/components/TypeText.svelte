@@ -7,6 +7,7 @@
   export let jitter = 0;
   export let typedText = '';
   export let text = '';
+  export let showTypingAnimation = true;
   export let typingSpeed = 0;
   export let linebreakPause = 0;
   export let paragraphPause = 0;
@@ -14,9 +15,14 @@
   let interval = null;
 
   $: if(text) {
-    if(interval === null) startTyping();
-    else if (interval.stopped()) interval.stop(() => startTyping());
+     if(interval === null) startTyping();
+     if(!showTypingAnimation) typeWithoutAnimation();
+     else if (interval.stopped()) interval.stop(() => startTyping());
   }
+
+  const typeWithoutAnimation = () => {
+    skipTyping();
+  };
 
   const getTypingSpeed = () => {
     return typingSpeed + floor(random() * jitter);
@@ -34,11 +40,15 @@
   };
 
   export const skipTyping = () => {
+    typedText = getChars().join(''); // clear before event loop;
+
     interval.stop(() => {
-      typedText = getChars().join(''),
+      typedText = getChars().join(''); // clear after event loop;
       dispatch('end');
     });
   };
+
+  const typingEnd = () => interval.stop(() => dispatch('end'));
 
   export const startTyping = () => {
     typedText = '';
@@ -48,7 +58,7 @@
     // really need to find a simpler way to do this...
     interval = setDynamicInterval(() => {
       if (!chars.length) {
-        return typingEnd(interval);
+        return typingEnd();
       }
 
       const char = chars.shift();
@@ -60,12 +70,6 @@
       typedText = typedText + char;
 
     }, getTypingSpeed());
-  };
-
-  const typingEnd = (interval) => {
-    interval.stop();
-
-    return dispatch('end', {});
   };
 </script>
 

@@ -23,13 +23,17 @@
 
   export let story;
   export let title;
-  let storyNode = typeof($page.query.storyNode) === 'undefined' ? 'start' : $page.query.storyNode;
 
-  console.log(storyNode)
+  let storyNode = $page.query.storyNode;
+
 </script>
 
 <svelte:head>
   <title>{title}</title>
 </svelte:head>
 
-<Adventure {storyNode} {story} {title} />
+<Adventure
+  {storyNode}
+  {story}
+  {title}
+/>
