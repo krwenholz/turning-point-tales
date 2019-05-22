@@ -39,7 +39,7 @@ const graph = (storyData, svgSelector) => {
 
   const graph = graphFrom(storyData);
 
-  startAnimation(svg, simulation, graph);
+  startAnimation(svg, simulation, graph, width, height);
 
   return simulation;
 }
@@ -118,7 +118,7 @@ const graphFrom = (storyData) => {
   }
 }
 
-const startAnimation = (svg, simulation, graph) => {
+const startAnimation = (svg, simulation, graph, width, height) => {
   // First define animation functions
   const dragstarted = (d) => {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -228,7 +228,17 @@ const startAnimation = (svg, simulation, graph) => {
     });
 
     // Nodes get a nice translate motion
-    node.attr("transform", (d) => `translate(${d.x}, ${d.y})`);
+    node.attr("transform", (d) => {
+      let x = d.x;
+      if (x > width) x = width;
+      if (x < 0) x = 0;
+
+      let y = d.y;
+      if (y > height) y = height;
+      if (y < 0) y = 0;
+
+      return `translate(${x}, ${y})`;
+    });
 
     // Adjust the linkPath position and box size so we can work on the text label within that
     linkPath.attr("d", (d) => `M ${d.source.x} ${d.source.y} L ${d.target.x} ${d.target.y}`);

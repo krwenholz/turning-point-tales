@@ -56,7 +56,7 @@
 
   .story-graph {
     width: 100%;
-    min-height: 60vh;
+    min-height: 80vh;
     border: solid;
   }
 
