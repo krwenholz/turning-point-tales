@@ -38,8 +38,9 @@ const graph = (storyData, svgSelector) => {
   defineArrows(svg);
 
   const graph = graphFrom(storyData);
+  setStartPosition(graph, height, width);
 
-  startAnimation(svg, simulation, graph, width, height);
+  startAnimation(svg, simulation, graph, height, width);
 
   return simulation;
 }
@@ -118,21 +119,35 @@ const graphFrom = (storyData) => {
   }
 }
 
-const startAnimation = (svg, simulation, graph, width, height) => {
+const setStartPosition = (graph, height, width) => {
+  for (const node of graph.nodes) {
+    if (node.id !== "start") continue;
+
+    node.fx = width / 13;
+    node.fy = height / 2;
+    node.fixed = true;
+    return;
+  }
+}
+
+const startAnimation = (svg, simulation, graph, height, width) => {
   // First define animation functions
   const dragstarted = (d) => {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    if (d.fixed) return;
     d.fx = d.x;
     d.fy = d.y;
   }
 
   const dragged = (d) => {
+    if (d.fixed) return;
     d.fx = d3.event.x;
     d.fy = d3.event.y;
   }
 
   const dragended = (d) => {
     if (!d3.event.active) simulation.alphaTarget(0);
+    if (d.fixed) return;
     d.fx = null;
     d.fy = null;
   }
@@ -229,6 +244,8 @@ const startAnimation = (svg, simulation, graph, width, height) => {
 
     // Nodes get a nice translate motion
     node.attr("transform", (d) => {
+      if (d.fixed) return `translate(${d.fx}, ${d.fy})`;
+
       let x = d.x;
       if (x > width) x = width;
       if (x < 0) x = 0;
@@ -245,7 +262,7 @@ const startAnimation = (svg, simulation, graph, width, height) => {
 
     // Now rotate that label!
     // Use a function, because `this`
-    linkLabel.attr("transform", (d) => {
+    linkLabel.attr("transform", function(d) {
       if (d.target.x < d.source.x) {
         const bbox = this.getBBox();
         const rx = bbox.x + bbox.width / 2;
