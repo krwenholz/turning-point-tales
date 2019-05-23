@@ -8,7 +8,6 @@ const colors = d3.scaleOrdinal(d3.schemeCategory10);
 // TODO(kyle): Get the damn labels working in FF
 // TODO(kyle): make the SVG panable/scrollable
 // TODO(kyle): better default layout
-// TODO(kyle): truncated labels
 
 // Sources of inspiration
 // start: https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7
@@ -38,7 +37,7 @@ const graph = (storyData, svgSelector) => {
   defineArrows(svg);
 
   const graph = graphFrom(storyData);
-  setStartPosition(graph, height, width);
+  setStartPositions(graph, height, width);
 
   startAnimation(svg, simulation, graph, height, width);
 
@@ -75,27 +74,33 @@ const defineArrows = (svg) => {
 
 const graphFrom = (storyData) => {
   const toVisit = [{
+    depth: 0,
+    node: storyData.start,
     title: "start",
-    node: storyData.start
   }]
   const visited = new Set([]);
-  const nodes = []; // name, id
+  const nodes = {}; // name, id
   const links = []; // source, target, label
+  let totalDepth = 0;
 
   while (toVisit.length) {
     const {
       title,
-      node
+      node,
+      depth,
     } = toVisit.shift();
+
+    totalDepth = Math.max(totalDepth, depth);
 
     // Avoid loops
     if (visited.has(title)) continue;
-    visited.add(title);
 
-    nodes.push({
+    visited.add(title);
+    nodes[title] = {
+      depth,
+      id: title,
       name: title,
-      id: title
-    });
+    };
 
     const decisions = node.decisions || [];
     for (const decision of decisions) {
@@ -107,27 +112,48 @@ const graphFrom = (storyData) => {
         label: decision.label
       })
       toVisit.push({
+        depth: totalDepth + 1,
+        node: storyData[next],
         title: next,
-        node: storyData[next]
       })
     }
   }
 
   return {
-    nodes,
-    links
+    links,
+    depth: totalDepth,
+    nodes: Object.values(nodes),
   }
 }
 
-const setStartPosition = (graph, height, width) => {
-  for (const node of graph.nodes) {
-    if (node.id !== "start") continue;
+const setStartPositions = (graph, height, width) => {
+  const levelCounts = {};
+  const breadths = {};
+  const xSpacer = width / (graph.depth + 1);
 
-    node.fx = width / 13;
-    node.fy = height / 2;
-    node.fixed = true;
-    return;
+  for (const node of graph.nodes) {
+    if (breadths[node.depth] === undefined) breadths[node.depth] = depthBreadth(graph, node.depth);
+    const breadth = breadths[node.depth];
+
+    if (levelCounts[node.depth] === undefined) levelCounts[node.depth] = -1;
+    const levelNumber = levelCounts[node.depth] = levelCounts[node.depth] + 1;
+
+    node.fx = xSpacer * node.depth + xSpacer / 2;
+    const ySpacer = height / breadth;
+    node.fy = ySpacer * levelNumber + ySpacer / 2;
+    console.info(node, levelNumber, JSON.stringify(levelCounts));
+
+    if (node.id === "start") node.fixed = true;
   }
+}
+
+const depthBreadth = (graph, depth) => {
+  let breadth = 0;
+  for (const node of graph.nodes) {
+    if (node.depth === depth) breadth += 1;
+  }
+
+  return breadth;
 }
 
 const startAnimation = (svg, simulation, graph, height, width) => {
