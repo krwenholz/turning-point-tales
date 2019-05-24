@@ -220,7 +220,9 @@ const startAnimation = (svg, simulation, graph, height, width) => {
     });
 
   linkLabel.append("textPath")
-    .attr("xlink:href", (d, i) => `#linkpath${i}`)
+    // Sapper creates a `base` tag in the header, which screws up SVG refs in Firefox.
+    // The fix is to use an absolute reference with the window.
+    .attr("xlink:href", (d, i) => `${window.location}#linkpath${i}`)
     .style("text-anchor", "middle")
     .style("pointer-events", "none")
     .attr("startOffset", "50%")

@@ -43,10 +43,10 @@
       <span>Privacy Policy</span>
     </a>
     <a href="https://twitter.com/TPTales" target="_blank" rel="noopener noreferrer">
-      <img class="social" src="/social/twitter_circle.png">
+      <img alt="Twitter" class="social" src="/social/twitter_circle.png">
     </a>
     <a href="https://www.instagram.com/TurningPointTales/" target="_blank" rel="noopener noreferrer">
-      <img class="social" src="/social/instagram.png">
+      <img alt="Instagram" class="social" src="/social/instagram.png">
     </a>
   </nav>
 
