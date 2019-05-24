@@ -1,5 +1,7 @@
->  TODO(kyle): Politely point to TOS and Privacy policy on signup
 >  TODO(kyle): https://goaccess.io/ for log viewing
+>  TODO(kyle): share buttons
+>    https://gist.github.com/chrisjlee/5196139
+>  TODO(kyle): link buttons for facebook, twitter, instagram
 
 # To get started
 
