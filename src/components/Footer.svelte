@@ -50,5 +50,5 @@
     </a>
   </nav>
 
-  <span>&#169; How Hard Would It Be LLC</span>
+  <span>&#169; {new Date().getFullYear()} How Hard Would It Be LLC</span>
 </footer>
