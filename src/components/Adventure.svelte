@@ -1,27 +1,45 @@
 <script>
   import * as sapper from '@sapper/app';
+  import { onMount } from 'svelte';
   import Button from './Button.svelte';
   import CrossOut from './icons/CrossOut.html';
   import TypeText from './TypeText.svelte';
   import Checkbox from '../components/Form/Checkbox.svelte';
   import { fade } from '../lib/Transition';
   import { createEventDispatcher } from 'svelte';
-
-  const dispatch = createEventDispatcher();
+  import { localStorageStore } from '../lib/stores/localStorageStore';
+  import { writable } from 'svelte/store';
 
   export let showTypingAnimation = true;
   export let enableScroll = true;
   export let currentlyTyping =  true;
-  export let storyNode = 'start';
+  export let storageKey;
+  export let storyNode;
   export let story;
   export let title;
 
   let typer;
 
-  $: haveRemainingDecisions = !story[storyNode].final;
-  $: currentPage = story[storyNode];
-  $: if(typeof(window) !== 'undefined') {
-    window.history.pushState( '', '', `${window.location.pathname}?storyNode=${storyNode}`);
+  const storedStoryNode = storageKey ? localStorageStore(storageKey) : writable();
+  const dispatch = createEventDispatcher();
+
+  $: $storedStoryNode = findStartingPoint();
+  $: currentPage = story[$storedStoryNode];
+  $: haveRemainingDecisions = !story[$storedStoryNode].final;
+  $: if(currentPage) updateURL();
+
+  const updateURL = () => {
+    if(typeof(window) === 'undefined') return;
+
+    window.history.pushState( '', '', `${window.location.pathname}?storyNode=${$storedStoryNode}`)
+ };
+
+  const findStartingPoint = () => {
+    if(typeof(storyNode) === 'undefined') {
+      return $storedStoryNode || 'start'
+    }
+
+    return storyNode;
   }
 
   const skipTyping = () => typer.skipTyping()
@@ -38,7 +56,7 @@
     if (enableScroll) {
       window.scrollTo(0, 0);
     }
-    storyNode = nextStoryNode;
+    $storedStoryNode = nextStoryNode;
     currentlyTyping = showTypingAnimation;
   }
 
@@ -127,8 +145,9 @@
     <header>
       <h3>{title}</h3>
       <span>
-        <Checkbox checked={!showTypingAnimation} onChange={toggleAutoSkip} />
-        auto-skip
+        <Checkbox checked={!showTypingAnimation} onChange={toggleAutoSkip} >
+          <span>auto-skip</span>
+        </Checkbox>
       </span>
     </header>
   {/if}

@@ -18,6 +18,7 @@
 <script>
   import Adventure from '../../components/Adventure.svelte';
   import * as sapper from '@sapper/app';
+  import { MAIN_ADVENTURE } from '../../lib/stores/localStorageStore';
 
   const { page } = sapper.stores();
 
@@ -36,4 +37,5 @@
   {storyNode}
   {story}
   {title}
+  storageKey={MAIN_ADVENTURE}
 />

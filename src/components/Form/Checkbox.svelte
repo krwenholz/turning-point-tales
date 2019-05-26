@@ -6,17 +6,14 @@
 
 <style>
   .checkbox {
-    display: block;
+    display: flex;
     position: relative;
+    align-items: center;
     cursor: pointer;
     user-select: none;
-    height: 26px;
-    width: 26px;
   }
 
-  .checkbox input {
-    width: 100%;
-    height: 100%;
+  input {
     position: absolute;
     opacity: 0;
     margin: 0;
@@ -24,23 +21,15 @@
   }
 
   .box {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border: 2px solid var(--root-color-accent);
+    height: 26px;
+    width: 26px;
+    border: 1px solid var(--root-color-accent);
     border-radius: var(--root-border-radius);
   }
 
-  .checkbox input:checked ~ .mark {
-    opacity: 1;
-    transition: all .2s ease-out;
-  }
-
-  .checkbox .mark {
+  .mark {
     opacity: 0;
-    visibility: none;
+    visibility: hidden;
     position: absolute;
     top: 6px;
     left: 10px;
@@ -48,19 +37,29 @@
     height: 12px;
     margin: 0;
     border: solid var(--root-color-accent);
-    border-width: 0 3px 3px 0;
+    border-width: 0 2px 2px 0;
     transition: all .2s ease-out;
     transform: rotate(45deg);
   }
+
+  input:checked ~ .mark {
+    opacity: 1;
+    visibility: visible;
+    transition: all .2s ease-out;
+  }
+
+  .checkbox :global(span) {
+    margin-left: 8px;
+  }
 </style>
 
-<label class="checkbox">
+<label class={`checkbox ${className}`}>
   <input
-    {className}
     {checked}
     on:click={onChange}
     type="checkbox"
   />
   <div class="box" />
   <div class="mark" />
+  <slot />
 </label>
