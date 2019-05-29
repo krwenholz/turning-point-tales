@@ -1,11 +1,15 @@
 const stories = [
   {
     id: 1,
+    author: "Kristopher C. Paulsen",
     title: "Mr. Banks",
     paid: true,
+    created: "2019-03-02T02:18:53.192Z",
+    modified: "2019-03-02T02:18:53.192Z",
+    tags: ["funny", "existential"],
+    preview: "Life onboard an intergalactic starship can be pretty dull",
+    previewPrompt: "Maybe it's time for a change...",
     content: {
-      preview: "Life onboard an intergalactic starship can be pretty dull",
-      previewPrompt: "Maybe it's time for a change...",
       start: {
         text: [
           "It was a beautiful summer’s day, 70 degrees, with scattered clouds and the occasional cool breeze. It had been that way every moment, of every day, for the last 5 years, save for the pre-scheduled rain burst at exactly 12:01 to 1:35. People had, and continued to be, very particular about the weather. Some wanted downpours, others a gentle trickle. It couldn’t occur in the early hours, or too late in the evening. Every drop was meticulously orchestrated and accounted for.",
@@ -299,9 +303,6 @@ const stories = [
       ],
       final: true,
     },
-    created: "2019-03-02T02:18:53.192Z",
-    modified: "2019-03-02T02:18:53.192Z",
-    tags: ["funny", "existential"]
   }
 ];
 

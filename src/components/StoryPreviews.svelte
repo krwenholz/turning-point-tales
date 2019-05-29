@@ -64,27 +64,26 @@
     align-items: center;
     color: var(--root-call-to-action);
   }
-
 </style>
 
 <section class="story-previews">
-  {#each stories as story}
+  {#each stories as { id, author, title, content, preview, previewPrompt, tags }}
     <article>
       <header>
         <h2>
-          {story.title}
+          {title}
         </h2>
-        <small>by Kristopher C. Paulsen</small>
+        <small>by {author}</small>
       </header>
       <div class="tags">
-        {#each story.tags as tag}
+        {#each tags as tag}
         <span class="tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
         {/each}
       </div>
-      <p>{story.content.preview}</p>
+      <p>{preview}</p>
       <Button
-        text="{story.content.previewPrompt}"
-        on:click={() => redirect(`/story/${story.id}`)}
+        text={previewPrompt}
+        on:click={() => redirect(`/story/${id}`)}
       />
     </article>
   {/each}
