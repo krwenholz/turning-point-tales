@@ -21,9 +21,32 @@
   }
 
   nav > * {
-    padding: var(--root-vertical-spacing);
+    padding: 16px 0 16px 0;
     text-decoration: none;
     align-items: center;
+  }
+
+  a:visited {
+    color: inherit;
+  }
+
+  h2 { margin: 0 0 0 8px; }
+
+  :global(svg) {
+    width: 24px;
+  }
+
+  .logo {
+    display: flex;
+    flex-flow: row;
+  }
+
+  .logo:hover {
+    font-weight: normal;
+  }
+
+  span {
+    margin-left: 8px;
   }
 
   .nav-vert {
@@ -72,15 +95,6 @@
     font-weight: bold;
   }
 
-  .logo {
-    display: flex;
-    flex-flow: row;
-  }
-
-  .logo span {
-    margin-left: 16px;
-  }
-
   .thumbnail {
     display: block;
     height: 44px;
@@ -93,7 +107,7 @@
   <nav>
     <a class="logo" href='/'>
       <Logo />
-      <span> Turning Point Tales </span>
+      <h2> Turning Point Tales </h2>
     </a>
     {#if $session.user}
     <div class="user-block">
@@ -108,7 +122,7 @@
     </div>
     {:else}
     <a href='auth/initiate_login' class="nav-vert">
-      <span>Login with Patreon</span>
+      <span>Login</span>
     </a>
     {/if}
   </nav>

@@ -33,7 +33,6 @@
     padding-top: calc(var(--root-wrapper-padding) * 2);
     padding-bottom: calc(var(--root-wrapper-padding) * 2);
   }
-
 </style>
 
 <Header/>
