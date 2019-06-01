@@ -15,6 +15,7 @@ with the `DATABASE_URL` environment variable. You can grab the Heroku one with
 
 Set this before starting the server and you should be good to go.
 
+
 # Deploy
 All of this is in our CircleCI file as well :)
 
