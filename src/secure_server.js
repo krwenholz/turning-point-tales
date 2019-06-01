@@ -5,7 +5,6 @@ import config from 'config';
 // https://sapper.svelte.technology/guide#security
 
 const allowedBaseRoutes = [
-  '/',
   '/example-story',
   '/teaser-story',
   '/landing',
