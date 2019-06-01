@@ -19,5 +19,13 @@ module.exports = {
     },
     tiers: ['Townsperson', 'Wanderer'],
     redirect: `${dev ? 'http' : 'https'}://${process.env['HOST']}${dev ? `:3000` : ''}/auth/login`,
+  },
+  aws: {
+    default: {
+      pool: "us-west-2_6RIUuSyYT",
+      client: "7ivflre6q9lfp0k71mn7806qj7",
+    },
+    production: {
+    }
   }
 }
