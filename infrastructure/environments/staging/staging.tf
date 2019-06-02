@@ -20,5 +20,4 @@ module "project" {
   source = "../../project"
 
   stage = "staging"
-  reply_to = "ourfirstbigthing@h2wib.com"
 }

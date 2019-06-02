@@ -22,8 +22,6 @@ module.exports = {
   },
   aws: {
     default: {
-      pool: "us-west-2_6RIUuSyYT",
-      client: "7ivflre6q9lfp0k71mn7806qj7",
     },
     production: {
     }
