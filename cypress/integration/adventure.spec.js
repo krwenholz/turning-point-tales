@@ -1,6 +1,6 @@
 describe('Adventure', () => {
   beforeEach(() => {
-    cy.fakeLogin();
+    cy.logIn();
   });
 
   it('defaults to "start" for storyNode if not provided, and no local storage', () => {

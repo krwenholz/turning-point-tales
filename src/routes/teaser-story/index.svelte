@@ -18,38 +18,6 @@
   const redirect = href => () => window.location = href;
 </script>
 
-<section class="teaser-story">
-  <Adventure
-    {storyNode}
-    story={teaserStory}
-    title=""
-    on:end={() => showDecisions = true }
-  />
-
-  {#if showDecisions }
-  <nav transition:fade >
-    <Button
-      text="Learn about us"
-      on:click={ redirect('/about') }
-    >
-      <div slot="icon">
-          <Book />
-      </div>
-    </Button>
-
-    <Button
-      text="Become a patron!"
-      on:click={ redirect('/auth/initiate_login') }
-    >
-      <div slot="icon">
-        <Patreon />
-      </div>
-    </Button>
-  </nav>
-  {/if}
-
-</section>
-
 <style>
   .teaser-story {
     width: 100%;
@@ -71,3 +39,35 @@
 <svelte:head>
   <title>teaser-story</title>
 </svelte:head>
+
+<section class="teaser-story">
+  <Adventure
+    {storyNode}
+    story={teaserStory}
+    title=""
+    on:end={() => showDecisions = true }
+  />
+
+  {#if showDecisions }
+  <nav transition:fade >
+    <Button
+      text="Learn about us"
+      on:click={ redirect('/about') }
+    >
+      <div slot="icon">
+          <Book />
+      </div>
+    </Button>
+
+    <Button
+      text="Create an account!"
+      on:click={ redirect('/user/create') }
+    >
+      <div slot="icon">
+        <Patreon />
+      </div>
+    </Button>
+  </nav>
+  {/if}
+
+</section>

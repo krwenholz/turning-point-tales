@@ -17,12 +17,12 @@ describe('unauthenticated redirects', () => {
 
 describe('authenticated', () => {
   it('redirects to root after login', () => {
-    cy.fakeLogin()
-    .url().should('match', /\/$/)
+    cy.logIn()
+    .url().should('contain', '/?user=set&data=')
   });
 
   it('should be able to access auth-only pages', () => {
-    cy.fakeLogin()
+    cy.logIn()
     .visit('/story/1')
     .url().should('match', /\/story\/1/)
   })

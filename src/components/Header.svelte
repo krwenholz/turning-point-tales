@@ -1,8 +1,8 @@
 <script>
   import Logo from './icons/Logo.html';
-  import * as sapper from '@sapper/app';
+  import { stores } from '@sapper/app';
 
-  const { session } = sapper.stores();
+  const { session } = stores();
 </script>
 
 <style>
@@ -113,7 +113,7 @@
     <div class="user-block">
       <img class="thumbnail" src={$session.user.patreonThumbUrl} alt="{$session.user.firstName}">
       <div class="menu">
-        <h3 class="tier">{$session.user.firstName} the {$session.user.tier}</h3>
+        <h3 class="tier">{$session.user.firstName}</h3>
         <ul>
           <li><a href='auth/logout'>Logout</a></li>
           <li><a href='https://www.patreon.com/join/turningpointtales/checkout'>Adjust contribution</a></li>
@@ -121,7 +121,7 @@
       </div>
     </div>
     {:else}
-    <a data-cy="test-login-hook" href='auth/initiate_login' class="nav-vert">
+    <a data-cy="test-login-hook" href='/user/login' class="nav-vert">
       <span>Login</span>
     </a>
     {/if}

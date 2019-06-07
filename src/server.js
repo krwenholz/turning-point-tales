@@ -1,24 +1,29 @@
 import * as sapper from '@sapper/server';
 import Logger from 'js-logger';
+import bodyParser from 'body-parser';
 import compression from 'compression';
 import config from 'config';
-import cookieSession from 'cookie-session';
 import cookieParser from 'cookie-parser';
+import passport from 'passport';
+import securePassword from 'secure-password';
+import { Strategy as LocalStrategy } from 'passport-local';
+import session from 'express-session';
 import csurf from 'csurf';
 import express from 'express';
 import sirv from 'sirv';
+import { initPassport } from './authentication';
 import {
   Store
 } from 'svelte/store.js';
 import {
   initLogging,
-  logRequest,
-  logSession
+  logRequestMiddleware,
+  logSessionMiddleware
 } from './logging';
 import {
-  protectNonDefaultRoutes,
-  requireHTTPS
-} from './secure_server';
+  requireHttps
+} from './lib/require_https';
+import { exposeCsrfMiddleware } from './lib/csrf';
 
 initLogging();
 const dev = config.get('dev');
@@ -31,9 +36,13 @@ if (!config.get('dev')) {
   app.set('trust proxy', 1); // trust first proxy
 }
 
+initPassport();
+
 const middleware = [
-  logRequest,
-  requireHTTPS,
+  bodyParser.urlencoded({ extended: false}),
+  bodyParser.json(),
+  logRequestMiddleware,
+  requireHttps,
   compression({
     threshold: 0
   }),
@@ -43,26 +52,44 @@ const middleware = [
     immutable: true
   }),
   cookieParser(process.env.SECRET),
-  cookieSession({
-    domain: config.get('server.domain'),
-    httpOnly: true,
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    name: 'session-' + config.get('server.domain'),
-    sameSite: 'lax',
+  session({
+    resave: true,
+    saveUninitialized: false,
     secret: process.env.SECRET,
-    secure: !config.get('dev'),
+    cookie: {
+      domain: config.get('server.domain'),
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      name: 'session-' + config.get('server.domain'),
+      // TODO(kyle): Custom logins probably mean this can be strict
+      sameSite: 'lax',
+      secure: !config.get('dev'),
+    }
   }),
-  csurf(),
-  logSession,
-  protectNonDefaultRoutes,
+  csurf({
+    cookie: {
+      domain: config.get('server.domain'),
+      httpOnly: true,
+      key: 'session-' + config.get('server.domain'),
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      sameSite: 'lax',
+      secure: !config.get('dev'),
+    }
+  }),
+  exposeCsrfMiddleware,
+  passport.initialize(),
+  passport.session(),
+  passport.authenticationMiddleware(),
+  logSessionMiddleware,
   sapper.middleware({
     session: (req) => ({
-      user: req.cookies.user,
+      firstName: req.session.firstName,
+      email: req.session.email,
+      id: req.session.id,
     }),
   }),
 ];
 
-// TODO(kyle): Would be better to return an error code and serve the error page
 app.use(...middleware)
   .listen(config.get('server.port'), (err) => {
     if (err) {

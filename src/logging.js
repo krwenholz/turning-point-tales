@@ -9,23 +9,23 @@ import config from 'config';
 // https://www.tddapps.com/2016/10/16/how-to-forward-your-heroku-logs-to-aws-cloudwatch-for-free/
 // https://goaccess.io/get-started
 
-function initLogging() {
+const initLogging = () => {
   Logger.useDefaults();
   Logger.setLevel((config.get('dev') ? Logger.DEBUG : Logger.INFO));
 }
 
-function logRequest(req, res, next) {
+const logRequestMiddleware = (req, res, next) => {
   Logger.debug(`Received [${req.method}] on [${req.url}]`);
   next();
 }
 
-function logSession(req, res, next) {
+const logSessionMiddleware = (req, res, next) => {
   if (config.get('logging.session')) Logger.info('Session logger:', req.session);
   next();
 }
 
 export {
   initLogging,
-  logRequest,
-  logSession
+  logRequestMiddleware,
+  logSessionMiddleware
 }

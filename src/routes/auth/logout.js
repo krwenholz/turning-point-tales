@@ -1,21 +1,21 @@
 import Logger from 'js-logger';
 import config from 'config';
 
-function get(req, res) {
-  if (req.session && req.session.patreonId) Logger.info('Logging out', req.session.patreonId);
+const get = (req, res) => {
+  if (req.isAuthenticated()) Logger.info('Logging out', req.user.id);
 
-  req.session = null;
+  req.logOut();
+  /**
+   * TODO(kyle): Add this back in to pass user information to our SPA
   res.clearCookie('user', {
     domain: config.get('server.domain'),
     httpOnly: false,
     sameSite: 'lax',
     secure: !config.get('dev'),
   });
+  */
 
-  res.writeHead(302, {
-    Location: '/?user=clear',
-    'Cache-Control': 'no-store'
-  });
+  res.redirect('/?user=clear');
   res.end();
 }
 

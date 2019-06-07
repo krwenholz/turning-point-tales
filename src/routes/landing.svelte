@@ -123,7 +123,7 @@
     />
 
     <Button
-      text="Becoming a patreon"
+      text="Join the adventure"
       on:click={redirect("/teaser-story", "patreon")}
     />
   </nav>
