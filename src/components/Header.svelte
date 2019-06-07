@@ -121,7 +121,7 @@
       </div>
     </div>
     {:else}
-    <a href='auth/initiate_login' class="nav-vert">
+    <a href='/user/login' class="nav-vert">
       <span>Login</span>
     </a>
     {/if}
