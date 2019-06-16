@@ -59,7 +59,7 @@ jobs:
     machine: true
     steps:
       - test-app:
-          url: $CYPRESS_BASE_URL_STAGING
+          url: https://ourfirstbigthing.howhardwoulditbe.com
 
   deploy-production:
     machine: true
