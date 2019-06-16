@@ -1,23 +1,24 @@
 version: 2.1
 commands:
-  init_deploy:
+  test-app:
+    parameters:
+      url:
+        type: string
     steps:
       - checkout
-      - attach_workspace:
-          at: /tmp/workspace
       - restore_cache:
           keys:
-            - build-python-{{ checksum "Pipfile.txt" }}
-            - build-python-
-      - run: |
-          python3 -m venv venv
-          . ./venv/bin/activate
-          pip install -r Pipfile.txt
+            - test-app-{{ checksum "package.json" }}
+      - run:
+          name: Cypress Tests
+          command: |
+            npm install
+            CYPRESS_BASE_URL=<< parameters.url >> npm run cy:run
       - save_cache:
-          key: build-python-{{ checksum "Pipfile.txt" }}
+          key: test-app-{{ checksum "package.json" }}
           paths:
-            - ./venv/
-
+            - ./
+            - ~/.cache
   deploy:
     parameters:
       app:
@@ -48,12 +49,17 @@ commands:
               -H "Accept: application/vnd.heroku+json; version=3.docker-releases"
 
 jobs:
-
   deploy-staging:
     machine: true
     steps:
       - deploy:
           app: our-first-big-thing
+
+  test-staging:
+    machine: true
+    steps:
+      - test-app:
+          url: $CYPRESS_BASE_URL_STAGING
 
   deploy-production:
     machine: true
@@ -61,17 +67,18 @@ jobs:
       - deploy:
           app: turning-point-tales
 
-
 workflows:
   version: 2.1
   ci:
     jobs:
       - deploy-staging
-      - deploy-production:
+      - test-staging:
           requires:
             - deploy-staging
+      - deploy-production:
+          requires:
+            - test-staging
           filters:
             branches:
               only:
                 - master
-

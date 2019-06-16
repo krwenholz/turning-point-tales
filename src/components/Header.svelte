@@ -121,7 +121,7 @@
       </div>
     </div>
     {:else}
-    <a href='auth/initiate_login' class="nav-vert">
+    <a data-cy="test-login-hook" href='auth/initiate_login' class="nav-vert">
       <span>Login</span>
     </a>
     {/if}

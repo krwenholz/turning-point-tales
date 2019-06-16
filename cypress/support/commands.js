@@ -23,3 +23,17 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+const getEncodedLogin = () => {
+  const date = new Date;
+  return Buffer.from(
+    `Cody and KC are cool guy. ${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`,
+  ).toString('base64');
+}
+
+Cypress.Commands.add('fakeLogin', () => {
+  cy.visit('/')
+  .get('[data-cy=test-login-hook]')
+  .invoke('attr', 'href', `/auth/fake_login?encodedLogin=${getEncodedLogin()}`)
+  .click({ force: true });
+});

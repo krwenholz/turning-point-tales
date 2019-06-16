@@ -4,7 +4,7 @@ import config from 'config';
 // TODO(kyle): configure different tiers with param
 // TODO(kyle): configure different tiers
 const allowed = (encodedLogin) => {
-  //if(config.get('dev')) return true;
+  if(config.get('dev')) return true;
 
   const date = new Date();
   const login = new Buffer(encodedLogin || '', 'base64').toString();
@@ -45,6 +45,7 @@ const get = (req, res) => {
   res.writeHead(302, {
     Location: '/'
   });
+
   res.end();
 }
 

@@ -30,7 +30,6 @@ const allowedPrefixes = [
 ];
 
 function protectNonDefaultRoutes(req, res, next) {
-
   const isProtected = !allowedBaseRoutes.includes(req.path)
     && !allowedPrefixes.some((prefix) => req.path.startsWith(prefix));
 
