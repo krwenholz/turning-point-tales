@@ -107,7 +107,7 @@
         on:end={() => typingEnd = true}
         typingSpeed={0}
         jitter={'100'}
-        text={[`On an intergalatic startship, traveling at half the speed of light, one man sat bored to death in his stuffy office.`]}
+        text={[`On an intergalatic starship, traveling at half the speed of light, one man sat bored to death in his stuffy office.`]}
       />
     </div>
   </div>
