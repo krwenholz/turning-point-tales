@@ -18,14 +18,18 @@
 <script>
   import Adventure from '../../components/Adventure.svelte';
   import * as sapper from '@sapper/app';
-  import { MAIN_ADVENTURE } from '../../lib/stores/localStorageStore';
-
-  const { page } = sapper.stores();
+  import { browserStore } from '../../lib/stores/browserStore';
+  import { safeWindow } from '../../lib/safeWindow';
+  import { MAIN_ADVENTURE } from '../../lib/stores/browserStore/preDefinedKeys';
 
   export let story;
   export let title;
 
-  let storyNode = $page.query.storyNode;
+  const { page } = sapper.stores();
+
+  const store = browserStore(MAIN_ADVENTURE, safeWindow.localStorage, {
+    storyNode: $page.query.storyNode
+  });
 
 </script>
 
@@ -34,8 +38,8 @@
 </svelte:head>
 
 <Adventure
-  {storyNode}
   {story}
   {title}
-  storageKey={MAIN_ADVENTURE}
+  store={store}
+  storyNode={$page.query.storyNode}
 />

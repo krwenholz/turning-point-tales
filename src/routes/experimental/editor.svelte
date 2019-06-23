@@ -10,7 +10,7 @@
   let simulation;
   let story = exampleStory;
   let storyText = yaml.safeDump(exampleStory);
-  let storyNode = typeof($page.query.storyNode) === 'undefined' ? 'start' : $page.query.storyNode;
+  let storyNode = $page.query.storyNode;
 
   const load = () => {
     let uncheckedStory;

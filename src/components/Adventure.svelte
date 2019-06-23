@@ -1,13 +1,12 @@
 <script>
   import * as sapper from '@sapper/app';
-  import { onMount } from 'svelte';
   import Button from './Button.svelte';
   import CrossOut from './icons/CrossOut.html';
   import TypeText from './TypeText.svelte';
   import Checkbox from '../components/Form/Checkbox.svelte';
   import { fade } from '../lib/Transition';
+  import { safeWindow } from '../lib/safeWindow';
   import { createEventDispatcher } from 'svelte';
-  import { localStorageStore } from '../lib/stores/localStorageStore';
   import { writable } from 'svelte/store';
 
   export let showTypingAnimation = true;
@@ -17,26 +16,27 @@
   export let storyNode;
   export let story;
   export let title;
-
+  export let store = writable({ storyNode: storyNode });
   let typer;
 
-  const storedStoryNode = storageKey ? localStorageStore(storageKey) : writable();
   const dispatch = createEventDispatcher();
 
-  $: $storedStoryNode = findStartingPoint();
-  $: currentPage = story[$storedStoryNode];
-  $: haveRemainingDecisions = !story[$storedStoryNode].final;
+  $: $store.storyNode = findStartingPoint();
+  $: currentPage = story[$store.storyNode];
+  $: haveRemainingDecisions = !story[$store.storyNode].final;
   $: if(currentPage) updateURL();
 
   const updateURL = () => {
-    if(typeof(window) === 'undefined') return;
-
-    window.history.pushState( '', '', `${window.location.pathname}?storyNode=${$storedStoryNode}`)
- };
+    safeWindow.history.pushState(
+      '',
+      '',
+      `${safeWindow.location.pathname}?storyNode=${$store.storyNode}`
+    )
+  };
 
   const findStartingPoint = () => {
     if(typeof(storyNode) === 'undefined') {
-      return $storedStoryNode || 'start'
+      return $store.storyNode || 'start'
     }
 
     return storyNode;
@@ -46,7 +46,7 @@
 
   const typingHasFinished = () => {
     if(showTypingAnimation && enableScroll) {
-      window.scrollBy({top: document.body.scrollHeight, behavior: "smooth"});
+      safeWindow.scrollBy({top: document.body.scrollHeight, behavior: "smooth"});
     }
     currentlyTyping = false;
     dispatch('end');
@@ -54,9 +54,9 @@
 
   const setNextPage =(nextStoryNode) => {
     if (enableScroll) {
-      window.scrollTo(0, 0);
+      safeWindow.scrollTo(0, 0);
     }
-    $storedStoryNode = nextStoryNode;
+    $store.storyNode = nextStoryNode;
     currentlyTyping = showTypingAnimation;
   }
 
