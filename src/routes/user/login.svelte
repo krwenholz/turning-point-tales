@@ -52,7 +52,7 @@
 
 {#if $page.query.error === 'unknown'}
 <section class="errors text">
-  <p>An unknown error occurred submitting your request. Please try again or contact
+  <p>An unknown error occurred! Please try again or contact
   <a href="mailto:support@turningpointtales.com">support@turningpointtales.com</a>.</p>
 </section>
 {/if}

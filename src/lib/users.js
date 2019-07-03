@@ -49,7 +49,7 @@ const addUser = (firstName, email, password) => {
     .then(user => {
       return Promise.reject('USER_EXISTS');
     }).catch(error => {
-      if(error !== 'NOT_FOUND') return Promise.reject(error);
+      if (error !== 'NOT_FOUND') return Promise.reject(error);
       const user = {
         email: email,
         firstName: firstName,
