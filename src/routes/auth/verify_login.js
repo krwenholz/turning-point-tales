@@ -7,8 +7,8 @@ import { Strategy as LocalStrategy } from 'passport-local';
 const post = (req, res, next) => {
   passport.authenticate('local',
     (err, user, info) => {
-      if (err) return next(err);
-      if (!user) return res.redirect('/login');
+      if (err) return res.redirect('/user/create?error=unknown');
+      if (!user) return res.redirect('/user/create?error=unknown');
 
       req.logIn(user, (err) => {
         if (err) { return next(err); }

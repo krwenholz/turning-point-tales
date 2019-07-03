@@ -47,10 +47,6 @@ const findUserSafeDetails = (identifier) => {
 const addUser = (firstName, email, password) => {
   findUser(email)
     .then(user => {
-      Logger.info('User already exists');
-      res.redirect('/user/create?error=unknown')
-      res.end();
-    }).then(user => {
       return Promise.reject('USER_EXISTS');
     }).catch(error => {
       if(error !== 'NOT_FOUND') return Promise.reject(error);

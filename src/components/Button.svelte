@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
 
   export let text;
+  export let type = "";
 
   const dispatch = createEventDispatcher();
 </script>
@@ -34,7 +35,8 @@
   }
 </style>
 
-<button class="button" on:click={() => dispatch('click', this)}>
+<button class="button" type="{type}"
+  on:click={() => dispatch('click', this)}>
   {text}
   <slot name="icon"></slot>
 </button>

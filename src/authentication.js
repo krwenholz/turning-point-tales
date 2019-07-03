@@ -98,7 +98,6 @@ passport.serializeUser((user, cb) => {
  * Puts the user in req.user by finding by id.
  */
 passport.deserializeUser((id, cb) => {
-  // TODO(kyle): This should use promises because reasons
   findUserSafeDetails(id = id).then(details => cb(null, details)).catch(error => cb(error));
 });
 
