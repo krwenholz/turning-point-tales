@@ -10,6 +10,10 @@ import securePassword from 'secure-password';
 // TODO(kyle): Triple check security https://hackernoon.com/your-node-js-authentication-tutorial-is-wrong-f1a3bf831a46
 // TODO(kyle): Rate limit shit https://github.com/nfriedly/express-rate-limit https://github.com/AdamPflug/express-brute
 
+// TODO(kyle): Integrate login with Patreon
+// https://github.com/jaredhanson/passport-oauth2
+// http://www.passportjs.org/docs/authorize/
+
 const passwordHasher = securePassword();
 
 const users = [];
