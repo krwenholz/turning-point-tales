@@ -3,6 +3,7 @@ import config from 'config';
 import passport from 'passport';
 import securePassword from 'secure-password';
 import { Strategy as LocalStrategy } from 'passport-local';
+import { findUserSafeDetails } from '../../lib/users';
 
 const post = (req, res, next) => {
   passport.authenticate('local',
@@ -12,7 +13,10 @@ const post = (req, res, next) => {
 
       req.logIn(user, (err) => {
         if (err) { return next(err); }
-        return res.redirect(`/?user=set&data=${encodeURIComponent(JSON.stringify(user))}`);
+        return findUserSafeDetails(user.id)
+          .then(user =>
+            res.redirect(`/?user=set&data=${encodeURIComponent(JSON.stringify(user))}`)
+          );
       });
     })(req, res, next);
 };
