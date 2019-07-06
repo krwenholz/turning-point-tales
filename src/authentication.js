@@ -44,9 +44,9 @@ const allowedBaseRoutes = [
   '/landing',
   '/stories',
   '/about',
-  '/auth/fake_login',
-  '/auth/initiate_login',
-  '/auth/logout',
+  '/api/user/fake_login',
+  '/api/user/initiate_login',
+  '/api/user/logout',
   '/index',
   '/privacy',
   '/service-worker.js',
@@ -56,8 +56,8 @@ const allowedBaseRoutes = [
 
 const allowedPrefixes = [
   '/?',
-  '/auth/new',
-  '/auth/verify_login',
+  '/api/user/new',
+  '/api/user/login',
   '/user/create',
   '/user/login',
   '/client',
@@ -114,16 +114,13 @@ const initPassport = () => {
       findUser(email = email)
         .then(user => {
           // User not found
-          if (!user) {
-            return done(null, false);
-          }
+          if (!user) return done(null, false);
 
           // Always use hashed passwords and fixed time comparison
           return compare(password, user.passwordHash)
             .then(isValid => {
-              if (!isValid) {
-                return done(null, false);
-              }
+              if (!isValid) return done(null, false);
+
               return done(null, user);
             })
             .catch(err => done(err));

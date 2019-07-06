@@ -62,7 +62,7 @@
 
   <p>If you're new, go ahead and <a href="/user/create">create an acocunt.</a></p>
 
-  <form action="/auth/verify_login" method="POST">
+  <form action="/api/user/verify_login" method="POST">
     <input type="hidden" name="_csrf" value="{csrf}">
 
     <label for="email">E-mail</label>

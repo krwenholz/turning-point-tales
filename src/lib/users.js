@@ -3,7 +3,6 @@ import Logger from 'js-logger';
 import config from 'config';
 import securePassword from 'secure-password';
 
-// TODO(kyle): Integrate login with Patreon
 // TODO(kyle): Add real DB against Postgres, change session store to DB
 // TODO(kyle): CSP https://sapper.svelte.dev/docs#Content_Security_Policy_CSP
 // TODO(kyle): Password reset flow: https://stackoverflow.com/questions/20277020/how-to-reset-change-password-in-node-js-with-passport-js#27580553
@@ -91,7 +90,7 @@ const removeUser = (identifier) => {
 };
 
 // TODO(kyle): Seed this in database
-addUser('Adam', 'adam@h2wib.com', 'foo')
+addUser('Jeff', 'jeff@h2wib.com', 'foo')
 
 export {
   addUser,

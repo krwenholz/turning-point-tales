@@ -3,7 +3,7 @@ import config from 'config';
 import passport from 'passport';
 import securePassword from 'secure-password';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { findUser, addUser } from '../../lib/users';
+import { findUser, addUser } from '../../../lib/users';
 
 // TODO(kyle): GET route to accept JWT or reject with new reset prompt, accept
 // JWT that manages password reset
@@ -21,7 +21,7 @@ const post = (req, res) => {
     .then(user => {
       return req.logIn(user, error => {
         if (error) return Promise.reject();
-        return res.redirect(`/?user=new&data=${encodeURIComponent(JSON.stringify(user))}`);
+        return res.redirect('/');
       });
     }).catch(error => {
       Logger.error('Error creating user', error);

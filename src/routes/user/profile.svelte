@@ -38,7 +38,7 @@
   to delete your user here. If there's anything we can do to keep you around, please hit
   us up at <a href="mailto:support@turningpointtales.com">support@turningpointtales.com</a>.</p>
 
-  <form action="/auth/destroy" method="POST">
+  <form action="/api/user/destroy" method="POST">
     <input type="hidden" name="_csrf" value="{csrf}">
     <input type="hidden" name="email" value="{$session.user.email}">
     <Button
