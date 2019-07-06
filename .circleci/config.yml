@@ -10,15 +10,17 @@ commands:
           keys:
             - test-app-{{ checksum "package.json" }}
       - run:
-          name: Cypress Tests
-          command: |
-            npm install
-            CYPRESS_BASE_URL=<< parameters.url >> npm run cy:run
+          name: Install
+          command: npm install
       - save_cache:
           key: test-app-{{ checksum "package.json" }}
           paths:
-            - ./
+            - ./node_modules
             - ~/.cache
+      - run:
+          name: Cypress Tests
+          command: |
+            CYPRESS_BASE_URL=<< parameters.url >> npm run cy:run
   deploy:
     parameters:
       app:
