@@ -18,7 +18,7 @@ describe('unauthenticated redirects', () => {
 describe('authenticated', () => {
   it('redirects to root after login', () => {
     cy.logIn().url().should('contain', '/');
-    cy.get('#email').type('adam@h2wib.com');
+    cy.get('#user_name').should('contain', 'Jeff');
   });
 
   it('should be able to access auth-only pages', () => {

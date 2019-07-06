@@ -1,4 +1,6 @@
 >  TODO(kyle): https://goaccess.io/ for log viewing
+>  https://github.com/expressjs/morgan
+>  https://goaccess.io/man#examples # Processing logs incrementally
 >  TODO(kyle): share buttons
 >    https://gist.github.com/chrisjlee/5196139
 >  TODO(kyle): link buttons for facebook, twitter, instagram
@@ -14,6 +16,10 @@ with the `DATABASE_URL` environment variable. You can grab the Heroku one with
   heroku pg:credentials:url
 
 Set this before starting the server and you should be good to go.
+
+# Test
+
+  docker run -it -v $PWD:/cypress -w /cypress -e CYPRESS_BASE_URL=http://meine.krwenholz.com:3000 cypress/included:3.3.1
 
 
 # Deploy

@@ -106,7 +106,7 @@
     <div class="user-block">
       <span>{$session.user.firstName}</span>
       <div class="menu">
-        <h3 class="tier">{$session.user.firstName}</h3>
+        <h3 id="user_name">{$session.user.firstName}</h3>
         <ul>
           <li><a href='/api/user/logout'>Logout</a></li>
           <li><a href='https://www.patreon.com/join/turningpointtales/checkout'>Adjust contribution</a></li>
