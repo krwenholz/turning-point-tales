@@ -29,7 +29,7 @@
   }
 </style>
 
-<h3>Hey, {$session.firstName}!</h3>
+<h3>Hey, {$session.user.firstName}!</h3>
 
 <p>Let's set up cool things.</p>
 
@@ -40,7 +40,7 @@
 
   <form action="/auth/destroy" method="POST">
     <input type="hidden" name="_csrf" value="{csrf}">
-    <input type="hidden" name="email" value="{$session.email}">
+    <input type="hidden" name="email" value="{$session.user.email}">
     <Button
       type="submit"
       text="Delete my user"
