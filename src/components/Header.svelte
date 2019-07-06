@@ -108,7 +108,7 @@
       <div class="menu">
         <h3 class="tier">{$session.user.firstName}</h3>
         <ul>
-          <li><a href='auth/logout'>Logout</a></li>
+          <li><a href='/api/user/logout'>Logout</a></li>
           <li><a href='https://www.patreon.com/join/turningpointtales/checkout'>Adjust contribution</a></li>
         </ul>
       </div>

@@ -12,9 +12,7 @@ import csurf from 'csurf';
 import express from 'express';
 import sirv from 'sirv';
 import { initPassport } from './authentication';
-import {
-  Store
-} from 'svelte/store.js';
+import { Store } from 'svelte/store';
 import {
   initLogging,
   logRequestMiddleware,

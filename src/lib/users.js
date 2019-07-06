@@ -49,7 +49,7 @@ const findUserSafeDetails = (identifier) => {
  * Adds and returns a user. You should check if the user exists first, though.
  */
 const addUser = (firstName, email, password) => {
-  findUser(email)
+  return findUser(email)
     .then(user => {
       return Promise.reject('USER_EXISTS');
     }).catch(error => {

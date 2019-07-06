@@ -60,9 +60,9 @@
 <section class="text">
   <h1>Welcome!</h1>
 
-  <p>If you're new, go ahead and <a href="/user/create">create an acocunt.</a></p>
+  <p>If you're new, go ahead and <a href="/user/new">create an acocunt.</a></p>
 
-  <form action="/api/user/verify_login" method="POST">
+  <form action="/api/user/login" method="POST">
     <input type="hidden" name="_csrf" value="{csrf}">
 
     <label for="email">E-mail</label>
