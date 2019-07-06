@@ -83,9 +83,7 @@ const middleware = [
   logSessionMiddleware,
   sapper.middleware({
     session: (req) => ({
-      firstName: req.session.firstName,
-      email: req.session.email,
-      id: req.session.id,
+      user: req.user
     }),
   }),
 ];

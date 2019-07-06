@@ -14,9 +14,7 @@ const post = (req, res, next) => {
       req.logIn(user, (err) => {
         if (err) { return next(err); }
         return findUserSafeDetails(user.id)
-          .then(user =>
-            res.redirect(`/?user=set&data=${encodeURIComponent(JSON.stringify(user))}`)
-          );
+          .then(user => res.redirect('/'));
       });
     })(req, res, next);
 };

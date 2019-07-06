@@ -94,13 +94,6 @@
   .menu li:hover {
     font-weight: bold;
   }
-
-  .thumbnail {
-    display: block;
-    height: 44px;
-    width: 44px;
-    border-radius: 50%;
-  }
 </style>
 
 <header>
@@ -111,7 +104,7 @@
     </a>
     {#if $session.user}
     <div class="user-block">
-      <img class="thumbnail" src={$session.user.patreonThumbUrl} alt="{$session.user.firstName}">
+      <span>{$session.user.firstName}</span>
       <div class="menu">
         <h3 class="tier">{$session.user.firstName}</h3>
         <ul>

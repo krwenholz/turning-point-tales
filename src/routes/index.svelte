@@ -24,15 +24,8 @@
   export let stories;
   export let foo;
 
-  $: switch($page.query.user) {
-    case 'set':
-    case 'new':
-      Logger.info('Setting user')
-      // TODO(kyle): This is inconsistently saving across pages, especially from index to story
-      $session.user = JSON.parse($page.query.data);
-      break;
-    case 'clear':
-      console.log('Clearing user')
+  $: if($page.query.user === 'clear') {
+      Logger.info('Clearing user');
       $session.user = null;
   }
 </script>
