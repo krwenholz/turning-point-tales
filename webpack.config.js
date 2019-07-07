@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const config = require('sapper/config/webpack.js');
 const pkg = require('./package.json');
+const path = require('path');
 
 const mode = process.env.NODE_ENV;
 const dev = mode === 'development';
@@ -12,7 +13,14 @@ module.exports = {
   client: {
     entry: config.client.entry(),
     output: config.client.output(),
-    resolve: { extensions, mainFields },
+    resolve: {
+      extensions,
+      mainFields,
+      modules: [
+          'node_modules',
+          path.resolve(__dirname),
+      ],
+    },
     module: {
       rules: [
         {
@@ -44,7 +52,14 @@ module.exports = {
     entry: config.server.entry(),
     output: config.server.output(),
     target: 'node',
-    resolve: { extensions, mainFields },
+    resolve: {
+      extensions,
+      mainFields,
+      modules: [
+          'node_modules',
+          path.resolve(__dirname),
+      ],
+    },
     externals: Object.keys(pkg.dependencies).concat('encoding'),
     module: {
       rules: [
