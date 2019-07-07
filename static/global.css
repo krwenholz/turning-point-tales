@@ -2,44 +2,83 @@
 
 * { box-sizing: border-box; }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
 
 /* THEME */
 
 :root {
   --root-color-primary: #4a4a4a;
-  --root-color-light: dimgray;
+  --root-color-primary-altered: dimgray;
   --root-color-accent: #072957;
   --root-color-background: whitesmoke;
   --root-call-to-action: darkolivegreen;
 
-  --root-border-radius: 8px;
   --root-vertical-spacing: 16px;
   --root-wrapper-padding: 16px;
+
+  --root-border: 1px solid var(--root-color-primary-altered);
+  --root-border-cta: 2px solid var(--root-call-to-action);
+  --root-border-radius: 8px;
+
+  --root-border: 1px solid var(--root-color-primary-altered);
+  --root-border-highlight: 2px solid var(--root-call-to-action);
+  --root-border-radius: 8px;
+
+  --root-font-size: 10px;
+  --root-font-size-xxl: calc(var(--root-font-size) * 4.8);
+  --root-font-size-xl: calc(var(--root-font-size) * 3.6);
+  --root-font-size-lg: calc(var(--root-font-size) * 2.4);
+  --root-font-size-md: calc(var(--root-font-size) * 1.6);
+  --root-font-size-sm: calc(var(--root-font-size) * 1.4);
+  --root-font-size-xs: calc(var(--root-font-size) * 1.2);
 }
 
 /* TYPOGRAPHY */
 
-h1, p {
-  margin: 0 0 32px 0;
-}
-
 h1 {
-  font-size: 24px;
+  font-size: var(--root-font-size-xl);
+  margin: 0 0 24px 0;
 }
 
 h2 {
-  font-size: 16px;
+  font-size: var(--root-font-size-lg);
   margin: 0 0 16px 0;
 }
 
 h3 {
   margin: 0 0 8px 0;
+  font-size: var(--root-font-size-md);
+}
+
+h4 {
+  font-size: var(--root-font-size-sm);
+  margin: 8px 0 8px 0;
+}
+
+h5 {
+  font-size: var(--root-font-size-xs);
+  margin: 4px 0 4px 0;
 }
 
 p,
 span {
-  font-size: 14px;
-  color: var(--root-color-light);
+  font-size: var(--root-font-size-md);
+}
+
+p {
+  margin-bottom: 16px;
+}
+
+small {
+  font-size: var(--root-font-size-sm);
+  color: var(--root-color-primary-altered);
 }
 
 a, button {
@@ -50,12 +89,24 @@ a, button {
 a:link {
   color: var(--root-color-accent);
 }
+
 a:visited {
   color: #7c649c;
 }
+
 a:hover {
   font-weight: bold;
 }
+
+/* OVERRIDES */
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* UTILS */
 
 .hidden {
   opacity: 0;

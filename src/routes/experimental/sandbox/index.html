@@ -1,12 +1,17 @@
 <script>
-  import Checkbox from '../../../components/Form/Checkbox';
+  import { axios } from 'src/lib/axios';
+
+  let text = 'Hello, Squirrel!';
+
+  const onSubmit = () => {
+    axios.post('/api/email', { text })
+    .then( x =>  alert(x.status))
+    .catch(e => alert('Oops, didnt work!'));
+  }
 </script>
 
 <div>
-  <Checkbox>
-    <span>Hello!</span>
-  </Checkbox>
-  <Checkbox></Checkbox>
+  <h3>Fill with email text, then submit!</h3>
+  <input type='text' bind:value={text}>
+  <button on:click={onSubmit}>submit</button>
 </div>
-
-

@@ -14,6 +14,7 @@
   nav {
     flex: 1;
     display: flex;
+    flex-flow: wrap;
     justify-content: center;
   }
 

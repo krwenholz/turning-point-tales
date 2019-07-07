@@ -11,7 +11,7 @@
 <style>
   .story-previews {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 400px));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 400px));
     grid-gap: 32px;
   }
 
@@ -36,7 +36,7 @@
 
   small {
     text-align: center;
-    color: var(--root-color-light);
+    color: var(--root-color-primary-altered);
     margin-bottom: 24px;
   }
 

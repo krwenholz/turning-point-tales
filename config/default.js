@@ -6,6 +6,9 @@ module.exports = {
   logging: {
     session: process.env.LOG_SESSION || false,
   },
+  sendGrid: {
+    apiKey: process.env['SEND_GRID_API_KEY'],
+  },
   server: {
     domain: process.env['HOST'],
     port: process.env.PORT,

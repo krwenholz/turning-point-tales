@@ -17,7 +17,7 @@
     flex: 1;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid currentColor;
   }
 
   nav > * {
@@ -30,7 +30,10 @@
     color: inherit;
   }
 
-  h2 { margin: 0 0 0 8px; }
+  h1 {
+    font-size: var(--root-font-size-md);
+    margin: 0 0 0 8px;
+  }
 
   :global(svg) {
     width: 24px;
@@ -100,7 +103,7 @@
   <nav>
     <a class="logo" href='/'>
       <Logo />
-      <h2> Turning Point Tales </h2>
+      <h1> Turning Point Tales </h1>
     </a>
     {#if $session.user}
     <div class="user-block">
