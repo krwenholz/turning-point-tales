@@ -108,9 +108,7 @@ your decision tree and even experience the whole thing at the bottom of this pag
   </aside>
 </section>
 
-{#if story && storyNode}
 <section>
   <h2>Preview</h2>
   <svg class="story-graph"></svg>
 </section>
-{/if}
