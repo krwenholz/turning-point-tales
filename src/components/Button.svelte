@@ -2,7 +2,9 @@
   import { createEventDispatcher } from 'svelte';
 
   export let text;
-  export let type = "";
+  export let disabled = false;
+  export let type = "button";
+  export let isSubmitting = false;
 
   const dispatch = createEventDispatcher();
 </script>
@@ -14,10 +16,10 @@
     padding: 8px;
     justify-content: center;
     align-items: center;
-    font-size: 16px;
-    border-radius: var(--root-border-radius);
     background: none;
+    font-size: var(--root-font-size-md);
     border: 1px solid currentColor;
+    border-radius: var(--root-border-radius);
     color: var(--root-color-background);
     background-color: var(--root-color-accent);
   }
@@ -33,10 +35,32 @@
     background: var(--root-color-background);
     cursor: pointer;
   }
+
+  .disabled {
+    cursor: not-allowed;
+    background-color: gray;
+    opacity: .7;
+  }
+
+  .disabled:hover {
+    cursor: not-allowed;
+    color: var(--root-color-background);
+    background-color: gray;
+  }
 </style>
 
-<button class="button" type="{type}"
-  on:click={() => dispatch('click', this)}>
-  {text}
-  <slot name="icon"></slot>
+<button
+  class="button"
+  type="{type}"
+  disabled={disabled}
+  on:click={() => dispatch('click', this)}
+  class:disabled
+>
+  {#if isSubmitting}
+    <span>
+      ...Submitting
+    </span>
+  {:else }
+    <slot/>
+  {/if}
 </button>

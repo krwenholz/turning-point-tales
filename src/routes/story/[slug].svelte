@@ -27,7 +27,7 @@
 
   const { page } = sapper.stores();
 
-  const store = browserStore(MAIN_ADVENTURE, safeWindow.localStorage, {
+  const store = browserStore(MAIN_ADVENTURE, safeWindow().localStorage, {
     storyNode: $page.query.storyNode
   });
 

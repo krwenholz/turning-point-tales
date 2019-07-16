@@ -27,10 +27,10 @@
   $: if(currentPage) updateURL();
 
   const updateURL = () => {
-    safeWindow.history.pushState(
+    safeWindow().history.pushState(
       '',
       '',
-      `${safeWindow.location.pathname}?storyNode=${$store.storyNode}`
+      `${safeWindow().location.pathname}?storyNode=${$store.storyNode}`
     )
   };
 
@@ -46,7 +46,7 @@
 
   const typingHasFinished = () => {
     if(showTypingAnimation && enableScroll) {
-      safeWindow.scrollBy({top: document.body.scrollHeight, behavior: "smooth"});
+      safeWindow().scrollBy({top: document.body.scrollHeight, behavior: "smooth"});
     }
     currentlyTyping = false;
     dispatch('end');
@@ -54,7 +54,7 @@
 
   const setNextPage =(nextStoryNode) => {
     if (enableScroll) {
-      safeWindow.scrollTo(0, 0);
+      safeWindow().scrollTo(0, 0);
     }
     $store.storyNode = nextStoryNode;
     currentlyTyping = showTypingAnimation;
@@ -167,10 +167,9 @@
   {#if !currentlyTyping && haveRemainingDecisions }
     <nav in:fade>
       {#each currentPage.decisions as {storyNode, label}}
-        <Button
-          on:click={() => setNextPage(storyNode)}
-          text={label}
-        />
+        <Button on:click={() => setNextPage(storyNode)} >
+          {label}
+        </Button>
       {/each}
     </nav>
   {/if}

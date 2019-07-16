@@ -71,9 +71,6 @@
     <label for="password">Password</label>
     <input type="password" id="password" name="password">
 
-    <Button
-      type="submit"
-      text="Log in"
-      />
+    <Button type='submit'>Log in</Button>
   </form>
 </section>

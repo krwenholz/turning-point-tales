@@ -7,8 +7,8 @@
     "build": "sapper build",
     "export": "sapper export",
     "start": "node __sapper__/build",
-    "cy:run": "cypress run",
-    "cy:open": "cypress open",
+    "cy:run": "cypress run --browser chrome",
+    "cy:open": "cypress open --browser chrome",
     "test": "run-p --race dev cy:run",
     "format": "js-beautify --replace src/**/*.js"
   },
@@ -30,6 +30,7 @@
     "js-beautify": "^1.9.0",
     "js-logger": "^1.6.0",
     "js-yaml": "3.13.1",
+    "jwt-simple": "^0.5.6",
     "passport": "0.4.0",
     "passport-local": "1.0.0",
     "patreon": "^0.4.1",

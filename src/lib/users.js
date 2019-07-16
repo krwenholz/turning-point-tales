@@ -55,10 +55,10 @@ const addUser = (firstName, email, password) => {
     }).catch(error => {
       if (error !== 'NOT_FOUND') return Promise.reject(error);
       const user = {
-        email: email,
-        firstName: firstName,
+        email,
+        firstName,
         passwordHash: '',
-        id: users.length
+        id: users.length,
       };
 
       return passwordHasher.hash(Buffer.from(password))
@@ -89,12 +89,32 @@ const removeUser = (identifier) => {
   return Promise.resolve();
 };
 
-// TODO(kyle): Seed this in database
-addUser('Jeff', 'jeff@h2wib.com', 'foo')
+const updateUserPassword = async (identifier, { password }) => {
+  const currentIdx = users.findIndex(({ id, email }) => [id, email].includes(identifier))
+
+  if (!currentIdx) return;
+
+  const hash = await passwordHasher.hash(Buffer.from(password));
+
+  users[currentIdx] = {
+    ...users[currentIdx],
+    passwordHash: hash.toString('utf-8'),
+  };
+
+  Logger.info('uuu', users);
+}
+
+// TODO(kyle): Seed dis in database
+//  Async so adding users doesn't clobber eachother during this prototype phase
+(async () => {
+  await addUser('Jeff', 'jeff@h2wib.com', 'foo')
+  await addUser('kc', 'kristopherpaulsen@gmail.com', 'foo')
+})();
 
 export {
   addUser,
   findUser,
+  updateUserPassword,
   findUserSafeDetails,
   removeUser
 }

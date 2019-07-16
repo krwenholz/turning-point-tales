@@ -43,29 +43,21 @@
 <section class="teaser-story">
   <Adventure
     {storyNode}
-    story={teaserStory}
     title=""
-    on:end={() => showDecisions = true }
+    story={teaserStory}
+    on:end={() => showDecisions = true}
   />
 
   {#if showDecisions }
   <nav transition:fade >
-    <Button
-      text="Learn about us"
-      on:click={ redirect('/about') }
-    >
-      <div slot="icon">
-          <Book />
-      </div>
+    <Button on:click={ redirect('/about') } >
+      <span>Learn about us</span>
+      <Book/>
     </Button>
 
-    <Button
-      text="Create an account!"
-      on:click={ redirect('/user/create') }
-    >
-      <div slot="icon">
-        <Patreon />
-      </div>
+    <Button on:click={ redirect('/user/create') } >
+      <span>Create an account!</span>
+      <Patreon/>
     </Button>
   </nav>
   {/if}

@@ -81,10 +81,9 @@
         {/each}
       </div>
       <p>{preview}</p>
-      <Button
-        text={previewPrompt}
-        on:click={() => redirect(`/story/${id}`)}
-      />
+      <Button on:click={() => redirect(`/story/${id}`)} >
+        {previewPrompt}
+      </Button>
     </article>
   {/each}
 </section>

@@ -14,7 +14,7 @@ export const post = async (req, res) => {
   })
   .catch(e => {
     res.status(500)
-    .end();
+    .send(e);
   })
 }
 

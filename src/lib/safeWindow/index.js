@@ -21,6 +21,4 @@ const fakeWindow = {
   },
 }
 
-export const safeWindow = new Proxy({}, {
-  get: (_, prop) => typeof (window) === 'undefined' ? fakeWindow[prop] : window[prop]
-});
+export const safeWindow = () => typeof (window) === 'undefined' ? fakeWindow: window;

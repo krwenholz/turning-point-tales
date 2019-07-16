@@ -39,11 +39,13 @@ const compare = (userPassword, hash) => {
 };
 
 const allowedBaseRoutes = [
+  '/password-reset',
   '/example-story',
   '/teaser-story',
   '/landing',
   '/stories',
   '/about',
+  '/api/password-reset',
   '/api/user/fake_login',
   '/api/user/initiate_login',
   '/api/user/logout',

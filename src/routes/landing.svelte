@@ -117,15 +117,14 @@
 
   {#if typingEnd}
   <nav in:fade >
-    <Button
-      on:click={redirect("/teaser-story", "banks")}
-      text="A day in the life of Mr. Banks"
-    />
+    <Button on:click={redirect("/teaser-story", "banks")}>
+      <span> A day in the life of Mr. Banks </span>
+    </Button>
 
-    <Button
-      text="Join the adventure"
-      on:click={redirect("/teaser-story", "patreon")}
-    />
+    <Button on:click={redirect("/teaser-story", "patreon")}>
+      <span>Join the adventure</span>
+    </Button>
+
   </nav>
   {/if}
 </section>
