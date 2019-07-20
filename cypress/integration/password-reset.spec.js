@@ -6,7 +6,7 @@ describe('Password Reset Flow: Submit an email', () => {
   it('displays errors and success on reset flow', () => {
     cy.logIn()
       .visit('/user/login')
-      .get('[data-cy="password-reset"]')
+      .get('a[data-cy="password-reset"]')
       .click();
 
     cy.get('input')
