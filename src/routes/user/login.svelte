@@ -1,5 +1,6 @@
 <script>
   import Button from '../../components/Button.svelte';
+  import Input from '../../components/Form/Input.svelte';
   import { fetchCsrf } from '../../lib/client/csrf';
   import { onMount } from 'svelte';
   import { stores } from '@sapper/app';
@@ -17,6 +18,11 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+  }
+
+  section :global(.button) {
+    width: 100%;
+    margin: 32px auto auto auto;
   }
 
   .text {
@@ -56,13 +62,16 @@
   <p>If you're new, go ahead and <a href="/user/new">create an account.</a></p>
 
   <form action="/api/user/login" method="POST">
+
     <input type="hidden" name="_csrf" value="{csrf}">
 
-    <label for="email">E-mail</label>
-    <input type="email" id="email" name="email">
+    <Input type='email' id='email' name='email'>
+      <span>email</span>
+    </Input>
 
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password">
+    <Input type='password' id='password' name='password'>
+      <span>Password</span>
+    </Input>
 
     <Button type='submit'>Log in</Button>
     <span class='reset-text'>
