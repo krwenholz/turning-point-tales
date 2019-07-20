@@ -18,3 +18,4 @@ export const setNewPassword = async ({ id: suppliedId, token, password }) => {
 
   return updateUserPassword(id, { password });
 }
+

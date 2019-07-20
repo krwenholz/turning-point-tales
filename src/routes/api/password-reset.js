@@ -19,6 +19,7 @@ const setPassword = async (req, res) => {
 
   try {
     await setNewPassword({ password, id, token });
+    res.status(200).send();
   }
   catch (error) {
     Logger.error(error);
@@ -33,7 +34,7 @@ const sendResetEmail = async (req, res) => {
 
     await emailPasswordReset({
       resetUrl,
-      to: 'kristopherpaulsen@gmail.com',
+      to: req.body.email,
     });
 
     res.status(200).send();

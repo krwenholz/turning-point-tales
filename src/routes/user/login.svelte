@@ -4,7 +4,7 @@
   import { onMount } from 'svelte';
   import { stores } from '@sapper/app';
 
-	const { page } = stores();
+  const { page } = stores();
 
   let csrf;
 
@@ -21,8 +21,10 @@
 
   .text {
     margin: auto;
-		max-width: 38rem;
+    max-width: 38rem;
   }
+
+  .reset-text { margin-top: 8px; }
 
   form {
     padding: 16px;
@@ -40,9 +42,9 @@
   }
 
   @media only screen and (max-width: 45rem) {
-		.text {
-			max-width: 75%;
-		}
+    .text {
+      max-width: 75%;
+    }
 
     form {
       max-width: 100%
@@ -60,7 +62,7 @@
 <section class="text">
   <h1>Welcome!</h1>
 
-  <p>If you're new, go ahead and <a href="/user/new">create an acocunt.</a></p>
+  <p>If you're new, go ahead and <a href="/user/new">create an account.</a></p>
 
   <form action="/api/user/login" method="POST">
     <input type="hidden" name="_csrf" value="{csrf}">

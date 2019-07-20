@@ -5,11 +5,11 @@ export const emailPasswordReset = ({ resetUrl, to }) => email({
   from: 'noreply@turningpointtales.com',
   subject: 'Password reset request',
   html: `
-    You have requested a password reset
+    You have requested a password reset.
     <br/>
     If this was made in error, disregard.
     <br/>
     <br/>
-    <a href="${resetUrl}" >click here to reset your password</a>
+    <a href="${resetUrl}" >Click here to reset your password</a>
   `,
 });
