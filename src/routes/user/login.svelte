@@ -72,5 +72,8 @@
     <input type="password" id="password" name="password">
 
     <Button type='submit'>Log in</Button>
+    <span class='reset-text'>
+      Forgot your password? Click <a data-cy="password-reset" href='/password-reset'>here</a>.
+    <span/>
   </form>
 </section>
