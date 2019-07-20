@@ -26,15 +26,6 @@
 
   .reset-text { margin-top: 8px; }
 
-  form {
-    padding: 16px;
-    display: flex;
-    flex-flow: column;
-    min-width: 20rem;
-    border: 1px solid gray;
-    border-radius: var(--root-border-radius);
-  }
-
   input {
     border: 1px solid gray;
     border-radius: var(--root-border-radius);

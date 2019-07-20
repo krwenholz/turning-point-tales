@@ -41,11 +41,8 @@
 
 <style>
   form {
-    display: flex;
     width: 100%;
-    flex-flow: column;
     max-width: 50ch;
-    margin: auto;
   }
 
   .error-msg {
