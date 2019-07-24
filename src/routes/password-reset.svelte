@@ -1,22 +1,23 @@
 <script>
   import * as sapper from '@sapper/app';
   import { fade } from '../lib/Transition';
-  const { page } = sapper.stores();
   import { axios } from 'src/lib/axios';
   import { statusTracking } from '../lib/stores/status-tracking';
+  import { Input, Form } from 'src/components/Form';
   import Button from 'src/components/Button.svelte';
-  import Input from 'src/components/Form/Input.svelte';
+
+  const { page } = sapper.stores();
 
   let email    = '';
   let password = '';
+  let successMsg = '';
   let errorMsg = '';
-  let successMsg = ''
   let [submission, track] = statusTracking();
 
-  const handleResetPassword = track(async () => {
+  const handleSendResetEmail = track(async () => {
     try {
       await axios.post('/api/password-reset', { email });
-      successMsg = 'You have been sent an email to reset your password. Check your inbox';
+      successMsg = 'You have been sent an email to reset your password. Be sure to check your inbox.';
     }
     catch ({ response }) {
       errorMsg = 'Could not find the specified email. Please try again.'
@@ -31,7 +32,7 @@
         password,
       });
 
-      successMsg = 'You have been sent an email to reset your password. Check your inbox';
+      successMsg = 'Your password was succesfully reset!';
     }
     catch ({ response }) {
       errorMsg = 'Unable to update your password, please check for spelling errors.'
@@ -40,9 +41,18 @@
 </script>
 
 <style>
-  form {
+  :global(.password-reset) {
     width: 100%;
     max-width: 50ch;
+  }
+
+  :global(.password-reset .button) {
+    width: 100%;
+    margin: 32px auto auto auto;
+  }
+
+  :global(.password-reset .input) {
+    width: 100%;
   }
 
   .error-msg {
@@ -50,20 +60,18 @@
     margin: 8px 0 8px 0;
   }
 
-  .password-reset :global(.button) {
-    width: 100%;
-    margin: 32px auto auto auto;
-  }
-
-  .password-reset :global(.input) {
-    width: 100%;
+  a {
+    text-align: left;
   }
 
 </style>
 
-<form class='password-reset'>
+<Form className='password-reset'>
   {#if successMsg}
     <h3 in:fade>{ successMsg }</h3>
+    {#if $page.query.token}
+      <a href='/user/login'> Click here to login</a>
+    {/if}
   {:else if $page.query.token}
     <h2>New Password</h2>
     <small>
@@ -73,7 +81,7 @@
     <Input
       type='password'
       on:input={e => password = e.target.value}
-      placeholder='super-secret-password'
+      placeholder='fake-password-here'
     />
     <Button
       on:click={handleSetNewPassword}
@@ -92,11 +100,11 @@
     <Input type='email' on:input={e => email = e.target.value} placeholder='email@example.com' />
     <span class='error-msg'>{errorMsg}</span>
     <Button
-      on:click={handleResetPassword}
+      on:click={handleSendResetEmail}
       disabled={!email.length}
       isSubmitting={$submission.isPending}
     >
       Submit
     </Button>
   {/if}
-</form>
+</Form>

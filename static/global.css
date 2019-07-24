@@ -2,15 +2,6 @@
 
 * { box-sizing: border-box; }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: normal;
-}
-
 /* THEME */
 
 :root {
@@ -27,14 +18,13 @@ h6 {
   --root-border-cta: 2px solid var(--root-call-to-action);
   --root-border-radius: 8px;
 
-  --root-font-size: 10px;
-  --root-font-size-xs: calc(var(--root-font-size) * 1.2);
-  --root-font-size-sm: calc(var(--root-font-size) * 1.4);
-  --root-font-size-md: calc(var(--root-font-size) * 1.6);
-  --root-font-size-lg: calc(var(--root-font-size) * 2.4);
-  --root-font-size-xl: calc(var(--root-font-size) * 3.6);
-  --root-font-size-xxl: calc(var(--root-font-size) * 4.8);
-
+  --root-line-height: 1.3;
+  --root-font-size-xs: 12px;
+  --root-font-size-sm: 14px;
+  --root-font-size-md: 16px;
+  --root-font-size-lg: 24px;
+  --root-font-size-xl: 36px;
+  --root-font-size-xxl: 48px;
 
   /* Theme for inputs */
   --input-border: 1px solid #a7a2a2;
@@ -42,9 +32,26 @@ h6 {
 
 /* TYPOGRAPHY */
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+small,
+div,
+i,
+code,
+em {
+  font-weight: normal;
+  line-height: var(--root-line-height);
+}
+
 h1 {
   font-size: var(--root-font-size-xl);
   margin: 0 0 24px 0;
+  line-height: var(--root-line-height);
 }
 
 h2 {
@@ -82,12 +89,6 @@ small {
   margin-bottom: 16px;
 }
 
-h1 ~ small { margin-top: -8px; }
-h2 ~ small { margin-top: -8px; }
-h3 ~ small { margin-top: -8px; }
-h4 ~ small { margin-top: -8px; }
-h5 ~ small { margin-top: -8px; }
-
 a, button {
   padding: 0;
   text-align: center;
@@ -111,19 +112,6 @@ ul {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-/* FORM */
-
-form {
-  display: flex;
-  flex-flow: column;
-  margin: auto;
-  padding: 16px;
-  display: flex;
-  flex-flow: column;
-  border: var(--root-border);
-  border-radius: var(--root-border-radius);
 }
 
 /* UTILS */

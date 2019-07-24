@@ -18,6 +18,9 @@ export const browserStore = (key, storage, initial = null) => {
 
   return {
     subscribe,
-    set: (value) => storage.setItem(key, JSON.stringify(value))
+    set: (value) => {
+      storage.setItem(key, JSON.stringify(value))
+      update(() => JSON.parse(storage.getItem(key)));
+    }
   };
 }

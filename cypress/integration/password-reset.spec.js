@@ -6,8 +6,9 @@ describe('Password Reset Flow: Submit an email', () => {
   it('displays errors and success on reset flow', () => {
     cy.logIn()
       .visit('/user/login')
-      .get('a[data-cy="password-reset"]')
-      .click();
+      .get('[data-cy="password-reset"]')
+      .invoke('attr', 'href')
+      .then(cy.visit);
 
     cy.get('input')
       .type('jefh2wib.com')

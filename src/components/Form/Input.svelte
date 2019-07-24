@@ -2,11 +2,11 @@
   import { createEventDispatcher } from 'svelte';
 
   export let value = '';
-  export let name = '';
   export let className = '';
-  export let id = '';
   export let type = 'text';
-  export let placeholder;
+  export let name = Date.now(); // Same as below... wtf?
+  export let id = Date.now(); // For some reason, if this doesnt have an id, autocomplete won't work...
+  export let placeholder = '';
   export let disabled = false;
 
   const dispatch = createEventDispatcher();
@@ -35,9 +35,9 @@
     <slot/>
     <input
       {placeholder}
+      {id}
       {name}
       {value}
-      {id}
       {type}
       class={`input ${className}`}
       disabled={disabled}
@@ -45,5 +45,6 @@
       on:click
       on:blur
       on:input
+      autocomplete="on"
     />
 </label>

@@ -13,40 +13,21 @@
 </script>
 
 <style>
-  section {
+  .login {
     width: 100%;
+    margin: auto;
     display: flex;
     flex-flow: column;
     align-items: center;
   }
 
-  section :global(.button) {
+  .login :global(.button) {
     width: 100%;
     margin: 32px auto auto auto;
   }
 
-  .text {
-    margin: auto;
-    max-width: 38rem;
-  }
-
   .reset-text { margin-top: 8px; }
 
-  input {
-    border: 1px solid gray;
-    border-radius: var(--root-border-radius);
-    margin-bottom: 1rem;
-  }
-
-  @media only screen and (max-width: 45rem) {
-    .text {
-      max-width: 75%;
-    }
-
-    form {
-      max-width: 100%
-    }
-  }
 </style>
 
 {#if $page.query.error === 'unknown'}
@@ -56,10 +37,10 @@
 </section>
 {/if}
 
-<section class="text">
+<section class="login">
   <h1>Welcome!</h1>
 
-  <p>If you're new, go ahead and <a href="/user/new">create an account.</a></p>
+  <p>If you're new, go ahead and <a href="/user/create">create an account.</a></p>
 
   <form action="/api/user/login" method="POST">
 

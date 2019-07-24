@@ -5,7 +5,7 @@
   import TypeText from './TypeText.svelte';
   import Checkbox from '../components/Form/Checkbox.svelte';
   import { fade } from '../lib/Transition';
-  import { safeWindow } from '../lib/safeWindow';
+  import { safeWindow } from '../lib/safe-window.js';
   import { createEventDispatcher } from 'svelte';
   import { writable } from 'svelte/store';
 
