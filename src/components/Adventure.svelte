@@ -10,8 +10,6 @@
   import { writable } from 'svelte/store';
 
   export let className = '';
-  export let enableScroll = true;
-  export let storageKey;
   export let storyNode;
   export let story;
   export let title;

@@ -1,11 +1,8 @@
 <script>
   import Button from '../components/Button.svelte';
+  import { goto } from '@sapper/app';
 
   export let stories = [];
-
-  function redirect(href) {
-    window.location = `${href}`;
-  }
 </script>
 
 <style>
@@ -81,7 +78,7 @@
         {/each}
       </div>
       <p>{preview}</p>
-      <Button on:click={() => redirect(`/story/${id}`)} >
+      <Button on:click={() => goto(`/story/${id}`)} >
         {previewPrompt}
       </Button>
     </article>

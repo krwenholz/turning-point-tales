@@ -15,7 +15,7 @@
   let storyNode = $page.query.storyNode;
   let showDecisions;
 
-  const redirect = href => () => window.location = href;
+  const redirect = href => () => sapper.goto(href);
 </script>
 
 <style>

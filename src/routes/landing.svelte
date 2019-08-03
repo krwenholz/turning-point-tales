@@ -6,7 +6,7 @@
   let typingEnd = false;
 
   const redirect = (href, storyNode) => () => (
-    window.location = `${href}?storyNode=${storyNode}`
+    goto(`${href}?storyNode=${storyNode}`)
   );
 </script>
 
