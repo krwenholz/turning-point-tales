@@ -9,15 +9,13 @@
   import { createEventDispatcher } from 'svelte';
   import { writable } from 'svelte/store';
 
-  export let showTypingAnimation = true;
+  export let className = '';
   export let enableScroll = true;
-  export let currentlyTyping =  true;
   export let storageKey;
   export let storyNode;
   export let story;
   export let title;
   export let store = writable({ storyNode: storyNode });
-  let typer;
 
   const dispatch = createEventDispatcher();
 
@@ -42,27 +40,8 @@
     return storyNode;
   }
 
-  const skipTyping = () => typer.skipTyping()
-
-  const typingHasFinished = () => {
-    if(showTypingAnimation && enableScroll) {
-      safeWindow().scrollBy({top: document.body.scrollHeight, behavior: "smooth"});
-    }
-    currentlyTyping = false;
-    dispatch('end');
-  }
-
   const setNextPage =(nextStoryNode) => {
-    if (enableScroll) {
-      safeWindow().scrollTo(0, 0);
-    }
     $store.storyNode = nextStoryNode;
-    currentlyTyping = showTypingAnimation;
-  }
-
-  const toggleAutoSkip = () => {
-    showTypingAnimation = !showTypingAnimation
-    currentlyTyping = showTypingAnimation;
   }
 </script>
 
@@ -80,57 +59,27 @@
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
   }
 
-  header {
+  h3 {
     display: flex;
     flex-flow: column;
-    margin-bottom: 24px;
-  }
-
-  header span {
-    display: flex;
-    justify-content: center;
-  }
-
-  header :global(.checkbox) {
-    margin-right: 16px;
+    margin: auto;
   }
 
   nav {
-    margin-top: auto;
+    margin-top: 16px;
+    width: 100%;
     display: flex;
     flex-flow: column;
+    align-items: center;
     justify-content: flex-start;
   }
 
   :global(.button) {
     margin-bottom: 16px;
     width: 100%;
-  }
-
-  .skip {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: none;
-    border: none;
-    color: var(--root-color-accent);
-  }
-
-  .skip span {
-    color: currentColor;
-  }
-
-  .skip :global(svg) {
-    width: 24px;
-    height: auto;
-    margin-left: 16px;
-  }
-
-  .skip:hover {
-    font-weight: bold;
   }
 
   @media only screen and (min-height: 700px) {
@@ -140,49 +89,26 @@
   }
 </style>
 
-<section class="adventure">
-  {#if title}
-    <header>
-      <h3>{title}</h3>
-      <span>
-        <Checkbox checked={!showTypingAnimation} onChange={toggleAutoSkip} >
-          <span>auto-skip</span>
-        </Checkbox>
-      </span>
-    </header>
-  {/if}
+{#if process.browser}
+  <section class={`adventure ${className}`}>
+    {#if title}
+    <h3>{title}</h3>
+    {/if}
 
-  {#if currentPage}
-    <TypeText
-      bind:this={typer}
-      on:end={typingHasFinished}
-      {showTypingAnimation}
-      typingSpeed={0}
-      jitter={80}
-      paragraphPause={600}
-      text={currentPage.text}
-    />
-  {/if}
-
-  {#if !currentlyTyping && haveRemainingDecisions }
-    <nav in:fade>
-      {#each currentPage.decisions as {storyNode, label}}
-        <Button on:click={() => setNextPage(storyNode)} >
-          {label}
-        </Button>
+    {#if currentPage}
+      {#each currentPage.text as paragraph}
+        <p>{paragraph}</p>
       {/each}
-    </nav>
-  {/if}
+    {/if}
 
-  {#if currentlyTyping }
-    <nav in:fade >
-      <button
-        on:click={skipTyping}
-        class="skip"
-      >
-          <span>skip</span>
-          <CrossOut/>
-      </button>
-    </nav>
-  {/if}
-</section>
+    {#if haveRemainingDecisions }
+      <nav in:fade>
+        {#each currentPage.decisions as {storyNode, label}}
+          <Button on:click={() => setNextPage(storyNode)} >
+            {label}
+          </Button>
+        {/each}
+      </nav>
+    {/if}
+  </section>
+{/if}

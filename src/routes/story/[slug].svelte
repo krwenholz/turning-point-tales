@@ -26,6 +26,14 @@
   const { page } = sapper.stores();
 </script>
 
+<style>
+  :global(.adventure) {
+    margin: auto;
+    width: 90%;
+    max-width: 80ch;
+  }
+</style>
+
 <svelte:head>
   <title>{title}</title>
 </svelte:head>
@@ -34,5 +42,6 @@
   {story}
   {title}
   store={mainAdventure()}
+  className='adventure'
   storyNode={$page.query.storyNode}
 />
