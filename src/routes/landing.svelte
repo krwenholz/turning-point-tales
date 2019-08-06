@@ -1,7 +1,8 @@
 <script>
-  import { fade } from '../lib/Transition';
   import Button from '../components/Button.svelte';
   import TypeText from '../components/TypeText.svelte';
+  import { fade } from '../lib/Transition';
+  import { goto } from '@sapper/app';
 
   let typingEnd = false;
 
@@ -118,7 +119,7 @@
   {#if typingEnd}
   <nav in:fade >
     <Button on:click={redirect("/teaser-story", "banks")}>
-      <span> A day in the life of Mr. Banks </span>
+      <span>A day in the life of Mr. Banks</span>
     </Button>
 
     <Button on:click={redirect("/teaser-story", "patreon")}>
