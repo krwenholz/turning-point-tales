@@ -48,7 +48,6 @@
     on:end={() => showDecisions = true}
   />
 
-  {#if showDecisions }
   <nav transition:fade >
     <Button on:click={ redirect('/about') } >
       <span>Learn about us</span>
@@ -60,6 +59,4 @@
       <Patreon/>
     </Button>
   </nav>
-  {/if}
-
 </section>
