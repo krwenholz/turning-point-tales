@@ -27,3 +27,11 @@ describe('authenticated', () => {
     .url().should('match', /\/story\/1/)
   })
 });
+
+describe('content', () => {
+  it('visits teaser story', () => {
+    cy.visit('/landing')
+    cy.contains('A day in the life of Mr. Banks', {timeout: 7000}).click();
+    cy.url().should('match',  /\/teaser-story\?storyNode=banks/);
+  });
+});

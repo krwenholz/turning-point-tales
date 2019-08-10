@@ -13,7 +13,6 @@
   export let title;
 
   let storyNode = $page.query.storyNode;
-  let showDecisions;
 
   const redirect = href => () => sapper.goto(href);
 </script>

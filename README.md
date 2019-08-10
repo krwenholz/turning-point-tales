@@ -19,7 +19,8 @@ Set this before starting the server and you should be good to go.
 
 # Test
 
-  docker run -it -v $PWD:/cypress -w /cypress -e CYPRESS_BASE_URL=http://meine.krwenholz.com:3000 cypress/included:3.3.1
+  docker run -it -v $PWD:/cypress -w /cypress -e CYPRESS_BASE_URL=http://meine.krwenholz.com:3000 cypress/included:3.4.1 cypress open --browser chrome
+
 
 
 # Deploy

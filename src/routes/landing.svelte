@@ -5,6 +5,7 @@
   import { goto } from '@sapper/app';
 
   let typingEnd = false;
+  let typer;
 
   const redirect = (href, storyNode) => () => (
     goto(`${href}?storyNode=${storyNode}`)
@@ -103,8 +104,9 @@
 <section class="landing">
   <div class="text">
     <h1>Adventures you choose, tales you get lost in.</h1>
-    <div class="prompt" in:fade>
+    <div class="prompt" in:fade on:click={() => typer.skipTyping()}>
       <TypeText
+        bind:this={typer}
         on:end={() => typingEnd = true}
         typingSpeed={0}
         jitter={'100'}
