@@ -303,7 +303,7 @@ const stories = [
       ],
       final: true,
     },
-  }
+  },
 ];
 
 export { stories };

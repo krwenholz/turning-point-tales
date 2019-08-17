@@ -1,5 +1,5 @@
 <script>
-  import Adventure from '../../components/Adventure.svelte';
+  import Adventure from '../../components/Adventure/index.svelte';
   import exampleStory from './exampleStory';
 </script>
 

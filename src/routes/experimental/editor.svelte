@@ -1,6 +1,6 @@
 <script>
   import * as sapper from '@sapper/app';
-  import Adventure from '../../components/Adventure.svelte';
+  import Adventure from '../../components/Adventure';
   import exampleStory from '../example-story/exampleStory.js';
   import yaml from 'js-yaml';
   import { graph, validateStoryNode } from '../../lib/story_graphs.js';

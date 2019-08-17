@@ -1,16 +1,13 @@
 <script>
   import teaserStory from './teaserStory.js';
   import { fade } from '../../lib/Transition';
-  import Adventure from '../../components/Adventure.svelte';
+  import Adventure from '../../components/Adventure/index.svelte';
   import Patreon from '../../components/icons/Patreon.svelte'
   import Book from '../../components/icons/Book.svelte'
   import Button from '../../components/Button.svelte';
   import * as sapper from '@sapper/app';
 
   const { page } = sapper.stores();
-
-  export let story;
-  export let title;
 
   let storyNode = $page.query.storyNode;
 
@@ -44,10 +41,9 @@
     {storyNode}
     title=""
     story={teaserStory}
-    on:end={() => showDecisions = true}
   />
 
-  <nav transition:fade >
+  <nav>
     <Button on:click={ redirect('/about') } >
       <span>Learn about us</span>
       <Book/>

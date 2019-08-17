@@ -16,7 +16,7 @@
 </script>
 
 <script>
-  import Adventure from '../../components/Adventure.svelte';
+  import Adventure from '../../components/Adventure';
   import * as sapper from '@sapper/app';
   import { mainAdventure } from '../../lib/stores/browserStore/main-adventure';
 
@@ -25,14 +25,6 @@
 
   const { page } = sapper.stores();
 </script>
-
-<style>
-  :global(.adventure) {
-    margin: auto;
-    width: 90%;
-    max-width: 80ch;
-  }
-</style>
 
 <svelte:head>
   <title>{title}</title>
