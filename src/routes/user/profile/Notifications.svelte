@@ -1,5 +1,5 @@
 <script>
-  import CrossOut from 'src/components/icons/CrossOut.html';
+  import CrossOut from 'src/components/icons/CrossOut.svelte';
   import Clock from 'src/components/icons/Clock.svelte';
 
 </script>

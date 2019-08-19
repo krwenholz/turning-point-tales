@@ -1,7 +1,6 @@
 <script>
-  import * as sapper from '@sapper/app';
   import Button from '../Button.svelte';
-  import CrossOut from '../icons/CrossOut.html';
+  import CrossOut from '../icons/CrossOut.svelte';
   import TypeText from '../TypeText.svelte';
   import Checkbox from '../Form/Checkbox.svelte';
   import { uniq, last } from 'src/lib/utils.js';
