@@ -11,19 +11,17 @@ module "logdrain" {
   app_name             = "our_first_big_thing-${var.stage}"
 }
 
-#module "log_processor" {
-#  source               = "git::https://github.com/krwenholz/goaccess_on_aws.git?ref=master"
-#  prefix               = "our_first_big_thing-${var.stage}"
-#  region               = "us-west-2"
-#  configurations       = [
-#    {
-#      log_group : "our_first_big_thing-${var.stage}",
-#      log_filter : "",
-#      weblog_pattern : "weblog",
-#      bucket_name : "TODO"
-#    }
-#  ]
-#}
+module "log_processor" {
+  source               = "git::https://github.com/krwenholz/goaccess_on_aws.git?ref=master"
+  prefix               = "our_first_big_thing-${var.stage}"
+  region               = "us-west-2"
+  configurations       = [
+    {
+      log_group : "our_first_big_thing-${var.stage}",
+      bucket_name : "our-first-big-thing-${var.stage}"
+    }
+  ]
+}
 
 # Outputs
 #######################################################################
