@@ -19,6 +19,5 @@ provider "aws" {
 module "project" {
   source = "../../project"
 
-  app_name = "our-first-big-thing"
   stage = "staging"
 }
