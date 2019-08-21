@@ -1,31 +1,37 @@
 import Logger from 'js-logger';
-import {
-  stories
-} from './_stories.js';
+import { pool } from 'src/lib/database.js';
+import { selectQuery } from './_stories.js';
 
-function get(req, res, next) {
-  const {
-    slug
-  } = req.params;
-  const story = stories.filter((story) => story.id == slug)[0];
+export const get = async (req, res, next) => {
+  const { slug } = req.params;
+  const query = selectQuery(slug);
 
-  if (story) {
-    res.writeHead(200, {
-      'Content-Type': 'application/json'
-    });
+  try {
+    const results = await pool.query(query.text, query.values);
+    if(results.rows[0]) {
+      res.writeHead(200, {
+        'Content-Type': 'application/json'
+      });
 
-    res.end(JSON.stringify(story));
-  } else {
-    res.writeHead(404, {
+      res.end(JSON.stringify(results.rows[0]));
+    } else {
+      res.writeHead(404, {
+        'Content-Type': 'application/json'
+      });
+
+      res.end(JSON.stringify({
+        message: `Not found`
+      }));
+    }
+  } catch (e) {
+    Logger.error(e);
+
+    res.writeHead(500, {
       'Content-Type': 'application/json'
     });
 
     res.end(JSON.stringify({
-      message: `Not found`
+      message: `Sorry! We encountered an error.`
     }));
   }
-}
-
-export {
-  get
-}
+};

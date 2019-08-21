@@ -12,6 +12,9 @@ module.exports = {
   server: {
     domain: process.env['HOST'],
     port: process.env.PORT,
+    database: {
+      connectionString: process.env.DATABASE_URL + (dev ? '?ssl=true' : ''),
+    }
   },
   patreon: {
     client: {

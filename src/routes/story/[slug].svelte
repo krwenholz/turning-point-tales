@@ -1,17 +1,24 @@
 <script context="module">
-  export function preload({ params, query }) {
-    return this.fetch(`story/${params.slug}.json`, { credentials: 'include' }).then((res) => {
-      if (res.status == 200) {
-        return res.json();
-      } else if(res.status == 401) {
-        this.redirect(302, '/login');
-      } else {
-        console.error(res);
-        this.error(res.status, res);
+  export async function preload({ params, query }) {
+    const res = await this.fetch(
+      `story/${params.slug}.json`,
+      { credentials: 'include' }
+    );
+
+    if (res.status == 200) {
+      const json = await res.json();
+
+      return {
+        story: json.content,
+        title: json.title,
       }
-    }).then(({ content: story, title }) => {
-      return { story, title, };
-    });
+
+    } else if(res.status == 401) {
+      this.redirect(302, '/login');
+    } else {
+      console.error(res);
+      this.error(res.status, res);
+    }
   }
 </script>
 

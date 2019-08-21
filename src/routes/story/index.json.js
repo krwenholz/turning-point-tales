@@ -1,17 +1,20 @@
 import Logger from 'js-logger';
-import {
-  stories
-} from './_stories';
+import { pool } from 'src/lib/database.js';
+import { listAllQuery } from './_stories';
 
-function get(req, res) {
-  const contents = JSON.stringify(stories);
-  res.writeHead(200, {
-    'Content-Type': 'application/json'
-  });
+export const get = (req, res) => {
+  Logger.info('Fetching data with query', listAllQuery);
 
-  res.end(contents);
-}
+    return pool.query(listAllQuery).then((results) => {
+      const contents = JSON.stringify(results.rows);
 
-export {
-  get
+      res.writeHead(200, {
+        'Content-Type': 'application/json'
+      });
+
+      res.end(contents);
+    }).catch((error) => {
+      Logger.error(" IT NO WORRRKY")
+      res.end();
+    });
 }
