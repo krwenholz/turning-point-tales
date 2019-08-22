@@ -1,10 +1,11 @@
 const dev = process.env.NODE_ENV === 'development';
+const customLogConfig = 'H2WIB_REQUEST_LOG: :remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
 
 module.exports = {
   dev: dev,
   environment: process.env.NODE_ENV,
   logging: {
-    session: process.env.LOG_SESSION || false,
+    format: dev ? 'dev' : customLogConfig,
   },
   sendGrid: {
     apiKey: process.env['SEND_GRID_API_KEY'],
