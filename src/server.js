@@ -15,8 +15,7 @@ import { initPassport } from './authentication';
 import { Store } from 'svelte/store';
 import {
   initLogging,
-  logRequestMiddleware,
-  logSessionMiddleware
+  requestsLogger,
 } from './logging';
 import {
   requireHttps
@@ -39,7 +38,7 @@ initPassport();
 const middleware = [
   bodyParser.urlencoded({ extended: false}),
   bodyParser.json(),
-  logRequestMiddleware,
+  requestsLogger(),
   requireHttps,
   compression({
     threshold: 0
@@ -78,7 +77,6 @@ const middleware = [
   passport.initialize(),
   passport.session(),
   passport.authenticationMiddleware(),
-  logSessionMiddleware,
   sapper.middleware({
     session: (req) => ({
       user: req.user
