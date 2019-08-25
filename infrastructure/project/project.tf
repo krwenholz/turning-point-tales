@@ -18,7 +18,7 @@ module "log_processor" {
   configurations       = [
     {
       log_group : "our_first_big_thing-${var.stage}",
-      bucket_name : "our-first-big-thing-${var.stage}"
+      bucket_name : "our-first-big-thing-${var.stage}-logs"
     }
   ]
 }
