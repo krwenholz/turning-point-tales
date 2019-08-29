@@ -8,7 +8,6 @@ export const post = async (req, res) => {
     text: req.body.text,
   })
   .then(x => {
-    console.log(x.status);
     res.status(200)
     .end();
   })

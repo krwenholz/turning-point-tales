@@ -1,5 +1,6 @@
 import Logger from 'js-logger';
 import passport from 'passport';
+import { addNullPadding } from './lib/utils';
 import securePassword from 'secure-password';
 import { findUser, findUserSafeDetails } from './lib/users';
 import {
@@ -12,6 +13,7 @@ const passwordHasher = securePassword();
  * Compares passwords and hashes securely, efficiently, and with nice compatibility.
  */
 const compare = (userPassword, hash) => {
+
   return passwordHasher.verify(Buffer.from(userPassword), Buffer.from(hash))
     .then(result => {
       switch (result) {
@@ -115,11 +117,9 @@ const initPassport = () => {
     (email, password, done) => {
       findUser(email = email)
         .then(user => {
-          // User not found
           if (!user) return done(null, false);
 
-          // Always use hashed passwords and fixed time comparison
-          return compare(password, user.passwordHash)
+          return compare(password, addNullPadding(user.passwordHash))
             .then(isValid => {
               if (!isValid) return done(null, false);
 

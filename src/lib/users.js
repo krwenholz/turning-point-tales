@@ -1,115 +1,131 @@
-import AWS from 'aws-sdk';
-import Logger from 'js-logger';
-import config from 'config';
-import securePassword from 'secure-password';
-
-// TODO(kyle): Add real DB against Postgres, change session store to DB
-// TODO(kyle): CSP https://sapper.svelte.dev/docs#Content_Security_Policy_CSP
-// TODO(kyle): Password reset flow: https://stackoverflow.com/questions/20277020/how-to-reset-change-password-in-node-js-with-passport-js#27580553
-// TODO(kyle): Triple check security https://hackernoon.com/your-node-js-authentication-tutorial-is-wrong-f1a3bf831a46
-// TODO(kyle): Rate limit shit https://github.com/nfriedly/express-rate-limit https://github.com/AdamPflug/express-brute
-// TODO(kyle): User delete
-
-// TODO(kyle): Integrate login with Patreon
-// https://github.com/jaredhanson/passport-oauth2
-// http://www.passportjs.org/docs/authorize/
-
+import AWS from "aws-sdk";
+import Logger from "js-logger";
+import config from "config";
+import { pool } from "src/lib/database.js";
+import securePassword from "secure-password";
+import { listAllQuery } from "../routes/story/_stories";
+import {stripNulls} from './utils';
 const passwordHasher = securePassword();
-
 const users = [];
 
-const findUser = (identifier) => {
-  for (const user of users) {
-    if (identifier === user.email || identifier === user.id) return Promise.resolve(user);
-  }
-
-  return Promise.reject('NOT_FOUND');
-};
-
-/**
- * A function to return the interesting, and safer, subset of details about a user.
- */
-const findUserSafeDetails = (identifier) => {
-  for (const user of users) {
-    if (identifier !== user.email && identifier !== user.id) continue;
-
-    const userSafeDetails = {
-      email: user.email,
-      firstName: user.firstName,
-      id: user.id
-    };
-
-    return Promise.resolve(userSafeDetails);
-  }
-
-  return Promise.reject(null);
-};
-
-/**
- * Adds and returns a user. You should check if the user exists first, though.
- */
-const addUser = (firstName, email, password) => {
-  return findUser(email)
-    .then(user => {
-      return Promise.reject('USER_EXISTS');
-    }).catch(error => {
-      if (error !== 'NOT_FOUND') return Promise.reject(error);
-      const user = {
+const findUser = async identifier => {
+  try {
+    const results = await pool.query(
+      `
+    SELECT
         email,
-        firstName,
-        passwordHash: '',
-        id: users.length,
-      };
+        id,
+        first_name as "firstName",
+        last_name as "lastName",
+        password_hash as "passwordHash"
+    FROM
+        users
+    WHERE
+        email = $1
+    OR
+        id::text = $1;
+    `,
+      [identifier]
+    );
 
-      return passwordHasher.hash(Buffer.from(password))
-        .then(hash => {
-          user.passwordHash = hash.toString("utf-8")
-          users.push(user);
-          Logger.info('User added', user.id);
-          return findUserSafeDetails(user.id);
-        });
-    })
+    return results.rows[0];
+  } catch (err) {
+    Logger.error(err);
+    return null;
+  }
 };
 
-/**
- * Adds and returns a user. You should check if the user exists first, though.
- */
-const removeUser = (identifier) => {
-  let index = null;
-  for (const currentIndex in users) {
-    if (identifier === users[currentIndex].email || identifier === users[currentIndex].id) {
-      index = currentIndex;
-    }
+const findUserSafeDetails = async identifier => {
+  try {
+    const results = await pool.query(
+      `
+    SELECT
+        email,
+        id,
+        first_name as "firstName"
+    FROM
+        users
+    WHERE
+        email = $1
+    OR
+        id::text = $1;
+    `,
+      [identifier]
+    );
+
+    return results.rows[0];
+  } catch (err) {
+    Logger.error(err);
+    return null;
   }
+};
 
-  if(index) users.splice(index, 1);
+const addUser = async ({ firstName, lastName, email, password }) => {
+  try {
+    const hash = await passwordHasher.hash(Buffer.from(password));
 
-  Logger.info('uuu', users);
+    await pool.query(
+      `
+      INSERT INTO
+      
+        users
+      VALUES (DEFAULT, $1, $2, $3, $4, NOW(), NOW())
+    `,
+      [email, firstName, lastName, stripNulls(hash)]
+    );
 
-  return Promise.resolve();
+    Logger.info("User added", email);
+    return findUserSafeDetails(email);
+  } catch (err) {
+    Logger.error(err);
+    return Promise.reject(null);
+  }
+};
+
+const removeUser = async identifier => {
+  try {
+    pool.query(
+      `
+    DELETE FROM
+        users 
+    WHERE
+        email = $1
+    OR 
+        id:text = $1;
+  `,
+      [identifier]
+    );
+
+    Logger.info("User removed", email);
+    return Promise.resolve();
+  } catch (err) {
+    Logger.error(err);
+    return promise.reject(err);
+  }
 };
 
 const updateUserPassword = async (identifier, { password }) => {
-  const currentIdx = users.findIndex(({ id, email }) => [id, email].includes(identifier))
-
-  if (!currentIdx) return;
-
   const hash = await passwordHasher.hash(Buffer.from(password));
 
-  users[currentIdx] = {
-    ...users[currentIdx],
-    passwordHash: hash.toString('utf-8'),
-  };
-
-  Logger.info('uuu', users);
-}
-
-// TODO(kyle): Seed dis in database
-//  Async so adding users doesn't clobber eachother during this prototype phase
-(async () => {
-  await addUser('Jeff', 'jeff@h2wib.com', 'foo')
-  await addUser('kc', 'kristopherpaulsen@gmail.com', 'foo')
-})();
+  try {
+    pool.query(
+      `
+      UPDATE
+        users
+      SET
+        password_hash = $1
+      WHERE
+        email = $2
+      OR
+        id:text = $2;
+    `,
+      [hash.toString("utf-8").replace(/\0/g, ""), identifier]
+    );
+  } catch (err) {
+    Logger.error(err);
+    return null;
+  }
+};
 
 export {
   addUser,
@@ -117,4 +133,4 @@ export {
   updateUserPassword,
   findUserSafeDetails,
   removeUser
-}
+};
