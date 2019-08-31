@@ -39,10 +39,15 @@
     "passport-local": "1.0.0",
     "patreon": "^0.4.1",
     "pg": "^7.12.1",
+    "request-promise-native": "1.0.7",
     "secure-password": "3.1.0",
     "sirv": "^0.4.0",
     "sql": "^0.78.0",
+<<<<<<< HEAD
     "uuid": "^3.3.3"
+=======
+    "stripe": "7.9.0"
+>>>>>>> ad3ce49... Groundwork and TODOs for paying customers
   },
   "devDependencies": {
     "@babel/preset-env": "^7.5.5",
