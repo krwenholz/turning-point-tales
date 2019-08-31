@@ -18,15 +18,9 @@ module.exports = {
       connectionString: process.env.DATABASE_URL + (includeSSL ? '?ssl=true' : ''),
     }
   },
-  patreon: {
-    client: {
-      id: process.env['PATREON_ID'],
-      secret: process.env['PATREON_SECRET'],
-      accessToken: process.env['PATREON_ACCESS_TOKEN'],
-      refreshToken: process.env['PATREON_REFRESH_TOKEN'],
-    },
-    tiers: ['Townsperson', 'Wanderer'],
-    redirect: `${dev ? 'http' : 'https'}://${process.env['HOST']}${dev ? `:3000` : ''}/auth/login`,
+  stripe: {
+    stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+    stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
   },
   aws: {
     default: {

@@ -2,6 +2,7 @@
   import * as sapper from '@sapper/app';
   import User from 'src/components/icons/User.html';
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
+  import { Customer } from "./Stripe";
   import Notifications from './Notifications.svelte';
   import Settings from './Settings.svelte';
 
@@ -77,3 +78,5 @@
   </Tabs>
 
 </section>
+
+<Customer></Customer>
