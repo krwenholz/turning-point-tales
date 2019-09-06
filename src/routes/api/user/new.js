@@ -16,18 +16,25 @@ const get = (req, res) => {
 /**
  * Creates a new brand new user.
  */
-const post = (req, res) => {
-  return addUser(req.body.firstName, req.body.email, req.body.password)
-    .then(user => {
-      return req.logIn(user, error => {
-        if (error) return Promise.reject();
-        return res.redirect('/');
-      });
-    }).catch(error => {
-      Logger.error('Error creating user', error);
-      res.redirect('/user/create?error=unknown');
-      res.end();
+const post = async (req, res) => {
+  try {
+    const newUser = await addUser({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
     });
+
+    return req.logIn(newUser, error => {
+      if (error) return Promise.reject();
+      return res.redirect('/');
+    });
+
+  } catch (error) {
+    Logger.error('Error creating user', error);
+    res.redirect('/user/create?error=unknown');
+    res.end();
+  }
 }
 
 export {

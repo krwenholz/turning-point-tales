@@ -90,6 +90,9 @@
     <label for="firstName">First name</label>
     <input type="text" id="firstName" name="firstName" required>
 
+    <label for="firstName">Last name</label>
+    <input type="text" id="lastName" name="lastName" required>
+
     <label for="email">E-mail</label>
     <input type="email" id="email" name="email" required>
 
@@ -108,7 +111,8 @@
 
     <Button
       type="submit"
-      text="Sign up"
-      />
+    >
+      <span>Sign up</span>
+    </Button>
   </form>
 </section>

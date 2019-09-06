@@ -40,7 +40,7 @@
 <section class="login">
   <h1>Welcome!</h1>
 
-  <p>If you're new, go ahead and <a href="/user/create">create an account.</a></p>
+  <p>If you're new, go ahead and <a href="/user/new">create an account.</a></p>
 
   <form action="/api/user/login" method="POST">
 

@@ -1,5 +1,6 @@
 const dev = process.env.NODE_ENV === 'development';
 const customLogConfig = 'H2WIB_REQUEST_LOG: :remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
+const includeSSL = !process.env['HOST'].match(/^localhost$/) && dev;
 
 module.exports = {
   dev: dev,
@@ -14,7 +15,7 @@ module.exports = {
     domain: process.env['HOST'],
     port: process.env.PORT,
     database: {
-      connectionString: process.env.DATABASE_URL + (dev ? '?ssl=true' : ''),
+      connectionString: process.env.DATABASE_URL + (includeSSL ? '?ssl=true' : ''),
     }
   },
   patreon: {

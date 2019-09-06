@@ -4,7 +4,6 @@ import config from "config";
 import { pool } from "src/lib/database.js";
 import securePassword from "secure-password";
 import { listAllQuery } from "../routes/story/_stories";
-import {stripNulls} from './utils';
 const passwordHasher = securePassword();
 const users = [];
 
@@ -67,37 +66,36 @@ const addUser = async ({ firstName, lastName, email, password }) => {
     await pool.query(
       `
       INSERT INTO
-      
         users
       VALUES (DEFAULT, $1, $2, $3, $4, NOW(), NOW())
     `,
-      [email, firstName, lastName, stripNulls(hash)]
+      [email, firstName, lastName, hash]
     );
 
     Logger.info("User added", email);
     return findUserSafeDetails(email);
   } catch (err) {
     Logger.error(err);
-    return Promise.reject(null);
+    return Promise.reject(error);
   }
 };
 
 const removeUser = async identifier => {
   try {
-    pool.query(
-      `
+    await pool.query(
+        `
     DELETE FROM
         users 
     WHERE
         email = $1
     OR 
-        id:text = $1;
+        id::text = $1;
   `,
       [identifier]
     );
 
-    Logger.info("User removed", email);
-    return Promise.resolve();
+    Logger.info("User removed", identifier);
+    return Promise.resolve({});
   } catch (err) {
     Logger.error(err);
     return promise.reject(err);

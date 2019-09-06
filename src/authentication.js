@@ -1,6 +1,5 @@
 import Logger from 'js-logger';
 import passport from 'passport';
-import { addNullPadding } from './lib/utils';
 import securePassword from 'secure-password';
 import { findUser, findUserSafeDetails } from './lib/users';
 import {
@@ -47,6 +46,7 @@ const allowedBaseRoutes = [
   '/landing',
   '/stories',
   '/about',
+  '/user/new',
   '/api/password-reset',
   '/api/user/fake_login',
   '/api/user/initiate_login',
@@ -101,8 +101,16 @@ passport.serializeUser((user, cb) => {
 /**
  * Puts the user in req.user by finding by id.
  */
-passport.deserializeUser((id, cb) => {
-  findUserSafeDetails(id = id).then(details => cb(null, details)).catch(error => cb(error));
+passport.deserializeUser(async (id, cb) => {
+  try {
+    const details = await findUserSafeDetails(id = id)
+
+    if(!details) return cb(null, false);
+
+    return cb(null, details)
+  } catch(error) {
+    return cb(error);
+  }
 });
 
 /**
@@ -119,7 +127,7 @@ const initPassport = () => {
         .then(user => {
           if (!user) return done(null, false);
 
-          return compare(password, addNullPadding(user.passwordHash))
+          return compare(password, user.passwordHash)
             .then(isValid => {
               if (!isValid) return done(null, false);
 

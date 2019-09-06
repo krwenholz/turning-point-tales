@@ -49,7 +49,7 @@
       <Book/>
     </Button>
 
-    <Button on:click={ redirect('/user/create') } >
+    <Button on:click={ redirect('/user/new') } >
       <span>Create an account!</span>
       <Patreon/>
     </Button>

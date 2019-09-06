@@ -8,18 +8,17 @@ import { removeUser } from '../../../lib/users';
 /**
  * Deletes a user.
  */
-const post = (req, res) => {
-  return removeUser(req.email)
-    .then(user => {
-      res.redirect('/');
-      res.end();
-    }).catch(error => {
-      Logger.error('Error deleting user', error);
-      res.redirect('/user/profile');
-      res.end();
-    });
-}
+const del = async (req, res) => {
+  try {
+    await removeUser(req.query.email);
+    res.end();
+  } catch (error) {
+    Logger.error('Error deleting user', error);
+    res.status(500)
+       .send(e)
+  }
+};
 
 export {
-  post
+  del,
 }

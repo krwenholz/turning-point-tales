@@ -1,11 +1,22 @@
 <script>
   import * as sapper from '@sapper/app';
-  const {  session } = sapper.stores();
+  const { goto } = sapper;
+  const { session } = sapper.stores();
   import { axios } from 'src/lib/axios';
 
-  const deleteUser = () => axios.post('/api/user/destroy', {
-    email: $session.user.email,
-  });
+  const deleteUser = async () => {
+    try {
+      await axios.delete('/api/user/', {
+        params: {
+          email: $session.user.email,
+        }
+      });
+
+      window.location.href = '/landing'; // since we deleted, need hard page refresh
+    } catch (error) {
+      alert(error);
+    };
+  }
 
 </script>
 
