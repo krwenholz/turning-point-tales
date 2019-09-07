@@ -14,8 +14,9 @@ END;
 $$ language 'plpgsql';
 
 CREATE TABLE IF NOT EXISTS stories (
-  id SERIAL PRIMARY KEY,
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   title TEXT NOT NULL,
+  author TEXT NOT NULL,
   content JSONB NOT NULL,
   tags text[] NOT NULL,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -23,8 +24,7 @@ CREATE TABLE IF NOT EXISTS stories (
 );
 
 CREATE TABLE IF NOT EXISTS users (
-  id uuid NOT NULL DEFAULT uuid_generate_v4(),
-  PRIMARY KEY (id),
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   email TEXT UNIQUE NOT NULL,
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,

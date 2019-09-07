@@ -1,6 +1,6 @@
 const dev = process.env.NODE_ENV === 'development';
 const customLogConfig = 'H2WIB_REQUEST_LOG: :remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"';
-const includeSSL = !process.env['HOST'].match(/^localhost$/) && dev;
+const includeSSL = !process.env['HOST'].match(/^localhost$/) && !dev;
 
 module.exports = {
   dev: dev,

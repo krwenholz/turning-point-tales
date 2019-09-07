@@ -76,7 +76,7 @@ const addUser = async ({ firstName, lastName, email, password }) => {
     return findUserSafeDetails(email);
   } catch (err) {
     Logger.error(err);
-    return Promise.reject(error);
+    return Promise.reject(err);
   }
 };
 

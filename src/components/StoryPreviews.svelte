@@ -64,7 +64,7 @@
 </style>
 
 <section class="story-previews">
-  {#each stories as { id, author, title, content, teaser, label, tags }}
+  {#each stories as { id, author, title, content, label, tags }}
     <article>
       <header>
         <h2>
@@ -77,9 +77,9 @@
         <span class="tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
         {/each}
       </div>
-      <p>{teaser}</p>
+      <p>{content.start.text[0].slice(0, 200)}...</p>
       <Button on:click={() => goto(`/story/${id}`)} >
-        {label}
+        Continue...
       </Button>
     </article>
   {/each}

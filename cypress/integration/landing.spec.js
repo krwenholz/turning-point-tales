@@ -22,9 +22,9 @@ describe('authenticated', () => {
   });
 
   it('should be able to access auth-only pages', () => {
-    cy.logIn()
-    .visit('/story/1')
-    .url().should('match', /\/story\/1/)
+    cy.logIn();
+    cy.contains('Continue...').click();
+    cy.url().should('match', /\/story\/[a-z0-9-]+\?storyNode=start/)
   })
 });
 

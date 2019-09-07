@@ -64,6 +64,18 @@ jobs:
       - deploy:
           app: our-first-big-thing
 
+  reset-staging:
+    docker:
+      - image: circleci/node:11.6.0
+    steps:
+      - checkout
+      - run:
+          name: Install
+          command: npm install
+      - run:
+          name: Seed
+          command: CONNECTION_STRING="$STAGING_DATABASE_URL" npm run db:seed
+
   test-staging:
     machine: true
     steps:
@@ -80,10 +92,12 @@ workflows:
   version: 2.1
   ci:
     jobs:
+      - reset-staging
       - deploy-staging
       - test-staging:
           requires:
             - deploy-staging
+            - reset-staging
       - deploy-production:
           requires:
             - test-staging

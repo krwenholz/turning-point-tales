@@ -1,4 +1,3 @@
->  TODO(kyle): https://goaccess.io/ for log viewing
 >  https://github.com/expressjs/morgan
 >  https://goaccess.io/man#examples # Processing logs incrementally
 >  TODO(kyle): share buttons
@@ -16,6 +15,12 @@ with the `DATABASE_URL` environment variable. You can grab the Heroku one with
   heroku pg:credentials:url
 
 Set this before starting the server and you should be good to go.
+
+# Database seeds
+
+We have a script! Run
+
+  CONNECTION_STRING='SOME_URL_FOR_A_DATABASE' npm run db:seed
 
 # Test
 

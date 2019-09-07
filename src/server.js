@@ -49,6 +49,7 @@ const middleware = [
     immutable: true
   }),
   cookieParser(process.env.SECRET),
+  // TODO(kyle): https://github.com/expressjs/session#store
   session({
     resave: true,
     saveUninitialized: false,

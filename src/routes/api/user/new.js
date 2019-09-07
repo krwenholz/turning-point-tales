@@ -5,9 +5,6 @@ import securePassword from 'secure-password';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { findUser, addUser } from '../../../lib/users';
 
-// TODO(kyle): GET route to accept JWT or reject with new reset prompt, accept
-// JWT that manages password reset
-// https://github.com/auth0/node-jsonwebtoken
 const get = (req, res) => {
   res.redirect('/');
   res.end();

@@ -12,7 +12,8 @@
     "test": "run-p --race dev cy:run",
     "unit": "jest --config=jest.config.js",
     "test:unit": "jest --config=jest.config.js",
-    "format": "js-beautify --replace src/**/*.js"
+    "format": "js-beautify --replace src/**/*.js",
+    "db:seed": "node postgres/dev/seed.js"
   },
   "dependencies": {
     "@ibm/plex": "^1.2.3",
