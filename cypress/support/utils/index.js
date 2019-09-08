@@ -39,8 +39,8 @@ export const deleteUser = (cy) => {
 };
 
 export const logOut = (cy) => {
-  cy.request('/api/user/logout')
-    .visit('/');
+  cy.wait(100)
+    .visit('/api/user/logout')
 }
 
 export const logInAs = (cy, { email, password }) => {

@@ -5,7 +5,7 @@ describe('creating and deleting accounts', () => {
     const user = createUser(cy);
 
     cy.get('header nav span')
-      .contains(user.firstName);
+      .should('have.text', user.firstName);
 
     deleteUser(cy);
 
@@ -15,8 +15,9 @@ describe('creating and deleting accounts', () => {
       .contains('Login');
   });
 
-  it('creates an account, logs out, and can log back into previous account', () => {
+  it(' creates an account, logs out, and can log back into previous account', () => {
     const user = createUser(cy);
+
     logOut(cy);
 
     cy.url()

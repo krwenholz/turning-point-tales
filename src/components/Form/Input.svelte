@@ -21,7 +21,7 @@
 
   input {
     padding: 0 8px 0 8px;
-    margin-top: 4px;
+    margin: 4px 0 8px 0;
     border: var(--input-border);
     border-radius: var(--root-border-radius);
     min-height: 36px;

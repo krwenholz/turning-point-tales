@@ -1,5 +1,6 @@
 <script>
   export let className = '';
+  export let id = '';
   export let checked = false;
   export let onChange;
 </script>
@@ -23,7 +24,7 @@
   .box {
     height: 26px;
     width: 26px;
-    border: 1px solid var(--root-color-accent);
+    border: var(--input-border);
     border-radius: var(--root-border-radius);
   }
 
@@ -36,7 +37,7 @@
     width: 7px;
     height: 12px;
     margin: 0;
-    border: solid var(--root-color-accent);
+    border: solid var(--root-color-primary-altered);
     border-width: 0 2px 2px 0;
     transition: all .2s ease-out;
     transform: rotate(45deg);
@@ -56,6 +57,7 @@
 <label class={`checkbox ${className}`}>
   <input
     {checked}
+    {id}
     on:click={onChange}
     type="checkbox"
   />

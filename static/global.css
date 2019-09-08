@@ -9,6 +9,7 @@
   --root-color-primary-altered: dimgray;
   --root-color-accent: #355178;
   --root-color-background: whitesmoke;
+  --root-color-error: red;
   --root-call-to-action: darkolivegreen;
 
   --root-vertical-spacing: 16px;
@@ -120,4 +121,12 @@ ul {
   opacity: 0;
   position: absolute;
   visibility: hidden;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.error {
+  color: var(--root-color-error);
 }

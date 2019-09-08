@@ -63,7 +63,6 @@
   a {
     text-align: left;
   }
-
 </style>
 
 <Form className='password-reset'>

@@ -1,25 +1,38 @@
 <script>
-  import Button from '../../components/Button.svelte';
-  import { fetchCsrf } from '../../lib/client/csrf';
-  import { onMount } from 'svelte';
-  import { stores } from '@sapper/app';
+  import * as sapper from '@sapper/app';
+  import { fade } from 'src/lib/Transition';
+  import { axios } from 'src/lib/axios';
+  import { statusTracking } from 'src/lib/stores/status-tracking';
+  import { Input, Form, Checkbox } from 'src/components/Form';
+  import Button from 'src/components/Button.svelte';
 
-	const { page } = stores();
+	const { page } = sapper.stores();
+	const { goto } = sapper;
 
-  let csrf;
-  let confirmPasswordElement
+	let firstName = '';
+	let lastName = '';
+	let email = '';
   let password = '';
   let confirmPassword = '';
+  let tos = false;
+  let errorMsg = '';
+  let [submission, track] = statusTracking();
 
-  $: if(confirmPasswordElement !== undefined) {
-    if (password !== confirmPassword) {
-      confirmPasswordElement.setCustomValidity('Passwords must match.');
-    } else {
-      confirmPasswordElement.setCustomValidity('');
+  const handleSubmit = track(async () => {
+    try {
+      await axios.post('/api/user/new', {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+
+      window.location.href = '/'; //hard refresh needed to propogate login
     }
-  }
-
-  onMount(() => csrf = fetchCsrf());
+    catch ({ response }) {
+      errorMsg = `Unable to create your account. Please check for spelling and formatting.`;
+    }
+  });
 </script>
 
 <style>
@@ -36,32 +49,10 @@
     justify-content: center;
   }
 
-  form {
-    padding: 16px;
-    display: flex;
-    flex-flow: column;
-    border: 1px solid gray;
-    border-radius: var(--root-border-radius);
-  }
-
-  input {
-    border: 1px solid gray;
-    border-radius: var(--root-border-radius);
-    margin-bottom: 1rem;
-  }
-
-  #tos_and_privacy {
-    margin-bottom: 0;
-  }
-
   @media only screen and (max-width: 45rem) {
 		.text {
 			max-width: 75%;
 		}
-
-    input {
-      max-width: 100%
-    }
   }
 </style>
 
@@ -84,35 +75,74 @@
 </section>
 
 <section class="form text">
-  <form action="/api/user/new" method="POST">
-    <input type="hidden" name="_csrf" value="{csrf}">
+  <Form>
+
+    {#if errorMsg}
+      <span class='error form-group'>
+        {errorMsg}
+      </span>
+    {/if}
 
     <label for="firstName">First name</label>
-    <input type="text" id="firstName" name="firstName" required>
+    <Input
+      id="firstName"
+      type='text'
+      on:input={e => firstName = e.target.value}
+      placeholder='First Name'
+    />
 
     <label for="firstName">Last name</label>
-    <input type="text" id="lastName" name="lastName" required>
+    <Input
+      id="lastName"
+      type='text'
+      on:input={e => lastName = e.target.value}
+      placeholder='First Name'
+    />
 
-    <label for="email">E-mail</label>
-    <input type="email" id="email" name="email" required>
+    <label for="email">email</label>
+    <Input
+      id="email"
+      type='email'
+      on:input={e => email = e.target.value}
+      placeholder='First Name'
+    />
 
-    <label for="password">Password (8-32 characters)</label>
-    <!-- TODO(kyle): minlength isn't working -->
-    <input type="password" id="password" name="password" minlength=8 maxlength=32 required bind:value={password}>
+    <label for="password">password</label>
+    <Input
+      id="password"
+      type='password'
+      on:input={e => password = e.target.value}
+      placeholder='password'
+    />
 
-    <label for="confirmPassword">Confirm password</label>
-    <input bind:this={confirmPasswordElement} bind:value={confirmPassword} type="password" id="confirmPassword" name="confirmPassword" required>
+    <label for="confirmPassword">Confirm your password</label>
+    <Input
+      id="confirmPassword"
+      type='password'
+      on:input={e => confirmPassword = e.target.value}
+      placeholder='confirm password'
+    />
 
     <div>
-      <input type="checkbox" id="tos_and_privacy" name="tos_and_privacy" required>
-      <label for="tos_and_privacy">I agree to the <a href="/tos">Terms of Service</a> and
-        <a href="/privacy">Privacy Policy</a>.</label>
+      <Checkbox
+        id="tos_and_privacy"
+        name="tos_and_privacy"
+        className="form-group"
+      >
+      <span for="tos_and_privacy">
+        I agree to the
+        <a href="/tos">Terms of Service</a>
+        and
+        <a href="/privacy">Privacy Policy</a>.
+      </span>
+      </Checkbox>
     </div>
 
     <Button
-      type="submit"
+      on:click={handleSubmit}
+      isSubmitting={$submission.isPending}
     >
-      <span>Sign up</span>
+      Sign up
     </Button>
-  </form>
+  </Form>
 </section>

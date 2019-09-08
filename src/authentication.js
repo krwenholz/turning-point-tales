@@ -51,6 +51,7 @@ const allowedBaseRoutes = [
   '/api/user/fake_login',
   '/api/user/initiate_login',
   '/api/user/logout',
+  '/api/user/new',
   '/index',
   '/privacy',
   '/service-worker.js',

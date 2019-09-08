@@ -22,15 +22,15 @@ const post = async (req, res) => {
       password: req.body.password,
     });
 
-    return req.logIn(newUser, error => {
+    req.logIn(newUser, error => {
       if (error) return Promise.reject();
-      return res.redirect('/');
     });
 
+    return res.end();
   } catch (error) {
     Logger.error('Error creating user', error);
-    res.redirect('/user/create?error=unknown');
-    res.end();
+    res.status(400)
+       .end();
   }
 }
 
