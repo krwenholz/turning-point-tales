@@ -3,8 +3,8 @@
   import CrossOut from '../icons/CrossOut.svelte';
   import TypeText from '../TypeText.svelte';
   import { uniq, last } from 'src/lib/utils.js';
-  import { fade } from '../../lib/Transition';
-  import { safeWindow } from '../../lib/safe-window.js';
+  import { fade } from 'src/lib/Transition';
+  import { safeWindow } from 'src/lib/client/safe-window.js';
   import { writable } from 'svelte/store';
 
   export let className = '';
