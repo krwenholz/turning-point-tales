@@ -1,7 +1,7 @@
 import Logger from 'js-logger';
 import passport from 'passport';
 import securePassword from 'secure-password';
-import { findUser, findUserSafeDetails } from './lib/users';
+import { findUser, findUserSafeDetails } from 'src/lib/server/users';
 import {
   Strategy as LocalStrategy
 } from 'passport-local';

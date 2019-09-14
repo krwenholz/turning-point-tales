@@ -1,5 +1,5 @@
 import Logger from 'js-logger';
-import { pool } from 'src/lib/database.js';
+import { pool } from 'src/lib/server/database.js';
 import { selectQuery } from './_stories.js';
 
 export const get = async (req, res, next) => {

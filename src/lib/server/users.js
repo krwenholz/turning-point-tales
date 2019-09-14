@@ -1,7 +1,7 @@
 import AWS from "aws-sdk";
 import Logger from "js-logger";
 import config from "config";
-import { pool } from "src/lib/database.js";
+import { pool } from "src/lib/server/database.js";
 import securePassword from "secure-password";
 import { listAllQuery } from "../routes/story/_stories";
 const passwordHasher = securePassword();

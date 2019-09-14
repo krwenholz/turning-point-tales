@@ -16,15 +16,15 @@ import uuidv4 from 'uuid/v4';
 import { Store } from 'svelte/store';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { initPassport } from './authentication';
-import { pool } from "src/lib/database.js";
+import { pool } from "src/lib/server/database.js";
 import {
   initLogging,
   requestsLogger,
 } from './logging';
 import {
   requireHttps
-} from './lib/require_https';
-import { exposeCsrfMiddleware } from './lib/csrf';
+} from 'src/lib/server/require_https';
+import { exposeCsrfMiddleware } from 'src/lib/server/csrf';
 
 initLogging();
 const dev = config.get('dev');

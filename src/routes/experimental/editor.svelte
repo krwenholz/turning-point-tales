@@ -1,9 +1,9 @@
 <script>
   import * as sapper from '@sapper/app';
-  import Adventure from '../../components/Adventure';
-  import exampleStory from '../example-story/exampleStory.js';
+  import Adventure from 'src/components/Adventure';
+  import exampleStory from 'src/routes/example-story/exampleStory.js';
   import yaml from 'js-yaml';
-  import { graph, validateStoryNode } from '../../lib/story_graphs.js';
+  import { graph, validateStoryNode } from 'src/lib/client/story_graphs.js';
 
   const { page, session } = sapper.stores();
 

@@ -1,5 +1,5 @@
 import { emailPasswordReset } from 'src/lib/email/pre-defined/email-password-reset';
-import { getResetUrl, setNewPassword } from '../../lib/password-reset.js';
+import { getResetUrl, setNewPassword } from 'src/lib/server/password-reset.js';
 import Logger from 'js-logger';
 
 export const post = async (req, res) => {

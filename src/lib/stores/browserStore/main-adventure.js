@@ -1,6 +1,6 @@
 import { browserStore } from '../browserStore';
 import { MAIN_ADVENTURE } from './preDefinedKeys';
-import { safeWindow } from 'src/lib/safe-window';
+import { safeWindow } from 'src/lib/client/safe-window';
 
 const initialState = {
   storyNode: undefined,
