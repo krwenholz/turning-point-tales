@@ -80,21 +80,7 @@
     padding: 5px;
   }
 
-  .menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .menu li {
-    border-bottom: 1px solid #ccc;
-  }
-
-  .menu li:last-child {
-    border: none;
-  }
-
-  .menu li:hover {
+  .menu a:hover {
     font-weight: bold;
   }
 </style>
@@ -109,11 +95,8 @@
     <div class="user-block">
       <span>{$session.user.firstName}</span>
       <div class="menu">
-        <h3 id="user_name">{$session.user.firstName}</h3>
-        <ul>
-          <li><a href='/api/user/logout'>Logout</a></li>
-          <li><a href='https://www.patreon.com/join/turningpointtales/checkout'>Adjust contribution</a></li>
-        </ul>
+        <h3 id="user_name"><a href='/user/profile'>Profile and settings</a></h3>
+        <a href='/api/user/logout'>Logout</a>
       </div>
     </div>
     {:else}

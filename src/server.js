@@ -4,15 +4,17 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import config from 'config';
 import cookieParser from 'cookie-parser';
-import passport from 'passport';
-import securePassword from 'secure-password';
-import { Strategy as LocalStrategy } from 'passport-local';
-import session from 'express-session';
 import csurf from 'csurf';
 import express from 'express';
+import passport from 'passport';
+import securePassword from 'secure-password';
+import pgSession from 'connect-pg-simple';
+import session from 'express-session';
 import sirv from 'sirv';
-import { initPassport } from './authentication';
 import { Store } from 'svelte/store';
+import { Strategy as LocalStrategy } from 'passport-local';
+import { initPassport } from './authentication';
+import { pool } from "src/lib/database.js";
 import {
   initLogging,
   requestsLogger,
@@ -54,13 +56,16 @@ const middleware = [
     resave: true,
     saveUninitialized: false,
     secret: process.env.SECRET,
+    store: new (pgSession(session))({
+      pool: pool,
+      tableName: 'user_sessions',
+    }),
     cookie: {
       domain: config.get('server.domain'),
       httpOnly: true,
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       name: 'session-' + config.get('server.domain'),
-      // TODO(kyle): Custom logins probably mean this can be strict
-      sameSite: 'lax',
+      sameSite: 'strict',
       secure: !config.get('dev'),
     }
   }),
