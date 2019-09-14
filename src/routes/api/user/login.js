@@ -3,7 +3,7 @@ import config from 'config';
 import passport from 'passport';
 import securePassword from 'secure-password';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { findUserSafeDetails } from '../../../lib/users';
+import { findUserSafeDetails } from 'src/lib/server/users';
 
 const post = (req, res, next) => {
   passport.authenticate('local',
