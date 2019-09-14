@@ -32,3 +32,20 @@ CREATE TABLE IF NOT EXISTS users (
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE OR REPLACE FUNCTION update_modified_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.modified = now();
+  RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Users, ends up managed by connect-pg-simple
+CREATE TABLE "user_sessions" (
+  "sid" varchar NOT NULL COLLATE "default",
+	"sess" json NOT NULL,
+	"expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+ALTER TABLE "user_sessions" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;

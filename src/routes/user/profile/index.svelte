@@ -49,7 +49,7 @@
 </style>
 
 <svelte:head>
-  <title>Editor?</title>
+  <title>Your profile</title>
 </svelte:head>
 
 <section class='profile'>
