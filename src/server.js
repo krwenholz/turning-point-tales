@@ -6,11 +6,13 @@ import config from 'config';
 import cookieParser from 'cookie-parser';
 import csurf from 'csurf';
 import express from 'express';
+import helmet from 'helmet';
 import passport from 'passport';
 import securePassword from 'secure-password';
 import pgSession from 'connect-pg-simple';
 import session from 'express-session';
 import sirv from 'sirv';
+import uuidv4 from 'uuid/v4';
 import { Store } from 'svelte/store';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { initPassport } from './authentication';
@@ -36,6 +38,14 @@ if (!config.get('dev')) {
 }
 
 initPassport();
+
+const nonce = (req, res, next) => {
+  res.locals.nonce = uuidv4();
+  next();
+};
+
+const additionalSrcs = [];
+if(config.get('dev')) additionalSrcs.push(config.get('server.domain')+':10000');
 
 const middleware = [
   bodyParser.urlencoded({ extended: false}),
@@ -80,6 +90,18 @@ const middleware = [
     }
   }),
   exposeCsrfMiddleware,
+  exposeStripeKeyMiddleware,
+  nonce,
+  helmet({
+    contentSecurityPolicy: {
+      reportOnly: true,
+      directives: {
+        scriptSrc: [ "'self'", "js.stripe.com", (req, res) => `'nonce-${res.locals.nonce}'`],
+        connectSrc: ["'self'", "api.stripe.com"].concat(additionalSrcs),
+        frameSrc: ["js.stripe.com", "hooks.stripe.com"],
+      }
+    }
+  }),
   passport.initialize(),
   passport.session(),
   passport.authenticationMiddleware(),
