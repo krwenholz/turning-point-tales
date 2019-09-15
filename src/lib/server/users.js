@@ -1,10 +1,10 @@
+const passwordHasher = securePassword();
 import AWS from "aws-sdk";
 import Logger from "js-logger";
 import config from "config";
-import { pool } from "src/lib/server/database.js";
 import securePassword from "secure-password";
-import { listAllQuery } from "../routes/story/_stories";
-const passwordHasher = securePassword();
+import { pool } from "src/lib/server/database.js";
+
 const users = [];
 
 const findUser = async identifier => {
@@ -30,7 +30,7 @@ const findUser = async identifier => {
     return results.rows[0];
   } catch (err) {
     Logger.error(err);
-    return null;
+    return Promise.reject(err);
   }
 };
 
@@ -39,15 +39,18 @@ const findUserSafeDetails = async identifier => {
     const results = await pool.query(
       `
     SELECT
-        email,
-        id,
-        first_name as "firstName"
+        users.email,
+        users.id as id,
+        users.first_name as "firstName",
+        subscriptions.stripe_customer_id as "stripeCustomerId",
+        subscriptions.subscription_period_end as "subscriptionPeriodEnd"
     FROM
         users
+        LEFT JOIN subscriptions ON users.id = subscriptions.user_id
     WHERE
-        email = $1
+        users.email = $1
     OR
-        id::text = $1;
+        users.id::text = $1;
     `,
       [identifier]
     );
@@ -55,7 +58,7 @@ const findUserSafeDetails = async identifier => {
     return results.rows[0];
   } catch (err) {
     Logger.error(err);
-    return null;
+    return Promise.reject(err);
   }
 };
 
@@ -85,10 +88,10 @@ const removeUser = async identifier => {
     await pool.query(
         `
     DELETE FROM
-        users 
+        users
     WHERE
         email = $1
-    OR 
+    OR
         id::text = $1;
   `,
       [identifier]
@@ -106,29 +109,57 @@ const updateUserPassword = async (identifier, { password }) => {
   const hash = await passwordHasher.hash(Buffer.from(password));
 
   try {
-    pool.query(
+    await pool.query(
       `
       UPDATE
         users
       SET
-        password_hash = $1
+        password_hash = $2
       WHERE
-        email = $2
+        email = $1
       OR
-        id:text = $2;
+        id::text = $1;
     `,
-      [hash.toString("utf-8").replace(/\0/g, ""), identifier]
+      [identifier, hash.toString("utf-8").replace(/\0/g, "")]
     );
+
+    return Promise.resolve({});
   } catch (err) {
     Logger.error(err);
-    return null;
+    return Promise.reject(err);
+  }
+};
+
+const setSubscriptionDetails = async (identifier, stripeCustomerId, subscriptionPeriodEnd) => {
+  try {
+    await pool.query(
+      `
+      INSERT INTO subscriptions (user_id, stripe_customer_id, subscription_period_end)
+      VALUES (
+        $1,
+        $2,
+        $3
+      )
+      ON CONFLICT(user_id)
+      DO UPDATE
+        SET
+          stripe_customer_id = $2,
+          subscription_period_end = $3;
+    `,
+      [identifier, stripeCustomerId, subscriptionPeriodEnd]
+    );
+    return {identifier, stripeCustomerId, subscriptionPeriodEnd};
+  } catch (err) {
+    Logger.error(err);
+    return Promise.reject(err);
   }
 };
 
 export {
   addUser,
   findUser,
-  updateUserPassword,
   findUserSafeDetails,
-  removeUser
+  removeUser,
+  setSubscriptionDetails,
+  updateUserPassword
 };

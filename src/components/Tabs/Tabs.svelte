@@ -3,8 +3,12 @@
 </script>
 
 <script>
+  import { safeWindow } from 'src/lib/client/safe-window.js';
   import { setContext, onDestroy } from 'svelte';
   import { writable } from 'svelte/store';
+  import { stores } from '@sapper/app';
+
+  const { page } = stores();
 
   const tabs = [];
   const panels = [];
@@ -14,7 +18,7 @@
   setContext(TABS, {
     registerTab: tab => {
       tabs.push(tab);
-      selectedTab.update(current => current || tab);
+      selectedTab.update(current => $page.query.tab === tab ? tab : current);
 
       onDestroy(() => {
         const i = tabs.indexOf(tab);
@@ -25,7 +29,8 @@
 
     registerPanel: panel => {
       panels.push(panel);
-      selectedPanel.update(current => current || panel);
+      const indexOfTab = tabs.indexOf($page.query.tab);
+      selectedPanel.update(current => current == undefined || indexOfTab == (panels.length - 1) ? panel : current);
 
       onDestroy(() => {
         const i = panels.indexOf(panel);
@@ -43,6 +48,14 @@
       const i = tabs.indexOf(tab);
       selectedTab.set(tab);
       selectedPanel.set(panels[i]);
+
+      console.log('foo', tab)
+
+      safeWindow().history.pushState(
+        '',
+        '',
+        `${safeWindow().location.pathname}?tab=${tab}`
+      )
     },
 
     selectedTab,

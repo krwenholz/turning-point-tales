@@ -21,8 +21,10 @@ const reset = async () => {
   try {
     await pool.query(
       `
-    TRUNCATE users;
+    DELETE FROM users;
+    TRUNCATE user_sessions;
     TRUNCATE stories;
+    TRUNCATE subscriptions;
     `,
     );
 
