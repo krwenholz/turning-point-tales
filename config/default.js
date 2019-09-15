@@ -19,8 +19,9 @@ module.exports = {
     }
   },
   stripe: {
-    stripeSecretKey: process.env.STRIPE_SECRET_KEY,
-    stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+    secretKey: Buffer.from(process.env.STRIPE_SECRET_KEY).toString('base64'),
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+    subscriptionId: process.env.STRIPE_SUBSCRIPTION_PLAN_ID,
   },
   aws: {
     default: {

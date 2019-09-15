@@ -14,10 +14,10 @@
 </script>
 
 <script>
-  import { stores } from '@sapper/app';
   import Introduction from '../components/Introduction.svelte';
-  import Logger from 'js-logger';
   import StoryPreviews from '../components/StoryPreviews.svelte';
+  import { Logger } from 'src/lib/client/logger';
+  import { stores } from '@sapper/app';
 
   const { page, session } = stores();
 

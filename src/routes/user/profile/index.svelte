@@ -64,12 +64,17 @@
 
   <Tabs>
     <TabList>
-      <Tab> Notifications </Tab>
-      <Tab> Settings </Tab>
+      <Tab name="notifications"> Notifications </Tab>
+      <Tab name="adventurer"> Adventurer </Tab>
+      <Tab name="settings"> Settings </Tab>
     </TabList>
 
     <TabPanel>
       <Notifications/>
+    </TabPanel>
+
+    <TabPanel>
+      <Customer/>
     </TabPanel>
 
     <TabPanel>
@@ -78,5 +83,3 @@
   </Tabs>
 
 </section>
-
-<Customer></Customer>

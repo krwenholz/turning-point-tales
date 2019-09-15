@@ -2,10 +2,11 @@
   import { getContext } from 'svelte';
   import { TABS } from './Tabs.svelte';
 
-  const tab = Symbol();
+  export let name;
+
   const { registerTab, selectTab, selectedTab, selectIdx } = getContext(TABS);
 
-  registerTab(tab);
+  registerTab(name);
 </script>
 
 <style>
@@ -25,7 +26,7 @@
   }
 </style>
 
-<button class='tab' class:selected="{$selectedTab === tab}" on:click="{() => selectTab(tab)}">
+<button class='tab' class:selected="{$selectedTab === name}" on:click="{() => selectTab(name)}">
   <h3>
     <slot />
   </h3>
