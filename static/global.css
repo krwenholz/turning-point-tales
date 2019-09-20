@@ -115,6 +115,11 @@ ul {
   padding: 0;
 }
 
+input[type='checkbox'] {
+  min-width: 26px;
+  min-height: 26px;
+}
+
 /* UTILS */
 
 .hidden {

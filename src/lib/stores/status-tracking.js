@@ -14,10 +14,10 @@ const status = (initial) => {
   };
 }
 
-const track = tracker => func => () => {
+const track = tracker => func => (...props) => {
   tracker.set('isPending', true);
 
-  const promise = func();
+  const promise = func(...props);
 
   promise.then(() => tracker.set('isFulfilled', true));
   promise.finally(() => tracker.set('isPending', false));

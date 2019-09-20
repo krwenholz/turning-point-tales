@@ -8,8 +8,11 @@
   export let id = Date.now(); // For some reason, if this doesnt have an id, autocomplete won't work...
   export let placeholder = '';
   export let disabled = false;
+  let input;
 
   const dispatch = createEventDispatcher();
+
+  export const setCustomValidity = (...props) => input.setCustomValidity(...props);
 </script>
 
 <style>
@@ -34,17 +37,13 @@
 <label>
     <slot/>
     <input
-      {placeholder}
-      {id}
-      {name}
-      {value}
-      {type}
+      bind:this={input}
       class={`input ${className}`}
-      disabled={disabled}
       class:disabled
       on:click
       on:blur
       on:input
       autocomplete="on"
+      {...$$props}
     />
 </label>

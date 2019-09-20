@@ -1,4 +1,5 @@
 <script>
+  export let required = false;
   export let className = '';
   export let id = '';
   export let checked = false;
@@ -19,11 +20,13 @@
     opacity: 0;
     margin: 0;
     cursor: pointer;
+    min-height: 26px;
+    min-width: 26px;
   }
 
   .box {
-    height: 26px;
-    width: 26px;
+    min-height: 26px;
+    min-width: 26px;
     border: var(--input-border);
     border-radius: var(--root-border-radius);
   }
@@ -56,8 +59,7 @@
 
 <label class={`checkbox ${className}`}>
   <input
-    {checked}
-    {id}
+    {...$$props}
     on:click={onChange}
     type="checkbox"
   />

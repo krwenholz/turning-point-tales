@@ -9,6 +9,8 @@
 	const { page } = sapper.stores();
 	const { goto } = sapper;
 
+	let form;
+	let confirmPasswordElement;
 	let firstName = '';
 	let lastName = '';
 	let email = '';
@@ -18,7 +20,20 @@
   let errorMsg = '';
   let [submission, track] = statusTracking();
 
+  const validateForm = () => {
+    if (confirmPassword !== password) {
+      confirmPasswordElement.setCustomValidity('Passwords must match.');
+    } else {
+      confirmPasswordElement.setCustomValidity('');
+    }
+
+    return form.checkValidity();
+  }
+
   const handleSubmit = track(async () => {
+
+    if (!validateForm()) return;
+
     try {
       await axios.post('/api/user/new', {
         firstName,
@@ -49,10 +64,21 @@
     justify-content: center;
   }
 
-  @media only screen and (max-width: 45rem) {
-		.text {
-			max-width: 75%;
-		}
+  :global(.checkbox) {
+    margin: 0 8px 16px 0;
+  }
+
+  .form-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .form-group :global(.input) {
+    margin-bottom: 0;
+  }
+
+  :global(.form-group input[type='checkbox']) {
+    margin-right: 16px;
   }
 </style>
 
@@ -75,12 +101,12 @@
 </section>
 
 <section class="form text">
-  <Form>
-
+  <Form on:submit={handleSubmit} bind:this={form}>
     {#if errorMsg}
       <span class='error form-group'>
         {errorMsg}
       </span>
+      <br/>
     {/if}
 
     <label for="firstName">First name</label>
@@ -89,6 +115,7 @@
       type='text'
       on:input={e => firstName = e.target.value}
       placeholder='First Name'
+      required
     />
 
     <label for="firstName">Last name</label>
@@ -97,50 +124,55 @@
       type='text'
       on:input={e => lastName = e.target.value}
       placeholder='First Name'
+      required
     />
 
-    <label for="email">email</label>
+    <label for="email">Email</label>
     <Input
       id="email"
       type='email'
       on:input={e => email = e.target.value}
       placeholder='First Name'
+      required
     />
 
-    <label for="password">password</label>
+    <label for="password">Password</label>
     <Input
       id="password"
       type='password'
       on:input={e => password = e.target.value}
       placeholder='password'
+      required
     />
 
     <label for="confirmPassword">Confirm your password</label>
     <Input
+      bind:this={confirmPasswordElement}
       id="confirmPassword"
       type='password'
       on:input={e => confirmPassword = e.target.value}
       placeholder='confirm password'
+      required
     />
 
-    <div>
-      <Checkbox
+    <div class='form-group'>
+      <Input
+        type="checkbox"
         id="tos_and_privacy"
         name="tos_and_privacy"
-        className="form-group"
-      >
-      <span for="tos_and_privacy">
+        required
+      />
+      <label for="tos_and_privacy">
         I agree to the
         <a href="/tos">Terms of Service</a>
         and
         <a href="/privacy">Privacy Policy</a>.
-      </span>
-      </Checkbox>
+      </label>
     </div>
 
     <Button
-      on:click={handleSubmit}
       isSubmitting={$submission.isPending}
+      type="submit"
     >
       Sign up
     </Button>

@@ -2,7 +2,6 @@
   import Button from '../Button.svelte';
   import CrossOut from '../icons/CrossOut.svelte';
   import TypeText from '../TypeText.svelte';
-  import Checkbox from '../Form/Checkbox.svelte';
   import { uniq, last } from 'src/lib/utils.js';
   import { fade } from '../../lib/Transition';
   import { safeWindow } from '../../lib/safe-window.js';
