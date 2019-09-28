@@ -10,6 +10,7 @@ const fakeStorage = {
 const fakeWindow = {
   localStorage: { ...fakeStorage },
   sessionStorage: { ...fakeStorage },
+  scrollTo: () => {},
   scrollBy: () => {},
   location: {
     pathname: () => '',

@@ -11,6 +11,7 @@
   export let storyNode;
   export let story;
   export let title;
+  export let enableScroll = true;
   export let store = writable({
     storyNode: storyNode,
     history: [
@@ -25,7 +26,10 @@
   $: $store.storyNode = getStartingPoint();
   $: currentPage = story[$store.storyNode];
   $: haveRemainingDecisions = !story[$store.storyNode].final;
-  $: if(currentPage) setURL();
+  $: if(currentPage) {
+    setURL();
+    scrollWindow();
+  }
 
   const normalize = (decision = {}) => {
     return {
@@ -38,6 +42,11 @@
   const alreadyVisited = storyNode => (
     $store.history.find(recorded => recorded.storyNode === storyNode)
   )
+
+  const scrollWindow = () => {
+    if (!enableScroll) return;
+    safeWindow().scrollTo(0,0);
+  }
 
   const setHistory = (decision) => {
     if(alreadyVisited(decision.storyNode)) {
@@ -83,7 +92,7 @@
       '',
       '',
       `${safeWindow().location.pathname}?storyNode=${$store.storyNode}`
-    )
+    );
   };
 
   const getStartingPoint = () => {

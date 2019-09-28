@@ -34,4 +34,11 @@ describe('Adventure', () => {
         .url().should('match', /\/story\/[a-z0-9-]+\?storyNode=start/);
     });
   })
+
+  it('always starts at top of page (i.e scrolls to top)', () => {
+    cy.location().then((loc) => {
+      cy.visit(loc.pathname + '?storyNode=looks_under_papers')
+        .get('nav').should('be.visible');
+    });
+  })
 });
