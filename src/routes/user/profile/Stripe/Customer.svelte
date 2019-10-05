@@ -1,3 +1,5 @@
+<!-- TODO(kyle): tests? -->
+
 <script>
   import Button from 'src/components/Button.svelte';
   import { fetchCsrf } from 'src/lib/client/csrf';
@@ -9,20 +11,23 @@
 
   const { session } = stores();
   let paymentNotYetProcessed = true;
+  let finalMessage;
   let csrf;
   let card;
   let stripe;
   let elements;
   let cardErrors;
+  let unsubscribeErrors;
   let charging = false;
   let paymentFormDisabled = false;
+  let unsubscribing = false;
 
   const charge = () => {
     charging = true;
     stripe.createToken(card).then((result) => {
       if (result.error) {
         // Inform the customer there was an error.
-        cardErrors.textContent = result.error.message;
+        cardErrors = result.error.message;
       } else {
         return Promise.resolve(result.token);
       }
@@ -41,18 +46,44 @@
     }).then((response) => {
       return response.json();
     }).then((response) => {
+      charging = false;
+
       if(response['status'] === 'success') {
         paymentNotYetProcessed = false;
+        finalMessage = `Thank you for becoming an adventurer! Welcome to soft spot ${Math.floor(Math.random() * 1000000000000)}.`;
         return;
-      } else {
-        return Promise.reject(response);
       }
-      console.info(response);
-      charging = false;
+
+      return Promise.reject(response);
     }).catch((response) => {
-      console.error('Charging card failed', response);
-      cardErrors.textContent = response.message;
+      Logger.error('Charging card failed', response);
+      cardErrors = response.message;
       charging = false;
+    });
+  };
+
+  const unsubscribe = () => {
+    unsubscribing = true;
+    return fetch('/api/payments/unsubscribe', {
+      method: 'POST',
+      headers: { 'XSRF-TOKEN': csrf, },
+    }).then((response) => {
+      return response.json();
+    }).then((response) => {
+      unsubscribing = false;
+
+      if(response['status'] === 'success') {
+        finalMessage = `Your unsubscription was successful. We and the people under the molehill are sad to see you go.`;
+        $session.stripeCustomerId = null;
+        $session.subscriptionPeriodEnd = null;
+        return;
+      }
+
+      return Promise.reject(response);
+    }).catch((response) => {
+      Logger.error('Unsubscribing failed')
+      unsubscribeErrors = response.message;
+      unsubscribing = false;
     });
   };
 
@@ -78,10 +109,10 @@
     // Listen for errors
     card.addEventListener('change', ({error}) => {
       if (error) {
-        cardErrors.textContent = error.message;
+        cardErrors = error.message;
         paymentFormDisabled = true;
       } else {
-        cardErrors.textContent = '';
+        cardErrors = '';
         paymentFormDisabled = false;
       }
     });
@@ -101,8 +132,17 @@
     font-size: 20px;
   }
 
-  #card-errors {
-    color: red;
+  .errors {
+    color: var(--root-color-error);
+    padding: 8px 0 8px 0;
+  }
+
+  #cancellation {
+    border: var(--root-border);
+    border-color: var(--root-color-error);
+    border-radius: var(--root-border-radius);
+    margin-top: 16px;
+    padding: 8px;
   }
 </style>
 
@@ -127,6 +167,10 @@
   <p>Our hearts are of a very squishy variety, so there's room for everyone.</p>
 {/if}
 
+{#if finalMessage}
+  <p>{finalMessage}</p>
+{/if}
+
 {#if paymentNotYetProcessed}
   <div class="stripe-card">
     <label for="card-element">
@@ -136,10 +180,11 @@
       <!-- A Stripe Element will be inserted here. -->
     </div>
 
-    <div
-      id="card-errors"
-      role="alert"
-      bind:this={cardErrors}></div>
+    {#if cardErrors}
+      <div class="errors" role="alert">
+        {cardErrors}
+      </div>
+    {/if}
   </div>
 
   <Button
@@ -147,11 +192,30 @@
     disabled={paymentFormDisabled}
     isSubmitting={charging}
     >
-    Adventure further for $4 a month
+    {#if $session.user.stripeCustomerId}
+      Continue adventuring for $4 a month
+    {:else}
+      Adventure further for $4 a month
+    {/if}
   </Button>
-{:else}
-  <p>Thank you for becoming an adventurer! Welcome to soft spot
-  {Math.floor(Math.random() * 1000000000000)}.</p>
 {/if}
 
-<!-- TODO(kyle): give option to unsub -->
+{#if $session.user.stripeCustomerId}
+  <div id="cancellation">
+    <p>If you'd like to cancel your subscription and join the regular townfolk, that's okay.
+    You can use the button below to unsubscribe.</p>
+
+    {#if unsubscribeErrors}
+      <div class="errors" role="alert">
+        {unsubscribeErrors}
+      </div>
+    {/if}
+
+    <Button
+      on:click={unsubscribe}
+      isSubmitting={unsubscribing}
+      >
+      Cancel subscription
+    </Button>
+  </div>
+{/if}

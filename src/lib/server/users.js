@@ -43,6 +43,7 @@ const findUserSafeDetails = async identifier => {
         users.id as id,
         users.first_name as "firstName",
         subscriptions.stripe_customer_id as "stripeCustomerId",
+        subscriptions.subscription_id as "subscriptionId",
         subscriptions.subscription_period_end as "subscriptionPeriodEnd"
     FROM
         users
@@ -130,7 +131,27 @@ const updateUserPassword = async (identifier, { password }) => {
   }
 };
 
-const setSubscriptionDetails = async (identifier, stripeCustomerId, subscriptionPeriodEnd) => {
+const removeSubscriptionDetails = async (identifier) => {
+  try {
+    await pool.query(
+        `
+    DELETE FROM
+        subscriptions
+    WHERE
+        user_id = $1
+  `,
+      [identifier]
+    );
+
+    Logger.info("User subscription removed", identifier);
+    return Promise.resolve({});
+  } catch (err) {
+    Logger.error(err);
+    return promise.reject(err);
+  }
+};
+
+const setSubscriptionDetails = async (identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd) => {
   try {
     await pool.query(
       `
@@ -138,7 +159,8 @@ const setSubscriptionDetails = async (identifier, stripeCustomerId, subscription
       VALUES (
         $1,
         $2,
-        $3
+        $3,
+        $4
       )
       ON CONFLICT(user_id)
       DO UPDATE
@@ -146,9 +168,9 @@ const setSubscriptionDetails = async (identifier, stripeCustomerId, subscription
           stripe_customer_id = $2,
           subscription_period_end = $3;
     `,
-      [identifier, stripeCustomerId, subscriptionPeriodEnd]
+      [identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd]
     );
-    return {identifier, stripeCustomerId, subscriptionPeriodEnd};
+    return {identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd};
   } catch (err) {
     Logger.error(err);
     return Promise.reject(err);
@@ -161,5 +183,6 @@ export {
   findUserSafeDetails,
   removeUser,
   setSubscriptionDetails,
+  removeSubscriptionDetails,
   updateUserPassword
 };
