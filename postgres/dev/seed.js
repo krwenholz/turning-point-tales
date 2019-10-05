@@ -13,7 +13,7 @@ const pool = new Pool({
 });
 
 /*
- * RESET
+ * RESET Database
  */
 const reset = async () => {
   Logger.info('Resetting database...');
@@ -63,7 +63,39 @@ const seedUsers = async () => {
   Logger.info('Adding seed users...');
 
   await addUser('Jeff', 'Jefferson', 'jeff@h2wib.com', 'foo');
+  await addUser('kyle', 'kype', 'kyle@h2wib.com', 'foo');
   await addUser('kc', 'Cool kid', 'kristopherpaulsen@gmail.com', 'foo');
+};
+
+/*
+ * SUBSCRIPTIONS
+ */
+// Want a real subscription? You can use a dummy card:
+// https://stripe.com/docs/testing#cards
+const addSubscription = async (userEmail, subscriptionPeriodEnd, stripeCustomerId) => {
+  try {
+    await pool.query(
+      `
+      INSERT INTO
+        subscriptions (useId, author, content, tags)
+      VALUES ($1, $2, $3, $4)
+    `,
+      [title, author, JSON.stringify(content), tags]
+    );
+
+    Logger.info("... Story added", title);
+  } catch (err) {
+    Logger.error(err);
+    return Promise.reject(err);
+  }
+};
+
+const seedSubscriptions = async () => {
+  Logger.info('Adding seed stories...');
+
+  const subEnd = new Date();
+  subEnd.setMonth(subEnd.getMonth() + 1);
+  await addSubscription('jeff@h2wib.com', subEnd, 'DUMMY');
 };
 
 /*
