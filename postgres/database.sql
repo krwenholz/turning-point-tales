@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   user_id uuid REFERENCES users(id) UNIQUE,
   errors TEXT,
   stripe_customer_id TEXT,
+  subscription_id TEXT,
   subscription_period_end TIMESTAMP WITH TIME ZONE,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
