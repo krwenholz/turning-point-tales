@@ -62,6 +62,14 @@ commands:
               -H "Accept: application/vnd.heroku+json; version=3.docker-releases"
 
 jobs:
+  pre-approval:
+    docker:
+      - image: circleci/node:11.6.0
+    steps:
+      - run:
+          name: Hello
+          command: echo "I'm here so we can have a hold step!"
+
   deploy-staging:
     machine: true
     steps:
@@ -96,8 +104,15 @@ workflows:
   version: 2.1
   ci:
     jobs:
-      - reset-staging
-      - deploy-staging
+      - pre-approval
+      - wait-for-dat-button-press:
+          type: approval
+      - reset-staging:
+          requires:
+            - wait-for-dat-button-press
+      - deploy-staging:
+          requires:
+            - wait-for-dat-button-press
       - test-staging:
           requires:
             - deploy-staging

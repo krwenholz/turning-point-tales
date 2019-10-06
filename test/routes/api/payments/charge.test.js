@@ -1,6 +1,8 @@
 import post from "src/routes/api/payments/charge";
 // TODO(kyle): https://jestjs.io/docs/en/mock-functions#mocking-modules
 
+jest.mock('config');
+jest.mock('request-promise-native');
 jest.mock('src/lib/server/database');
 jest.mock('src/lib/server/users');
 
