@@ -132,31 +132,11 @@ const updateUserPassword = async (identifier, { password }) => {
   }
 };
 
-const removeSubscriptionDetails = async (identifier) => {
-  try {
-    await pool.query(
-        `
-    DELETE FROM
-        subscriptions
-    WHERE
-        user_id = $1
-  `,
-      [identifier]
-    );
-
-    Logger.info("User subscription removed", identifier);
-    return Promise.resolve({});
-  } catch (err) {
-    Logger.error(err);
-    return promise.reject(err);
-  }
-};
-
 const setSubscriptionDetails = async (identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd) => {
   try {
     await pool.query(
       `
-      INSERT INTO subscriptions (user_id, stripe_customer_id, subscription_period_end)
+      INSERT INTO subscriptions (user_id, stripe_customer_id, subscription_id, subscription_period_end)
       VALUES (
         $1,
         $2,
@@ -167,7 +147,8 @@ const setSubscriptionDetails = async (identifier, stripeCustomerId, subscription
       DO UPDATE
         SET
           stripe_customer_id = $2,
-          subscription_period_end = $3;
+          subscription_id = $3,
+          subscription_period_end = $4;
     `,
       [identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd]
     );
@@ -184,6 +165,5 @@ export {
   findUserSafeDetails,
   removeUser,
   setSubscriptionDetails,
-  removeSubscriptionDetails,
   updateUserPassword
 };

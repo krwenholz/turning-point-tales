@@ -74,7 +74,7 @@
 
       if(response['status'] === 'success') {
         finalMessage = `Your unsubscription was successful. We and the people under the molehill are sad to see you go.`;
-        $session.stripeCustomerId = null;
+        $session.subscriptionId = null;
         $session.subscriptionPeriodEnd = null;
         return;
       }
