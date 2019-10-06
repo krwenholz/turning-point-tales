@@ -1,9 +1,10 @@
-const passwordHasher = securePassword();
 import AWS from "aws-sdk";
 import Logger from "js-logger";
 import config from "config";
 import securePassword from "secure-password";
 import { pool } from "src/lib/server/database.js";
+
+const passwordHasher = securePassword();
 
 const users = [];
 

@@ -3,46 +3,13 @@ import config from 'config';
 import rp from 'request-promise-native';
 import { setSubscriptionDetails } from 'src/lib/server/users';
 
-/**
- * If this user is already registered in Stripe, cool, otherwise register them.
- */
-const getOrCreateStripeCustomer = (user, cardId) => {
-  if (user.stripeCustomerId != null) return Promise.resolve(user.stripeCustomerId);
-
-  const options = {
-    method: 'POST',
-    uri: 'https://api.stripe.com/v1/customers',
-    headers: {
-      'Authorization': 'Basic ' + config.get('stripe.secretKey'),
-    },
-    form: {
-      email: user.email,
-      source: cardId,
-    },
-    json: true
-  };
-
-  Logger.info('Creating stripe customer for user', user.id);
-
-  return rp(options)
-    .then((resp) => {
-      const customerId = resp.id;
-      Logger.info('Stripe customer created', user.id, customerId);
-
-      return setSubscriptionDetails(user.id, customerId, null, null)
-        .then(({stripeCustomerId}) => stripeCustomerId);
-    }).catch((err) => {
-      Logger.error('Error creating customer', user.id, err);
-
-      res.send(JSON.stringify({'status': 'error', 'message': 'Associating your card and account failed, please try again or contact support.'}));
-      res.end();
-      return;
-    });
-};
+// TODO(kyle): https://stripe.com/docs/billing/webhooks
+// actually fill this out
 
 /**
  * Starts a subscription with Stripe and create any necessary backing components.
  */
+/**
 const post = (req, res) => {
   return getOrCreateStripeCustomer(req.user, req.body.token.id)
     .then((stripeCustomerId) => {
@@ -93,3 +60,4 @@ const post = (req, res) => {
 export {
   post
 }
+**/
