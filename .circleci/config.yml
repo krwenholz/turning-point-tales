@@ -96,8 +96,14 @@ workflows:
   version: 2.1
   ci:
     jobs:
-      - reset-staging
-      - deploy-staging
+      - hold:
+          type: approval
+      - reset-staging:
+          requires:
+            - hold
+      - deploy-staging:
+          requires:
+            - hold
       - test-staging:
           requires:
             - deploy-staging
