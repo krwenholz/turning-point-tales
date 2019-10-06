@@ -25,6 +25,10 @@ commands:
             - ./node_modules
             - ~/.cache
       - run:
+          name: Jest Tests
+          command: |
+            npm run unit
+      - run:
           name: Cypress Tests
           command: |
             CYPRESS_BASE_URL=<< parameters.url >> npm run cy:run
