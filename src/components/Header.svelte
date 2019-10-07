@@ -93,9 +93,9 @@
     </a>
     {#if $session.user}
     <div class="user-block">
-      <span>{$session.user.firstName}</span>
+      <span id="user_name">{$session.user.firstName}</span>
       <div class="menu">
-        <h3 id="user_name"><a href='/user/profile'>Profile and settings</a></h3>
+        <a href='/user/profile'>Profile and settings</a>
         <a href='/api/user/logout'>Logout</a>
       </div>
     </div>
