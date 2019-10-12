@@ -34,9 +34,7 @@ const getOrCreateStripeCustomer = (user, cardId) => {
     }).catch((err) => {
       Logger.error('Error creating customer', user.id, err);
 
-      res.send(JSON.stringify({'status': 'error', 'message': 'Associating your card and account failed, please try again or contact support.'}));
-      res.end();
-      return;
+      return Promise.reject('Creating user failed.');
     });
 };
 
@@ -71,16 +69,15 @@ const post = (req, res) => {
       Logger.info('Subscription creation response received', req.user.id, subscriptionId, paymentStatus, paymentIntent, resp.current_period_end)
 
       if (paymentStatus === 'active' && paymentIntent === 'succeeded') {
-        Logger.info(resp);
-        return Promise.resolve(setSubscriptionDetails(req.user.id, resp.customer, subscriptionId, new Date(currentPeriodEnd * 1000)));
+        return setSubscriptionDetails(req.user.id, resp.customer, subscriptionId, new Date(currentPeriodEnd * 1000));
       }
 
       Logger.error('Subscription creation error', req.user.id, paymentStatus, paymentIntent)
       return Promise.reject('Subscription failure')
     })
     .then(() => {
-      res.send(JSON.stringify({'status': 'success'})).end();
-      return;
+      res.send(JSON.stringify({'status': 'success'}));
+      res.end();
     })
     .catch((err) => {
       Logger.error('Error creating subscription', req.user.id, err);
