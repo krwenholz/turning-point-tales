@@ -9,9 +9,7 @@
     "start": "node __sapper__/build",
     "cy:run": "cypress run --browser chrome",
     "cy:open": "cypress open --browser chrome",
-    "test": "run-p --race dev cy:run",
-    "unit": "jest --config=jest.config.js",
-    "test:unit": "jest --config=jest.config.js",
+    "jest": "jest --config=jest.config.js",
     "format": "js-beautify --replace src/**/*.js",
     "db:seed": "node postgres/dev/seed.js"
   },
