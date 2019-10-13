@@ -47,6 +47,7 @@ const allowedBaseRoutes = [
   '/stories',
   '/about',
   '/user/new',
+  '/api/payments/hooks',
   '/api/password-reset',
   '/api/user/fake_login',
   '/api/user/initiate_login',

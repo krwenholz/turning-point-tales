@@ -1,63 +1,70 @@
 import Logger from 'js-logger';
 import config from 'config';
 import rp from 'request-promise-native';
-import { setSubscriptionDetails } from 'src/lib/server/users';
+import stripe from 'stripe';
+import { findUserSafeDetails, setSubscriptionDetails } from 'src/lib/server/users';
 
-// TODO(kyle): https://stripe.com/docs/billing/webhooks
-// actually fill this out
+const updateSubscription = (stripeCustomerId, event) => {
+  const status = event.data.status;
+  const nextPeriodEnd = new Date(event.data.current_period_end * 1000);
+  return findUserSafeDetails(stripeCustomerId)
+    .then(({id, subscriptionId, subscriptionPeriodEnd}) => {
+      Logger.info('Updating some Stripe details for our user',
+        id, stripeCustomerId, subscriptionId, subscriptionPeriodEnd,
+        status, nextPeriodEnd);
 
-/**
- * Starts a subscription with Stripe and create any necessary backing components.
- */
-/**
-const post = (req, res) => {
-  return getOrCreateStripeCustomer(req.user, req.body.token.id)
-    .then((stripeCustomerId) => {
-      const options = {
-        method: 'POST',
-        uri: 'https://api.stripe.com/v1/subscriptions',
-        headers: {
-          'Authorization': 'Basic ' + config.get('stripe.secretKey'),
-        },
-        form: {
-          customer: stripeCustomerId,
-          items: [{plan: config.get('stripe.subscriptionId')}],
-          expand: ['latest_invoice.payment_intent'],
-        },
-        json: true
-      };
-
-      Logger.info('Creating subscription', req.user.id, stripeCustomerId);
-      return rp(options);
-    })
-    .then((resp) => {
-      const subscriptionId = resp.id;
-      const paymentIntent = resp.latest_invoice.payment_intent.status;
-      const paymentStatus = resp.status;
-      const currentPeriodEnd = resp.current_period_end;
-      Logger.info('Subscription creation response received', req.user.id, subscriptionId, paymentStatus, paymentIntent, resp.current_period_end)
-
-      if (paymentStatus === 'active' && paymentIntent === 'succeeded') {
-        Logger.info(resp);
-        return Promise.resolve(setSubscriptionDetails(req.user.id, resp.customer, subscriptionId, new Date(currentPeriodEnd * 1000)));
+      switch (status) {
+        case 'active':
+          return setSubscriptionDetails(
+            id, stripeCustomerId, subscriptionId, nextPeriodEnd);
+        case 'past_due':
+          return setSubscriptionDetails(
+            id, stripeCustomerId, subscriptionId, subscriptionPeriodEnd,
+            'Looks like the first attempt to charge your card on record failed.');
+        default:
+          return setSubscriptionDetails(
+            id, stripeCustomerId, subscriptionId, subscriptionPeriodEnd,
+            'Looks like attempts to charge your card on record failed.');
       }
-
-      Logger.error('Subscription creation error', req.user.id, paymentStatus, paymentIntent)
-      return Promise.reject('Subscription failure')
-    })
-    .then(() => {
-      res.send(JSON.stringify({'status': 'success'})).end();
-      return;
-    })
-    .catch((err) => {
-      Logger.error('Error creating subscription', req.user.id, err);
-
-      res.send(JSON.stringify({'status': 'error', 'message': 'The charge failed, please try again or contact support.'}));
-      res.end();
     });
+};
+
+/**
+ * Tracks subscription events from Stripe.
+ */
+const post = (req, res) => {
+  // https://stripe.com/docs/api/events/object
+  // Verify the event is actually from Stripe.
+  const event = stripe(config.get('stripe.secretKey'))
+    .webhooks.constructEvent(req.body, req.headers['stripe-signature'], config.get('stripe.endpointSecret'));
+  const stripeCustomerId = event.data.customer;
+
+  Logger.info('Received a Stripe hook', event.type, stripeCustomerId)
+
+  switch (event.type) {
+    case 'customer.subscription.updated':
+      return updateSubscription(stripeCustomerId, event)
+        .then(() => {
+          res.status(200);
+          res.end();
+        }).catch((err) => {
+          Logger.error('There was an error updating a customer subscription', stripeCustomerId);
+          res.status(400)
+          res.end();
+        });
+    case 'invoice.upcoming':
+      Logger.info('Invoice is upcoming for a customer', event.data.customer);
+      res.status(200);
+      res.end();
+      return;
+    default:
+      Logger.error('Recevied a bad payment hook.', event);
+      res.status(400);
+      res.end();
+      return;
+  }
 }
 
 export {
   post
 }
-**/

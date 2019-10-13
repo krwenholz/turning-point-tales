@@ -2,9 +2,7 @@ import rp from "request-promise-native";
 import { setSubscriptionDetails } from 'src/lib/server/users';
 import { post } from "src/routes/api/payments/charge";
 
-jest.mock('config');
 jest.mock('request-promise-native');
-jest.mock('src/lib/server/database');
 jest.mock('src/lib/server/users');
 
 let req;
