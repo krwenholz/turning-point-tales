@@ -17,9 +17,13 @@ const findUser = async identifier => {
         id,
         first_name as "firstName",
         last_name as "lastName",
-        password_hash as "passwordHash"
+        password_hash as "passwordHash",
+        subscriptions.stripe_customer_id as "stripeCustomerId",
+        subscriptions.subscription_id as "subscriptionId",
+        subscriptions.subscription_period_end as "subscriptionPeriodEnd"
     FROM
         users
+        LEFT JOIN subscriptions ON users.id = subscriptions.user_id
     WHERE
         email = $1
     OR
@@ -52,7 +56,9 @@ const findUserSafeDetails = async identifier => {
     WHERE
         users.email = $1
     OR
-        users.id::text = $1;
+        users.id::text = $1
+    OR
+        subscriptions.stripe_customer_id = $1;
     `,
       [identifier]
     );
@@ -132,16 +138,17 @@ const updateUserPassword = async (identifier, { password }) => {
   }
 };
 
-const setSubscriptionDetails = async (identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd) => {
+const setSubscriptionDetails = async (identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd, errors = null) => {
   try {
     await pool.query(
       `
-      INSERT INTO subscriptions (user_id, stripe_customer_id, subscription_id, subscription_period_end)
+      INSERT INTO subscriptions (user_id, stripe_customer_id, subscription_id, subscription_period_end, errors)
       VALUES (
         $1,
         $2,
         $3,
-        $4
+        $4,
+        $5
       )
       ON CONFLICT(user_id)
       DO UPDATE
@@ -150,7 +157,7 @@ const setSubscriptionDetails = async (identifier, stripeCustomerId, subscription
           subscription_id = $3,
           subscription_period_end = $4;
     `,
-      [identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd]
+      [identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd, errors]
     );
     return {identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd};
   } catch (err) {
