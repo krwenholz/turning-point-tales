@@ -27,7 +27,7 @@ commands:
       - run:
           name: Jest Tests
           command: |
-            npm run jest
+            npm run jest test/
       - run:
           name: Cypress Tests
           command: |
