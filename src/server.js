@@ -20,6 +20,7 @@ import { exposeStripeKeyMiddleware } from 'src/lib/server/stripe';
 import { initPassport } from './authentication';
 import { pool } from "src/lib/server/database.js";
 import { requireHttps } from 'src/lib/server/require_https';
+import { requireRoot } from 'src/lib/server/require_root';
 import {
   initLogging,
   requestsLogger,
@@ -51,6 +52,7 @@ const middleware = [
   bodyParser.json(),
   requestsLogger(),
   requireHttps,
+  requireRoot,
   compression({
     threshold: 0
   }),

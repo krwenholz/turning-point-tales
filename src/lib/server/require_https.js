@@ -1,9 +1,6 @@
 import Logger from 'js-logger';
 import config from 'config';
 
-// TODO(kyle): Should add a CSP
-// https://sapper.svelte.technology/guide#security
-
 /*
  * Redirect to https.
  */
