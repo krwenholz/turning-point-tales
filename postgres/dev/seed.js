@@ -20,11 +20,12 @@ const reset = async () => {
 
   try {
     await pool.query(
+    // Order matters because of dependencies
       `
-    DELETE FROM users;
     TRUNCATE user_sessions;
     TRUNCATE stories;
     TRUNCATE subscriptions;
+    DELETE FROM users;
     `,
     );
 
@@ -37,7 +38,6 @@ const reset = async () => {
 
 /*
  * USERS
- * TODO(kyle): user signed up and associated in Stripe
  */
 const addUser = async (firstName, lastName, email, password) => {
   try {
@@ -73,14 +73,17 @@ const seedUsers = async () => {
 // Want a real subscription? You can use a dummy card:
 // https://stripe.com/docs/testing#cards
 const addSubscription = async (userEmail, subscriptionPeriodEnd, stripeCustomerId) => {
+  // TODO(kyle): Fix
   try {
     await pool.query(
       `
       INSERT INTO
-        subscriptions (useId, author, content, tags)
-      VALUES ($1, $2, $3, $4)
+        subscriptions (userId, author, content, tags)
+      SELECT id, $2, $3, $4
+      FROM users
+      WHERE email = $1;
     `,
-      [title, author, JSON.stringify(content), tags]
+      [userEmail, author, JSON.stringify(content), tags]
     );
 
     Logger.info("... Story added", title);

@@ -13,11 +13,11 @@ const findUser = async identifier => {
     const results = await pool.query(
       `
     SELECT
-        email,
-        id,
-        first_name as "firstName",
-        last_name as "lastName",
-        password_hash as "passwordHash",
+        users.email,
+        users.id as id,
+        users.first_name as "firstName",
+        users.last_name as "lastName",
+        users.password_hash as "passwordHash",
         subscriptions.stripe_customer_id as "stripeCustomerId",
         subscriptions.subscription_id as "subscriptionId",
         subscriptions.subscription_period_end as "subscriptionPeriodEnd"
@@ -25,9 +25,9 @@ const findUser = async identifier => {
         users
         LEFT JOIN subscriptions ON users.id = subscriptions.user_id
     WHERE
-        email = $1
+        users.email = $1
     OR
-        id::text = $1;
+        users.id::text = $1;
     `,
       [identifier]
     );
