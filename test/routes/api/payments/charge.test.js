@@ -50,7 +50,7 @@ test('handles new subscriber success', () => {
 
   return post(req, res).then(() => {
     expect(res.send)
-      .toBeCalledWith(JSON.stringify({'status': 'success'}));
+      .toHaveBeenCalledWith(JSON.stringify({'status': 'success'}));
     expect(setSubscriptionDetails)
       .toHaveBeenNthCalledWith(2, 1, 'new_customer_foo', 'new_subscription_id', new Date('2019-07-13'));
   })
