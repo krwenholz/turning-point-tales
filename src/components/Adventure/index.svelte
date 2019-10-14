@@ -14,6 +14,7 @@
   export let story;
   export let title;
   export let enableScroll = true;
+  export let haveRemainingDecisions = true;
   export let store = writable({
     storyNode: storyNode,
     history: [

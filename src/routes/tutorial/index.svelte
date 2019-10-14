@@ -51,11 +51,6 @@
     padding: 12px;
   }
 
-  .resize {
-    resize: both;
-    overflow: scroll;
-  }
-
   .tutorial :global(.overview) {
     height: 30%;
     margin-bottom: 32px;
@@ -70,11 +65,6 @@
 
   .tutorial :global(.adventure) {
     min-height: 40vh;
-  }
-
-  pre {
-    border: var(--root-border);
-    padding: 0 16px 0 16px;
   }
 
 </style>

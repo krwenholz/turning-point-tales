@@ -23,24 +23,45 @@
 </script>
 
 <script>
-  import Adventure from '../../components/Adventure';
   import * as sapper from '@sapper/app';
-  import { mainAdventure } from '../../lib/stores/browserStore/main-adventure';
+  import Adventure from 'src/components/Adventure';
+  import DisplayAd from 'src/components/ads/DisplayAd.svelte';
+  import { adStore } from 'src/lib/stores/browserStore/display-ads';
+  import { mainAdventure } from 'src/lib/stores/browserStore/main-adventure';
+  import { stores } from '@sapper/app';
 
   export let story;
   export let title;
 
-  const { page } = sapper.stores();
+  const { page, session } = sapper.stores();
+  const userSubscribed = $session.user.subscriptionPeriodEnd !== null
+    && $session.user.subscriptionPeriodEnd.getMilliseconds() < Date.now();
+
+  const oneDay = 1 * 24 * 60 * 60 * 1000;
+
+  const adInfo = adStore();
+
+  const adFinished = () => {
+    $adInfo.dateSeen = Date.now();
+  }
+
+  $: hideAd = userSubscribed || (Date.now() - $adInfo.dateSeen) < oneDay;
 </script>
 
 <svelte:head>
   <title>{title}</title>
 </svelte:head>
 
-<Adventure
-  {story}
-  {title}
-  store={mainAdventure()}
-  className='adventure'
-  storyNode={$page.query.storyNode}
-/>
+{#if hideAd}
+  <Adventure
+    {story}
+    {title}
+    store={mainAdventure()}
+    className='adventure'
+    storyNode={$page.query.storyNode}
+  />
+{:else}
+  <DisplayAd
+    on:end={adFinished}
+  />
+{/if}
