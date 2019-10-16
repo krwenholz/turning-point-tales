@@ -49,8 +49,6 @@
       selectedTab.set(tab);
       selectedPanel.set(panels[i]);
 
-      console.log('foo', tab)
-
       safeWindow().history.pushState(
         '',
         '',

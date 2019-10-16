@@ -6,6 +6,8 @@
   import { fade } from 'src/lib/Transition';
   import { safeWindow } from 'src/lib/client/safe-window.js';
   import { writable } from 'svelte/store';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
 
   export let className = '';
   export let storyNode;
@@ -29,6 +31,11 @@
   $: if(currentPage) {
     setURL();
     scrollWindow();
+    dispatch('pageChange', {
+      storyNode: $store.storyNode,
+      history: $store.history,
+      consequences: last($store.history).consequences
+    });
   }
 
   const normalize = (decision = {}) => {
@@ -39,25 +46,30 @@
     }
   }
 
-  const alreadyVisited = storyNode => (
+  const alreadyVisited = ({ storyNode }) => (
     $store.history.find(recorded => recorded.storyNode === storyNode)
   )
 
   const scrollWindow = () => {
     if (!enableScroll) return;
+
     safeWindow().scrollTo(0,0);
   }
 
+  const rewindHistory = decision => (
+    $store.history.slice(
+      0,
+      $store.history.findIndex(({ storyNode }) => storyNode === decision.storyNode) + 1,
+    )
+  )
+
   const setHistory = (decision) => {
-    if(alreadyVisited(decision.storyNode)) {
-      $store.history = $store.history.slice(
-        0,
-        $store.history.indexOf(({ storyNode }) => storyNode === decision.storyNode) - 1,
-      );
+    if(alreadyVisited(decision)) {
+      $store.history = rewindHistory(decision);
     }
 
     $store.history = [
-      ...$store.history,
+      ...(decision.storyNode === 'start' ? [] : $store.history),
       {
         storyNode: decision.storyNode,
         consequences: uniq([
@@ -113,19 +125,20 @@
   }
 
   .adventure {
-    margin: auto;
+    min-height: 100%;
     max-width: 80ch;
     flex: 1 0 auto;
     display: flex;
     flex-flow: column;
     justify-content: flex-start;
     align-items: flex-start;
+    margin: 0 auto 0 auto;
   }
 
   h3 {
     display: flex;
     flex-flow: column;
-    margin: auto;
+    margin: 0 auto 0 auto;
   }
 
   :global(.button) {

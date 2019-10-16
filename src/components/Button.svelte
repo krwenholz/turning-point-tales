@@ -13,7 +13,7 @@
   button {
     display: flex;
     height: 48px;
-    padding: 8px;
+    padding: 0 16px 0 16px;
     justify-content: center;
     align-items: center;
     background: none;
@@ -46,6 +46,10 @@
     cursor: not-allowed;
     color: var(--root-color-background);
     background-color: gray;
+  }
+
+  :global(span) {
+    line-height: 1;
   }
 </style>
 
