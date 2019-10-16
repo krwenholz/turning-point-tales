@@ -1,6 +1,25 @@
 version: 2.1
 commands:
-  test-app:
+  jest-test:
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - test-app-{{ checksum "package.json" }}
+      - run:
+          name: Install
+          command: npm install
+      - save_cache:
+          key: test-app-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+            - ~/.cache
+      - run:
+          name: Jest Tests
+          command: |
+            NODE_ENV=test npm run jest test/
+
+  integration-test:
     parameters:
       url:
         type: string
@@ -24,10 +43,6 @@ commands:
           paths:
             - ./node_modules
             - ~/.cache
-      - run:
-          name: Jest Tests
-          command: |
-            npm run jest test/
       - run:
           name: Cypress Tests
           command: |
@@ -62,13 +77,11 @@ commands:
               -H "Accept: application/vnd.heroku+json; version=3.docker-releases"
 
 jobs:
-  pre-approval:
+  unit-test:
     docker:
       - image: circleci/node:11.6.0
     steps:
-      - run:
-          name: Hello
-          command: echo "I'm here so we can have a hold step!"
+      - jest-test
 
   deploy-staging:
     machine: true
@@ -91,7 +104,7 @@ jobs:
   test-staging:
     machine: true
     steps:
-      - test-app:
+      - integration-test:
           url: https://ourfirstbigthing.howhardwoulditbe.com
 
   deploy-production:
@@ -104,7 +117,7 @@ workflows:
   version: 2.1
   ci:
     jobs:
-      - pre-approval
+      - unit-test
       - wait-for-dat-button-press:
           type: approval
       - reset-staging:
