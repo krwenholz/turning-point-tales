@@ -1,6 +1,8 @@
 <script>
   import { getContext } from 'svelte';
   import { TABS } from './Tabs.svelte';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
 
   export let name;
 
@@ -11,7 +13,7 @@
 
 <style>
   button {
-    flex: 0 1;
+    flex: 1;
     margin: 0 24px 0 0;
     background: none;
     border: none;

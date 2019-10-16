@@ -41,6 +41,7 @@ const compare = (userPassword, hash) => {
 
 const allowedBaseRoutes = [
   '/password-reset',
+  '/tutorial',
   '/example-story',
   '/teaser-story',
   '/landing',

@@ -1,9 +1,10 @@
 <script>
   import * as sapper from '@sapper/app';
   import Adventure from 'src/components/Adventure';
-  import exampleStory from 'src/routes/example-story/exampleStory.js';
+  import exampleStory from 'src/lib/local-stories/story-with-consequences';
   import yaml from 'js-yaml';
   import { graph, validateStoryNode } from 'src/lib/client/story_graphs.js';
+
 
   const { page, session } = sapper.stores();
 
@@ -93,7 +94,7 @@ your decision tree and even experience the whole thing at the bottom of this pag
 
 <section class='workbench'>
   <article class="story-editor">
-    <h2 on:click={ e => console.log(e) }>Edit your story</h2>
+    <h2>Edit your story</h2>
     <textarea rows="30" bind:value={storyText}></textarea>
     <button class="loader" on:click={load}>Load</button>
   </article>
