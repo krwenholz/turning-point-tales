@@ -8,45 +8,42 @@
   export let parent;
 
   let self = {};
-  let unblur = false;
+  let fadeInBorder = false;
 
   const scrollIntoView = (node) => ({
     update: () => {
       if(selectedIdx !== idx) {
-        return unblur = false;
+        return fadeInBorder = false;
       }
       parent.scrollTo({ top: self.offsetTop - scrollTo(), behavior: 'smooth' });
-      setTimeout(() => unblur = true, 500);
+      setTimeout(() => fadeInBorder = true, 100);
     }
   });
 
 </script>
 
 <style>
-  .blur {
-    color: transparent;
-    text-shadow: 0 0 4px rgba(0,0,0,0.5);
+  pre {
+    padding-left: 16px;
   }
 
-  @keyframes unblur {
+  @keyframes fadeInBorder {
     0% {
-      color: transparent;
-      text-shadow: 0 0 4px rgba(0,0,0,0.5);
+      box-shadow: -7px 0px 0px -8px var(--root-call-to-action);
     }
     100% {
-      color: inherit;
-      text-shadow: 0 0 0px rgba(0,0,0,0);
+      box-shadow: -7px 0px 0px -4px var(--root-call-to-action);
     }
   }
 
-  .unblur {
-    animation: .7s ease-in unblur forwards;
+  .fadeInBorder {
+    animation: .6s ease-in fadeInBorder forwards;
   }
 </style>
 
 <pre
   bind:this={self}
-  class:unblur
+  class:fadeInBorder
   class={story.start && selectedIdx === 0  ? '' : 'blur'}
   use:scrollIntoView={selectedIdx}
 >

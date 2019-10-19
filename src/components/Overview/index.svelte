@@ -3,52 +3,49 @@
 
   export let className = ''
   export let currentStoryNode = ['start']
-  export let history = ['start'];
   export let consequences = [];
+  export let history = [{ storyNode: 'start' }];
+  $: history = history.map(record => record.storyNode);
+  let highlight = false;
 
-  let fade = false;
-
-  export const update = ({ detail }) => {
-    currentStoryNode = detail.storyNode;
-    history = detail.history.map(record => record.storyNode);
-    consequences = detail.consequences;
-  };
-
-  export const reset = () => {
-    currentStoryNode = ['start'];
-    history = ['start'];
-  }
-
-  const fadeOnChange = () => ({
-    update: () => fade = true
+  const highlightOnChange = () => ({
+    update: () => highlight = true
   });
 
 </script>
 
 <style>
-  h2 {
+  h3 {
     border-bottom: var(--root-border);
   }
 
   ul {
     display: flex;
-    flex-flow: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
   }
 
-  li {
-    margin-bottom: 48px;
+  .overview > li {
+    padding: 0 16px 0 16px;
+    width: 33.33%;
   }
 
-  .history {
-    flex: 5;
+  .detail {
+    color: white;
+    background: var(--root-color-primary);
+    margin-bottom: 8px;
+    text-align: center;
+    border-radius: var(--root-border-radius);
+    padding: 8px;
+    font-size: var(--font-size-sm);
+    line-height: 1;
   }
 
+  .history,
   .consequences {
-    flex: 2;
+    overflow-y: auto;
   }
 
-  @keyframes fade {
+  @keyframes highlight {
     0% {
       opacity: 0;
       transform: translateX(10px)
@@ -58,32 +55,38 @@
     }
   }
 
-  .fade { animation: .4s ease-in fade forwards; }
+  .highlight { animation: .4s ease-in highlight forwards; }
 </style>
 
 <ul class={`overview ${className}`}>
   <li>
-    <h2>Current Story Node</h2>
+    <h3>Current Story Node</h3>
     <div
-      class:fade
-      use:fadeOnChange={currentStoryNode}
-      on:animationend={() => fade = false }
+      class='detail'
+      class:highlight
+      use:highlightOnChange={currentStoryNode}
+      on:animationend={() => highlight = false }
     >
       {currentStoryNode}
     </div>
   </li>
 
-  <li class='consequences'>
-    <h2>Consequences</h2>
-    {#each consequences as consequence}
-      <h3 transition:slide > * {consequence} </h3>
-    {/each}
+  <li class='history'>
+    <h3>History</h3>
+      <ol reversed>
+      {#each history.slice().reverse() as record}
+        <li transition:slide class='detail'>{record} </li>
+      {/each}
+      </ol>
   </li>
 
-  <li class='history'>
-    <h2>History</h2>
-    {#each history as record, idx}
-      <h3 transition:slide > {idx + 1}. {record} </h3>
-    {/each}
+  <li class='consequences'>
+    <h3>Consequences</h3>
+    <ul>
+      {#each consequences as consequence}
+        <li transition:slide class='detail'> * {consequence} </li>
+      {/each}
+    </ul>
   </li>
+
 </ul>

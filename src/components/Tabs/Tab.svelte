@@ -28,7 +28,14 @@
   }
 </style>
 
-<button class='tab' class:selected="{$selectedTab === name}" on:click="{() => selectTab(name)}">
+<button
+  class='tab'
+  class:selected="{$selectedTab === name}"
+  on:click={e => {
+    dispatch('click');
+    selectTab(name);
+  }}
+>
   <h3>
     <slot />
   </h3>
