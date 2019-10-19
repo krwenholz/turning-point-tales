@@ -1,6 +1,5 @@
 <script>
   import yaml from 'js-yaml';
-  import exampleStory from 'src/lib/local-stories/tutorial-story.js';
   import AnimatedStoryNode from './AnimatedStoryNode.svelte';
   import { first } from 'src/lib/utils';
 
@@ -9,20 +8,20 @@
   export let self = {};
   export let story = {};
   export let storyNode = 'start';
-  let selectedIdx;
+  export let selectedIdx;
 
-  let indexedStory = keys(exampleStory).map(key => ({
-    [key]: exampleStory[key]
+  $: indexedStory = keys(story).map(key => ({
+    [key]: story[key]
   }));
-</script>
 
+</script>
 
 <style>
   div {
-    overflow: scroll;
+    overflow-y: scroll;
   }
 </style>
-<div bind:this={self}>
+<div class={'yaml-tracker'} bind:this={self}>
   {#each indexedStory as story, idx}
     <AnimatedStoryNode
       {idx}

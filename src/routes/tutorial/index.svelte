@@ -6,19 +6,24 @@
   import tutorialStory from 'src/lib/local-stories/tutorial-story.js';
   import storyWithConsequences from 'src/lib/local-stories/story-with-consequences.js';
   import Overview from 'src/components/Overview';
-  import Tracker from '../experimental/Tracker.svelte';
+  import YamlTracker from './YamlTracker.svelte';
 
   let overview;
   let storyNode;
+  let history;
+  let consequences;
   let selectedStory = storyWithConsequences;
 
   const update = (e) => {
-    overview.update(e)
     storyNode = e.detail.storyNode;
+    history = e.detail.history;
+    consequences = e.detail.consequences;
   }
 
   const tabSelected = (selected) => {
-    overview.reset();
+    history = [{ storyNode: 'start' }];
+    consequences = [];
+    storyNode = 'start';
     selectedStory = selected;
   }
 
@@ -30,19 +35,37 @@
     flex: 1;
   }
 
-  :global(.overview) {
-    margin-top: 48px;
+  .helpers {
+    display: flex;
+    flex-flow: column;
+    max-height: 80vh;
+    width: 50%;
+    margin-right: 32px;
   }
 
-  :global(.tabs),
-  :global(.overview) {
-    flex: 1;
-    padding: 0 16px 0 16px;
-    margin-left: auto;
+  .helpers > :global(*) {
+    resize: vertical;
+    overflow-y: scroll;
+    border: 1px solid var(--root-color-primary-altered);
+    border-radius: 2px;
+    padding: 12px;
   }
 
-  :global(.tab) {
-    white-space: nowrap;
+  .resize {
+    resize: both;
+    overflow: scroll;
+  }
+
+  .tutorial :global(.overview) {
+    height: 30%;
+    margin-bottom: 32px;
+  }
+
+  .tutorial :global(.yaml-tracker) { height: 70%; }
+
+  .tutorial > :global(.tabs) {
+    margin: 0 auto 0 auto;
+    width: 70%;
   }
 
   .tutorial :global(.adventure) {
@@ -53,6 +76,7 @@
     border: var(--root-border);
     padding: 0 16px 0 16px;
   }
+
 </style>
 
 <svelte:head>
@@ -60,13 +84,16 @@
 </svelte:head>
 
 <section class="tutorial">
-  <Overview bind:this={overview} />
+  <section class='helpers'>
+    <Overview currentStoryNode={storyNode} {history} {consequences} />
+    <YamlTracker story={selectedStory} {storyNode} {history} {consequences} />
+  </section>
 
   <Tabs>
     <TabList>
       <Tab
-        on:click={() => tabSelected(tutorialStory)}
-        name="historyAndConsequences"
+        on:click={() => tabSelected(storyWithConsequences)}
+        name="storyWithConsequences"
       >
         History and Consequences
       </Tab>
@@ -96,10 +123,3 @@
     </TabPanel>
   </Tabs>
 </section>
-
-<hr/>
-
-<h2>Raw Text</h2>
-<pre>
-    {yaml.safeDump(selectedStory)}
-</pre>
