@@ -3,6 +3,7 @@ const stories = [
     author: "Kristopher C. Paulsen",
     title: "Mr. Banks",
     tags: ["funny", "existential"],
+    generalRelease: new Date(),
     content: {
       start: {
         text: [
@@ -296,6 +297,32 @@ const stories = [
         "And while the mayhem roared down on the city, banks began to lean back in his chair, and grinned a large toothy grin. People panicking, children playing, no one would be sure when, or whether, the weather would end; And that was exactly as Banks intended it."
       ],
       final: true,
+    },
+  },
+  {
+    author: "Jack and Jill",
+    title: "Down the Hill",
+    tags: ["bonkers", "brief"],
+    generalRelease: new Date('January 01, 2030, 03:24:00'),
+    content: {
+      start: {
+        text: [
+          "There was the pail of water.",
+        ],
+        decisions: [
+          {
+            storyNode: "pick_it_up",
+            label:
+              "Pick it up"
+          },
+        ]
+      },
+      pick_it_up: {
+        text: [
+          "That was easy."
+        ],
+        final: true,
+      },
     },
   },
 ];

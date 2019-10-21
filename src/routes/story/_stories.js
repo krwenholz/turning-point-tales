@@ -4,7 +4,7 @@ sql.setDialect('postgres');
 
 const _stories = sql.define({
   name: 'stories',
-  columns: ['id', 'author', 'title', 'teaser', 'label', 'content', 'tags', 'created', 'modified'],
+  columns: ['id', 'author', 'title', 'content', 'tags', 'general_release', 'created', 'modified'],
 });
 
 // TODO(kyle): write a smarter query that doesn't fetch all of the stories,
