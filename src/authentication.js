@@ -30,8 +30,7 @@ const compare = (userPassword, hash) => {
 
           passwordHasher.hash(userPassword, (err, improvedHash) => {
             if (err) Logger.error('You are authenticated, but we could not improve your safety this time around')
-
-            // TODO(kyle): Save improvedHash somewhere
+            // TODO: Save improvedHash somewhere
           })
           return true;
           break;

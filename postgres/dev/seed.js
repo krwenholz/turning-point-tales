@@ -104,15 +104,15 @@ const seedSubscriptions = async () => {
 /*
  * STORIES
  */
-const addStory = async ({ title, author, content, tags }) => {
+const addStory = async ({ title, author, content, tags, generalRelease }) => {
   try {
     await pool.query(
       `
       INSERT INTO
-        stories (title, author, content, tags)
-      VALUES ($1, $2, $3, $4)
+        stories (title, author, content, tags, general_release)
+      VALUES ($1, $2, $3, $4, $5)
     `,
-      [title, author, JSON.stringify(content), tags]
+      [title, author, JSON.stringify(content), tags, generalRelease]
     );
 
     Logger.info("... Story added", title);

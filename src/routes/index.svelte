@@ -14,8 +14,9 @@
 </script>
 
 <script>
-  import Introduction from '../components/Introduction.svelte';
-  import StoryPreviews from '../components/StoryPreviews.svelte';
+  import Introduction from 'src/components/Introduction.svelte';
+  import StoryPreviews from 'src/components/StoryPreview/index.svelte';
+  import { userSubscribed } from 'src/lib/client/user';
   import { Logger } from 'src/lib/client/logger';
   import { stores } from '@sapper/app';
 
@@ -46,4 +47,7 @@
 
 <Introduction />
 
-<StoryPreviews {stories} />
+<StoryPreviews
+  stories={stories}
+  isSubscriber={userSubscribed($session.user)}
+  />

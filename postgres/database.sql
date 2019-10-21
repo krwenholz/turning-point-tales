@@ -1,5 +1,5 @@
--- TODO(kyle): https://github.com/djrobstep/migra
--- TODO(kyle): https://github.com/sqitchers/sqitch
+-- TODO: https://github.com/djrobstep/migra
+-- TODO: https://github.com/sqitchers/sqitch
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS stories (
   author TEXT NOT NULL,
   content JSONB NOT NULL,
   tags text[] NOT NULL,
+  general_release TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

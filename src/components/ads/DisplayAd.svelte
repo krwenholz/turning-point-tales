@@ -57,9 +57,6 @@
   }
 </style>
 
-<!-- TODO(kyle): ingest some JSON structure to choose ad (random?)-->
-<!-- TODO(kyle): use one choice of three terms or something lead to said random ad -->
-<!-- TODO(kyle): report back finished after navigating to ad and displaying -->
 <section class="display-ad">
   {#if tags === undefined}
     <p><a href="/user/profile?tab=adventurer">Become a full adventurer now?</a></p>
@@ -81,7 +78,6 @@
       <p><a href="{ad.link}">I'd like to know more</a></p>
     {/each}
 
-    <!-- TODO(kyle): local storage timer for last ad so we don't annoy people too much -->
     <Button on:click={() => dispatch('end')}>
       Now back to the regularly scheduled programming....
     </Button>

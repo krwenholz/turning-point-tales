@@ -28,8 +28,3 @@ All of this is in our CircleCI file as well :)
   docker build .
   heroku container:push web
   heroku container:release web
-
-# Scratch
->  TODO(kyle): share buttons
->    https://gist.github.com/chrisjlee/5196139
->  TODO(kyle): link buttons for facebook, twitter, instagram

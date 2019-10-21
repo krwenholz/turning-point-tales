@@ -1,5 +1,3 @@
-<!-- TODO(kyle): tests? -->
-
 <script>
   import Button from 'src/components/Button.svelte';
   import { fetchCsrf } from 'src/lib/client/csrf';
@@ -146,8 +144,6 @@
   }
 </style>
 
-<!-- TODO(kyle): only display if we don't have them as a paying customer yet -->
-<!-- TODO(kyle): test card 4000 0000 0000 0341 -->
 {#if $session.user.stripeCustomerId}
   <p>
     {#if $session.user.subscriptionPeriodEnd > new Date()}
