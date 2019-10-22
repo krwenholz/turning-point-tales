@@ -63,6 +63,7 @@ const seedUsers = async () => {
   Logger.info('Adding seed users...');
 
   await addUser('Jeff', 'Jefferson', 'jeff@h2wib.com', 'foo');
+  await addUser('John', 'Jefferson', 'test-nonsubscriber@h2wib.com', 'foo');
   await addUser('kyle', 'kype', 'kyle@h2wib.com', 'foo');
   await addUser('kc', 'Cool kid', 'kristopherpaulsen@gmail.com', 'foo');
 };
@@ -73,20 +74,19 @@ const seedUsers = async () => {
 // Want a real subscription? You can use a dummy card:
 // https://stripe.com/docs/testing#cards
 const addSubscription = async (userEmail, subscriptionPeriodEnd, stripeCustomerId) => {
-  // TODO(kyle): Fix
   try {
     await pool.query(
       `
       INSERT INTO
-        subscriptions (userId, author, content, tags)
-      SELECT id, $2, $3, $4
+        subscriptions (user_id, subscription_period_end, stripe_customer_id)
+      SELECT id, $2, $3
       FROM users
       WHERE email = $1;
     `,
-      [userEmail, author, JSON.stringify(content), tags]
+      [userEmail, subscriptionPeriodEnd, stripeCustomerId]
     );
 
-    Logger.info("... Story added", title);
+    Logger.info("... Subscription added", userEmail);
   } catch (err) {
     Logger.error(err);
     return Promise.reject(err);
@@ -94,7 +94,7 @@ const addSubscription = async (userEmail, subscriptionPeriodEnd, stripeCustomerI
 };
 
 const seedSubscriptions = async () => {
-  Logger.info('Adding seed stories...');
+  Logger.info('Seeding subscriptions...');
 
   const subEnd = new Date();
   subEnd.setMonth(subEnd.getMonth() + 1);
@@ -138,6 +138,7 @@ const seedStories = async () => {
 
   await reset();
   await seedUsers();
+  await seedSubscriptions();
   await seedStories();
 
   Logger.info('Seeding finished...');
