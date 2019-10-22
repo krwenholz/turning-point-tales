@@ -66,7 +66,7 @@
 
     <p>Or can we interest you in a small diversion before your story?</p>
 
-    <nav>
+    <nav id="ad-options">
       {#each sampleSize(Object.keys(choicesAndAttributes), 2) as choice}
         <Button on:click={() => tags = choicesAndAttributes[choice]}>
           {choice}
