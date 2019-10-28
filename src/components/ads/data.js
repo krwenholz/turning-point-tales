@@ -4,8 +4,7 @@ const choicesAndAttributes = {
   'only Jeff gets': ['random', 'weird'],
 };
 
-const rawContent = [
-  {
+const rawContent = [{
     link: 'krwenholz.com',
     attributes: ["physical", "timeless"],
     description: ["Something really really cool"]
@@ -22,7 +21,9 @@ const rawContent = [
   },
 ];
 
-const content = (optionAttributes) => rawContent.filter(({attributes}) => {
+const content = (optionAttributes) => rawContent.filter(({
+  attributes
+}) => {
   return optionAttributes.some((attribute) => attributes.includes(attribute));
 });
 

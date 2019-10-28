@@ -1,4 +1,9 @@
-const { logInAs, logOut, createUser, deleteUser } = require('../support/utils');
+const {
+  logInAs,
+  logOut,
+  createUser,
+  deleteUser
+} = require('../support/utils');
 
 describe('creating and deleting accounts', () => {
   it('creates and deletes, duh!', () => {

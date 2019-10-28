@@ -1,6 +1,10 @@
 import Logger from 'js-logger';
-import { pool } from 'src/lib/server/database.js';
-import { listAllQuery } from 'src/routes/story/_stories';
+import {
+  pool
+} from 'src/lib/server/database.js';
+import {
+  listAllQuery
+} from 'src/routes/story/_stories';
 
 export const get = (req, res) => {
   Logger.info('Fetching data with query', listAllQuery);

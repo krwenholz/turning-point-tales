@@ -1,9 +1,14 @@
-import { emailPasswordReset } from 'src/lib/email/pre-defined/email-password-reset';
-import { getResetUrl, setNewPassword } from 'src/lib/server/password-reset.js';
+import {
+  emailPasswordReset
+} from 'src/lib/email/pre-defined/email-password-reset';
+import {
+  getResetUrl,
+  setNewPassword
+} from 'src/lib/server/password-reset.js';
 import Logger from 'js-logger';
 
 export const post = async (req, res) => {
-  if(req.body.email) {
+  if (req.body.email) {
     return sendResetEmail(req, res);
   }
 
@@ -18,10 +23,13 @@ const setPassword = async (req, res) => {
   } = req.body;
 
   try {
-    await setNewPassword({ password, id, token });
+    await setNewPassword({
+      password,
+      id,
+      token
+    });
     res.status(200).send();
-  }
-  catch (error) {
+  } catch (error) {
     Logger.error(error);
 
     res.status(500).send('Could not update password');

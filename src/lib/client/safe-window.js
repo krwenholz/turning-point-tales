@@ -8,8 +8,12 @@ const fakeStorage = {
 };
 
 const fakeWindow = {
-  localStorage: { ...fakeStorage },
-  sessionStorage: { ...fakeStorage },
+  localStorage: {
+    ...fakeStorage
+  },
+  sessionStorage: {
+    ...fakeStorage
+  },
   scrollTo: () => {},
   scrollBy: () => {},
   location: {
@@ -22,4 +26,4 @@ const fakeWindow = {
   },
 }
 
-export const safeWindow = () => typeof (window) === 'undefined' ? fakeWindow: window;
+export const safeWindow = () => typeof(window) === 'undefined' ? fakeWindow : window;

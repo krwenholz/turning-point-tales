@@ -1,5 +1,7 @@
 const uuidv4 = require('uuid/v4');
-const { entries } = Object;
+const {
+  entries
+} = Object;
 
 export const createUser = (cy) => {
   const uuid = uuidv4();
@@ -30,12 +32,12 @@ export const createUser = (cy) => {
 
 export const deleteUser = (cy) => {
   cy.visit('/user/profile')
-  .get('button')
-  .contains('Settings')
-  .click()
-  .get('button')
-  .contains('DELETE')
-  .click();
+    .get('button')
+    .contains('Settings')
+    .click()
+    .get('button')
+    .contains('DELETE')
+    .click();
 };
 
 export const logOut = (cy) => {
@@ -43,12 +45,15 @@ export const logOut = (cy) => {
     .visit('/api/user/logout')
 }
 
-export const logInAs = (cy, { email, password }) => {
+export const logInAs = (cy, {
+  email,
+  password
+}) => {
   cy.request('/api/user/logout')
-  .visit('/user/login')
-  .get('#email').type(email)
-  .get('#password').type(password)
-  .get('button')
-  .contains('Log in')
-  .click()
+    .visit('/user/login')
+    .get('#email').type(email)
+    .get('#password').type(password)
+    .get('button')
+    .contains('Log in')
+    .click()
 };

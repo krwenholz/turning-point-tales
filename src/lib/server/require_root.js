@@ -19,4 +19,3 @@ const requireRoot = (req, res, next) => {
 export {
   requireRoot
 }
-

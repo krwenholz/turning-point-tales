@@ -1,7 +1,13 @@
-import { writable } from 'svelte/store';
+import {
+  writable
+} from 'svelte/store';
 
 const status = (initial) => {
-  const { subscribe, set, update } = writable({
+  const {
+    subscribe,
+    set,
+    update
+  } = writable({
     ...initial,
     isSubmitting: false,
     isRejected: false,
@@ -10,7 +16,10 @@ const status = (initial) => {
 
   return {
     subscribe,
-    set: (prop, val) => update(prevState => ({ ...prevState, [prop]: val })),
+    set: (prop, val) => update(prevState => ({
+      ...prevState,
+      [prop]: val
+    })),
   };
 }
 
