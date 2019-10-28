@@ -1,7 +1,9 @@
 import Logger from 'js-logger';
 import config from 'config';
 import rp from 'request-promise-native';
-import { setSubscriptionDetails } from 'src/lib/server/users';
+import {
+  setSubscriptionDetails
+} from 'src/lib/server/users';
 
 /**
  * If this user is already registered in Stripe, cool, otherwise register them.
@@ -30,7 +32,9 @@ const getOrCreateStripeCustomer = (user, cardId) => {
       Logger.info('Stripe customer created', user.id, customerId);
 
       return setSubscriptionDetails(user.id, customerId, null, null)
-        .then(({stripeCustomerId}) => stripeCustomerId);
+        .then(({
+          stripeCustomerId
+        }) => stripeCustomerId);
     }).catch((err) => {
       Logger.error('Error creating customer', user.id, err);
 
@@ -52,7 +56,9 @@ const post = (req, res) => {
         },
         form: {
           customer: stripeCustomerId,
-          items: [{plan: config.get('stripe.subscriptionId')}],
+          items: [{
+            plan: config.get('stripe.subscriptionId')
+          }],
           expand: ['latest_invoice.payment_intent'],
         },
         json: true
@@ -76,13 +82,18 @@ const post = (req, res) => {
       return Promise.reject('Subscription failure')
     })
     .then(() => {
-      res.send(JSON.stringify({'status': 'success'}));
+      res.send(JSON.stringify({
+        'status': 'success'
+      }));
       res.end();
     })
     .catch((err) => {
       Logger.error('Error creating subscription', req.user.id, err);
 
-      res.send(JSON.stringify({'status': 'error', 'message': 'The charge failed, please try again or contact support.'}));
+      res.send(JSON.stringify({
+        'status': 'error',
+        'message': 'The charge failed, please try again or contact support.'
+      }));
       res.end();
     });
 }

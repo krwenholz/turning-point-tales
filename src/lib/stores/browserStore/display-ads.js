@@ -1,6 +1,12 @@
-import { browserStore } from '../browserStore';
-import { AD_SEEN } from './preDefinedKeys';
-import { safeWindow } from 'src/lib/client/safe-window';
+import {
+  browserStore
+} from '../browserStore';
+import {
+  AD_SEEN
+} from './preDefinedKeys';
+import {
+  safeWindow
+} from 'src/lib/client/safe-window';
 
 const initialState = {
   dateSeen: Date.parse('04 Dec 1995 00:12:00 GMT'),

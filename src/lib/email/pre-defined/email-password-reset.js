@@ -1,6 +1,11 @@
-import { email } from '..';
+import {
+  email
+} from '..';
 
-export const emailPasswordReset = ({ resetUrl, to }) => email({
+export const emailPasswordReset = ({
+  resetUrl,
+  to
+}) => email({
   to,
   from: 'noreply@turningpointtales.com',
   subject: 'Password reset request',

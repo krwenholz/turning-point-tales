@@ -2,7 +2,9 @@ import AWS from "aws-sdk";
 import Logger from "js-logger";
 import config from "config";
 import securePassword from "secure-password";
-import { pool } from "src/lib/server/database.js";
+import {
+  pool
+} from "src/lib/server/database.js";
 
 const passwordHasher = securePassword();
 
@@ -70,7 +72,12 @@ const findUserSafeDetails = async identifier => {
   }
 };
 
-const addUser = async ({ firstName, lastName, email, password }) => {
+const addUser = async ({
+  firstName,
+  lastName,
+  email,
+  password
+}) => {
   try {
     const hash = await passwordHasher.hash(Buffer.from(password));
 
@@ -94,7 +101,7 @@ const addUser = async ({ firstName, lastName, email, password }) => {
 const removeUser = async identifier => {
   try {
     await pool.query(
-        `
+      `
     DELETE FROM
         users
     WHERE
@@ -113,7 +120,9 @@ const removeUser = async identifier => {
   }
 };
 
-const updateUserPassword = async (identifier, { password }) => {
+const updateUserPassword = async (identifier, {
+  password
+}) => {
   const hash = await passwordHasher.hash(Buffer.from(password));
 
   try {
@@ -159,7 +168,12 @@ const setSubscriptionDetails = async (identifier, stripeCustomerId, subscription
     `,
       [identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd, errors]
     );
-    return {identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd};
+    return {
+      identifier,
+      stripeCustomerId,
+      subscriptionId,
+      subscriptionPeriodEnd
+    };
   } catch (err) {
     Logger.error(err);
     return Promise.reject(err);

@@ -1,6 +1,11 @@
 import stripe from 'stripe';
-import { findUserSafeDetails, setSubscriptionDetails } from 'src/lib/server/users';
-import { post } from "src/routes/api/payments/hooks";
+import {
+  findUserSafeDetails,
+  setSubscriptionDetails
+} from 'src/lib/server/users';
+import {
+  post
+} from "src/routes/api/payments/hooks";
 
 jest.mock('stripe');
 jest.mock('src/lib/server/users');

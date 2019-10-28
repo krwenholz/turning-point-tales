@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
-const { Pool } = require('pg');
+const {
+  Pool
+} = require('pg');
 const Logger = require("js-logger");
 const securePassword = require("secure-password");
 const stories = require('./stories.js');
@@ -20,7 +22,7 @@ const reset = async () => {
 
   try {
     await pool.query(
-    // Order matters because of dependencies
+      // Order matters because of dependencies
       `
     TRUNCATE user_sessions;
     TRUNCATE stories;
@@ -104,7 +106,13 @@ const seedSubscriptions = async () => {
 /*
  * STORIES
  */
-const addStory = async ({ title, author, content, tags, generalRelease }) => {
+const addStory = async ({
+  title,
+  author,
+  content,
+  tags,
+  generalRelease
+}) => {
   try {
     await pool.query(
       `
@@ -125,7 +133,7 @@ const addStory = async ({ title, author, content, tags, generalRelease }) => {
 const seedStories = async () => {
   Logger.info('Adding seed stories...');
 
-  for(const story of stories) {
+  for (const story of stories) {
     await addStory(story);
   }
 };

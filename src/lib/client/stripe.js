@@ -7,4 +7,3 @@ const fetchStripeKey = () => {
 export {
   fetchStripeKey
 }
-

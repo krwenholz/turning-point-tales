@@ -11,7 +11,7 @@ describe('unauthenticated redirects', () => {
 
   it('redirects to landing when visiting auth-only content', () => {
     cy.visit('/story/1')
-    cy.url().should('match',  /\/landing/);
+    cy.url().should('match', /\/landing/);
   });
 });
 
@@ -31,7 +31,9 @@ describe('authenticated', () => {
 describe('content', () => {
   it('visits teaser story', () => {
     cy.visit('/landing')
-    cy.contains('A day in the life of Mr. Banks', {timeout: 7000}).click();
-    cy.url().should('match',  /\/teaser-story\?storyNode=banks/);
+    cy.contains('A day in the life of Mr. Banks', {
+      timeout: 7000
+    }).click();
+    cy.url().should('match', /\/teaser-story\?storyNode=banks/);
   });
 });

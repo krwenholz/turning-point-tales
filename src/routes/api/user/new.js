@@ -2,8 +2,13 @@ import Logger from 'js-logger';
 import config from 'config';
 import passport from 'passport';
 import securePassword from 'secure-password';
-import { Strategy as LocalStrategy } from 'passport-local';
-import { findUser, addUser } from 'src/lib/server/users';
+import {
+  Strategy as LocalStrategy
+} from 'passport-local';
+import {
+  findUser,
+  addUser
+} from 'src/lib/server/users';
 
 const get = (req, res) => {
   res.redirect('/');
@@ -30,7 +35,7 @@ const post = async (req, res) => {
   } catch (error) {
     Logger.error('Error creating user', error);
     res.status(400)
-       .end();
+      .end();
   }
 }
 
