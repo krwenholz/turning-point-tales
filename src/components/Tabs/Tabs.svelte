@@ -49,7 +49,7 @@
       selectedTab.set(tab);
       selectedPanel.set(panels[i]);
 
-      safeWindow().history.pushState(
+      safeWindow().history.replaceState(
         '',
         '',
         `${safeWindow().location.pathname}?tab=${tab}`

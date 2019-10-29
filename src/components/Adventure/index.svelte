@@ -100,7 +100,7 @@
   )
 
   const setURL = () => {
-    safeWindow().history.pushState(
+    safeWindow().history.replaceState(
       '',
       '',
       `${safeWindow().location.pathname}?storyNode=${$store.storyNode}`
