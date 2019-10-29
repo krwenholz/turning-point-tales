@@ -9,7 +9,7 @@ export default {
     ],
     "final": true,
   },
-  "patreon": {
+  "start": {
     "text": [
       "Hooked already? That was fast! Sounds like you're ready for some excitement.",
 
