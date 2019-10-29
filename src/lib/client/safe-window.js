@@ -18,7 +18,7 @@ const fakeWindow = {
     href: () => '',
   },
   history: {
-    pushState: () => '',
+    replaceState: () => '',
   },
 }
 
