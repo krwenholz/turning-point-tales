@@ -124,7 +124,7 @@
       <span>A day in the life of Mr. Banks</span>
     </Button>
 
-    <Button on:click={redirect("/teaser-story", "patreon")}>
+    <Button on:click={redirect("/teaser-story", "start")}>
       <span>Join the adventure</span>
     </Button>
 

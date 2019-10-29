@@ -37,11 +37,13 @@
 </svelte:head>
 
 <section class="teaser-story">
-  <Adventure
-    {storyNode}
-    title=""
-    story={teaserStory}
-  />
+  <div>
+    <Adventure
+      {storyNode}
+      title=""
+      story={teaserStory}
+    />
+  </div>
 
   <nav>
     <Button on:click={ redirect('/about') } >
@@ -51,7 +53,6 @@
 
     <Button on:click={ redirect('/user/new') } >
       <span>Create an account!</span>
-      <Patreon/>
     </Button>
   </nav>
 </section>
