@@ -30,22 +30,24 @@
     margin-left: 16px;
   }
 
-  button:hover {
-    color: var(--root-color-accent);
-    background: var(--root-color-background);
-    cursor: pointer;
+  @media (hover: hover) {
+    button:hover {
+      color: var(--root-color-accent);
+      background: var(--root-color-background);
+      cursor: pointer;
+    }
+
+    .disabled:hover {
+      cursor: not-allowed;
+      color: var(--root-color-background);
+      background-color: gray;
+    }
   }
 
   .disabled {
     cursor: not-allowed;
     background-color: gray;
     opacity: .7;
-  }
-
-  .disabled:hover {
-    cursor: not-allowed;
-    color: var(--root-color-background);
-    background-color: gray;
   }
 
   :global(span) {

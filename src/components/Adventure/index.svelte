@@ -28,7 +28,7 @@
   $: $store.storyNode = getStartingPoint();
   $: currentPage = story[$store.storyNode];
   $: haveRemainingDecisions = !story[$store.storyNode].final;
-  $: if(currentPage) {
+  $: {
     setURL();
     scrollWindow();
     dispatch('pageChange', {
@@ -36,6 +36,7 @@
       history: $store.history,
       consequences: last($store.history).consequences
     });
+    safeWindow().document.activeElement.blur();
   }
 
   const normalize = (decision = {}) => {
