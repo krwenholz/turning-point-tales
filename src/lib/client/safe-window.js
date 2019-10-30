@@ -20,6 +20,11 @@ const fakeWindow = {
   history: {
     replaceState: () => '',
   },
+  document: {
+    activeElement: {
+      blur: () => {},
+    }
+  }
 }
 
 export const safeWindow = () => typeof (window) === 'undefined' ? fakeWindow: window;
