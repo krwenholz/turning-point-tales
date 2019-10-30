@@ -2,13 +2,20 @@ import Logger from 'js-logger';
 import config from 'config';
 import rp from 'request-promise-native';
 import stripe from 'stripe';
-import { findUserSafeDetails, setSubscriptionDetails } from 'src/lib/server/users';
+import {
+  findUserSafeDetails,
+  setSubscriptionDetails
+} from 'src/lib/server/users';
 
 const updateSubscription = (stripeCustomerId, event) => {
   const status = event.data.status;
   const nextPeriodEnd = new Date(event.data.current_period_end * 1000);
   return findUserSafeDetails(stripeCustomerId)
-    .then(({id, subscriptionId, subscriptionPeriodEnd}) => {
+    .then(({
+      id,
+      subscriptionId,
+      subscriptionPeriodEnd
+    }) => {
       Logger.info('Updating some Stripe details for our user',
         id, stripeCustomerId, subscriptionId, subscriptionPeriodEnd,
         status, nextPeriodEnd);

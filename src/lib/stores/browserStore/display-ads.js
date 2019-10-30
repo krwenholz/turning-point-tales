@@ -2,23 +2,18 @@ import {
   browserStore
 } from '../browserStore';
 import {
-  MAIN_ADVENTURE
+  AD_SEEN
 } from './preDefinedKeys';
 import {
   safeWindow
 } from 'src/lib/client/safe-window';
 
 const initialState = {
-  storyNode: undefined,
-  history: [{
-    storyNode: 'start',
-    consequences: [],
-    requires: [],
-  }],
+  dateSeen: Date.parse('04 Dec 1995 00:12:00 GMT'),
 }
 
-export const mainAdventure = (state = initialState) => browserStore(
-  MAIN_ADVENTURE,
+export const adStore = (state = initialState) => browserStore(
+  AD_SEEN,
   safeWindow().localStorage,
   state,
 );

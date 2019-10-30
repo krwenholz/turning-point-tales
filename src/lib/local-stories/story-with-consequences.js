@@ -3,8 +3,7 @@ export default {
     text: [
       "It's a monday, and you're sleeping, what should you do?"
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: "breakfast",
         label: "wake up immediately and start my day, no time to waste.",
       },
@@ -19,8 +18,7 @@ export default {
     text: [
       'You could really go for a meal before you start your day...'
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: "how_to_travel",
         label: "coffee",
         consequences: ['rested'],
@@ -35,8 +33,7 @@ export default {
     text: [
       "You need to get to work, I hope you're rested and ready for the day!"
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: "drive_car",
         label: "Drive car",
         requires: ['rested'],
@@ -51,22 +48,18 @@ export default {
     text: [
       "Yay, cars are fun"
     ],
-    decisions: [
-      {
-        storyNode: "start",
-        label: "well, time to start over",
-      },
-    ]
+    decisions: [{
+      storyNode: "start",
+      label: "well, time to start over",
+    }, ]
   },
   walk: {
     text: [
       "Walking sucks, and so does exercise"
     ],
-    decisions: [
-      {
-        storyNode: "start",
-        label: "well, time to start over",
-      },
-    ]
+    decisions: [{
+      storyNode: "start",
+      label: "well, time to start over",
+    }, ]
   },
 };

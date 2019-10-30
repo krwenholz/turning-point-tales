@@ -1,7 +1,12 @@
-import { cubicOut } from 'svelte/easing';
+import {
+  cubicOut
+} from 'svelte/easing';
 
-export const fade = (node, { delay = 0, duration = 400  }) => {
-  const opacity =+ getComputedStyle(node).opacity;
+export const fade = (node, {
+  delay = 0,
+  duration = 400
+}) => {
+  const opacity = +getComputedStyle(node).opacity;
 
   return {
     delay,
@@ -12,8 +17,11 @@ export const fade = (node, { delay = 0, duration = 400  }) => {
 
 
 export const slide = (
-  node,
-  { delay = 0, duration = 400, easing = cubicOut }
+  node, {
+    delay = 0,
+    duration = 400,
+    easing = cubicOut
+  }
 ) => {
   const style = getComputedStyle(node);
   const opacity = +style.opacity;
@@ -30,14 +38,14 @@ export const slide = (
     duration,
     easing,
     css: t =>
-    `overflow: hidden;` +
-    `opacity: ${Math.min(t * 20, 1) * opacity};` +
-    `height: ${t * height}px;` +
-    `padding-top: ${t * paddingTop}px;` +
-    `padding-bottom: ${t * paddingBottom}px;` +
-    `margin-top: ${t * marginTop}px;` +
-    `margin-bottom: ${t * marginBottom}px;` +
-    `border-top-width: ${t * borderTopWidth}px;` +
-    `border-bottom-width: ${t * borderBottomWidth}px;`
+      `overflow: hidden;` +
+      `opacity: ${Math.min(t * 20, 1) * opacity};` +
+      `height: ${t * height}px;` +
+      `padding-top: ${t * paddingTop}px;` +
+      `padding-bottom: ${t * paddingBottom}px;` +
+      `margin-top: ${t * marginTop}px;` +
+      `margin-bottom: ${t * marginBottom}px;` +
+      `border-top-width: ${t * borderTopWidth}px;` +
+      `border-bottom-width: ${t * borderBottomWidth}px;`
   };
 }

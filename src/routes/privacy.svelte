@@ -21,7 +21,7 @@
 
 <h4>Information from website browsers</h4>
 
-<p>If you're just browsing the website, we collect the same basic information that most websites collect. We use common internet technologies, such as cookies and web server logs. This is stuff we collect from everybody, whether they have an account or not.</p>
+<p>If you're just browsing the website, we collect the same basic information that most websites collect. We use common internet technologies, such as cookies and web server logs. This is stuff we collect from everybody, whether they have an account or not. Only account holders are subject to cookies, and those just tell us you have an account.</p>
 
 <p>The information we collect about all visitors to our website includes the visitor’s browser type, language preference, referring site, additional websites requested, and the date and time of each visitor request. We also collect potentially personally-identifying information like Internet Protocol (IP) addresses.</p>
 
@@ -31,11 +31,13 @@
 
 <h4>Information from users with accounts</h4>
 
-<p>If you create an account, we require some basic information at the time of account creation. You will create your own user name and password, and we will ask you for a valid email address. You also have the option to give us more information if you want to, and this may include "User Personal Information." Sometimes this information comes through Patreon, if that's the case, we treat it all the same, but you probably didn't have to share a password with us.</p>
+<p>If you create an account, we require some basic information at the time of account creation. You will create your own user name and password, and we will ask you for a valid email address. You also have the option to give us more information if you want to, and this may include "User Personal Information.".</p>
 
 <p>"User Personal Information" is any information about one of our users which could, alone or together with other information, personally identify him or her. Information such as a user name and password, an email address, a real name, and a photograph are examples of “User Personal Information.” User Personal Information includes Personal Data as defined in the General Data Protection Regulation.</p>
 
 <p>User Personal Information does not include aggregated, non-personally identifying information. We may use aggregated, non-personally identifying information to operate, improve, and optimize our website and service.</p>
+
+<p>We may ask you for credit card information to purchase products on this site. If we do so, we do not store that information. Instead we use a trused third party service, for example Stripe, to securely store and handle this information. It's not that we can't be trusted, we just trust those experts more. In these cases, we are still responsible for removing your information with them if you remove your account with us and will do so promptly if you ever delete your Turning Point Tales account.</p>
 
 <h5>Why we collect this information</h5>
 
@@ -100,7 +102,7 @@
 
 <h4>Cookies</h4>
 
-<p>Turning Point Tales uses cookies to make interactions with our service easy and meaningful. We use cookies (and similar technologies, like HTML5 localStorage) to keep you logged in, remember your preferences, and provide information for future development of Turning Point Tales. We also use cookies to identify a device, for security reasons. By using our website, you agree that we can place these types of cookies on your computer or device. If you disable your browser or device’s ability to accept cookies, you will not be able to log in or use Turning point Tales’s services.</p>
+<p>Turning Point Tales uses cookies to make interactions with our service easy and meaningful. We use cookies (and similar technologies, like HTML5 localStorage) to keep you logged in, remember your preferences, and provide information for future development of Turning Point Tales. We also use cookies to identify a device, for security reasons. By using our website, you agree that we can place these types of cookies on your computer or device. If you disable your browser or device’s ability to accept cookies, you will not be able to log in or use Turning Point Tales’s services.</p>
 
 <p>We only use session cookies to identify you as a user and we do not share these cookies with other sites.</p>
 
@@ -108,7 +110,7 @@
 
 <p>We use a number of third party analytics and service providers to help us evaluate our users' use of Turning Point Tales; compile statistical reports on activity; and improve our content and website performance. We only use these third party analytics providers on certain areas of our website, and all of them have policies similar to ours that limit the type of personal information they can collect and the purpose for which they can process the information.</p>
 
-<p>We do not currently respond to your browser's Do Not Track signal, and we do not permit third parties other than our analytics and service providers to track Turning Point Tales users' activity over time on Turning Point Tales. We do not track your online browsing activity on other online services over time.</p>
+<p>We do not currently respond to your browser's Do Not Track signal, and we do not permit third parties other than our analytics and service providers to track Turning Point Tales users' activity over time on Turning Point Tales. We do not track your online browsing activity on other online services over time and do not allow our third party tools to do so.</p>
 
 <h3>How Turning Point Tales secures your information</h3>
 
