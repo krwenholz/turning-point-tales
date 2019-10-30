@@ -4,8 +4,7 @@ export default {
       "Lets help you learn about navigating stories, and branching through decisions.",
       "Choose an option below.",
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: 'option_a',
         label: 'Choose option a',
       },
@@ -21,8 +20,7 @@ export default {
       "At this point, we've started branching off in two different directions in our story, but we can always 'jump over' into another branch by linking a key with a decision",
       "If you want, you can jump over into the 'option b' timeline, else, continue on."
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: 'option_b',
         label: 'jump over into option b',
       },
@@ -40,8 +38,7 @@ export default {
 
       "If you want, you can jump over into the 'option a' timeline, else, continue on.",
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: 'option_a',
         label: 'jump over into option a',
       },
@@ -56,10 +53,9 @@ export default {
       "Seems like all the decisions have ended up at one single branch.",
       "While nice to have, we don't have to go that route, they can diverge immensely."
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: 'go_left',
-          label: 'go left',
+        label: 'go left',
       },
       {
         storyNode: 'go_right',
@@ -71,8 +67,7 @@ export default {
     text: [
       'We have to go deeper',
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: 'deeper_left',
         label: 'Go deeper left',
       },
@@ -86,8 +81,7 @@ export default {
     text: [
       'Lets see how deep this rabbit hole can go',
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: 'left_rabbit_hole',
         label: 'Go down the left rabbit hole',
       },
@@ -102,70 +96,58 @@ export default {
       "Okay, this is starting to get out of hand, your decision making priveleges  are behing revoked",
       "Sometimes this is cheesy, but it can be used for interesting narrative effects..."
     ],
-    decisions: [
-      {
-        storyNode: 'only_option',
-        label: 'Only option',
-      }
-    ]
+    decisions: [{
+      storyNode: 'only_option',
+      label: 'Only option',
+    }]
   },
   deeper_right: {
     text: [
       "Okay, this is starting to get out of hand, your decision making priveleges are behing revoked",
       "Sometimes this is cheesy, but it can be used for interesting narrative effects..."
     ],
-    decisions: [
-      {
-        storyNode: 'only_option',
-        label: 'Only option',
-      }
-    ]
+    decisions: [{
+      storyNode: 'only_option',
+      label: 'Only option',
+    }]
   },
   left_rabbit_hole: {
     text: [
       "Okay, this is starting to get out of hand, your decision making priveleges are being revoked",
       "Sometimes this is cheesy, but it can be used for interesting narrative effects..."
     ],
-    decisions: [
-      {
-        storyNode: 'only_option',
-        label: 'Only option',
-      }
-    ]
+    decisions: [{
+      storyNode: 'only_option',
+      label: 'Only option',
+    }]
   },
   right_rabbit_hole: {
     text: [
       "Okay, this is starting to get out of hand, your decision making priveleges are being revoked",
       "Giving the reader one option is sometimes a bit cheesy, but it can be used for interesting narrative effects..."
     ],
-    decisions: [
-      {
-        storyNode: 'only_option',
-        label: 'Only option',
-      }
-    ]
+    decisions: [{
+      storyNode: 'only_option',
+      label: 'Only option',
+    }]
   },
   only_option: {
     text: [
       'Hold onto your butts!'
     ],
-    decisions: [
-      {
-        storyNode: 'only_option_2',
-        label: 'more more more!'
-      }
-    ]
+    decisions: [{
+      storyNode: 'only_option_2',
+      label: 'more more more!'
+    }]
   },
   only_option_2: {
     text: [
       'Turn on the ludicrous speed!'
     ],
-    decisions: [
-      {
-        storyNode: 'has_dead_end',
-        label: 'here we go again!'
-      }
-    ]
+    decisions: [{
+      storyNode: 'has_dead_end',
+      label: 'here we go again!'
+    }]
   },
   has_dead_end: {
     text: [
@@ -175,8 +157,7 @@ export default {
 
       "To create an ending, just give them a route with no decisions."
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: 'dead_end',
         label: 'You have met with a terrible fate'
       },
@@ -200,8 +181,7 @@ export default {
     text: [
       "You wanted one more set of questions, the story isn't quite over yet!"
     ],
-    decisions: [
-      {
+    decisions: [{
         storyNode: 'so_long',
         label: "So long!",
       },

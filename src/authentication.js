@@ -1,7 +1,10 @@
 import Logger from 'js-logger';
 import passport from 'passport';
 import securePassword from 'secure-password';
-import { findUser, findUserSafeDetails } from 'src/lib/server/users';
+import {
+  findUser,
+  findUserSafeDetails
+} from 'src/lib/server/users';
 import {
   Strategy as LocalStrategy
 } from 'passport-local';
@@ -30,8 +33,7 @@ const compare = (userPassword, hash) => {
 
           passwordHasher.hash(userPassword, (err, improvedHash) => {
             if (err) Logger.error('You are authenticated, but we could not improve your safety this time around')
-
-            // TODO(kyle): Save improvedHash somewhere
+            // TODO: Save improvedHash somewhere
           })
           return true;
           break;
@@ -108,10 +110,10 @@ passport.deserializeUser(async (id, cb) => {
   try {
     const details = await findUserSafeDetails(id = id)
 
-    if(!details) return cb(null, false);
+    if (!details) return cb(null, false);
 
     return cb(null, details)
-  } catch(error) {
+  } catch (error) {
     return cb(error);
   }
 });

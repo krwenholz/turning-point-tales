@@ -17,10 +17,10 @@ describe('Story with consequences and history', () => {
   }
 
   const chooseCoffee = () => {
-      cy.contains('It\'s a monday')
-        .get('button')
-        .contains('wake up')
-        .click();
+    cy.contains('It\'s a monday')
+      .get('button')
+      .contains('wake up')
+      .click();
 
     cy.contains('You could really go for a meal')
       .get('button')

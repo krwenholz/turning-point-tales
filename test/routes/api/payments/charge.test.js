@@ -1,6 +1,10 @@
 import rp from "request-promise-native";
-import { setSubscriptionDetails } from 'src/lib/server/users';
-import { post } from "src/routes/api/payments/charge";
+import {
+  setSubscriptionDetails
+} from 'src/lib/server/users';
+import {
+  post
+} from "src/routes/api/payments/charge";
 
 jest.mock('request-promise-native');
 jest.mock('src/lib/server/users');
@@ -50,7 +54,9 @@ test('handles new subscriber success', () => {
 
   return post(req, res).then(() => {
     expect(res.send)
-      .toHaveBeenCalledWith(JSON.stringify({'status': 'success'}));
+      .toHaveBeenCalledWith(JSON.stringify({
+        'status': 'success'
+      }));
     expect(setSubscriptionDetails)
       .toHaveBeenNthCalledWith(2, 1, 'new_customer_foo', 'new_subscription_id', new Date('2019-07-13'));
   })
