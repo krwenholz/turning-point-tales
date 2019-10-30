@@ -41,4 +41,16 @@ describe('Adventure', () => {
         .get('nav').should('be.visible');
     });
   })
+
+  it('allows user to go backwards after navigating a story', () => {
+    cy.location().then(loc => {
+      cy.visit(loc.pathname + '?storyNode=start')
+      .get('button')
+      .contains('Time to solve')
+      .click()
+      .go('back')
+      .go('back')
+      .url().should('not.match', /\/story\/[a-z0-9-]+\?storyNode=start/);
+    });
+  })
 });
