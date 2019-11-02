@@ -5,8 +5,8 @@
   import Adventure from 'src/components/Adventure/index.svelte';
   import tutorialStory from 'src/lib/local-stories/tutorial-story.js';
   import storyWithConsequences from 'src/lib/local-stories/story-with-consequences.js';
-  import Overview from 'src/components/Overview';
-  import YamlTracker from './YamlTracker.svelte';
+  import Overview from 'src/components/Adventure/Overview.svelte';
+  import YamlTracker from 'src/components/Adventure/YamlTracker.svelte';
 
   let overview;
   let storyNode;
