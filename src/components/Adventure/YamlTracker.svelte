@@ -19,6 +19,7 @@
 <style>
   div {
     overflow-y: scroll;
+    padding: 12px;
   }
 </style>
 <div class={'yaml-tracker'} bind:this={self}>
