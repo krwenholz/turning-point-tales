@@ -33,15 +33,6 @@
     padding: .5em;
     cursor: pointer;
   }
-
-  details[open] {
-    padding: .5em;
-  }
-
-  details[open] summary {
-    border-bottom: 1px solid var(--root-color-primary-altered);
-    margin-bottom: .5em;
-  }
 </style>
 
 <svelte:head>
@@ -52,10 +43,10 @@
   <h2>FAQ</h2>
 
   <details>
-    <summary>When is the next story coming?</summary>
-    Subscribers should expect a new story every three to four weeks. Three weeks later,
-    we'll release the story for non-subscribers. In between releases, subscribers should
-    expect emails with teasers, creator interviews, and more.
+    <summary>What kind of content is this?</summary>
+    Tales. Choice oriented tales. We're working with creators interested in producing
+    science fiction, fantasy, murder mystery, and even geographic noir. As long as their
+    tale allows the reader to enjoy in the agency of creation, we're interested in publishing.
   </details>
 
   <details>
@@ -67,16 +58,16 @@
   </details>
 
   <details>
-    <summary>What kind of content is this?</summary>
-    Tales. Choice oriented tales. We're working with creators interested in producing
-    science fiction, fantasy, murder mystery, and even geographic noir. As long as their
-    tale allows the reader to enjoy in the agency of creation, we're interested in publishing.
+    <summary>When is the next story coming?</summary>
+    Subscribers should expect a new story every three to four weeks. Three weeks later,
+    we'll release the story for non-subscribers. In between releases, subscribers should
+    expect emails with teasers, creator interviews, and more.
   </details>
 
   <details>
     <summary>Why do you require accounts?</summary>
-    Creating an account grants you access to the entire library of adventures.
-    We use your email and name, which we never share with anyone else, to personalize the
+    Creating an account grants you access to the library of adventures.  We use your
+    email and name, which we only share for things like payments, to personalize the
     experience and send you exciting updates. In lieu of sharing your data and browsing with
     a third party, we handcraft some interesting offers or let you skip those entirely
     with a paid subscription.

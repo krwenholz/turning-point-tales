@@ -104,7 +104,7 @@
   <h1>Let's create your user!</h1>
 
   <p>Creating an account grants you access to the entire library of adventures.
-  We use your email and name, which we never share with anyone else, to personalize the
+  We use your email and name, which we only share for things like payments, to personalize the
   experience and send you exciting updates. In lieu of sharing your data and browsing with
   a third party, we handcraft some interesting ads or let you skip those entirely with a
   paid subscription.</p>
