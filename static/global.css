@@ -11,6 +11,7 @@
   --root-color-background: whitesmoke;
   --root-color-error: red;
   --root-call-to-action: darkolivegreen;
+  --root-color-disabled: gray;
 
   --root-vertical-spacing: 16px;
   --root-wrapper-padding: 16px;

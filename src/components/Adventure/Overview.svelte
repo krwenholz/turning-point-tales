@@ -15,6 +15,10 @@
 </script>
 
 <style>
+  .overview {
+    background: white;;
+  }
+
   h3 {
     border-bottom: var(--root-border);
   }

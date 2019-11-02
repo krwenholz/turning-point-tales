@@ -7,6 +7,7 @@
   import Overview from 'src/components/Adventure/Overview.svelte';
   import YamlTracker from 'src/components/Adventure/YamlTracker.svelte';
   import Button from 'src/components/Button.svelte';
+  import Toggle from 'src/components/Form/Toggle.svelte';
 
   const { page, session } = sapper.stores();
 
@@ -17,6 +18,10 @@
   let history = [];
   let consequences = [];
   let mode = 'Edit';
+
+  const toggleMode = (e) => {
+    mode = e.target.checked ? 'View' : 'Edit';
+  }
 
   const update = (e) => {
     storyNode = e.detail.storyNode;
@@ -48,7 +53,8 @@
   .workbench {
     display: flex;
     flex-flow: column;
-    min-height: 80vh;
+    min-height: 78vh;
+    margin-top: 16px;
   }
 
   .toolbox {
@@ -68,17 +74,31 @@
 
   .toolbox header {
     display: inline-flex;
-    align-items: baseline;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 4px;
   }
 
-  .toolbox button {
-    line-height: 1;
-    width: fit-content;
-    background: none;
-    border: none;
-    text-decoration: underline;
+  header :global(.button) {
     margin-left: 16px;
-    color: var(--root-call-to-action);
+  }
+
+  .current-mode {
+    line-height: 1;
+    font-size: var(--root-font-size-md);
+  }
+
+  header h2 {
+    line-height: 10px;
+  }
+
+  header nav {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  header .toggle-text {
+    margin: 0 8px 0 8px;
   }
 
   .toolbox textarea {
@@ -98,15 +118,6 @@
     width: 100%;
     min-height: 80vh;
     border: solid;
-  }
-
-  .loader {
-    max-width: 10rem;
-    display: block;
-    padding: 10px;
-    margin: 10px;
-    cursor: pointer;
-    font-size: 14px;
   }
 
   /* Need a nasty global here because it's unused until later and we don't want svelte
@@ -134,12 +145,15 @@ your decision tree and even experience the whole thing at the bottom of this pag
 <section class='workbench'>
   <article class="toolbox">
     <header>
-      <h2>Toolbox: {mode}</h2>
-      <button on:click={() => mode = mode.match('View') ? 'Edit' : 'View'}>switch</button>
+      <h2>Toolbox <span class='current-mode'>{mode} |</span></h2>
+      <nav>
+        <span class='toggle-text'>Switch</span>
+        <Toggle on:input={toggleMode} />
+      </nav>
+      <Button variation="link" class="loader" on:click={load}>Load</Button>
     </header>
     {#if mode === 'Edit'}
       <textarea rows="30" bind:value={storyText}></textarea>
-      <button class="loader" on:click={load}>Load</button>
     {:else}
       <Overview currentStoryNode={storyNode} {history} {consequences} />
       <YamlTracker story={story} {storyNode} {history} {consequences} />

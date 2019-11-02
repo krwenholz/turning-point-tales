@@ -143,11 +143,6 @@
     margin: 0 auto 0 auto;
   }
 
-  :global(.button) {
-    margin-bottom: 16px;
-    width: 100%;
-  }
-
   nav {
     margin-top: auto;
     width: 100%;
@@ -157,10 +152,9 @@
     justify-content: flex-start;
   }
 
-  :global(.button) {
+  .adventure :global(.button) {
     margin-bottom: 16px;
     min-width: 200px;
-    width: 100%;
   }
 
   @media only screen and (min-height: 700px) {
@@ -169,7 +163,6 @@
     }
   }
 </style>
-
 
 {#if process.browser}
   <section class={`adventure ${className}`}>

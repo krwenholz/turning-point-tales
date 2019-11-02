@@ -17,7 +17,8 @@
 </script>
 
 <style>
-  div {
+  .yaml-tracker {
+    background: white;
     overflow-y: scroll;
     padding: 12px;
   }
