@@ -42,36 +42,37 @@ const compare = (userPassword, hash) => {
 };
 
 const allowedBaseRoutes = [
-  '/password-reset',
-  '/tutorial',
-  '/example-story',
-  '/teaser-story',
-  '/landing',
-  '/stories',
   '/about',
-  '/user/new',
-  '/api/payments/hooks',
   '/api/password-reset',
+  '/api/payments/hooks',
   '/api/user/fake_login',
   '/api/user/initiate_login',
   '/api/user/logout',
   '/api/user/new',
+  '/example-story',
+  '/faq',
   '/index',
+  '/landing',
+  '/password-reset',
   '/privacy',
   '/service-worker.js',
+  '/stories',
   '/story.json',
+  '/teaser-story',
   '/tos',
+  '/tutorial',
+  '/user/new',
 ];
 
 const allowedPrefixes = [
   '/?',
-  '/api/user/new',
   '/api/user/login',
-  '/user/create',
-  '/user/login',
+  '/api/user/new',
   '/client',
   '/error',
   '/experimental',
+  '/user/create',
+  '/user/login',
 ];
 
 /**

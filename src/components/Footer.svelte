@@ -34,6 +34,9 @@
 
 <footer>
   <nav class="grouping">
+    <a href="/faq">
+      <span>FAQ</span>
+    </a>
     <a href="/about">
       <span>About Us</span>
     </a>

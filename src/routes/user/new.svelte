@@ -5,6 +5,7 @@
   import { statusTracking } from 'src/lib/stores/status-tracking';
   import { Input, Form, Checkbox } from 'src/components/Form';
   import Button from 'src/components/Button.svelte';
+  import FAQ from 'src/routes/faq.svelte';
 
 	const { page } = sapper.stores();
 	const { goto } = sapper;
@@ -64,6 +65,12 @@
     justify-content: center;
   }
 
+  p {
+    text-align: left;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
   :global(.checkbox) {
     margin: 0 8px 16px 0;
   }
@@ -96,8 +103,13 @@
 <section class="preamble text">
   <h1>Let's create your user!</h1>
 
-  <p>We'll need a name to call you (never shared publicly), an email to contact you at,
-  and a password for you to log in with.</p>
+  <p>Creating an account grants you access to the entire library of adventures.
+  We use your email and name, which we never share with anyone else, to personalize the
+  experience and send you exciting updates. In lieu of sharing your data and browsing with
+  a third party, we handcraft some interesting ads or let you skip those entirely with a
+  paid subscription.</p>
+
+  <p>More questions? Check out our <a href="/faq">FAQ</a>.</p>
 </section>
 
 <section class="form text">
@@ -177,4 +189,9 @@
       Sign up
     </Button>
   </Form>
+</section>
+
+<section>
+  <p>If you already have an account with us, you can log in
+  <a href="/user/login">here</a>.</p>
 </section>
