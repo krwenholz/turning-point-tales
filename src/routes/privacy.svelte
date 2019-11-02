@@ -76,7 +76,9 @@
 
 <p>We do not share, sell, rent, or trade User Personal Information with third parties for their commercial purposes, except where you have specifically told us to (such as by allowing access to stories on other platforms).</p>
 
-<p>We do not host advertising on Turning Point Tales. We may occasionally embed content from third party sites, such as YouTube, and that content may include ads. While we try to minimize the amount of ads our embedded content contains, we can't always control what third parties show. Any advertisements on individual stories are not sponsored by, or tracked by, Turning Point Tales.</p>
+<p>We do not host advertising on Turning Point Tales. We may occasionally embed content from third party sites, such as YouTube, and that content may include ads. We may also display affiliate links, which do not track you. While we try to minimize the amount of ads our embedded content contains, we can't always control what third parties show.</p>
+
+<p>At times, we may display links, referred to as affiliate links, to recommend products or services. On those sites, their privacy policy and terms of service apply. We'll only send you to places we trust, but you should always do your own due diligence.</p>
 
 <p>We do not disclose User Personal Information outside Turning Point Tales, except in the situations listed in this section or in the section below on Compelled Disclosure.</p>
 
