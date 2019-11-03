@@ -8,6 +8,12 @@
   export let isSubmitting = false;
 
   const dispatch = createEventDispatcher();
+
+  const isHover = () => {
+    if(!process.browser) return false;
+
+    return 'ontouchstart' in window ? '' : 'HOVER'
+  }
 </script>
 
 <style>
@@ -34,23 +40,21 @@
     text-decoration: underline;
   }
 
-  @media (hover: hover) {
-    button:hover {
-      color: var(--root-color-accent);
-      background: var(--root-color-background);
-      cursor: pointer;
-    }
+  #HOVER.button:hover {
+    color: var(--root-color-accent);
+    background: var(--root-color-background);
+    cursor: pointer;
+  }
 
-    .disabled:hover {
-      cursor: not-allowed;
-      color: var(--root-color-background);
-      background-color: gray;
-    }
+  #HOVER.disabled:hover {
+    cursor: not-allowed;
+    color: var(--root-color-background);
+    background-color: gray;
+  }
 
-    .link:hover,
-    .link:active {
-      color: var(--root-color-primary);
-    }
+  #HOVER.link:hover,
+  #HOVER.link:active {
+    color: var(--root-color-primary);
   }
 
   .button :global(svg) {
@@ -72,6 +76,7 @@
 
 <button
   class={`button ${variation}`}
+  id={isHover()}
   type="{type}"
   disabled={disabled}
   on:click={() => dispatch('click', this)}
