@@ -1,18 +1,4 @@
 <style>
-  section {
-    width: 100%;
-    display: flex;
-    flex-flow: column;
-    align-items: flex-start;
-    justify-content: center;
-  }
-
-  @media only screen and (min-width: 700px) {
-    section {
-      padding: 25vw;
-    }
-  }
-
   details {
     width: 100%;
     border: 1px solid #aaa;
@@ -39,7 +25,7 @@
   <title>Frequently Asked Questions</title>
 </svelte:head>
 
-<section>
+<section class="text">
   <h2>FAQ</h2>
 
   <details>
