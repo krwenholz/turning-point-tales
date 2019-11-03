@@ -24,10 +24,11 @@ const reset = async () => {
     await pool.query(
       // Order matters because of dependencies
       `
-    TRUNCATE user_sessions;
-    TRUNCATE stories;
-    TRUNCATE subscriptions;
-    DELETE FROM users;
+    TRUNCATE users CASCADE;
+    TRUNCATE user_sessions CASCADE;
+    TRUNCATE stories CASCADE;
+    TRUNCATE visitations CASCADE;
+    TRUNCATE subscriptions CASCADE;
     `,
     );
 
