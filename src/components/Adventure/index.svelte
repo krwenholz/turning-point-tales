@@ -27,7 +27,10 @@
   });
 
   $: $store.storyNode = getStartingPoint();
-  $: currentPage = story[$store.storyNode];
+  $: {
+    console.log('xxx', $store.storyNode, JSON.stringify(story[$store.storyNode]))
+  }
+  $: currentPage = story[$store.storyNode] || '';
   $: haveRemainingDecisions = !story[$store.storyNode].final;
   $: {
     setURL();

@@ -1,4 +1,6 @@
-import { kebabCase } from 'lodash'
+import {
+  kebabCase
+} from 'lodash'
 import {
   browserStore
 } from '../browserStore';
