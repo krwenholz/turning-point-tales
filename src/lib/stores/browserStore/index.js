@@ -3,7 +3,11 @@ import {
 } from 'svelte/store';
 import * as preDefinedKeys from './preDefinedKeys.js';
 
-const isPreDefinedKey = key => Object.keys(preDefinedKeys).includes(key)
+const isPreDefinedKey = (key) => {
+  return Object.keys(preDefinedKeys).some((knownKey) => {
+    return knownKey === key || key.startsWith(knownKey + '-');
+  });
+};
 
 export const browserStore = (key, storage, initial = null) => {
   if (!isPreDefinedKey(key)) {
