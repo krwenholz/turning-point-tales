@@ -45,12 +45,22 @@ describe('Adventure', () => {
   it('allows user to go backwards after navigating a story', () => {
     cy.location().then(loc => {
       cy.visit(loc.pathname + '?storyNode=start')
-      .get('button')
-      .contains('Time to solve')
-      .click()
-      .go('back')
-      .go('back')
-      .url().should('not.match', /\/story\/[a-z0-9-]+\?storyNode=start/);
+        .get('button')
+        .contains('Time to solve')
+        .click()
+        .go('back')
+        .go('back')
+        .url().should('not.match', /\/story\/[a-z0-9-]+\?storyNode=start/);
+    });
+  })
+
+  it('allows user to visit another story', () => {
+    cy.location().then((loc) => {
+      cy.visit(loc.pathname + '?storyNode=file_a_formal_complaint')
+        .visit('/')
+        .get('.story-previews').find('button').last()
+        .click()
+        .url().should('match', /\/story\/[a-z0-9-]+\?storyNode=start/);
     });
   })
 });

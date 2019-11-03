@@ -59,7 +59,7 @@
   <Adventure
     {story}
     {title}
-    store={mainAdventure()}
+    store={mainAdventure(title)}
     className='adventure'
     storyNode={$page.query.storyNode}
   />

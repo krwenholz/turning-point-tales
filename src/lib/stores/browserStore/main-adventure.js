@@ -1,3 +1,4 @@
+import { kebabCase } from 'lodash'
 import {
   browserStore
 } from '../browserStore';
@@ -17,8 +18,8 @@ const initialState = {
   }],
 }
 
-export const mainAdventure = (state = initialState) => browserStore(
-  MAIN_ADVENTURE,
+export const mainAdventure = (title, state = initialState) => browserStore(
+  `${MAIN_ADVENTURE}-${kebabCase(title)}`,
   safeWindow().localStorage,
   state,
 );
