@@ -1,6 +1,6 @@
 import {
-  kebabCase
-} from 'lodash'
+  sha256
+} from 'crypto-js/sha256'
 import {
   browserStore
 } from '../browserStore';
@@ -20,8 +20,8 @@ const initialState = {
   }],
 }
 
-export const mainAdventure = (title, state = initialState) => browserStore(
-  `${MAIN_ADVENTURE}-${kebabCase(title)}`,
+export const mainAdventure = (content, state = initialState) => browserStore(
+  `${MAIN_ADVENTURE}-${sha256(JSON.stringify(content))}`,
   safeWindow().localStorage,
   state,
 );
