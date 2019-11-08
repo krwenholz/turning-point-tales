@@ -36,13 +36,7 @@
 </svelte:head>
 
 {#if $page.query.user === 'new'}
-  <p>Congratulations on creating your new user! We've sent you a confirmation email you'll
-  need to click on in the next 48 hours, but for now you can start using the site.</p>
-
-  <p>First things first though, let's get hooked up with your Patreon account so we can
-  give you access to the freshest stories.</p>
-
-  <button>TODO: hook up with Patreon.</button>
+  <p>Congratulations on creating your new user! We hope you enjoy the adventure.</p>
 {/if}
 
 <Introduction />
