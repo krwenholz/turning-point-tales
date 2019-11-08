@@ -26,10 +26,13 @@
   import * as sapper from '@sapper/app';
   import Adventure from 'src/components/Adventure';
   import DisplayAd from 'src/components/ads/DisplayAd.svelte';
+  import { Logger } from 'src/lib/client/logger';
   import { adStore } from 'src/lib/stores/browserStore/display-ads';
-  import { userSubscribed } from 'src/lib/client/user';
+  import { fetchCsrf } from 'src/lib/client/csrf';
   import { mainAdventure } from 'src/lib/stores/browserStore/main-adventure';
+  import { onMount } from 'svelte';
   import { stores } from '@sapper/app';
+  import { userSubscribed } from 'src/lib/client/user';
 
   export let story;
   export let title;
@@ -37,18 +40,66 @@
 
   const { page, session } = sapper.stores();
   const isSubscribed = userSubscribed($session.user);
-
+  const released = new Date(generalRelease) < new Date();
   const oneDay = 1 * 24 * 60 * 60 * 1000;
+  let previousNodeName = $page.query.storyNode;
+  let visitations = new Set([]);
+  let csrf;
 
   const adInfo = adStore();
 
   const adFinished = () => {
     $adInfo.dateSeen = Date.now();
-  }
+  };
 
-  const released = new Date(generalRelease) < new Date();
+  const newVisitation = ({ detail }) => {
+    fetch('/story/visits', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'XSRF-TOKEN': csrf,
+      },
+      body: JSON.stringify({
+        storyId: $page.params.slug,
+        nodeName: detail.storyNode,
+        previousNodeName: previousNodeName,
+      }),
+    })
+      .then((response) => {
+        if(!response.ok) throw new Error('Response was not ok');
+        Logger.info('Successfully updated visitations', detail.storyNode);
+        previousNodeName = detail.storyNode;
+        visitations.add(detail.storyNode);
+      })
+      .catch((error) => {
+        Logger.error('Error updating visitations', error)
+      });
+  };
 
   $: adSeen = Date.now() - $adInfo.dateSeen < oneDay;
+
+  $: {
+    console.log(visitations)
+  }
+
+  onMount(() => csrf = fetchCsrf());
+
+  onMount(() => {
+    fetch('/story/visits')
+      .then((response) => {
+        if(!response.ok) throw new Error('Response was not ok');
+        Logger.info('Successfully fetched visitations');
+        return response.json();
+      })
+      .then((recordedVisitations) => {
+        for(let visitation of recordedVisitations) {
+          visitations.add(visitation.node_name);
+        }
+      })
+      .catch((error) => {
+        Logger.error('Error fetching visitations', error)
+      });
+  });
 </script>
 
 <svelte:head>
@@ -62,6 +113,7 @@
     store={mainAdventure(story)}
     className='adventure'
     storyNode={$page.query.storyNode}
+    on:pageChange={newVisitation}
   />
 {:else if released}
   <DisplayAd
