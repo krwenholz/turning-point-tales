@@ -16,6 +16,7 @@
 <script>
   import Introduction from 'src/components/Introduction.svelte';
   import StoryPreviews from 'src/components/StoryPreview/index.svelte';
+  import Landing from 'src/routes/_landing.svelte';
   import { userSubscribed } from 'src/lib/client/user';
   import { Logger } from 'src/lib/client/logger';
   import { stores } from '@sapper/app';
@@ -35,13 +36,17 @@
   <title>Turning Point Tales</title>
 </svelte:head>
 
-{#if $page.query.user === 'new'}
-  <p>Congratulations on creating your new user! We hope you enjoy the adventure.</p>
+{#if $session.user}
+  {#if $page.query.user === 'new'}
+    <p>Congratulations on creating your new user! We hope you enjoy the adventure.</p>
+  {/if}
+
+  <Introduction />
+
+  <StoryPreviews
+    stories={stories}
+    isSubscriber={userSubscribed($session.user)}
+    />
+{:else}
+  <Landing />
 {/if}
-
-<Introduction />
-
-<StoryPreviews
-  stories={stories}
-  isSubscriber={userSubscribed($session.user)}
-  />

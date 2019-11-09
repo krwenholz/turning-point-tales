@@ -1,12 +1,24 @@
 <script>
   import * as sapper from '@sapper/app';
-  import User from 'src/components/icons/User.html';
-  import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
-  import { Customer } from "./Stripe";
   import Notifications from './Notifications.svelte';
   import Settings from './Settings.svelte';
+  import User from 'src/components/icons/User.html';
+  import { Customer } from "./Stripe";
+  import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
+  import { sample } from 'lodash';
 
   const { page, session } = sapper.stores();
+
+  const catchyProfileSayings = [
+    "Slayer of slimes",
+    "Betrayer of bards",
+    "Pillager of the West Moors",
+    "Island volleyball champ",
+    "Gazer of many stars",
+    "The one who thirsts in the deep",
+    "Taker of things before dangerous parts",
+    "Reader of the map",
+  ];
 
 </script>
 
@@ -55,26 +67,25 @@
 <section class='profile'>
 
   <header>
-    <User className='user-svg'/>
     <aside>
       <h2>{$session.user.firstName}</h2>
-      <span>Lorem ipsum dolor sit amet </span>
+      <span>{sample(catchyProfileSayings)}</span>
     </aside>
   </header>
 
   <Tabs>
     <TabList>
-      <Tab name="notifications"> Notifications </Tab>
       <Tab name="adventurer"> Adventurer </Tab>
+      <Tab name="notifications"> Notifications </Tab>
       <Tab name="settings"> Settings </Tab>
     </TabList>
 
     <TabPanel>
-      <Notifications/>
+      <Customer/>
     </TabPanel>
 
     <TabPanel>
-      <Customer/>
+      <Notifications/>
     </TabPanel>
 
     <TabPanel>

@@ -46,13 +46,13 @@
   </div>
 
   <nav>
+    <Button on:click={ redirect('/user/new') } >
+      <span>Start reading!</span>
+    </Button>
+
     <Button on:click={ redirect('/about') } >
       <span>Learn about us</span>
       <Book/>
-    </Button>
-
-    <Button on:click={ redirect('/user/new') } >
-      <span>Create an account!</span>
     </Button>
   </nav>
 </section>
