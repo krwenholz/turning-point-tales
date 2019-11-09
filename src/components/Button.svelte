@@ -7,7 +7,7 @@
   export let isSubmitting = false;
 
   let active = false;
-  const self = {};
+  let self = {};
   const dispatch = createEventDispatcher();
 
   const isHover = () => {
