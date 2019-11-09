@@ -81,12 +81,12 @@ const post = async (req, res) => {
   return addVisitation(visitation)
     .then(() => {
       Logger.info('Added visitation', visitation);
-      res.status(200)
+      res.status(200);
       res.end();
     })
     .catch((error) => {
       Logger.error('Error creating visitation', visitation);
-      res.status(500)
+      res.status(500);
       res.end();
     });
 }

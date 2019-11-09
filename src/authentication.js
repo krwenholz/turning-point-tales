@@ -42,6 +42,7 @@ const compare = (userPassword, hash) => {
 };
 
 const allowedBaseRoutes = [
+  '/',
   '/about',
   '/api/password-reset',
   '/api/payments/hooks',
@@ -52,7 +53,6 @@ const allowedBaseRoutes = [
   '/example-story',
   '/faq',
   '/index',
-  '/landing',
   '/password-reset',
   '/privacy',
   '/service-worker.js',
@@ -90,7 +90,7 @@ const protectNonDefaultRoutes = (req, res, next) => {
     if (req.path.endsWith(".js") || req.path.endsWith(".json")) {
       res.writeHead(401);
     } else {
-      res.redirect("/landing");
+      res.redirect("/");
     }
     res.end();
     return;

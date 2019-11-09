@@ -1,17 +1,20 @@
 describe('unauthenticated redirects', () => {
   it('redirects to landing', () => {
     cy.visit('/')
-    cy.url().should('match', /\/landing/);
+    cy.url().should('match', /\//);
+    cy.contains('Adventures you choose, tales you get lost in.').should('exist');
   });
 
   it('allows direct navigation to the landing page', () => {
-    cy.visit('/landing')
-    cy.url().should('match', /\/landing/);
+    cy.visit('/')
+    cy.url().should('match', /\//);
+    cy.contains('Adventures you choose, tales you get lost in.').should('exist');
   });
 
   it('redirects to landing when visiting auth-only content', () => {
     cy.visit('/story/1')
-    cy.url().should('match', /\/landing/);
+    cy.url().should('match', /\//);
+    cy.contains('Adventures you choose, tales you get lost in.').should('exist');
   });
 });
 
@@ -30,7 +33,7 @@ describe('authenticated', () => {
 
 describe('content', () => {
   it('visits teaser story', () => {
-    cy.visit('/landing')
+    cy.visit('/')
     cy.contains('A day in the life of Mr. Banks', {
       timeout: 7000
     }).click();

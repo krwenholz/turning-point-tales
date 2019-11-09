@@ -69,10 +69,8 @@ test('handles new visit failure', () => {
   })
 });
 
-// TODO(kyle): respond visits
-
 test('handles returning visits', () => {
-  pool.query.mockResolvedValueOnce(['quux']);
+  pool.query.mockResolvedValueOnce({rows: ['quux']});
 
   return get(req, res).then(() => {
     expect(res.status).toHaveBeenCalledWith(200);

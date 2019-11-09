@@ -15,7 +15,7 @@ describe('creating and deleting accounts', () => {
     deleteUser(cy);
 
     cy.url()
-      .should('match', /\/landing/)
+      .should('match', /\//)
       .get('header nav span')
       .contains('Login');
   });
@@ -26,7 +26,7 @@ describe('creating and deleting accounts', () => {
     logOut(cy);
 
     cy.url()
-      .should('match', /\/landing/)
+      .should('match', /\//)
       .get('header nav span')
       .contains('Login');
 
