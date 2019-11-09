@@ -1,12 +1,13 @@
 <script>
   import { createEventDispatcher } from 'svelte';
 
-  export let text;
   export let disabled = false;
   export let type = "button";
   export let variation = 'button';
   export let isSubmitting = false;
 
+  let active = false;
+  const self = {};
   const dispatch = createEventDispatcher();
 
   const isHover = () => {
@@ -19,30 +20,34 @@
 <style>
   button {
     display: flex;
-    height: 48px;
-    padding: 0 16px 0 16px;
+    padding: 8px;
     justify-content: center;
     align-items: center;
     font-size: var(--root-font-size-md);
-    border: 1px solid currentColor;
+    line-height: 24px;
+    border: none;
     border-radius: var(--root-border-radius);
     color: var(--root-color-background);
     background: var(--root-color-accent) none;
   }
 
-  .link {
-    justify-content: flex-start;
-    padding: 0;
-    height: auto;
-    color: var(--root-color-accent);
-    background: none;
-    border: none;
-    text-decoration: underline;
+  button:active,
+  button.active {
+    transform: translateY(3px);
+  }
+
+  .button--secondary {
+    border: 2px solid currentColor;
+    min-width: auto;
+    border-radius: var(--root-border-radius);
+    background-color: transparent;
+    color: var(--root-color-primary);
   }
 
   #HOVER.button:hover {
     color: var(--root-color-accent);
     background: var(--root-color-background);
+    box-shadow: 0px 0px 0px 2px currentColor;
     cursor: pointer;
   }
 
@@ -52,15 +57,17 @@
     background-color: gray;
   }
 
-  #HOVER.link:hover,
-  #HOVER.link:active {
-    color: var(--root-color-primary);
-  }
-
-  .button :global(svg) {
+  button :global(svg) {
     width: 24px;
     height: auto;
+  }
+
+  button :global(span + svg) {
     margin-left: 16px;
+  }
+
+  button :global(svg + span) {
+    margin-right: 16px;
   }
 
   :global(span) {
@@ -75,11 +82,18 @@
 </style>
 
 <button
-  class={`button ${variation}`}
+  bind:this={self}
+  class={`button button--${variation}`}
+  class:active
   id={isHover()}
   type="{type}"
   disabled={disabled}
-  on:click={() => dispatch('click', this)}
+  on:keyup={() => active = false}
+  on:keydown={({ keyCode }) => {
+    if(keyCode !== 13) return;
+    active = true;
+  }}
+    on:click
   class:disabled
 >
   {#if isSubmitting}
