@@ -2,7 +2,10 @@
   import Button from '../Button.svelte';
   import CrossOut from '../icons/CrossOut.svelte';
   import TypeText from '../TypeText.svelte';
-  import { uniq, last } from 'src/lib/utils.js';
+  import Undo from 'src/components/icons/Undo.svelte';
+  import ReplayOne from 'src/components/icons/ReplayOne.svelte';
+  import uniq from 'lodash/uniq';
+  import last from 'lodash/last';
   import { fade } from 'src/lib/Transition';
   import { safeWindow } from 'src/lib/client/safe-window.js';
   import { writable } from 'svelte/store';
@@ -59,7 +62,7 @@
   }
 
   const rewindHistory = decision => (
-    $store.history.slice(
+    $store.history = $store.history.slice(
       0,
       $store.history.findIndex(({ storyNode }) => storyNode === decision.storyNode) + 1,
     )
@@ -67,7 +70,7 @@
 
   const setHistory = (decision) => {
     if(alreadyVisited(decision)) {
-      $store.history = rewindHistory(decision);
+      rewindHistory(decision);
     }
 
     $store.history = [
@@ -82,7 +85,13 @@
     ]
   }
 
-  const handleDecision = (decision) => {
+  const goBack = () => {
+    const previousDecision = $store.history[$store.history.length - 2];
+    goToDecision(previousDecision);
+  }
+
+
+  const goToDecision = (decision) => {
     setHistory(decision);
     $store.storyNode = decision.storyNode;
   }
@@ -154,7 +163,13 @@
 
   .adventure :global(.button) {
     margin-bottom: 16px;
-    min-width: 200px;
+  }
+
+  .end-of-story-navigation {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    margin-top: 32px;
   }
 
   @media only screen and (min-height: 700px) {
@@ -166,8 +181,8 @@
 
 {#if process.browser}
   <section class={`adventure ${className}`}>
-    {#if title}
-    <h3>{title}</h3>
+    {#if title && currentPage.storyNode === 'start'}
+      <h3>{title}</h3>
     {/if}
 
     {#if currentPage}
@@ -181,12 +196,23 @@
         {#each filterAvailable(currentPage.decisions) as decision }
           <Button
             disabled={decision.disabled}
-            on:click={() => handleDecision(decision) }
+            on:click={() => goToDecision(decision) }
           >
             {decision.label}
           </Button>
         {/each}
       </nav>
+    {:else}
+    <nav class='end-of-story-navigation'>
+      <Button variation='secondary' on:click={goBack}>
+        <span>go back</span>
+        <ReplayOne/>
+      </Button>
+      <Button variation='secondary' on:click={() => goToDecision({ storyNode: 'start'})}>
+        <span>restart</span>
+        <Undo/>
+      </Button>
+    </nav>
     {/if}
   </section>
 {/if}
