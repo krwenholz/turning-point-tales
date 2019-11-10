@@ -11,6 +11,7 @@ import {
 
 const initialState = {
   storyNode: undefined,
+  canSkipIntro: false,
   history: [{
     storyNode: 'start',
     consequences: [],

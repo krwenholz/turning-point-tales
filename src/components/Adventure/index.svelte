@@ -20,6 +20,7 @@
   export let haveRemainingDecisions = true;
   export let store = writable({
     storyNode: storyNode,
+    canSkipIntro: false,
     history: [
       {
         consequences: [],
@@ -35,12 +36,13 @@
   $: {
     setURL();
     scrollWindow();
+    safeWindow().document.activeElement.blur();
+    recordUnlockSkipIntro();
     dispatch('pageChange', {
       storyNode: $store.storyNode,
       history: $store.history,
       consequences: last($store.history).consequences
     });
-    safeWindow().document.activeElement.blur();
   }
 
   const normalize = (decision = {}) => {
@@ -54,6 +56,11 @@
   const alreadyVisited = ({ storyNode }) => (
     $store.history.find(recorded => recorded.storyNode === storyNode)
   )
+
+  const recordUnlockSkipIntro = () => {
+    if($store.canSkipIntro) return;
+    $store.canSkipIntro = currentPage.final
+  }
 
   const scrollWindow = () => {
     if (!enableScroll) return;
@@ -94,6 +101,29 @@
   const goToDecision = (decision) => {
     setHistory(decision);
     $store.storyNode = decision.storyNode;
+  }
+
+  const showSkipIntro = () => $store.canSkipIntro && $store.storyNode === 'start';
+
+  const skipIntro = () => goToDecision({
+    storyNode: getStoryNodeAfterIntro(story, $store.storyNode)
+  });
+
+  const getStoryNodeAfterIntro = (story, storyNode) => {
+    const page = story[storyNode];
+
+    if(story.start.decisions.length > 1 || page.final ) {
+      return 'start';
+    }
+
+    if(story[storyNode].decisions.length >= 2) {
+      return storyNode;
+    }
+
+    return getStoryNodeAfterIntro(
+      story,
+      story[storyNode].decisions[0].storyNode,
+    );
   }
 
   const filterAvailable = (decisions) => (
@@ -193,6 +223,12 @@
 
     {#if haveRemainingDecisions }
       <nav in:fade>
+        {#if showSkipIntro()}
+          <Button variation='secondary' on:click={skipIntro}>
+            <span>* Skip intro</span>
+            <Undo/>
+          </Button>
+        {/if}
         {#each filterAvailable(currentPage.decisions) as decision }
           <Button
             disabled={decision.disabled}
