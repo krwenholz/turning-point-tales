@@ -168,7 +168,7 @@
   .end-of-story-navigation {
     display: flex;
     flex-flow: row;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-top: 32px;
   }
 
