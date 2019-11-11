@@ -3,13 +3,24 @@ import {
   pool
 } from 'src/lib/server/database.js';
 import {
-  listAllQuery
+  listAllQuery,
+  listPreviewQuery,
 } from 'src/routes/story/_stories';
 
 export const get = (req, res) => {
-  Logger.info('Fetching data with query', listAllQuery);
+  const context = req.query.context;
+  let query;
+  switch (context) {
+    case 'preview':
+      query = listPreviewQuery;
+      break;
+    default:
+      query = listAllQuery;
+  }
 
-  return pool.query(listAllQuery).then((results) => {
+  Logger.info('Fetching story data with query', query, context);
+
+  return pool.query(query).then((results) => {
     const contents = JSON.stringify(results.rows);
 
     res.writeHead(200, {

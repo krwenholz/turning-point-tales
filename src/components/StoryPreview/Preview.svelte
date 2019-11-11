@@ -5,14 +5,27 @@
   export let id;
   export let author;
   export let title;
-  export let content;
-  export let label;
+  export let preview;
+  export let badges;
   export let tags;
   export let generalRelease;
   export let isSubscriber;
 
   $: releaseDate = new Date(generalRelease);
   $: isReleased = releaseDate < new Date();
+
+  let acheivedBadges = [];
+  let undiscoveredBadgePercent = 0;
+
+  $: {
+    acheivedBadges = [];
+    undiscoveredBadgePercent = 0;
+    for(let badge of badges) {
+      if(badge.visited) acheivedBadges.push(badge);
+      else undiscoveredBadgePercent++;
+    }
+    undiscoveredBadgePercent = undiscoveredBadgePercent / badges.length;
+  }
 </script>
 
 <style>
@@ -86,7 +99,23 @@
       <span class="tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
     {/each}
   </div>
-  <p>{content.start.text[0].slice(0, 200)}...</p>
+  <div class="badges">
+    {#if badges.length}
+      <p>Badges:
+        {#each badges as badge}
+          {#if badge.visited}
+            <span class="badge">{badge.icon}</span>
+          {/if}
+        {/each}
+        {#if 0.66 < undiscoveredBadgePercent}
+          ... many more to discover.
+        {:else if 0.33 < undiscoveredBadgePercent}
+          ... only a small number remaining.
+        {/if}
+      </p>
+    {/if}
+  </div>
+  <p>{preview}</p>
   {#if isSubscriber || isReleased}
     <Button on:click={() => goto(`/story/${id}`)} >
       Continue...

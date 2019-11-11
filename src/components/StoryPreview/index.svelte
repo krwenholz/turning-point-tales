@@ -4,6 +4,7 @@
 
   export let stories = [];
   export let isSubscriber;
+
 </script>
 
 <style>
@@ -15,13 +16,13 @@
 </style>
 
 <section class="story-previews">
-  {#each stories as { id, author, title, content, label, tags, general_release }}
+  {#each stories as { id, author, title, badges, preview, tags, general_release }}
     <Preview
       id={id}
       author={author}
       title={title}
-      content={content}
-      label={label}
+      badges={badges}
+      preview={preview}
       tags={tags}
       generalRelease={general_release}
       isSubscriber={isSubscriber}

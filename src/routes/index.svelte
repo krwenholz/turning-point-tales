@@ -1,23 +1,6 @@
-<script context="module">
-  export function preload({params, query}) {
-    return this.fetch('story.json', { credentials: 'include' }).then((res) => {
-      if (res.status === 200) {
-        return res.json();
-      } else {
-        console.error('Index story fetching error', res);
-        this.error(res.status, res);
-      }
-    }).then((stories) => {
-      return { stories };
-    });
-  }
-</script>
-
 <script>
-  import Introduction from 'src/components/Introduction.svelte';
-  import StoryPreviews from 'src/components/StoryPreview/index.svelte';
   import Landing from 'src/routes/_landing.svelte';
-  import { userSubscribed } from 'src/lib/client/user';
+  import Welcome from 'src/routes/_welcome.svelte';
   import { Logger } from 'src/lib/client/logger';
   import { stores } from '@sapper/app';
 
@@ -37,16 +20,7 @@
 </svelte:head>
 
 {#if $session.user}
-  {#if $page.query.user === 'new'}
-    <p>Congratulations on creating your new user! We hope you enjoy the adventure.</p>
-  {/if}
-
-  <Introduction />
-
-  <StoryPreviews
-    stories={stories}
-    isSubscriber={userSubscribed($session.user)}
-    />
+  <Welcome />
 {:else}
   <Landing />
 {/if}

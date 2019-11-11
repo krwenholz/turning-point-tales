@@ -3,12 +3,20 @@ const stories = [{
     title: "Mr. Banks",
     tags: ["funny", "existential"],
     generalRelease: new Date(),
+    badges: [{
+        node: 'file_actual_weather_change',
+        text: 'You filed for real change.',
+        icon: '📁',
+      },
+      {
+        node: 'consent_and_file_the_complaint',
+        text: 'You whined, and it felt good.',
+        icon: '😫',
+      },
+    ],
+    preview: "It was a beautiful summer’s day, 70 degrees, with scattered clouds and the occasional cool breeze. It had been that way every moment, of every day, for the last 5 years, save for the pre-scheduled rain burst at exactly 12:01 to 1:35.",
     content: {
       start: {
-        checkpoint: {
-          title: "Foobar",
-          id: 1234,
-        },
         text: [
           "It was a beautiful summer’s day, 70 degrees, with scattered clouds and the occasional cool breeze. It had been that way every moment, of every day, for the last 5 years, save for the pre-scheduled rain burst at exactly 12:01 to 1:35. People had, and continued to be, very particular about the weather. Some wanted downpours, others a gentle trickle. It couldn’t occur in the early hours, or too late in the evening. Every drop was meticulously orchestrated and accounted for.",
           "It had never rained in the morning, or on a Sunday. Evenings were off-limits, of course, and those times that had been chosen were only agreed upon after an arduous and lengthy process of debate. Each neighborhood meet on a bi-weekly basis to discuss the matter, always requiring a quorum, where all the minutiae of the day would be discussed and recorded in triplicate for the benefit of those later needing to review the proceedings.",
@@ -130,10 +138,10 @@ const stories = [{
           "It wasn't much, maybe 5-10 minutes of a gentle trickle, but it was what the ship needed, what 'everyone' needs. A little spontaneity, a little change was good, and Mr Banks would be the one to create it.",
           "Tucking the form inside a tube, he placed it into the delivery system next to him, where it shot up into the ceiling, and out of site. A moment later, a beep echoed out, and a single line appeared on the screen in front of him:",
           "Next Tuesday, imminent showers. 4 minutes, 9:37 pm to 9:41 pm. Followed by clear skies",
-          "With a satisfied grin, Banks leaned back in his chair, and stared out the window. Soon, everything would be different, and he had done it the right way; In a small, well lit room, with proper documentation in compact verbiage and sans-serif font, all neatly organized and scheduled.",
+          "With a satisfied grin, Banks leaned back in his chair, and stared out the window. Soon, everything would be different, and he had done it the right way: in a small, well lit room, with proper documentation in compact verbiage and sans-serif font, all neatly organized and scheduled.",
           "It was going to be a good day."
         ],
-        final: true
+        final: true,
       },
       file_a_formal_weather_change: {
         text: [
@@ -282,10 +290,11 @@ const stories = [{
     title: "Wagons and Dragons: Caravan to the Capital",
     tags: ["fantasy", "funny"],
     generalRelease: new Date('January 01, 2030, 03:24:00'),
+    badges: [],
+    preview: '"Ok, Gamon. Recite the guild’s mantra."',
     content: {
       "start": {
         "text": [
-          "“Wagons & Dragons: Caravan to the Capital” by Sean Wong-Westbrooke",
           "“Ok, Gamon. Recite the guild’s mantra.”",
           "“Yes. Master Sakurai.” The eleven-year old boy's voice is calm, only disturbed by the beginnings of its cracking and deepening. “We are no heroes. We do not adventure. We do not hunt monsters. We have another duty. Delivering food to the hungry. Clothes to the cold. Arms to the weak. Giving all safe passage. So long as our wheels spin, so will the world.”",
           "“Congratulations, stop cleaning that stable, you’re coming with me this time.”",

@@ -70,7 +70,9 @@ test('handles new visit failure', () => {
 });
 
 test('handles returning visits', () => {
-  pool.query.mockResolvedValueOnce({rows: ['quux']});
+  pool.query.mockResolvedValueOnce({
+    rows: ['quux']
+  });
 
   return get(req, res).then(() => {
     expect(res.status).toHaveBeenCalledWith(200);

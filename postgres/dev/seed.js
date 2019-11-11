@@ -110,6 +110,8 @@ const seedSubscriptions = async () => {
 const addStory = async ({
   title,
   author,
+  badges,
+  preview,
   content,
   tags,
   generalRelease
@@ -118,10 +120,10 @@ const addStory = async ({
     await pool.query(
       `
       INSERT INTO
-        stories (title, author, content, tags, general_release)
-      VALUES ($1, $2, $3, $4, $5)
+        stories (title, author, badges, preview, content, tags, general_release)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
     `,
-      [title, author, JSON.stringify(content), tags, generalRelease]
+      [title, author, JSON.stringify(badges), preview, JSON.stringify(content), tags, generalRelease]
     );
 
     Logger.info("... Story added", title);
@@ -139,6 +141,37 @@ const seedStories = async () => {
   }
 };
 
+/*
+ * VISITATIONS
+ */
+// Want a real subscription? You can use a dummy card:
+// https://stripe.com/docs/testing#cards
+const addVisitation = async (userEmail, node, previousNode) => {
+  try {
+    await pool.query(
+      `
+      INSERT INTO
+        visitations (user_id, node_name, previous_node_name)
+      SELECT id, $2, $3
+      FROM users
+      WHERE email = $1;
+    `,
+      [userEmail, node, previousNode]
+    );
+
+    Logger.info("... Visitation added", userEmail);
+  } catch (err) {
+    Logger.error(err);
+    return Promise.reject(err);
+  }
+};
+
+const seedVisitations = async () => {
+  Logger.info('Seeding visitations...');
+
+  await addVisitation('jeff@h2wib.com', 'file_actual_weather_change', 'supplementary_form_36_a');
+};
+
 /**
  * Run
  */
@@ -149,6 +182,7 @@ const seedStories = async () => {
   await seedUsers();
   await seedSubscriptions();
   await seedStories();
+  await seedVisitations();
 
   Logger.info('Seeding finished...');
 })();
