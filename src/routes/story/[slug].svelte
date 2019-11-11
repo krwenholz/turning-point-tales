@@ -78,10 +78,6 @@
 
   $: adSeen = Date.now() - $adInfo.dateSeen < oneDay;
 
-  $: {
-    console.log(visitations)
-  }
-
   onMount(() => csrf = fetchCsrf());
 
   onMount(() => {

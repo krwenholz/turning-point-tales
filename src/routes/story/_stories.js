@@ -4,13 +4,16 @@ sql.setDialect('postgres');
 
 const _stories = sql.define({
   name: 'stories',
-  columns: ['id', 'author', 'title', 'content', 'tags', 'general_release', 'created', 'modified'],
+  columns: ['id', 'author', 'title', 'badges', 'preview', 'content', 'tags', 'general_release', 'created', 'modified'],
 });
 
-// TODO(kyle): write a smarter query that doesn't fetch all of the stories,
-// just the parts we need
 export const listAllQuery = _stories
   .select(_stories.star())
+  .from(_stories)
+  .toQuery();
+
+export const listPreviewQuery = _stories
+  .select(_stories.id, _stories.author, _stories.title, _stories.badges, _stories.preview, _stories.tags, _stories.general_release)
   .from(_stories)
   .toQuery();
 
