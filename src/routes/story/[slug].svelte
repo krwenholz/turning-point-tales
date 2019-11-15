@@ -11,6 +11,7 @@
       return {
         story: json.content,
         title: json.title,
+        badges: json.badges,
         generalRelease: json.general_release,
       }
     } else if(res.status == 401) {
@@ -26,6 +27,7 @@
   import * as sapper from '@sapper/app';
   import Adventure from 'src/components/Adventure';
   import DisplayAd from 'src/components/ads/DisplayAd.svelte';
+  import BadgePopup from 'src/routes/story/_BadgePopup.svelte';
   import { Logger } from 'src/lib/client/logger';
   import { adStore } from 'src/lib/stores/browserStore/display-ads';
   import { fetchCsrf } from 'src/lib/client/csrf';
@@ -36,6 +38,7 @@
 
   export let story;
   export let title;
+  export let badges;
   export let generalRelease;
 
   const { page, session } = sapper.stores();
@@ -45,6 +48,7 @@
   let previousNodeName = $page.query.storyNode;
   let visitations = new Set([]);
   let csrf;
+  let badgePopup;
 
   const adInfo = adStore();
 
@@ -52,7 +56,11 @@
     $adInfo.dateSeen = Date.now();
   };
 
-  const newVisitation = ({ detail }) => {
+  const handleBadges = (detail) => {
+    Logger.info('bbb', badges, detail);
+  };
+
+  const recordVisit = ({ detail }) => {
     fetch('/story/visits', {
       method: 'POST',
       headers: {
@@ -103,14 +111,21 @@
 </svelte:head>
 
 {#if isSubscribed || (released && adSeen)}
-  <Adventure
-    {story}
-    {title}
-    store={mainAdventure(story)}
-    className='adventure'
-    storyNode={$page.query.storyNode}
-    on:pageChange={newVisitation}
-  />
+  <div class="story-container">
+    <Adventure
+      {story}
+      {title}
+      store={mainAdventure(story)}
+      className='adventure'
+      storyNode={$page.query.storyNode}
+      on:pageChange={recordVisit}
+      on:pageChange={({ detail }) => badgePopup.newPage(detail.storyNode)}
+    />
+    <BadgePopup
+      badges={badges}
+      bind:this={badgePopup}
+    />
+  </div>
 {:else if released}
   <DisplayAd
     on:end={adFinished}

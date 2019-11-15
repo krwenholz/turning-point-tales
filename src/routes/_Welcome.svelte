@@ -1,8 +1,6 @@
 <script>
   import Introduction from 'src/components/Introduction.svelte';
   import StoryPreviews from 'src/components/StoryPreview/index.svelte';
-  import Landing from 'src/routes/_landing.svelte';
-  import Welcome from 'src/routes/_welcome.svelte';
   import { onMount } from 'svelte';
   import { userSubscribed } from 'src/lib/client/user';
   import { Logger } from 'src/lib/client/logger';
