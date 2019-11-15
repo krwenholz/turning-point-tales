@@ -1,6 +1,6 @@
 <script>
-  import Landing from 'src/routes/_landing.svelte';
-  import Welcome from 'src/routes/_welcome.svelte';
+  import Landing from 'src/routes/_Landing.svelte';
+  import Welcome from 'src/routes/_Welcome.svelte';
   import { Logger } from 'src/lib/client/logger';
   import { stores } from '@sapper/app';
 

@@ -3,9 +3,6 @@ import {
   pool
 } from "src/lib/server/database.js";
 
-// TODO(kyle): use to display total visit counts and highest visited
-// TODO(kyle): test
-
 const addVisitation = async ({
   userId,
   storyId,
