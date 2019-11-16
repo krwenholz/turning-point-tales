@@ -1,22 +1,3 @@
-<script>
-  import { createEventDispatcher } from 'svelte';
-
-  export let disabled = false;
-  export let type = "button";
-  export let variation = 'button';
-  export let isSubmitting = false;
-
-  let active = false;
-  let self = {};
-  const dispatch = createEventDispatcher();
-
-  const isHover = () => {
-    if(!process.browser) return false;
-
-    return 'ontouchstart' in window ? '' : 'HOVER'
-  }
-</script>
-
 <style>
   button {
     display: flex;
@@ -77,30 +58,46 @@
   .disabled {
     cursor: not-allowed;
     background-color: gray;
-    opacity: .7;
+    opacity: 0.7;
   }
 </style>
 
+<script>
+  import { createEventDispatcher } from "svelte";
+
+  export let disabled = false;
+  export let type = "button";
+  export let variation = "button";
+  export let isSubmitting = false;
+
+  let active = false;
+  let self = {};
+  const dispatch = createEventDispatcher();
+
+  const isHover = () => {
+    if (!process.browser) return false;
+
+    return "ontouchstart" in window ? "" : "HOVER";
+  };
+</script>
+
 <button
-  bind:this={self}
-  class={`button button--${variation}`}
+  bind:this="{self}"
+  class="{`button button--${variation}`}"
   class:active
-  id={isHover()}
-  type="{type}"
-  disabled={disabled}
-  on:keyup={() => active = false}
-  on:keydown={({ keyCode }) => {
-    if(keyCode !== 13) return;
+  id="{isHover()}"
+  {type}
+  {disabled}
+  on:keyup="{() => (active = false)}"
+  on:keydown="{({ keyCode }) => {
+    if (keyCode !== 13) return;
     active = true;
-  }}
-    on:click
-  class:disabled
->
+  }}"
+  on:click
+  class:disabled>
   {#if isSubmitting}
-    <span>
-      ...Submitting
-    </span>
-  {:else }
-    <slot/>
+    <span>...Submitting</span>
+  {:else}
+    <slot />
   {/if}
 </button>

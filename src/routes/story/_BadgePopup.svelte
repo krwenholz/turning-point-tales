@@ -1,30 +1,3 @@
-<script>
-  import { createEventDispatcher } from 'svelte';
-  import { fade } from 'svelte/transition';
-
-  export let badges;
-
-  let earnedBadge;
-  let timeout = null;
-
-  export const newPage = (storyNode) => {
-    earnedBadge = null;
-    if(timeout) window.clearTimeout(timeout);
-
-    for(let badge of badges) {
-      if(storyNode === badge.node) {
-        earnedBadge = badge;
-        timeout = window.setTimeout(clearBadge, 10000);
-      }
-    }
-  };
-
-  const clearBadge = () => {
-    earnedBadge = null;
-    timeout = null;
-  };
-</script>
-
 <style>
   section {
     display: flex;
@@ -48,8 +21,42 @@
   }
 </style>
 
+<script>
+  import { createEventDispatcher } from "svelte";
+  import { fade } from "svelte/transition";
+
+  export let badges;
+
+  let earnedBadge;
+  let timeout = null;
+
+  export const newPage = storyNode => {
+    earnedBadge = null;
+    if (timeout) window.clearTimeout(timeout);
+
+    for (let badge of badges) {
+      if (storyNode === badge.node) {
+        earnedBadge = badge;
+        timeout = window.setTimeout(clearBadge, 10000);
+      }
+    }
+  };
+
+  const clearBadge = () => {
+    earnedBadge = null;
+    timeout = null;
+  };
+</script>
+
 {#if earnedBadge}
-<section in:fade="{{ duration: 1000 }}" out:fade="{{ duration: 2000 }}" on:click={() => earnedBadge = null}>
-    <p>Badge earned: <span>{earnedBadge.icon}</span> {earnedBadge.text}</p>
+  <section
+    in:fade="{{ duration: 1000 }}"
+    out:fade="{{ duration: 2000 }}"
+    on:click="{() => (earnedBadge = null)}">
+    <p>
+      Badge earned:
+      <span>{earnedBadge.icon}</span>
+      {earnedBadge.text}
+    </p>
   </section>
 {/if}

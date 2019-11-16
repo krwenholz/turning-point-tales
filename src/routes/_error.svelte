@@ -1,3 +1,9 @@
+<style>
+  p {
+    margin: 1em auto;
+  }
+</style>
+
 <script context="module">
   export function preload() {
     // WARNING: I am empty, but I am incredibly important because Sapper has a dumb bug
@@ -8,27 +14,25 @@
 </script>
 
 <script>
-  export const dev = process.env.NODE_ENV === 'development';
+  export const dev = process.env.NODE_ENV === "development";
   export let error;
   export let status;
 </script>
 
-<style>
-	p {
-		margin: 1em auto;
-	}
-</style>
-
 <svelte:head>
-	<title>{status}</title>
+  <title>{status}</title>
 </svelte:head>
 
 {#if status === 404}
-<p>Oops looks like this page doesn't exist! Try <a href="/">heading home</a> and finding a new adventure.</p>
+  <p>
+    Oops looks like this page doesn't exist! Try
+    <a href="/">heading home</a>
+    and finding a new adventure.
+  </p>
 {:else}
-<p>{error.message}</p>
+  <p>{error.message}</p>
 {/if}
 
 {#if dev && error.stack}
-<pre>{error.stack}</pre>
+  <pre>{error.stack}</pre>
 {/if}

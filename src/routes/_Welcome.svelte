@@ -1,10 +1,10 @@
 <script>
-  import Introduction from 'src/components/Introduction.svelte';
-  import StoryPreviews from 'src/components/StoryPreview/index.svelte';
-  import { onMount } from 'svelte';
-  import { userSubscribed } from 'src/lib/client/user';
-  import { Logger } from 'src/lib/client/logger';
-  import { stores } from '@sapper/app';
+  import Introduction from "src/components/Introduction.svelte";
+  import StoryPreviews from "src/components/StoryPreview/index.svelte";
+  import { onMount } from "svelte";
+  import { userSubscribed } from "src/lib/client/user";
+  import { Logger } from "src/lib/client/logger";
+  import { stores } from "@sapper/app";
 
   const { page, session } = stores();
 
@@ -12,44 +12,48 @@
 
   let visitations = new Set([]);
 
-  $: if($page.query.user === 'clear') {
-      Logger.info('Clearing user');
-      $session.user = null;
+  $: if ($page.query.user === "clear") {
+    Logger.info("Clearing user");
+    $session.user = null;
   }
 
   onMount(() => {
-    fetch('/story/visits')
-      .then((response) => {
-        if(response.ok) return response.json();
-        throw Error('Failed to fetch history')
-      }).then((response) => {
-        for(let visitation of response) {
-          console.log('vvv', visitation)
+    fetch("/story/visits")
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error("Failed to fetch history");
+      })
+      .then(response => {
+        for (let visitation of response) {
+          console.log("vvv", visitation);
           visitations.add(visitation.node_name);
           visitations = visitations; // because reactivity
         }
-      }).catch((error) => {
-        Logger.error('Failed to fetch history', error);
+      })
+      .catch(error => {
+        Logger.error("Failed to fetch history", error);
       });
   });
 
   onMount(() => {
-    fetch('story.json?context=preview')
-      .then((response) => {
-        if(response.ok) return response.json();
-        throw Error('Failed to fetch stories')
-      }).then((response) => {
+    fetch("story.json?context=preview")
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error("Failed to fetch stories");
+      })
+      .then(response => {
         stories = response;
-      }).catch((error) => {
-        Logger.error('Failed to fetch stories', error);
+      })
+      .catch(error => {
+        Logger.error("Failed to fetch stories", error);
       });
   });
 
   $: {
-    for(let { badges } of stories) {
-      for(let badge of badges) {
-        console.log('xxx', badge, visitations)
-        if(visitations.has(badge.node)) {
+    for (let { badges } of stories) {
+      for (let badge of badges) {
+        console.log("xxx", badge, visitations);
+        if (visitations.has(badge.node)) {
           badge.visited = true;
         }
       }
@@ -59,13 +63,11 @@
 </script>
 
 {#if $page.query.user === 'new'}
-  <p>Congratulations on creating your new user! We hope you enjoy the adventure.</p>
+  <p>
+    Congratulations on creating your new user! We hope you enjoy the adventure.
+  </p>
 {/if}
 
 <Introduction />
 
-<StoryPreviews
-  stories={stories}
-  isSubscriber={userSubscribed($session.user)}
-  />
-
+<StoryPreviews {stories} isSubscriber="{userSubscribed($session.user)}" />

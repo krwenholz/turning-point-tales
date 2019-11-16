@@ -1,14 +1,3 @@
-<script>
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
-
-  let form;
-  export let className = '';
-  export let id = '';
-
-  export const checkValidity = (...props) => form.checkValidity(...props);
-</script>
-
 <style>
   form {
     display: flex;
@@ -20,15 +9,25 @@
   }
 </style>
 
+<script>
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+
+  let form;
+  export let className = "";
+  export let id = "";
+
+  export const checkValidity = (...props) => form.checkValidity(...props);
+</script>
+
 <form
   {...$$props}
-  bind:this={form}
-  class={`form ${className}`}
+  bind:this="{form}"
+  class="{`form ${className}`}"
   action="javascript:void(0);"
-  on:submit={e => {
+  on:submit="{e => {
     e.preventDefault();
     dispatch('submit');
-  }}
->
-  <slot></slot>
+  }}">
+  <slot />
 </form>

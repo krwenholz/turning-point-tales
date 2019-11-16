@@ -1,9 +1,3 @@
-<script>
-  import CrossOut from 'src/components/icons/CrossOut.svelte';
-  import Clock from 'src/components/icons/Clock.svelte';
-
-</script>
-
 <style>
   .notifications {
     position: relative;
@@ -39,30 +33,41 @@
   }
 </style>
 
-<ul class='notifications'>
-  <li class='notification'>
+<script>
+  import CrossOut from "src/components/icons/CrossOut.svelte";
+  import Clock from "src/components/icons/Clock.svelte";
+</script>
+
+<ul class="notifications">
+  <li class="notification">
     <header>
-      <h3>Stuff<small>| 34min ago</small>
+      <h3>
+        Stuff
+        <small>| 34min ago</small>
       </h3>
-      <CrossOut className='cross-out'/>
+      <CrossOut className="cross-out" />
     </header>
     <p>Hello there friend!</p>
   </li>
 
-  <li class='notification'>
+  <li class="notification">
     <header>
-      <h3>Stuff<small>| 34min ago</small>
+      <h3>
+        Stuff
+        <small>| 34min ago</small>
       </h3>
-      <CrossOut className='cross-out'/>
+      <CrossOut className="cross-out" />
     </header>
     <p>Hello there friend!</p>
   </li>
 
-  <li class='notification'>
+  <li class="notification">
     <header>
-      <h3>Stuff<small>| 34min ago</small>
+      <h3>
+        Stuff
+        <small>| 34min ago</small>
       </h3>
-      <CrossOut className='cross-out'/>
+      <CrossOut className="cross-out" />
     </header>
     <p>Hello there friend!</p>
   </li>

@@ -1,16 +1,3 @@
-<script>
-  import { getContext } from 'svelte';
-  import { TABS } from './Tabs.svelte';
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
-
-  export let name;
-
-  const { registerTab, selectTab, selectedTab, selectIdx } = getContext(TABS);
-
-  registerTab(name);
-</script>
-
 <style>
   button {
     flex: 1;
@@ -28,16 +15,28 @@
   }
 </style>
 
+<script>
+  import { getContext } from "svelte";
+  import { TABS } from "./Tabs.svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+
+  export let name;
+
+  const { registerTab, selectTab, selectedTab, selectIdx } = getContext(TABS);
+
+  registerTab(name);
+</script>
+
 <button
-  class='tab'
+  class="tab"
   class:selected="{$selectedTab === name}"
-  on:click={e => {
+  on:click="{e => {
     dispatch('click');
     selectTab(name);
-  }}
->
+  }}">
   <h3>
     <slot />
   </h3>
-  <slot name='tab-content'/>
+  <slot name="tab-content" />
 </button>

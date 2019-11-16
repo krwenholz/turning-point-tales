@@ -1,11 +1,7 @@
 <script>
-  import Button from 'src/components/Button.svelte';
+  import Button from "src/components/Button.svelte";
 </script>
 
-<Button>
-  Hello!
-</Button>
+<Button>Hello!</Button>
 
-<button>
-  Hello
-</button>
+<button>Hello</button>
