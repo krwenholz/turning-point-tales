@@ -14,6 +14,11 @@ const stories = [
         node: "consent_and_file_the_complaint",
         text: "You whined, and it felt good.",
         icon: "😫"
+      },
+      {
+        node: "stop_the_clocks",
+        text: "And time stood still.",
+        icon: "⌚"
       }
     ],
     preview:
@@ -317,7 +322,68 @@ const stories = [
     title: "Wagons and Dragons: Caravan to the Capital",
     tags: ["fantasy", "funny"],
     generalRelease: new Date("January 01, 2030, 03:24:00"),
-    badges: [],
+    badges: [
+      {
+        icon: "🍻",
+        text: 'You\'re going out for drinks with the "Red Man".',
+        node: "ask_for_release"
+      },
+      {
+        icon: "🚜",
+        text: "Off to, maybe, greener pastures.",
+        node: "become_colonist"
+      },
+      {
+        icon: "⚰️",
+        text: "You will carry the dead.",
+        node: "become_smuggler"
+      },
+      {
+        icon: "🏨",
+        text: "No place like home.",
+        node: "buy_an_inn"
+      },
+      {
+        icon: "Ʊ",
+        text: "You lucky dog.",
+        node: "enter_capital_luck"
+      },
+      {
+        icon: "🏃",
+        text: "You came, you saw, you fled.",
+        node: "flee_to_new_lands"
+      },
+      {
+        icon: "🐋",
+        text: "You sink beneath the waves... and the bile.",
+        node: "get_away_leviathan"
+      },
+      {
+        icon: "⚒",
+        text: "It's off to work you go.",
+        node: "hard_labor"
+      },
+      {
+        icon: "🧙‍♀️",
+        text: "By the grace of Melanie, you survive.",
+        node: "leave_ship"
+      },
+      {
+        icon: "😱",
+        text: "You know only your own fate.",
+        node: "refuse_service"
+      },
+      {
+        icon: "💪",
+        text: "There's no substitute for horsepower.",
+        node: "take_cover_2"
+      },
+      {
+        icon: "❓",
+        text: "Sacrifices were made, but who knows where it got you.",
+        node: "wake_up_2"
+      }
+    ],
     preview: '"Ok, Gamon. Recite the guild’s mantra."',
     content: {
       dive: {
@@ -520,7 +586,7 @@ const stories = [
       },
       pay_taxes: {
         text: [
-          'Sakurai\'s mind races trying to think of ways to avoid this catastrophe, but without a captive wizard and a vanished scroll, he has no evidence or collateral to work with. "Not even a bribe is an option now," thinks Sakurai, damning himself for not choosing the God of Luck. In the end there is only one option. "Do as you will, Commander. My apologies, and thank you for your service.”',
+          'Sakurai\'s mind races trying to think of ways to avoid this catastrophe, but without a captive wizard and a vanished scroll, he has no evidence or collateral to work with. "Not even a bribe is an option now," thinks Sakurai, damning himself for not befriending Luck. In the end there is only one option. "Do as you will, Commander. My apologies, and thank you for your service.”',
           "“Very good, welcome to the Capital. Lads, be quick and earn your keep.” The soldiers roughly rummage through the wagons, but by the time they are done it does appear only ninety percent was taken. ",
           "“Small blessings,” Sakurai whispers. The great gates are opened and the pristine streets sprawl out up hills and to the horizon. Sakurai and the survivors enter with dramatically lighter wagons and collapsed morale. In time Sakurai finds a buyer for the monster remains, but after the 'taxation', there is little to sell other than goblin and orc bones. Sakurai receives one small sized bag of gold, it cannot be more than eighty gold coins. A far cry from the massive chests that were expected. It becomes even less when the earnings, wagons, and horses are divided between the survivors, the least Sakurai can do to begin to make amends for this ordeal. The survivors have arrived safely, but few have any connections in the city, and with their belongings lost, even if one were to sell the wagons and horses, if they do not find good work soon, only pauperdom awaits.",
           '"So, what happens now?" asks Bard. "With these funds we can maybe have room and board in a flee-infested inn for less than a week. After that, it\'s menial labor or entertainment."',
@@ -552,7 +618,7 @@ const stories = [
       },
       buy_an_inn: {
         text: [
-          'After the horror of the caravan’s decimation Sakurai chooses not risk him, or Gamon being caught vulnerable in the wilderness ever again. The city is surrounded by high white stone walls lined with archer towers, trebuchets, and ballistas. Soldiers are marching through the streets at the ready at all times, and the gate is solid steel thicker than any human is tall. The cold metal fills him with a great calm. "This is the safest place in the world, and it is where I will place my bet."',
+          'After the horror of the caravan’s decimation Sakurai chooses to not risk him, or Gamon, being caught vulnerable in the wilderness ever again. The city is surrounded by high white stone walls lined with archer towers, trebuchets, and ballistas. Soldiers are marching through the streets at the ready at all times, and the gate is solid steel thicker than any human is tall. The cold metal fills him with a great calm. "This is the safest place in the world, and it is where I will place my bet."',
           "The party seeks out and finds an inn deep into the city, near the castle on the high hill in the center of the walls. The innkeeper was reluctant to sell the place of their livelihood, but that was solved with a sizable bag of gold and their subsequent early retirement. It's a good two-story inn, safe and secure by being near the castle. The inn is renamed “Master’s” and in a week everything is up and running smoothly. The old staff stayed on and Gamon takes quickly to serving food and drinks. Mai spends her days recovering, but for at least a short time every day Sakurai finds her arm wrestling and gambling with boastful men downstairs. Said men then leave much poorer and humbler. All the while Bard sings his songs and plays his new lyre. The money is coming in as soldiers, mercenaries, and refugees pour into the Capital looking for a bed, food, and respite. In a time of uncertainty, such things are now among the most sought after blessings.",
           "A week after arriving in the Capital, Sakurai awakes in the night to what sounds like a thousand flags whipping in the wind. The smell of smoke and sulfur. And the booming sound of war horns blaring. He runs outside to the King’s Road cutting through the city to see in the distance the great steel door of the city gates glowing red hot. Outside the walls are towering plumes of flame and lightning illuminating the endless hordes in the darkness beyond the wall. It is a black and silver ocean of teeth, steel, and raging magic. Sakurai feels his hair turn white from utter terror, but he does not let himself freeze up. He retrieves everyone he can within the inn and directs them to mount their horses and wagons. Once again Sakurai, his companions, and a mass of strangers are fleeing in the middle of the night. They are heading for the northern gate and out of the city when the assaulted main gate finally collapses and the roars of man, orc, minotaur, giants, and dragons flood the streets. Gamon at his side, Bard and Mai in the back, and reins in his still strong hands, Sakurai adds in his own war cry, “Onward!”",
           "The End"
@@ -1107,7 +1173,7 @@ const stories = [
           'The ancient looking red wizard is mounting his emerald dragon once more when Sakurai calls out. "My lord Wizard, I have assisted in delivering a wanted madman to you. Have I proven myself fully?"',
           '"When the war is won, your worth will be known. For now, we are to head to the Capital, we will need those literate in writing and logistics to process the plunder." ',
           '"I\'m sorry sir, plunder?" Says Sakurai with wide-eyes.',
-          '"Ive just received word the Capital was taken during our rescue operation. It seems no one was spared, and the officers are in need of literates and money counters. Tell your companions we have further use of them. And hurry up, I will not have us be late." Without even time to process the news Sakurai, Mai, Bard, and Gamon climb atop the dragon.',
+          '"I\'ve just received word the Capital was taken during our rescue operation. It seems no one was spared, and the officers are in need of literates and money counters. Tell your companions we have further use of them. And hurry up, I will not have us be late." Without even time to process the news Sakurai, Mai, Bard, and Gamon climb atop the dragon.',
           "A day later, the group is walking through the razed Capital. Sakurai wonders if he could have ever dreamed he would arrive in a city one day, not leading a wagon train, but by dragon. That he would not be counting his own gold but walking through the royal vault doors, melted by dragon fire, to collect the gold and documents in the king's coffers. Sakurai struggles to discern whether this predicament is a nightmare or a dream.",
           "Sakurai's next days are spent reading through hundreds of scrolls, looking for information on the most productive towns, military assets, and other royal secrets. All the while his friends are busy counting and organizing all the gold and treasures in the coffers. Never could the master have thought he would fall into dark servitude. Even less likely could he have conceived that it would not be so terrible, a bit mind numbing yes, but not dangerous. On the fourth day of counting and the delivery of useful information, the red wizard returns. He comes holding a scroll bearing the black and white stamp of the Dark lord. Contained inside is a pardon and deed to a farm on the outskirts of the Capital.",
           '"The Dark Lord gives credit where it is due. Thank you for your collaboration." The red wizard then lets out a long sigh unbecoming of his stern personality thus far. "I suppose there\'s no need to be hard on you now, being pardoned and all. Any of you want to get a drink? I\'m buying." ',
@@ -1133,7 +1199,7 @@ const stories = [
         text: [
           "Sakurai looks at the boy at his side and thinks, \"I have little choice in the matter here.\" It should only be a week round-trip from what the smugglers say. Sakurai is made to leave that same day and his precious red wagon is painted funeral black. Sakurai and Gamon are not told what they will be smuggling, simply that they will travel together dressed as coroners. The goods are wrapped inside thrice layered sheets, they are tied up in the form of human corpses. \"No guard or tax collector should dare to disturb the 'bodies' of soldiers being returned home\" was the smugglers' reasoning for this method. Two smugglers with short swords ride with the 'bodies' to make sure all goes smoothly. It seems the smugglers' faces are too well known among the city watch and they needed a reliable person to make the delivery for them.",
           "Sakurai tries not to think how low he has fallen, being reduced to such deceptions. Any other wagons he passes by almost go off the road to avoid drawing near a cart full of 'dead men'. The ruse works perfectly, and soon the wagon enters a western town on a high hill. After delivering the goods to the morgue one guard enters as another makes sure there is no alerting of the authorities. When the other guard returns, they hand Sakurai a sizable bag of gold and invite him for a drink at a tavern. Sakurai almost feels ready to accept and get to know the surprisingly professional smugglers when he sees a great pillar of black smoke in the distance.",
-          "From atop the town's high hill the denizens can see that the Capital has been sacked utterly. Its walls reduced to rubble. Sakurai thinks of how he could have been inside there, a beggar on the streets, without any allies or protection. The thought gives him chills. Lost in his thoughts, Sakurai almost fails to feel a realization tear through the town as panic erupts and everyone turns to flee. From the black smoke towers come dragons flying in formation to the West and South. They move so fast the sound of thunder comes races after them and the air visibly warps.",
+          "From atop the town's high hill the denizens can see that the Capital has been sacked, utterly sacked. Its walls reduced to rubble. Sakurai thinks of how he could have been inside there, a beggar on the streets, without any allies or protection. The thought gives him chills. Lost in his thoughts, Sakurai almost fails to feel a realization tear through the town as panic erupts and everyone turns to flee. From the black smoke towers come dragons flying in formation to the West and South. They move so fast the sound of thunder comes races after them and the air visibly warps.",
           "But before anyone can even reach the gates, the town is surrounded by dragon fire. With nowhere to run, all one can do is wait until an army of orcs comes to take everyone prisoner. When Sakurai and Gamon are led away in chains, the fallen master wonders if he made a wrong choice, if he prayed to the wrong god. ",
           "The End."
         ],
