@@ -1,55 +1,4 @@
-<script>
-  import * as sapper from '@sapper/app';
-  import Adventure from 'src/components/Adventure';
-  import exampleStory from 'src/lib/local-stories/story-with-consequences';
-  import yaml from 'js-yaml';
-  import { graph, validateStoryNode } from 'src/lib/client/story_graphs.js';
-  import Overview from 'src/components/Adventure/Overview.svelte';
-  import YamlTracker from 'src/components/Adventure/YamlTracker.svelte';
-  import Button from 'src/components/Button.svelte';
-  import Toggle from 'src/components/Form/Toggle.svelte';
-
-  const { page, session } = sapper.stores();
-
-  let simulation;
-  let story = exampleStory;
-  let storyText = yaml.safeDump(exampleStory);
-  let storyNode = $page.query.storyNode;
-  let history = [];
-  let consequences = [];
-  let mode = 'Edit';
-
-  const toggleMode = (e) => {
-    mode = e.target.checked ? 'View' : 'Edit';
-  }
-
-  const update = (e) => {
-    storyNode = e.detail.storyNode;
-    history = e.detail.history;
-    consequences = e.detail.consequences;
-  }
-
-  const load = () => {
-    let uncheckedStory;
-    try {
-      uncheckedStory = yaml.safeLoad(storyText)
-      uncheckedStory["start"] = uncheckedStory["start"] || null;
-      for(const nodeKey in uncheckedStory) {
-        validateStoryNode(nodeKey, uncheckedStory[nodeKey]);
-      }
-    } catch(error) {
-      alert(error);
-      return;
-    }
-
-    story = uncheckedStory;
-    if(simulation) simulation.stop();
-    simulation = graph(story, "svg.story-graph");
-  }
-</script>
-
 <style>
-
   .workbench {
     display: flex;
     flex-flow: column;
@@ -124,7 +73,7 @@
      stripping it*/
   :global(svg.story-graph .link) {
     stroke: #999;
-    stroke-opacity: .6;
+    stroke-opacity: 0.6;
     stroke-width: 1px;
   }
 
@@ -135,39 +84,94 @@
   }
 </style>
 
+<script>
+  import * as sapper from "@sapper/app";
+  import Adventure from "src/components/Adventure";
+  import exampleStory from "src/lib/local-stories/story-with-consequences";
+  import yaml from "js-yaml";
+  import { graph, validateStoryNode } from "src/lib/client/story_graphs.js";
+  import Overview from "src/components/Adventure/Overview.svelte";
+  import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
+  import Button from "src/components/Button.svelte";
+  import Toggle from "src/components/Form/Toggle.svelte";
+
+  const { page, session } = sapper.stores();
+
+  let simulation;
+  let story = exampleStory;
+  let storyText = yaml.safeDump(exampleStory);
+  let storyNode = $page.query.storyNode;
+  let history = [];
+  let consequences = [];
+  let mode = "Edit";
+
+  const toggleMode = e => {
+    mode = e.target.checked ? "View" : "Edit";
+  };
+
+  const update = e => {
+    storyNode = e.detail.storyNode;
+    history = e.detail.history;
+    consequences = e.detail.consequences;
+  };
+
+  const load = () => {
+    let uncheckedStory;
+    try {
+      uncheckedStory = yaml.safeLoad(storyText);
+      uncheckedStory["start"] = uncheckedStory["start"] || null;
+      for (const nodeKey in uncheckedStory) {
+        validateStoryNode(nodeKey, uncheckedStory[nodeKey]);
+      }
+    } catch (error) {
+      alert(error);
+      return;
+    }
+
+    story = uncheckedStory;
+    if (simulation) simulation.stop();
+    simulation = graph(story, "svg.story-graph");
+  };
+</script>
+
 <svelte:head>
   <title>Editor</title>
 </svelte:head>
 
-<p>Time to experiment. Go ahead and mess around with the example story. You can draw out
-your decision tree and even experience the whole thing at the bottom of this page.</p>
+<p>
+  Time to experiment. Go ahead and mess around with the example story. You can
+  draw out your decision tree and even experience the whole thing at the bottom
+  of this page.
+</p>
 
-<section class='workbench'>
+<section class="workbench">
   <article class="toolbox">
     <header>
-      <h2>Toolbox <span class='current-mode'>{mode} |</span></h2>
+      <h2>
+        Toolbox
+        <span class="current-mode">{mode} |</span>
+      </h2>
       <nav>
-        <span class='toggle-text'>Switch</span>
-        <Toggle on:input={toggleMode} />
+        <span class="toggle-text">Switch</span>
+        <Toggle on:input="{toggleMode}" />
       </nav>
-      <Button variation="link" class="loader" on:click={load}>Load</Button>
+      <Button variation="link" class="loader" on:click="{load}">Load</Button>
     </header>
     {#if mode === 'Edit'}
-      <textarea rows="30" bind:value={storyText}></textarea>
+      <textarea rows="30" bind:value="{storyText}"></textarea>
     {:else}
-      <Overview currentStoryNode={storyNode} {history} {consequences} />
-      <YamlTracker story={story} {storyNode} {history} {consequences} />
+      <Overview currentStoryNode="{storyNode}" {history} {consequences} />
+      <YamlTracker {story} {storyNode} {history} {consequences} />
     {/if}
   </article>
 
-  <aside class='story-preview'>
+  <aside class="story-preview">
     <Adventure
       {storyNode}
       {story}
-      enableScroll={false}
+      enableScroll="{false}"
       title="Self titled adventure: Number One"
-      on:pageChange={(e) => update(e)}
-    />
+      on:pageChange="{e => update(e)}" />
   </aside>
 </section>
 

@@ -1,12 +1,7 @@
-<script>
-  import Header from '../components/Header.svelte';
-  import Footer from '../components/Footer.svelte';
-</script>
-
 <style>
   :global(html) {
     background-color: whitesmoke;
-    font-family: 'IBM Plex Mono', 'monospace';
+    font-family: "IBM Plex Mono", "monospace";
     color: var(--root-color-primary);
     line-height: 1.8;
   }
@@ -35,10 +30,15 @@
   }
 </style>
 
-<Header/>
+<script>
+  import Header from "../components/Header.svelte";
+  import Footer from "../components/Footer.svelte";
+</script>
+
+<Header />
 
 <main>
-  <slot></slot>
+  <slot />
 </main>
 
-<Footer/>
+<Footer />

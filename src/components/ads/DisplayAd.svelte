@@ -1,16 +1,3 @@
-<script>
-  import * as sapper from '@sapper/app';
-  import Button from 'src/components/Button.svelte';
-  import { choicesAndAttributes, content } from 'src/components/ads/data';
-  import { createEventDispatcher } from 'svelte';
-  import { sampleSize } from 'lodash';
-
-  const dispatch = createEventDispatcher();
-
-  let step = 'intro';
-  let tags;
-</script>
-
 <style>
   /* Hack to avoid cross-browser scrollbar pop-in */
   :global(html) {
@@ -57,15 +44,30 @@
   }
 </style>
 
+<script>
+  import * as sapper from "@sapper/app";
+  import Button from "src/components/Button.svelte";
+  import { choicesAndAttributes, content } from "src/components/ads/data";
+  import { createEventDispatcher } from "svelte";
+  import { sampleSize } from "lodash";
+
+  const dispatch = createEventDispatcher();
+
+  let step = "intro";
+  let tags;
+</script>
+
 <section class="display-ad">
   {#if tags === undefined}
-    <p><a href="/user/profile?tab=adventurer">Become a full adventurer now?</a></p>
+    <p>
+      <a href="/user/profile?tab=adventurer">Become a full adventurer now?</a>
+    </p>
 
     <p>Or can we interest you in a small diversion before your story?</p>
 
     <nav id="ad-options">
       {#each sampleSize(Object.keys(choicesAndAttributes), 2) as choice}
-        <Button on:click={() => tags = choicesAndAttributes[choice]}>
+        <Button on:click="{() => (tags = choicesAndAttributes[choice])}">
           {choice}
         </Button>
       {/each}
@@ -75,10 +77,12 @@
       {#each ad.description as line}
         <p>{line}</p>
       {/each}
-      <p><a href="{ad.link}">I'd like to know more</a></p>
+      <p>
+        <a href="{ad.link}">I'd like to know more</a>
+      </p>
     {/each}
 
-    <Button on:click={() => dispatch('end')}>
+    <Button on:click="{() => dispatch('end')}">
       Now back to the regularly scheduled programming....
     </Button>
   {/if}

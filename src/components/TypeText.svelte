@@ -1,12 +1,19 @@
+<style>
+  .type-text {
+    width: 90%;
+    max-width: 80ch;
+  }
+</style>
+
 <script>
-  import { setDynamicInterval } from '../lib/DynamicInterval';
-  import { createEventDispatcher } from 'svelte';
+  import { setDynamicInterval } from "../lib/DynamicInterval";
+  import { createEventDispatcher } from "svelte";
   const { floor, random } = Math;
   const dispatch = createEventDispatcher();
 
   export let jitter = 0;
-  export let typedText = '';
-  export let text = '';
+  export let typedText = "";
+  export let text = "";
   export let showTypingAnimation = true;
   export let typingSpeed = 0;
   export let linebreakPause = 0;
@@ -14,10 +21,10 @@
 
   let interval = null;
 
-  $: if(text) {
-     if(interval === null) startTyping();
-     if(!showTypingAnimation) typeWithoutAnimation();
-     else if (interval.stopped()) interval.stop(() => startTyping());
+  $: if (text) {
+    if (interval === null) startTyping();
+    if (!showTypingAnimation) typeWithoutAnimation();
+    else if (interval.stopped()) interval.stop(() => startTyping());
   }
 
   const typeWithoutAnimation = () => {
@@ -28,30 +35,30 @@
     return typingSpeed + floor(random() * jitter);
   };
 
-  const isLinebreak = (char) => {
+  const isLinebreak = char => {
     return char.match(/<br/);
   };
 
   const getChars = () => {
     return text
-    .join('\n')
-    .split('')
-    .map(char => char.replace(/\n/, '<br/><br/>'))
+      .join("\n")
+      .split("")
+      .map(char => char.replace(/\n/, "<br/><br/>"));
   };
 
   export const skipTyping = () => {
-    typedText = getChars().join(''); // clear before event loop;
+    typedText = getChars().join(""); // clear before event loop;
 
     interval.stop(() => {
-      typedText = getChars().join(''); // clear after event loop;
-      dispatch('end');
+      typedText = getChars().join(""); // clear after event loop;
+      dispatch("end");
     });
   };
 
-  const typingEnd = () => interval.stop(() => dispatch('end'));
+  const typingEnd = () => interval.stop(() => dispatch("end"));
 
   export const startTyping = () => {
-    typedText = '';
+    typedText = "";
 
     let chars = getChars();
 
@@ -64,24 +71,16 @@
       const char = chars.shift();
 
       interval.set({
-        time: isLinebreak(char) ? paragraphPause: getTypingSpeed()
+        time: isLinebreak(char) ? paragraphPause : getTypingSpeed()
       });
 
       typedText = typedText + char;
-
     }, getTypingSpeed());
   };
 </script>
 
-<style>
-  .type-text {
-    width: 90%;
-    max-width: 80ch;
-  }
-</style>
-
 <p class="type-text">
-  {#if typedText }
-    {@html typedText }
+  {#if typedText}
+    {@html typedText}
   {/if}
 </p>
