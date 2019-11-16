@@ -58,11 +58,11 @@ const stories = [
       },
       looks_under_desk: {
         text: [
-          "Reaching his hand under the desk, Banks pulled out what would be the single most important piece of paper he'd ever hold. Lighting blowing on the now dusty post it note, was Ms. Florentines' password, written out in bold, legible writing. PASSWORD123",
-          "Of course, given enough time, and perhaps a bit of wiggle room on entropy, Banks could have possibly guessed the password, but that would have lengthed an otherwise fulfilling and timely narrative (that he, nor anyone else to be frank, had time for).",
-          "Still, Banks was almost giddy that he had found it with such ease, and swiveled around the chair in front of her desk, gave it a good swipe sending dust abound, and plopped down into the seat",
-          "All the computers on the Leviathan were the same. Simple, intuitive, and oftentimes built by the lowest bidder, they were the culmination of countless many hours of efforts in standardization, improved accessibility, and accommodating user experiences.",
-          "Holding down the shift key (the capslock having long-since been removed for more accomodating written conversations), banks typed out the password, and as easy as that, he was now operating as Ms. Florentine. The ships timing and clocks were entirely under his control.",
+          "Reaching his hand under the desk, Banks pulled out what would be the single most important piece of paper he'd ever hold. Lightly blowing on the now dusty post-it note, was Ms. Florentine's password, written out in bold, legible writing. PASSWORD123",
+          "Of course, given enough time, and perhaps a bit of wiggle room on entropy, Banks could have possibly guessed the password himself, but that would have lengthened an otherwise fulfilling and timely narrative (that he, nor anyone else to be frank, had time for).",
+          "Still, Banks was almost giddy that he had found it with such ease, and swiveled around the chair in front of her desk, gave it a good swipe sending dust abounding, and plopped down into the seat",
+          "All the computers on the Leviathan were the same. Simple, intuitive, and oftentimes built by the lowest bidder. They were the culmination of countless many hours of efforts in standardization, improved accessibility, and accommodating user experiences.",
+          "Holding down the shift key (the capslock having long-since been removed for more accommodating written conversation), Banks typed out the password, and as easy as that, he was now operating as Ms. Florentine. The ships timing and clocks were entirely under his control.",
           "Time for a change"
         ],
         decisions: [
@@ -75,14 +75,14 @@ const stories = [
       looks_under_papers: {
         text: [
           "Grabbing the piles of paper strewn out on her desk, Banks began to rummage through them.",
-          "'Daylight Savings: The Hour is at hand.'",
-          "'Compliance and You: Everything works better when you're compliant'",
+          "'Daylight Savings: The Hour is at Hand.'",
+          "'Compliance and You: Everything Works Better When You Are Compliant",
           "'Weather Watching: Weathering the Storm'",
           "None of these were what he needed, immensely interesting and tempting as they were. Perhaps another time he'd be able to more closely examine them, but now was not the time. His patience running short, he began throwing papers hither and thither, desperate searching",
-          "'A Matter of Time: Seize the daylight savings'",
-          "'No Time like the present: A meta-analysis of Time of Day effects on productivity'",
+          "'A Matter of Time: Seize the Daylight Savings'",
+          "'No Time Like the Present: A Meta-Analysis on the Time of Day and the Effects on Productivity'",
           "With a frustrated sigh, Banks slumped onto the ground, a mountain of papers strewn out around him in a ring. Perhaps it wasn't here, perhaps it wasn't ANYWHERE. The one thing he needed was out of his reach. He was beginning to feel a tad dejected.",
-          "Then, out of the corner of his eye, he saw a piece of paper flapping slowly from the air-conditioning in the room. Directly under the desk, almost out of site, was a single, faded post it note."
+          "Then, out of the corner of his eye, he saw a piece of paper flapping slowly from the air-conditioning in the room. Directly under the desk, almost out of sight, was a single, faded post-it note."
         ],
         decisions: [
           {
@@ -93,9 +93,9 @@ const stories = [
       },
       file_a_formal_complaint: {
         text: [
-          "Swiveling in his chair, Banks reached into a  large set of filing shelves directly next to his desk. If anything was going to change, it would require the most important catalyst of all; A well documented, and thoroughly filled 'Request for Weather Change'.",
-          "Being the orderly and considerate gentleman that he was, all things required paperwork, and looking for the impromptu change in the weather was no exception. Reaching into the cabinet, he flipped quickly through various request forms, from 'Annual Hail Invariant Comparison Reports', to 'Simplified Rainfall measurement metrics for Gross Adjusted intra-ship analytics', the latter being a recurring favorite in the hectic fall months, where such reports allowed for critical quarterly reports.",
-          "Reaching past the otherwise tempting documents, he found the weather request forms, and laid them out in a neat pile on top of his desk. Placing his finger onto the page, he scanned towards the top level index, which stated, 'For all pre-approved weather request forms, use 'Post-Approval Form 35-B'. For other requests, please use 'Pre-Approval Form 36-A''. Much to his chagrin, Banks couldn't readily remember if he had ever filled a pre-approval form. Even worse, he wasn't sure if it mattered"
+          "Swiveling in his chair, Banks reached into a large set of filing shelves directly next to his desk. If anything was going to change, it would require the most important catalyst of all; A well-documented, and thoroughly filled 'Request for Weather Change'.",
+          "Being the orderly and considerate gentleman that he was, all things required paperwork, and looking for the impromptu change in the weather was no exception. Reaching into the cabinet, he flipped quickly through various request forms, from 'Annual Hail Invariant Comparison Reports', to 'Simplified Rainfall Measurement Metrics for Gross Adjusted Intra-Ship Analytics', the latter being a recurring favorite in the hectic fall months, where such reports allowed for critical quarterly reports.",
+          "Reaching past the otherwise tempting documents, he found the weather request forms, and laid them out in a neat pile on top of his desk. Placing his finger on the page, he scanned towards the top level index, which stated, 'For all pre-approved weather request forms, use 'Post-Approval Form 35-B'. For other requests, please use 'Pre-Approval Form 36-A''. Much to his chagrin, Banks couldn't readily remember if he had ever filled a pre-approval form. Even worse, he wasn't sure if it mattered"
         ],
         decisions: [
           {
