@@ -1,7 +1,4 @@
 describe('Adventure', () => {
-  // TODO(kyle): display badges when you get them
-  // TODO(kyle): tests for welcome and badge earning
-  // TODO(kyle): hover text for badges
   beforeEach(() => {
     cy.logIn();
     cy.contains('Continue...').click();
