@@ -1,162 +1,3 @@
-<script>
-  import Button from '../Button.svelte';
-  import CrossOut from '../icons/CrossOut.svelte';
-  import TypeText from '../TypeText.svelte';
-  import Undo from 'src/components/icons/Undo.svelte';
-  import ReplayOne from 'src/components/icons/ReplayOne.svelte';
-  import uniq from 'lodash/uniq';
-  import last from 'lodash/last';
-  import { fade } from 'src/lib/Transition';
-  import { safeWindow } from 'src/lib/client/safe-window.js';
-  import { writable } from 'svelte/store';
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
-
-  export let className = '';
-  export let storyNode;
-  export let story;
-  export let title;
-  export let enableScroll = true;
-  export let haveRemainingDecisions = true;
-  export let store = writable({
-    storyNode: storyNode,
-    canSkipIntro: false,
-    history: [
-      {
-        consequences: [],
-        requires: [],
-        storyNode: 'start',
-      }
-    ]
-  });
-
-  $: $store.storyNode = getStartingPoint();
-  $: currentPage = story[$store.storyNode];
-  $: haveRemainingDecisions = !story[$store.storyNode].final;
-  $: {
-    setURL();
-    scrollWindow();
-    safeWindow().document.activeElement.blur();
-    recordUnlockSkipIntro();
-    dispatch('pageChange', {
-      storyNode: $store.storyNode,
-      history: $store.history,
-      consequences: last($store.history).consequences
-    });
-  }
-
-  const normalize = (decision = {}) => {
-    return {
-      consequences: [],
-      requires: [],
-      ...decision,
-    }
-  }
-
-  const alreadyVisited = ({ storyNode }) => (
-    $store.history.find(recorded => recorded.storyNode === storyNode)
-  )
-
-  const recordUnlockSkipIntro = () => {
-    if($store.canSkipIntro) return;
-    $store.canSkipIntro = currentPage.final
-  }
-
-  const scrollWindow = () => {
-    if (!enableScroll) return;
-
-    safeWindow().scrollTo(0,0);
-  }
-
-  const rewindHistory = decision => (
-    $store.history = $store.history.slice(
-      0,
-      $store.history.findIndex(({ storyNode }) => storyNode === decision.storyNode) + 1,
-    )
-  )
-
-  const setHistory = (decision) => {
-    if(alreadyVisited(decision)) {
-      rewindHistory(decision);
-    }
-
-    $store.history = [
-      ...(decision.storyNode === 'start' ? [] : $store.history),
-      {
-        storyNode: decision.storyNode,
-        consequences: uniq([
-          ...decision.consequences || [],
-          ...last($store.history).consequences,
-        ])
-      },
-    ]
-  }
-
-  const goBack = () => {
-    const previousDecision = $store.history[$store.history.length - 2];
-    goToDecision(previousDecision);
-  }
-
-
-  const goToDecision = (decision) => {
-    setHistory(decision);
-    $store.storyNode = decision.storyNode;
-  }
-
-  const showSkipIntro = () => $store.canSkipIntro && $store.storyNode === 'start';
-
-  const skipIntro = () => goToDecision({
-    storyNode: getStoryNodeAfterIntro(story, $store.storyNode)
-  });
-
-  const getStoryNodeAfterIntro = (story, storyNode) => {
-    const page = story[storyNode];
-
-    if(story.start.decisions.length > 1 || page.final ) {
-      return 'start';
-    }
-
-    if(story[storyNode].decisions.length >= 2) {
-      return storyNode;
-    }
-
-    return getStoryNodeAfterIntro(
-      story,
-      story[storyNode].decisions[0].storyNode,
-    );
-  }
-
-  const filterAvailable = (decisions) => (
-    decisions.map(normalize).map(decision => {
-      const availableDecision = decision.requires.every(prereq => (
-        last($store.history).consequences.includes(prereq)
-      ));
-
-      return {
-        ...decision,
-        label: availableDecision ? decision.label : '?',
-        disabled: !availableDecision,
-      };
-    })
-  )
-
-  const setURL = () => {
-    safeWindow().history.replaceState(
-      '',
-      '',
-      `${safeWindow().location.pathname}?storyNode=${$store.storyNode}`
-    );
-  };
-
-  const getStartingPoint = () => {
-    if(typeof(storyNode) === 'undefined') {
-      return $store.storyNode || 'start'
-    }
-
-    return storyNode;
-  }
-</script>
-
 <style>
   /* Hack to avoid cross-browser scrollbar pop-in */
   :global(html) {
@@ -209,8 +50,167 @@
   }
 </style>
 
+<script>
+  import Button from "../Button.svelte";
+  import CrossOut from "../icons/CrossOut.svelte";
+  import TypeText from "../TypeText.svelte";
+  import Undo from "src/components/icons/Undo.svelte";
+  import ReplayOne from "src/components/icons/ReplayOne.svelte";
+  import uniq from "lodash/uniq";
+  import last from "lodash/last";
+  import { fade } from "src/lib/Transition";
+  import { safeWindow } from "src/lib/client/safe-window.js";
+  import { writable } from "svelte/store";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+
+  export let className = "";
+  export let storyNode;
+  export let story;
+  export let title;
+  export let enableScroll = true;
+  export let haveRemainingDecisions = true;
+  export let store = writable({
+    storyNode: storyNode,
+    canSkipIntro: false,
+    history: [
+      {
+        consequences: [],
+        requires: [],
+        storyNode: "start"
+      }
+    ]
+  });
+
+  $: $store.storyNode = getStartingPoint();
+  $: currentPage = story[$store.storyNode];
+  $: haveRemainingDecisions = !story[$store.storyNode].final;
+  $: {
+    setURL();
+    scrollWindow();
+    safeWindow().document.activeElement.blur();
+    recordUnlockSkipIntro();
+    dispatch("pageChange", {
+      storyNode: $store.storyNode,
+      history: $store.history,
+      consequences: last($store.history).consequences
+    });
+  }
+
+  const normalize = (decision = {}) => {
+    return {
+      consequences: [],
+      requires: [],
+      ...decision
+    };
+  };
+
+  const alreadyVisited = ({ storyNode }) =>
+    $store.history.find(recorded => recorded.storyNode === storyNode);
+
+  const recordUnlockSkipIntro = () => {
+    if ($store.canSkipIntro) return;
+    $store.canSkipIntro = currentPage.final;
+  };
+
+  const scrollWindow = () => {
+    if (!enableScroll) return;
+
+    safeWindow().scrollTo(0, 0);
+  };
+
+  const rewindHistory = decision =>
+    ($store.history = $store.history.slice(
+      0,
+      $store.history.findIndex(
+        ({ storyNode }) => storyNode === decision.storyNode
+      ) + 1
+    ));
+
+  const setHistory = decision => {
+    if (alreadyVisited(decision)) {
+      rewindHistory(decision);
+    }
+
+    $store.history = [
+      ...(decision.storyNode === "start" ? [] : $store.history),
+      {
+        storyNode: decision.storyNode,
+        consequences: uniq([
+          ...(decision.consequences || []),
+          ...last($store.history).consequences
+        ])
+      }
+    ];
+  };
+
+  const goBack = () => {
+    const previousDecision = $store.history[$store.history.length - 2];
+    goToDecision(previousDecision);
+  };
+
+  const goToDecision = decision => {
+    setHistory(decision);
+    $store.storyNode = decision.storyNode;
+  };
+
+  const showSkipIntro = () =>
+    $store.canSkipIntro && $store.storyNode === "start";
+
+  const skipIntro = () =>
+    goToDecision({
+      storyNode: getStoryNodeAfterIntro(story, $store.storyNode)
+    });
+
+  const getStoryNodeAfterIntro = (story, storyNode) => {
+    const page = story[storyNode];
+
+    if (story.start.decisions.length > 1 || page.final) {
+      return "start";
+    }
+
+    if (story[storyNode].decisions.length >= 2) {
+      return storyNode;
+    }
+
+    return getStoryNodeAfterIntro(
+      story,
+      story[storyNode].decisions[0].storyNode
+    );
+  };
+
+  const filterAvailable = decisions =>
+    decisions.map(normalize).map(decision => {
+      const availableDecision = decision.requires.every(prereq =>
+        last($store.history).consequences.includes(prereq)
+      );
+
+      return {
+        ...decision,
+        label: availableDecision ? decision.label : "?",
+        disabled: !availableDecision
+      };
+    });
+
+  const setURL = () => {
+    safeWindow().history.replaceState(
+      "",
+      "",
+      `${safeWindow().location.pathname}?storyNode=${$store.storyNode}`
+    );
+  };
+
+  const getStartingPoint = () => {
+    if (typeof storyNode === "undefined") {
+      return $store.storyNode || "start";
+    }
+
+    return storyNode;
+  };
+</script>
+
 {#if process.browser}
-  <section class={`adventure ${className}`}>
+  <section class="{`adventure ${className}`}">
     {#if title && currentPage.storyNode === 'start'}
       <h3>{title}</h3>
     {/if}
@@ -221,34 +221,35 @@
       {/each}
     {/if}
 
-    {#if haveRemainingDecisions }
+    {#if haveRemainingDecisions}
       <nav in:fade>
         {#if showSkipIntro()}
-          <Button variation='secondary' on:click={skipIntro}>
+          <Button variation="secondary" on:click="{skipIntro}">
             <span>* Skip intro</span>
-            <Undo/>
+            <Undo />
           </Button>
         {/if}
-        {#each filterAvailable(currentPage.decisions) as decision }
+        {#each filterAvailable(currentPage.decisions) as decision}
           <Button
-            disabled={decision.disabled}
-            on:click={() => goToDecision(decision) }
-          >
+            disabled="{decision.disabled}"
+            on:click="{() => goToDecision(decision)}">
             {decision.label}
           </Button>
         {/each}
       </nav>
     {:else}
-    <nav class='end-of-story-navigation'>
-      <Button variation='secondary' on:click={goBack}>
-        <span>go back</span>
-        <ReplayOne/>
-      </Button>
-      <Button variation='secondary' on:click={() => goToDecision({ storyNode: 'start'})}>
-        <span>restart</span>
-        <Undo/>
-      </Button>
-    </nav>
+      <nav class="end-of-story-navigation">
+        <Button variation="secondary" on:click="{goBack}">
+          <span>go back</span>
+          <ReplayOne />
+        </Button>
+        <Button
+          variation="secondary"
+          on:click="{() => goToDecision({ storyNode: 'start' })}">
+          <span>restart</span>
+          <Undo />
+        </Button>
+      </nav>
     {/if}
   </section>
 {/if}

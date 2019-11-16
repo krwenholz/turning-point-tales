@@ -1,9 +1,3 @@
-<script>
-  let checked = false;
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
-</script>
-
 <style>
   /** Switch
    -------------------------------------*/
@@ -26,8 +20,8 @@
     height: 1em;
     width: 1em;
     border-radius: 1em;
-    background: #FFF;
-    box-shadow: 0 0.1em 0.3em rgba(0,0,0,0.3);
+    background: #fff;
+    box-shadow: 0 0.1em 0.3em rgba(0, 0, 0, 0.3);
     transition: all 300ms;
   }
 
@@ -40,12 +34,13 @@
   }
 </style>
 
-<label class='switch' class:checked>
-  <input
-    on:input
-    on:click
-    bind:checked={checked}
-    type="checkbox"
-  />
+<script>
+  let checked = false;
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+</script>
+
+<label class="switch" class:checked>
+  <input on:input on:click bind:checked type="checkbox" />
   <div></div>
 </label>

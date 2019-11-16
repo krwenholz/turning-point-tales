@@ -1,15 +1,9 @@
-<script>
-  import Logo from './icons/Logo.html';
-  import { stores } from '@sapper/app';
-
-  const { session } = stores();
-</script>
-
 <style>
   header {
     display: flex;
     width: 100%;
-    justify-content: space-evenly; align-items: center;
+    justify-content: space-evenly;
+    align-items: center;
     background-color: var(--root-color-background);
   }
 
@@ -65,7 +59,8 @@
     margin-right: 16px;
   }
 
-  .user-block:hover .menu, .user-block:active .menu {
+  .user-block:hover .menu,
+  .user-block:active .menu {
     left: auto;
     right: 16px;
   }
@@ -85,24 +80,31 @@
   }
 </style>
 
+<script>
+  import Logo from "./icons/Logo.html";
+  import { stores } from "@sapper/app";
+
+  const { session } = stores();
+</script>
+
 <header>
   <nav>
-    <a class="logo" href='/'>
+    <a class="logo" href="/">
       <Logo />
-      <h1> Turning Point Tales </h1>
+      <h1>Turning Point Tales</h1>
     </a>
     {#if $session.user}
-    <div class="user-block">
-      <span id="user_name">{$session.user.firstName}</span>
-      <div class="menu">
-        <a href='/user/profile'>Profile and settings</a>
-        <a href='/api/user/logout'>Logout</a>
+      <div class="user-block">
+        <span id="user_name">{$session.user.firstName}</span>
+        <div class="menu">
+          <a href="/user/profile">Profile and settings</a>
+          <a href="/api/user/logout">Logout</a>
+        </div>
       </div>
-    </div>
     {:else}
-    <a data-cy="test-login-hook" href='/user/login' class="nav-vert">
-      <span>Login</span>
-    </a>
+      <a data-cy="test-login-hook" href="/user/login" class="nav-vert">
+        <span>Login</span>
+      </a>
     {/if}
   </nav>
 </header>
