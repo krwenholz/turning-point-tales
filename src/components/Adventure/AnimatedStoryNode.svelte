@@ -1,27 +1,3 @@
-<script>
-  import yaml from 'js-yaml';
-
-  export let idx = {};
-  export let story = {};
-  export let selectedIdx = undefined;
-  export let scrollTo = () => {};
-  export let parent;
-
-  let self = {};
-  let fadeInBorder = false;
-
-  const scrollIntoView = (node) => ({
-    update: () => {
-      if(selectedIdx !== idx) {
-        return fadeInBorder = false;
-      }
-      parent.scrollTo({ top: self.offsetTop - scrollTo(), behavior: 'smooth' });
-      setTimeout(() => fadeInBorder = true, 100);
-    }
-  });
-
-</script>
-
 <style>
   pre {
     padding-left: 16px;
@@ -37,15 +13,37 @@
   }
 
   .fadeInBorder {
-    animation: .6s ease-in fadeInBorder forwards;
+    animation: 0.6s ease-in fadeInBorder forwards;
   }
 </style>
 
+<script>
+  import yaml from "js-yaml";
+
+  export let idx = {};
+  export let story = {};
+  export let selectedIdx = undefined;
+  export let scrollTo = () => {};
+  export let parent;
+
+  let self = {};
+  let fadeInBorder = false;
+
+  const scrollIntoView = node => ({
+    update: () => {
+      if (selectedIdx !== idx) {
+        return (fadeInBorder = false);
+      }
+      parent.scrollTo({ top: self.offsetTop - scrollTo(), behavior: "smooth" });
+      setTimeout(() => (fadeInBorder = true), 100);
+    }
+  });
+</script>
+
 <pre
-  bind:this={self}
+  bind:this="{self}"
   class:fadeInBorder
-  class={story.start && selectedIdx === 0  ? '' : 'blur'}
-  use:scrollIntoView={selectedIdx}
->
+  class="{story.start && selectedIdx === 0 ? '' : 'blur'}"
+  use:scrollIntoView="{selectedIdx}">
   {yaml.safeDump(story)}
 </pre>

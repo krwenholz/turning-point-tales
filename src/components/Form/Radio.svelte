@@ -1,10 +1,3 @@
-<script>
-  export let className = '';
-  export let checked = false;
-  export let name = '';
-  export let onChange;
-</script>
-
 <style>
   /* Customize the label (the container) */
   .radio {
@@ -37,7 +30,7 @@
 
   .radio input:checked ~ .center-circle {
     opacity: 1;
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
   }
 
   .radio .center-circle {
@@ -50,19 +43,20 @@
     height: 15px;
     transform: translate(-50%, -50%);
     background-color: var(--root-color-accent);
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
     border-radius: 100%;
   }
 </style>
 
+<script>
+  export let className = "";
+  export let checked = false;
+  export let name = "";
+  export let onChange;
+</script>
+
 <label class="radio">
-  <input
-    {className}
-    {name}
-    {checked}
-    on:click={onChange}
-    type="radio"
-  />
-  <div class="box" />
-  <div class="center-circle" />
+  <input {className} {name} {checked} on:click="{onChange}" type="radio" />
+  <div class="box"></div>
+  <div class="center-circle"></div>
 </label>

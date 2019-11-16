@@ -1,27 +1,3 @@
-<script>
-  import * as sapper from '@sapper/app';
-  import Notifications from './Notifications.svelte';
-  import Settings from './Settings.svelte';
-  import User from 'src/components/icons/User.html';
-  import { Customer } from "./Stripe";
-  import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
-  import { sample } from 'lodash';
-
-  const { page, session } = sapper.stores();
-
-  const catchyProfileSayings = [
-    "Slayer of slimes",
-    "Betrayer of bards",
-    "Pillager of the West Moors",
-    "Island volleyball champ",
-    "Gazer of many stars",
-    "The one who thirsts in the deep",
-    "Taker of things before dangerous parts",
-    "Reader of the map",
-  ];
-
-</script>
-
 <style>
   .profile {
     flex-flow: column;
@@ -60,11 +36,34 @@
   }
 </style>
 
+<script>
+  import * as sapper from "@sapper/app";
+  import Notifications from "./Notifications.svelte";
+  import Settings from "./Settings.svelte";
+  import User from "src/components/icons/User.html";
+  import { Customer } from "./Stripe";
+  import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
+  import { sample } from "lodash";
+
+  const { page, session } = sapper.stores();
+
+  const catchyProfileSayings = [
+    "Slayer of slimes",
+    "Betrayer of bards",
+    "Pillager of the West Moors",
+    "Island volleyball champ",
+    "Gazer of many stars",
+    "The one who thirsts in the deep",
+    "Taker of things before dangerous parts",
+    "Reader of the map"
+  ];
+</script>
+
 <svelte:head>
   <title>Your profile</title>
 </svelte:head>
 
-<section class='profile'>
+<section class="profile">
 
   <header>
     <aside>
@@ -75,21 +74,21 @@
 
   <Tabs>
     <TabList>
-      <Tab name="adventurer"> Adventurer </Tab>
-      <Tab name="notifications"> Notifications </Tab>
-      <Tab name="settings"> Settings </Tab>
+      <Tab name="adventurer">Adventurer</Tab>
+      <Tab name="notifications">Notifications</Tab>
+      <Tab name="settings">Settings</Tab>
     </TabList>
 
     <TabPanel>
-      <Customer/>
+      <Customer />
     </TabPanel>
 
     <TabPanel>
-      <Notifications/>
+      <Notifications />
     </TabPanel>
 
     <TabPanel>
-      <Settings/>
+      <Settings />
     </TabPanel>
   </Tabs>
 

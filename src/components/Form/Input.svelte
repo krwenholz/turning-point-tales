@@ -1,20 +1,3 @@
-<script>
-  import { createEventDispatcher } from 'svelte';
-
-  export let value = '';
-  export let className = '';
-  export let type = 'text';
-  export let name = Date.now(); // Same as below... wtf?
-  export let id = Date.now(); // For some reason, if this doesnt have an id, autocomplete won't work...
-  export let placeholder = '';
-  export let disabled = false;
-  let input;
-
-  const dispatch = createEventDispatcher();
-
-  export const setCustomValidity = (...props) => input.setCustomValidity(...props);
-</script>
-
 <style>
   label {
     display: flex;
@@ -31,19 +14,35 @@
     color: currentColor;
     font-size: var(--root-font-size-md);
   }
-
 </style>
 
+<script>
+  import { createEventDispatcher } from "svelte";
+
+  export let value = "";
+  export let className = "";
+  export let type = "text";
+  export let name = Date.now(); // Same as below... wtf?
+  export let id = Date.now(); // For some reason, if this doesnt have an id, autocomplete won't work...
+  export let placeholder = "";
+  export let disabled = false;
+  let input;
+
+  const dispatch = createEventDispatcher();
+
+  export const setCustomValidity = (...props) =>
+    input.setCustomValidity(...props);
+</script>
+
 <label>
-    <slot/>
-    <input
-      bind:this={input}
-      class={`input ${className}`}
-      class:disabled
-      on:click
-      on:blur
-      on:input
-      autocomplete="on"
-      {...$$props}
-    />
+  <slot />
+  <input
+    bind:this="{input}"
+    class="{`input ${className}`}"
+    class:disabled
+    on:click
+    on:blur
+    on:input
+    autocomplete="on"
+    {...$$props} />
 </label>

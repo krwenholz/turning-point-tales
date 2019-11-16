@@ -1,12 +1,3 @@
-<script>
-  import Preview from 'src/components/StoryPreview/Preview.svelte';
-  import { goto } from '@sapper/app';
-
-  export let stories = [];
-  export let isSubscriber;
-
-</script>
-
 <style>
   .story-previews {
     display: grid;
@@ -15,17 +6,24 @@
   }
 </style>
 
+<script>
+  import Preview from "src/components/StoryPreview/Preview.svelte";
+  import { goto } from "@sapper/app";
+
+  export let stories = [];
+  export let isSubscriber;
+</script>
+
 <section class="story-previews">
   {#each stories as { id, author, title, badges, preview, tags, general_release }}
     <Preview
-      id={id}
-      author={author}
-      title={title}
-      badges={badges}
-      preview={preview}
-      tags={tags}
-      generalRelease={general_release}
-      isSubscriber={isSubscriber}
-    />
+      {id}
+      {author}
+      {title}
+      {badges}
+      {preview}
+      {tags}
+      generalRelease="{general_release}"
+      {isSubscriber} />
   {/each}
 </section>

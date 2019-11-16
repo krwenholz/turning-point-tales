@@ -1,22 +1,6 @@
-<script>
-  import { slide } from 'src/lib/Transition/index.js';
-
-  export let className = ''
-  export let currentStoryNode = ['start']
-  export let consequences = [];
-  export let history = [{ storyNode: 'start' }];
-  $: history = history.map(record => record.storyNode);
-  let highlight = false;
-
-  const highlightOnChange = () => ({
-    update: () => highlight = true
-  });
-
-</script>
-
 <style>
   .overview {
-    background: white;;
+    background: white;
   }
 
   h3 {
@@ -52,43 +36,59 @@
   @keyframes highlight {
     0% {
       opacity: 0;
-      transform: translateX(10px)
+      transform: translateX(10px);
     }
     100% {
-      opacity: 1
+      opacity: 1;
     }
   }
 
-  .highlight { animation: .4s ease-in highlight forwards; }
+  .highlight {
+    animation: 0.4s ease-in highlight forwards;
+  }
 </style>
 
-<ul class={`overview ${className}`}>
+<script>
+  import { slide } from "src/lib/Transition/index.js";
+
+  export let className = "";
+  export let currentStoryNode = ["start"];
+  export let consequences = [];
+  export let history = [{ storyNode: "start" }];
+  $: history = history.map(record => record.storyNode);
+  let highlight = false;
+
+  const highlightOnChange = () => ({
+    update: () => (highlight = true)
+  });
+</script>
+
+<ul class="{`overview ${className}`}">
   <li>
     <h3>Current Story Node</h3>
     <div
-      class='detail'
+      class="detail"
       class:highlight
-      use:highlightOnChange={currentStoryNode}
-      on:animationend={() => highlight = false }
-    >
+      use:highlightOnChange="{currentStoryNode}"
+      on:animationend="{() => (highlight = false)}">
       {currentStoryNode}
     </div>
   </li>
 
-  <li class='history'>
+  <li class="history">
     <h3>History</h3>
-      <ol reversed>
+    <ol reversed>
       {#each history.slice().reverse() as record}
-        <li transition:slide class='detail'>{record} </li>
+        <li transition:slide class="detail">{record}</li>
       {/each}
-      </ol>
+    </ol>
   </li>
 
-  <li class='consequences'>
+  <li class="consequences">
     <h3>Consequences</h3>
     <ul>
       {#each consequences as consequence}
-        <li transition:slide class='detail'> * {consequence} </li>
+        <li transition:slide class="detail">* {consequence}</li>
       {/each}
     </ul>
   </li>

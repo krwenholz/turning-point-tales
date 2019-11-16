@@ -1,11 +1,3 @@
-<script>
-  export let required = false;
-  export let className = '';
-  export let id = '';
-  export let checked = false;
-  export let onChange;
-</script>
-
 <style>
   .checkbox {
     display: flex;
@@ -42,14 +34,14 @@
     margin: 0;
     border: solid var(--root-color-primary-altered);
     border-width: 0 2px 2px 0;
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
     transform: rotate(45deg);
   }
 
   input:checked ~ .mark {
     opacity: 1;
     visibility: visible;
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
   }
 
   .checkbox :global(span) {
@@ -57,13 +49,17 @@
   }
 </style>
 
-<label class={`checkbox ${className}`}>
-  <input
-    {...$$props}
-    on:click={onChange}
-    type="checkbox"
-  />
-  <div class="box" />
-  <div class="mark" />
+<script>
+  export let required = false;
+  export let className = "";
+  export let id = "";
+  export let checked = false;
+  export let onChange;
+</script>
+
+<label class="{`checkbox ${className}`}">
+  <input {...$$props} on:click="{onChange}" type="checkbox" />
+  <div class="box"></div>
+  <div class="mark"></div>
   <slot />
 </label>

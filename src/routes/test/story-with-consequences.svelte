@@ -1,7 +1,15 @@
+<style>
+  :global(.adventure) {
+    margin: auto;
+    width: 90%;
+    max-width: 80ch;
+  }
+</style>
+
 <script>
-  import Adventure from 'src/components/Adventure';
-  import * as sapper from '@sapper/app';
-  import { mainAdventure } from 'src/lib/stores/browserStore/main-adventure';
+  import Adventure from "src/components/Adventure";
+  import * as sapper from "@sapper/app";
+  import { mainAdventure } from "src/lib/stores/browserStore/main-adventure";
 
   const { page } = sapper.stores();
 
@@ -17,34 +25,30 @@
     previewPrompt: "Maybe it's time for a change...",
     content: {
       start: {
-        text: [
-          "It's a monday, and you're sleeping, what should you do?"
-        ],
+        text: ["It's a monday, and you're sleeping, what should you do?"],
         decisions: [
           {
             storyNode: "breakfast",
-            label: "wake up immediately and start my day, no time to waste.",
+            label: "wake up immediately and start my day, no time to waste."
           },
           {
             storyNode: "breakfast",
-            consequences: ['rested'],
-            label: "Hit snooze, then finally wake up. I want to be rested",
+            consequences: ["rested"],
+            label: "Hit snooze, then finally wake up. I want to be rested"
           }
         ]
       },
       breakfast: {
-        text: [
-          'You could really go for a meal before you start your day...'
-        ],
+        text: ["You could really go for a meal before you start your day..."],
         decisions: [
           {
             storyNode: "how_to_travel",
             label: "coffee",
-            consequences: ['rested'],
+            consequences: ["rested"]
           },
           {
             storyNode: "how_to_travel",
-            label: "avocado toast",
+            label: "avocado toast"
           }
         ]
       },
@@ -56,51 +60,38 @@
           {
             storyNode: "drive_car",
             label: "Drive car",
-            requires: ['rested'],
+            requires: ["rested"]
           },
           {
             storyNode: "walk",
-            label: "Guess you'll walk",
+            label: "Guess you'll walk"
           }
         ]
       },
       drive_car: {
-        text: [
-          "Yay, cars are fun"
-        ],
+        text: ["Yay, cars are fun"],
         decisions: [
           {
             storyNode: "breakfast",
-            label: "well, time to start over",
-          },
+            label: "well, time to start over"
+          }
         ]
       },
       walk: {
-        text: [
-          "Walking sucks, and so does exercise"
-        ],
+        text: ["Walking sucks, and so does exercise"],
         decisions: [
           {
             storyNode: "breakfast",
-            label: "well, time to start over",
-          },
+            label: "well, time to start over"
+          }
         ]
-      },
-    },
-  }
+      }
+    }
+  };
 </script>
 
-<style>
-  :global(.adventure) {
-    margin: auto;
-    width: 90%;
-    max-width: 80ch;
-  }
-</style>
-
 <Adventure
-  story={story.content}
-  store={mainAdventure()}
-  className='adventure'
-  storyNode={'start'}
-/>
+  story="{story.content}"
+  store="{mainAdventure()}"
+  className="adventure"
+  storyNode="{'start'}" />
