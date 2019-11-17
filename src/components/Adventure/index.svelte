@@ -6,6 +6,7 @@
   import ReplayOne from "src/components/icons/ReplayOne.svelte";
   import uniq from "lodash/uniq";
   import last from "lodash/last";
+  import filter from "lodash/filter";
   import { fade } from "src/lib/Transition";
   import { safeWindow } from "src/lib/client/safe-window.js";
   import { writable } from "svelte/store";
@@ -13,11 +14,12 @@
   const dispatch = createEventDispatcher();
 
   export let className = "";
-  export let storyNode;
-  export let story;
-  export let title;
   export let enableScroll = true;
   export let haveRemainingDecisions = true;
+  export let story;
+  export let storyNode;
+  export let title;
+  export let visitations;
   export let store = writable({
     storyNode: storyNode,
     canSkipIntro: false,
@@ -31,6 +33,7 @@
   });
 
   $: $store.storyNode = getStartingPoint();
+  $: $store.canSkipIntro = checkInitialCompletion(visitations);
   $: currentPage = story[$store.storyNode];
   $: haveRemainingDecisions = !story[$store.storyNode].final;
   $: {
@@ -154,6 +157,14 @@
     }
 
     return storyNode;
+  };
+
+  const checkInitialCompletion = visitations => {
+    return (
+      filter(story, (value, key) => {
+        return value.final && visitations.indexOf(key) !== -1;
+      }).length > 0
+    );
   };
 </script>
 
