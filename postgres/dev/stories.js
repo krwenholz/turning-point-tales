@@ -22,7 +22,7 @@ const stories = [
       }
     ],
     preview:
-      "It was a beautiful summer’s day, 70 degrees, with scattered clouds and the occasional cool breeze. It had been that way every moment, of every day, for the last 5 years, save for the pre-scheduled rain burst at exactly 12:01 to 1:35.",
+      "It was a beautiful summer’s day, 70 degrees, with scattered clouds and the occasional cool breeze. It had been that way every moment, of every day, for the last 5 years, save for the pre-scheduled rain burst from exactly 12:01 to 1:35.",
     content: {
       start: {
         text: [
@@ -33,8 +33,8 @@ const stories = [
           "And above all this, orchestrating this weather, was a man sitting in an orthopaedically approved chair, in an air-conditioned room high above the city. Basking in the gentle loving glow of fluorescent lighting, in the midst of all this malaise, at the heart of all this weather, was James Icarus Banks.",
           "Mr. Banks watched the weather every day from 9:06 to 4:53. He was a weatherman, and he oversaw the most complex meteorological system ever devised, on board one of the most technologically advanced machines ever conceived. It was known as the Leviathan. His ship was accompanied by two others, The Memento, and the Ark. They were its sisters, each equally impressive in their size and achievement. A single ship stretched the length of New York’s Manhattan, as if a great knife had descended down and slipped into the earth, cutting away a raw slice of flesh.",
           "And with that wound left behind, that raw flesh bled life, seeping out to pool into thousands of schools, parks, homes, skyscrapers and streets. In those small corners of the ship, people lived, laughed, started families, died, were born, played music, competed, lost, flipped burgers, mopped floors, wrote stories, and lived their lives with only the thin hull of the ship protecting them from the oblivion of nothingness that was the expanse of space.",
-          "And Mr Banks, who oversaw this triumphant testament of man’s ability to carve in the vast desert of space a single bastion of life, knew only two things would never change. The first, as he knew all too well, was the weather. The second was this; He was unbelievably, undeniably, unequivocally bored out of his mind.",
-          "Something had to change"
+          "And Mr. Banks, who oversaw this triumphant testament of man’s ability to carve in the vast desert of space a single bastion of life, knew only two things would never change. The first, as he knew all too well, was the weather. The second was this; He was unbelievably, undeniably, unequivocally bored out of his mind.",
+          "Something had to change."
         ],
         decisions: [
           {
@@ -64,11 +64,11 @@ const stories = [
       looks_under_desk: {
         text: [
           "Reaching his hand under the desk, Banks pulled out what would be the single most important piece of paper he'd ever hold. Lightly blowing on the now dusty post-it note, was Ms. Florentine's password, written out in bold, legible writing. PASSWORD123",
-          "Of course, given enough time, and perhaps a bit of wiggle room on entropy, Banks could have possibly guessed the password himself, but that would have lengthened an otherwise fulfilling and timely narrative (that he, nor anyone else to be frank, had time for).",
+          "Of course, given enough time, and perhaps a bit of wiggle room on entropy, Banks could have probably guessed the password himself, but that would have lengthened an otherwise fulfilling and timely narrative (that no one including himself, had time for).",
           "Still, Banks was almost giddy that he had found it with such ease, and swiveled around the chair in front of her desk, gave it a good swipe sending dust abounding, and plopped down into the seat",
           "All the computers on the Leviathan were the same. Simple, intuitive, and oftentimes built by the lowest bidder. They were the culmination of countless many hours of efforts in standardization, improved accessibility, and accommodating user experiences.",
           "Holding down the shift key (the capslock having long-since been removed for more accommodating written conversation), Banks typed out the password, and as easy as that, he was now operating as Ms. Florentine. The ships timing and clocks were entirely under his control.",
-          "Time for a change"
+          "Time for a change."
         ],
         decisions: [
           {
@@ -80,13 +80,13 @@ const stories = [
       looks_under_papers: {
         text: [
           "Grabbing the piles of paper strewn out on her desk, Banks began to rummage through them.",
-          "'Daylight Savings: The Hour is at Hand.'",
-          "'Compliance and You: Everything Works Better When You Are Compliant",
           "'Weather Watching: Weathering the Storm'",
-          "None of these were what he needed, immensely interesting and tempting as they were. Perhaps another time he'd be able to more closely examine them, but now was not the time. His patience running short, he began throwing papers hither and thither, desperate searching",
+          "'Daylight Savings: The Hour is at Hand.'",
+          "'Compliance and You: There's No Better Crporate Compliment Then Being Compliant'",
+          "None of these were what he needed, immensely interesting and tempting as they were. Perhaps another time he'd be able to more closely examine them, but now was not the time. His patience running short, he began throwing papers hither and thither, desperately searching",
           "'A Matter of Time: Seize the Daylight Savings'",
           "'No Time Like the Present: A Meta-Analysis on the Time of Day and the Effects on Productivity'",
-          "With a frustrated sigh, Banks slumped onto the ground, a mountain of papers strewn out around him in a ring. Perhaps it wasn't here, perhaps it wasn't ANYWHERE. The one thing he needed was out of his reach. He was beginning to feel a tad dejected.",
+          "With a frustrated sigh, Banks slumped onto the ground, a mountain of papers strewn out around him in a ring. Perhaps it wasn't here, perhaps it wasn't anywhere. The one thing he needed was out of his reach. He was beginning to feel a tad dejected.",
           "Then, out of the corner of his eye, he saw a piece of paper flapping slowly from the air-conditioning in the room. Directly under the desk, almost out of sight, was a single, faded post-it note."
         ],
         decisions: [
@@ -121,7 +121,7 @@ const stories = [
           "Occupation: Astrological Intraship Meteorologist Level 2",
           "On a side note, he felt that he had been snubbed in regards to his peer review, which had been pushed back quite a few times due to scheduling conflicts. Best to take a raincheck on that one. Glancing back at the paper, his eyes fell on a block of text.",
           "'For all individuals not previously pre-approved by filling the pre-approval weather change forms, all items herin too should not be filled unless aforementioned items are reconciled, or individuals and entities complicit in their upkeep are granted a pre-authorized Non-pre-approval pardon for a Post-Approval process posthumously to all previously mentioned parties.",
-          "Mr banks head furrowed, and he leaned in closer, pen hanging in mid air",
+          "Mr. banks head furrowed, and he leaned in closer, pen hanging in mid air",
           "In such case that individuals are granted the pre-authorized Non-pre-approval pardon for a Post-Approval process, all forms must be further accompanied by a 'Supplementary Form 36-A', which will outline the various inconsistencies to reconcile for proper pre-approval of paperwork",
           "Leaning farther forward, his nose practically touching the paper, he read the increasing smaller print",
           "All groups and parties not within the purview of said processes, will continue along with Supplementary Form 36-D, and in doing so comply with full knowledge and understanding of all prerequisites of paperwork as so far documented.",
@@ -141,7 +141,7 @@ const stories = [
       },
       supplementary_form_36_a: {
         text: [
-          "Hoping that this would be the last preliminary piece of paperwork, Mr Banks pick up 'Supplementary Form 36-A', and proceed to read:",
+          "Hoping that this would be the last preliminary piece of paperwork, Mr. Banks pick up 'Supplementary Form 36-A', and proceed to read:",
           "Signing this document declares all parties to have filled the appropriate pre-requisite paperwork, including, but not limited to, A Post-Approval Form, or An Alternate Post-Approval Form, with the former preceded by a pre-approval process, or the latter preceded by a Pre-Post-Alternate Supplementary form.",
           "Looking down, Mr. Banks signed his name on the dotted line."
         ],
@@ -154,7 +154,7 @@ const stories = [
       },
       file_actual_weather_change: {
         text: [
-          "Had he been any other man, he would perhaps be worried at this point that he had missed some detail, some nuance, in the seemingly endless list of documents to complete. Mr Banks, however, was no ordinary man, and upon lifting up the final 'Request for Weather Change' document, he knew with complete certainty that he had taken the one, and only, correct path to create the proper paper trail. 100% certain, and nothing less",
+          "Had he been any other man, he would perhaps be worried at this point that he had missed some detail, some nuance, in the seemingly endless list of documents to complete. Mr. Banks, however, was no ordinary man, and upon lifting up the final 'Request for Weather Change' document, he knew with complete certainty that he had taken the one, and only, correct path to create the proper paper trail. 100% certain, and nothing less",
           "Looking down, he quickly requested, with all the poetic grace that a government contracted astrological engineer could conjure, a compelling and unequivocal request for a small and intermittent downpour next Tuesday (as any other day, of course, being far too ambitious of a day to request)",
           "It wasn't much, maybe 5-10 minutes of a gentle trickle, but it was what the ship needed, what 'everyone' needed. A little spontaneity, a little change was good, and Mr. Banks would be the one to create it.",
           "Tucking the form inside a tube, he placed it into the delivery system next to him, where it shot up into the ceiling, and out of site. A moment later, a beep echoed out, and a single line appeared on the screen in front of him:",
@@ -225,11 +225,11 @@ const stories = [
         text: [
           "Banks walked quietly over towards the door, and with a push, swung it open into the hallway",
           "He had traversed this hallway many times before. Directly across from his room was Ms. Florentines office, now long since deserted. She had, in the past, been occupied with orchestrating the administrative matters regarding daylight savings. An altogether tricky business, Banks and Ms. Florentine had often discussed the most effective manner in which to instate a time savings protocol for intra-ship scheduling. Banks prefereded appending the hour at the back, and Ms. Florentine appending it to the front.",
-          "In all honesty, the implementation of Daylight savings was never a popular democratic initiative. Shifting an hour back would have caused massive interruption to meteorological instruments, which were only ever designed for a unidirectional time flow in intra-ship time schedule. On the other hand, shifting the hour to the front was a bureaucratic nightmare. Local mayers and leaders were concerned shifting forward would inevitably cause a mass mishap in late appointments, unbused school children in the wee hours of the morning, and congressional sessions that would interweave into pre-planned holidays. It was considered far too risky, and far too difficult. And so it was left lingering.",
-          "As for Ms. Florentine, she was a victim of recent downsizing across multiple departments, having long since left the Meteorological and Logistics Offices. Her room though had never been cleaned out, as both HR and maintenance had been downsized as well. The matter had long since fallen to the wayside. Thus, there her room sat, door slightly ajar, the faint glow of monitors and dusty cabinets wafting into the hallway.",
-          "It was then that Mr Banks had an idea. It was a most brilliant idea, possibly the best idea that he had had in a long, long time. It was, in fact, such a good idea, that Banks didn't even feel the need to say it outloud, or even mull it over in his internal narration. It was a truly, unequivocally, brilliant idea.",
-          "Stepping across the Hallway, Banks pushed open the door to Ms. Florentines' office, and gazed into the quiet and solemn room. In her time in Astrological Orchestration, Ms. Florentine had an immense amount of discretion in controlling the timing of various events. Sundown, sunrise, intervals, medians, and means of all kinds for various time distribution of weather effects, she was, by all accounts, the de-facto head of not what, but 'when'. Despite all that, despite her mastery of time, she was also a terribly forgetful person, and she compensated by writing things down. She wrote EVERYTHING down.",
-          "Banks stepped into the room, and closed the door behind him. He took care to do so quietly, and with immense care, locked in behind him. It was best to not have any unplanned visitors, especially in an office as busy as this one.",
+          "In all honesty, the implementation of Daylight savings was never a popular democratic initiative. Shifting an hour back would have caused massive interruption to meteorological instruments, which were only ever designed for a unidirectional time flow in the intra-ship time schedule. On the other hand, shifting the hour to the front was a bureaucratic nightmare. Local mayors and leaders were concerned shifting forward would inevitably cause a mass mishap in late appointments, unbused school children in the wee hours of the morning, and congressional sessions that would interweave into pre-planned holidays. It was considered far too risky, and far too difficult. And so it was left unfinished.",
+          "As for Ms. Florentine, she was a victim of recent downsizing across multiple departments, having long since left the Meteorological and Logistics Offices. Her room though had never been cleaned out, as both HR and maintenance had been downsized as well. The matter had long since fallen to the wayside. Thus, there her room sat, door slightly ajar, the faint glow of monitors and dust from the cabinets wafting into the hallway.",
+          "It was then that Mr. Banks had an idea. It was a most brilliant idea, possibly the best idea that he had had in a long, long time. It was, in fact, such a good idea, that Banks didn't even feel the need to say it outloud, or even mull it over in his internal narration. It was a truly, unequivocally, brilliant idea.",
+          "Stepping across the hallway, Banks pushed open the door to Ms. Florentines' office, and gazed into the quiet and solemn room. In her time in Astrological Orchestration, Ms. Florentine had an immense amount of discretion in controlling the timing of various events. Sundown, sunrise, intervals, medians, and means of all kinds for various time distribution of weather effects. She was, by all accounts, the de-facto head of not what, but 'when'. Despite all that, despite her mastery of time, she was also a terribly forgetful person, and she compensated by writing things down. She wrote everything down.",
+          "Banks stepped into the room, and closed the door behind him. He took care to do so quietly, and locked it behind him. It was best to not have any unplanned visitors, especially in an office as busy as this one.",
           "Turning around, he stepped over towards the desk, and began looking for a note"
         ],
         decisions: [
@@ -277,9 +277,9 @@ const stories = [
       },
       pre_post_alternate_supplementary_form_38_a: {
         text: [
-          "Hoping that this would be the last preliminary piece of paperwork, Mr Banks pick up 'Supplementary Form 36-A', and proceed to read:'",
+          "Hoping that this would be the last preliminary piece of paperwork, Mr. Banks pick up 'Supplementary Form 36-A', and proceed to read:'",
           "Signing this document declares all parties as having filled Either A Post-Approval, or Alternate-Post-Approval Form, without Supplementary forms, following a previously pre-approved Process for submission on behalf of all mentioned parties.",
-          "Looking down, Mr Banks signed his name on the dotted line. 'Close enough'"
+          "Looking down, Mr. Banks signed his name on the dotted line. 'Close enough'"
         ],
         decisions: [
           {
@@ -315,11 +315,11 @@ const stories = [
     stop_the_clocks: {
       text: [
         "Sitting in a small office, high above the city, Banks realized that he, and he alone, had complete control of the weather, if only until someone realized the now layed-off Ms. Florentine had suddenly logged in on a Sunday afternoon. Of course, that was unlikely. The investors of the Leviathan had spared no expense in its creation, save for Technical and Administrative personnel, many of whom refused to work on Sundays. They were a bit understaffed.",
-        "On the screen in front of him, the time was 1:35. In one minute, the weekly pre-scheduled neighborhood association's Sunday downpour would end. He had to make the most of this time, savor every moment, or better yet, stop it from ending. Furiously typing, fingers flying on the keyboard, he entered out a single command, then hit enter. Waiting, holding his breath, the clock stuck at 1:35, unchanging. Every synchronized clock on the ship was stuck at 1:35pm, on a Sunday afternoon. Outside, the rain continued pouring.",
-        "Spinning in his chair to stare at the monitors next to him, Banks watched as the gentle downpour outside continued past it's usually pre-determined stop time of 1:36. Basking in the gentle glow the screens, each monitor was a window into the different lives of the neighborhoods on the ship. Those neighborhoods, from the look of it, were quickly descending into chaos.",
+        "On the screen in front of him, the time was 1:35. In one minute, the weekly pre-scheduled neighborhood association's Sunday downpour would end. He had to make the most of this time, savor every moment, or better yet, stop it from ending. Furiously typing, fingers flying on the keyboard, he entered out a single command, then hit enter. Waiting, holding his breath, the clock halted at 1:35, unchanging. Every synchronized clock on the ship was stuck at 1:35pm, on a Sunday afternoon. Outside, the rain continued pouring.",
+        "Spinning in his chair to stare at the monitors next to him, Banks watched as the gentle and delicate downpour outside continued past it's usually pre-determined stop time of 1:36. Basking in the gentle glow the screens, each monitor was a window into the different lives of the neighborhoods on the ship. Those neighborhoods, from the look of it, were quickly descending into chaos.",
         "Many of the streets were starting to show signs of flooding. The storm drains, normally well equipped to funnel water to redistribution centers, were no longer open. The storm systems were independently scheduled, using their own internal clocks for redundancy. It's system, and the meteorological systems, were now completely out of sync.",
-        "On another screen, small shapes, which Banks could only assume to be children, were jumping in the small lakes left by the downpour. Around them, a sea of cars were beginning to form, their owners long having abandoned them due to a lack of visibility. It had been years since any cars were built with windshield wipers, as it neither rain, nor gusted. At Least, not without a schedule.",
-        "A smile slowly began to creep up the sides of Banks mouth, as he eyes darted from one monitor to another.A man was shaking his fist at a cloud, using a waste bin as a makeshift umbrella. A woman was covering her dogs mouth, fearing it might drown, as the creature stared into the downpour, utterly and completely dumbfounded.",
+        "On another screen, small shapes, which Banks could only assume to be children, were jumping in the small lakes left by the downpour. Around them, a sea of cars were beginning to form, their owners long having abandoned them due to a lack of visibility. It had been years since any cars were built with windshield wipers, as it neither rain, nor snowed. At Least, not without a schedule.",
+        "A smile slowly began to creep up the sides of Banks mouth, as he eyes darted from one monitor to another. A man was shaking his fist at a cloud, using a waste bin as a makeshift umbrella. A woman was covering her dogs mouth, fearing it might drown, as the creature stared into the downpour, utterly and completely dumbfounded.",
         "And while the mayhem roared down on the city, banks began to lean back in his chair, and grinned a large toothy grin. People panicking, children playing, no one would be sure when, or whether, the weather would end; And that was exactly as Banks intended it."
       ],
       final: true
