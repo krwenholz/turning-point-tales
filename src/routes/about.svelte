@@ -38,8 +38,7 @@
     created a place where anyone can get lost for the few minutes they have.
     Meet our founders KC, Kyle, and Cody. You can continue gawking at us or
     start reading stories
-    <a href="/landing">RIGHT NOW</a>
-    .
+    <a href="/user/new">RIGHT NOW.</a>
   </p>
 
   <img class="hero" src="/three_kings.jpg" alt="Three handsome creators" />

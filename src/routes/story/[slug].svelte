@@ -44,7 +44,7 @@
   const released = new Date(generalRelease) < new Date();
   const oneDay = 1 * 24 * 60 * 60 * 1000;
   let previousNodeName = $page.query.storyNode;
-  let visitations = new Set([]);
+  let visitations = [];
   let csrf;
   let badgePopup;
 
@@ -75,7 +75,8 @@
         if (!response.ok) throw new Error("Response was not ok");
         Logger.info("Successfully updated visitations", detail.storyNode);
         previousNodeName = detail.storyNode;
-        visitations.add(detail.storyNode);
+        if (visitations.indexOf(detail.storyNode) !== -1)
+          visitations.push(detail.storyNode);
       })
       .catch(error => {
         Logger.error("Error updating visitations", error);
@@ -95,7 +96,8 @@
       })
       .then(recordedVisitations => {
         for (let visitation of recordedVisitations) {
-          visitations.add(visitation.node_name);
+          visitations.push(visitation.node_name);
+          visitations = visitations;
         }
       })
       .catch(error => {
@@ -116,6 +118,7 @@
       store="{mainAdventure(story)}"
       className="adventure"
       storyNode="{$page.query.storyNode}"
+      {visitations}
       on:pageChange="{recordVisit}"
       on:pageChange="{({ detail }) => badgePopup.newPage(detail.storyNode)}" />
     <BadgePopup {badges} bind:this="{badgePopup}" />
