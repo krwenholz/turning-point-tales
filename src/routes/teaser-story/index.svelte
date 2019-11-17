@@ -1,3 +1,19 @@
+<script>
+  import teaserStory from "./teaserStory.js";
+  import { fade } from "../../lib/Transition";
+  import Adventure from "../../components/Adventure/index.svelte";
+  import Patreon from "../../components/icons/Patreon.svelte";
+  import Book from "../../components/icons/Book.svelte";
+  import Button from "../../components/Button.svelte";
+  import * as sapper from "@sapper/app";
+
+  const { page } = sapper.stores();
+
+  let storyNode = $page.query.storyNode;
+
+  const redirect = href => () => sapper.goto(href);
+</script>
+
 <style>
   .teaser-story {
     width: 100%;
@@ -15,22 +31,6 @@
     margin: 0 auto 0 auto;
   }
 </style>
-
-<script>
-  import teaserStory from "./teaserStory.js";
-  import { fade } from "../../lib/Transition";
-  import Adventure from "../../components/Adventure/index.svelte";
-  import Patreon from "../../components/icons/Patreon.svelte";
-  import Book from "../../components/icons/Book.svelte";
-  import Button from "../../components/Button.svelte";
-  import * as sapper from "@sapper/app";
-
-  const { page } = sapper.stores();
-
-  let storyNode = $page.query.storyNode;
-
-  const redirect = href => () => sapper.goto(href);
-</script>
 
 <svelte:head>
   <title>teaser-story</title>

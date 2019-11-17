@@ -1,3 +1,33 @@
+<script>
+  import Button from "src/components/Button.svelte";
+  import { goto } from "@sapper/app";
+
+  export let id;
+  export let author;
+  export let title;
+  export let preview;
+  export let badges;
+  export let tags;
+  export let generalRelease;
+  export let isSubscriber;
+
+  $: releaseDate = new Date(generalRelease);
+  $: isReleased = releaseDate < new Date();
+
+  let acheivedBadges = [];
+  let undiscoveredBadgePercent = 0;
+
+  $: {
+    acheivedBadges = [];
+    undiscoveredBadgePercent = 0;
+    for (let badge of badges) {
+      if (badge.visited) acheivedBadges.push(badge);
+      else undiscoveredBadgePercent++;
+    }
+    undiscoveredBadgePercent = undiscoveredBadgePercent / badges.length;
+  }
+</script>
+
 <style>
   article {
     padding: 16px;
@@ -49,36 +79,6 @@
     color: var(--root-call-to-action);
   }
 </style>
-
-<script>
-  import Button from "src/components/Button.svelte";
-  import { goto } from "@sapper/app";
-
-  export let id;
-  export let author;
-  export let title;
-  export let preview;
-  export let badges;
-  export let tags;
-  export let generalRelease;
-  export let isSubscriber;
-
-  $: releaseDate = new Date(generalRelease);
-  $: isReleased = releaseDate < new Date();
-
-  let acheivedBadges = [];
-  let undiscoveredBadgePercent = 0;
-
-  $: {
-    acheivedBadges = [];
-    undiscoveredBadgePercent = 0;
-    for (let badge of badges) {
-      if (badge.visited) acheivedBadges.push(badge);
-      else undiscoveredBadgePercent++;
-    }
-    undiscoveredBadgePercent = undiscoveredBadgePercent / badges.length;
-  }
-</script>
 
 <article>
   <header>

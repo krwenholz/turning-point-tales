@@ -1,55 +1,3 @@
-<style>
-  /* Hack to avoid cross-browser scrollbar pop-in */
-  :global(html) {
-    overflow-y: overlay;
-    overflow-x: hidden;
-    margin-right: calc(-1 * (100vw - 100%));
-  }
-
-  .adventure {
-    min-height: 100%;
-    max-width: 80ch;
-    flex: 1 0 auto;
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin: 0 auto 0 auto;
-  }
-
-  h3 {
-    display: flex;
-    flex-flow: column;
-    margin: 0 auto 0 auto;
-  }
-
-  nav {
-    margin-top: auto;
-    width: 100%;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: flex-start;
-  }
-
-  .adventure :global(.button) {
-    margin-bottom: 16px;
-  }
-
-  .end-of-story-navigation {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-evenly;
-    margin-top: 32px;
-  }
-
-  @media only screen and (min-height: 700px) {
-    nav :global(.button) {
-      width: fit-content;
-    }
-  }
-</style>
-
 <script>
   import Button from "../Button.svelte";
   import CrossOut from "../icons/CrossOut.svelte";
@@ -208,6 +156,58 @@
     return storyNode;
   };
 </script>
+
+<style>
+  /* Hack to avoid cross-browser scrollbar pop-in */
+  :global(html) {
+    overflow-y: overlay;
+    overflow-x: hidden;
+    margin-right: calc(-1 * (100vw - 100%));
+  }
+
+  .adventure {
+    min-height: 100%;
+    max-width: 80ch;
+    flex: 1 0 auto;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0 auto 0 auto;
+  }
+
+  h3 {
+    display: flex;
+    flex-flow: column;
+    margin: 0 auto 0 auto;
+  }
+
+  nav {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .adventure :global(.button) {
+    margin-bottom: 16px;
+  }
+
+  .end-of-story-navigation {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+    margin-top: 32px;
+  }
+
+  @media only screen and (min-height: 700px) {
+    nav :global(.button) {
+      width: fit-content;
+    }
+  }
+</style>
 
 {#if process.browser}
   <section class="{`adventure ${className}`}">

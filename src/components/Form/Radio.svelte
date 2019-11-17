@@ -1,3 +1,10 @@
+<script>
+  export let className = "";
+  export let checked = false;
+  export let name = "";
+  export let onChange;
+</script>
+
 <style>
   /* Customize the label (the container) */
   .radio {
@@ -47,13 +54,6 @@
     border-radius: 100%;
   }
 </style>
-
-<script>
-  export let className = "";
-  export let checked = false;
-  export let name = "";
-  export let onChange;
-</script>
 
 <label class="radio">
   <input {className} {name} {checked} on:click="{onChange}" type="radio" />

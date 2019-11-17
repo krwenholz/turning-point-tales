@@ -1,11 +1,3 @@
-<style>
-  .yaml-tracker {
-    background: white;
-    overflow-y: scroll;
-    padding: 12px;
-  }
-</style>
-
 <script>
   import yaml from "js-yaml";
   import AnimatedStoryNode from "./AnimatedStoryNode.svelte";
@@ -22,6 +14,14 @@
     [key]: story[key]
   }));
 </script>
+
+<style>
+  .yaml-tracker {
+    background: white;
+    overflow-y: scroll;
+    padding: 12px;
+  }
+</style>
 
 <div class="{'yaml-tracker'}" bind:this="{self}">
   {#each indexedStory as story, idx}

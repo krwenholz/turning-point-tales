@@ -1,3 +1,8 @@
+<script>
+  import Header from "../components/Header.svelte";
+  import Footer from "../components/Footer.svelte";
+</script>
+
 <style>
   :global(html) {
     background-color: whitesmoke;
@@ -29,11 +34,6 @@
     padding-bottom: calc(var(--root-wrapper-padding) * 2);
   }
 </style>
-
-<script>
-  import Header from "../components/Header.svelte";
-  import Footer from "../components/Footer.svelte";
-</script>
 
 <Header />
 

@@ -52,7 +52,6 @@
   $: {
     for (let { badges } of stories) {
       for (let badge of badges) {
-        console.log("xxx", badge, visitations);
         if (visitations.has(badge.node)) {
           badge.visited = true;
         }
@@ -68,6 +67,6 @@
   </p>
 {/if}
 
-<Introduction />
+<Introduction isSubscriber="{userSubscribed($session.user)}" />
 
 <StoryPreviews {stories} isSubscriber="{userSubscribed($session.user)}" />

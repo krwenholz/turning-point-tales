@@ -1,21 +1,3 @@
-<style>
-  label {
-    display: flex;
-    flex-flow: column wrap;
-    margin-bottom: 8px;
-  }
-
-  input {
-    padding: 0 8px 0 8px;
-    margin: 4px 0 8px 0;
-    border: var(--input-border);
-    border-radius: var(--root-border-radius);
-    min-height: 36px;
-    color: currentColor;
-    font-size: var(--root-font-size-md);
-  }
-</style>
-
 <script>
   import { createEventDispatcher } from "svelte";
 
@@ -33,6 +15,24 @@
   export const setCustomValidity = (...props) =>
     input.setCustomValidity(...props);
 </script>
+
+<style>
+  label {
+    display: flex;
+    flex-flow: column wrap;
+    margin-bottom: 8px;
+  }
+
+  input {
+    padding: 0 8px 0 8px;
+    margin: 4px 0 8px 0;
+    border: var(--input-border);
+    border-radius: var(--root-border-radius);
+    min-height: 36px;
+    color: currentColor;
+    font-size: var(--root-font-size-md);
+  }
+</style>
 
 <label>
   <slot />

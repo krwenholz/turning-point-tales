@@ -1,3 +1,11 @@
+<script>
+  export let required = false;
+  export let className = "";
+  export let id = "";
+  export let checked = false;
+  export let onChange;
+</script>
+
 <style>
   .checkbox {
     display: flex;
@@ -48,14 +56,6 @@
     margin-left: 8px;
   }
 </style>
-
-<script>
-  export let required = false;
-  export let className = "";
-  export let id = "";
-  export let checked = false;
-  export let onChange;
-</script>
 
 <label class="{`checkbox ${className}`}">
   <input {...$$props} on:click="{onChange}" type="checkbox" />

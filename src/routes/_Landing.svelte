@@ -1,3 +1,16 @@
+<script>
+  import Button from "../components/Button.svelte";
+  import TypeText from "../components/TypeText.svelte";
+  import { fade } from "../lib/Transition";
+  import { goto } from "@sapper/app";
+
+  let typingEnd = false;
+  let typer;
+
+  const redirect = (href, storyNode) => () =>
+    goto(`${href}?storyNode=${storyNode}`);
+</script>
+
 <style>
   .landing {
     width: 100%;
@@ -86,19 +99,6 @@
     }
   }
 </style>
-
-<script>
-  import Button from "../components/Button.svelte";
-  import TypeText from "../components/TypeText.svelte";
-  import { fade } from "../lib/Transition";
-  import { goto } from "@sapper/app";
-
-  let typingEnd = false;
-  let typer;
-
-  const redirect = (href, storyNode) => () =>
-    goto(`${href}?storyNode=${storyNode}`);
-</script>
 
 <section class="landing">
   <div class="text">

@@ -1,28 +1,3 @@
-<style>
-  :global(.password-reset) {
-    width: 100%;
-    max-width: 50ch;
-  }
-
-  :global(.password-reset .button) {
-    width: 100%;
-    margin: 32px auto auto auto;
-  }
-
-  :global(.password-reset .input) {
-    width: 100%;
-  }
-
-  .error-msg {
-    color: red;
-    margin: 8px 0 8px 0;
-  }
-
-  a {
-    text-align: left;
-  }
-</style>
-
 <script>
   import * as sapper from "@sapper/app";
   import { fade } from "../lib/Transition";
@@ -64,6 +39,31 @@
     }
   });
 </script>
+
+<style>
+  :global(.password-reset) {
+    width: 100%;
+    max-width: 50ch;
+  }
+
+  :global(.password-reset .button) {
+    width: 100%;
+    margin: 32px auto auto auto;
+  }
+
+  :global(.password-reset .input) {
+    width: 100%;
+  }
+
+  .error-msg {
+    color: red;
+    margin: 8px 0 8px 0;
+  }
+
+  a {
+    text-align: left;
+  }
+</style>
 
 <Form className="password-reset">
   {#if successMsg}

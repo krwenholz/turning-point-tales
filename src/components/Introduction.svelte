@@ -1,3 +1,7 @@
+<script>
+  export let isSubscriber;
+</script>
+
 <style>
   .introduction {
     display: flex;
@@ -13,12 +17,12 @@
     }
 
     h1,
-    p {
+    div {
       align-self: center;
       width: 50%;
     }
 
-    p {
+    div {
       padding-left: 16px;
     }
   }
@@ -40,12 +44,22 @@
 </style>
 
 <section class="introduction">
-  <h1>Where will your next adventure take you?</h1>
+  <h1>Where will you take your next tale?</h1>
 
-  <p>
-    Dive into the world of grues, cardinal directions, and spooky houses.
-    Reading can be scary, and not just for people who are illiterate! Buckle up,
-    and prepare for the adventure ahead; The choice is yours. Your first
-    adventure is up to you; Adventure wisely.
-  </p>
+  <div>
+    {#if !isSubscriber}
+      <p>
+        Looks like you aren't subscribed yet. That's keeping you from the
+        freshest content, exclusive previews, and more. You can fix this by
+        <a href="/user/profile?tab=adventurer">becoming an adventurer.</a>
+      </p>
+    {:else}
+      <p>
+        Dive into the world of grues, cardinal directions, and spooky houses.
+        Reading can be scary, and not just for the illiterate! Buckle up, and
+        prepare for the choices ahead.
+      </p>
+    {/if}
+  </div>
+
 </section>

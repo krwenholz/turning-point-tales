@@ -1,9 +1,3 @@
-<style>
-  p {
-    margin: 1em auto;
-  }
-</style>
-
 <script context="module">
   export function preload() {
     // WARNING: I am empty, but I am incredibly important because Sapper has a dumb bug
@@ -18,6 +12,12 @@
   export let error;
   export let status;
 </script>
+
+<style>
+  p {
+    margin: 1em auto;
+  }
+</style>
 
 <svelte:head>
   <title>{status}</title>

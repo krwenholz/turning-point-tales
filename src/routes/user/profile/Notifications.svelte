@@ -1,3 +1,8 @@
+<script>
+  import CrossOut from "src/components/icons/CrossOut.svelte";
+  import Clock from "src/components/icons/Clock.svelte";
+</script>
+
 <style>
   .notifications {
     position: relative;
@@ -32,11 +37,6 @@
     margin-left: 16px;
   }
 </style>
-
-<script>
-  import CrossOut from "src/components/icons/CrossOut.svelte";
-  import Clock from "src/components/icons/Clock.svelte";
-</script>
 
 <ul class="notifications">
   <li class="notification">

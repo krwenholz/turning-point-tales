@@ -1,14 +1,3 @@
-<style>
-  form {
-    display: flex;
-    flex-flow: column;
-    margin: auto;
-    padding: 16px;
-    display: flex;
-    flex-flow: column;
-  }
-</style>
-
 <script>
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
@@ -19,6 +8,17 @@
 
   export const checkValidity = (...props) => form.checkValidity(...props);
 </script>
+
+<style>
+  form {
+    display: flex;
+    flex-flow: column;
+    margin: auto;
+    padding: 16px;
+    display: flex;
+    flex-flow: column;
+  }
+</style>
 
 <form
   {...$$props}

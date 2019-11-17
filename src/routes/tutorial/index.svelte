@@ -1,3 +1,33 @@
+<script>
+  import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
+  import yaml from "js-yaml";
+  import Button from "src/components/Button.svelte";
+  import Adventure from "src/components/Adventure/index.svelte";
+  import tutorialStory from "src/lib/local-stories/tutorial-story.js";
+  import storyWithConsequences from "src/lib/local-stories/story-with-consequences.js";
+  import Overview from "src/components/Adventure/Overview.svelte";
+  import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
+
+  let overview;
+  let storyNode;
+  let history;
+  let consequences;
+  let selectedStory = storyWithConsequences;
+
+  const update = e => {
+    storyNode = e.detail.storyNode;
+    history = e.detail.history;
+    consequences = e.detail.consequences;
+  };
+
+  const tabSelected = selected => {
+    history = [{ storyNode: "start" }];
+    consequences = [];
+    storyNode = "start";
+    selectedStory = selected;
+  };
+</script>
+
 <style>
   .tutorial {
     display: flex;
@@ -38,36 +68,6 @@
     min-height: 40vh;
   }
 </style>
-
-<script>
-  import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
-  import yaml from "js-yaml";
-  import Button from "src/components/Button.svelte";
-  import Adventure from "src/components/Adventure/index.svelte";
-  import tutorialStory from "src/lib/local-stories/tutorial-story.js";
-  import storyWithConsequences from "src/lib/local-stories/story-with-consequences.js";
-  import Overview from "src/components/Adventure/Overview.svelte";
-  import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
-
-  let overview;
-  let storyNode;
-  let history;
-  let consequences;
-  let selectedStory = storyWithConsequences;
-
-  const update = e => {
-    storyNode = e.detail.storyNode;
-    history = e.detail.history;
-    consequences = e.detail.consequences;
-  };
-
-  const tabSelected = selected => {
-    history = [{ storyNode: "start" }];
-    consequences = [];
-    storyNode = "start";
-    selectedStory = selected;
-  };
-</script>
 
 <svelte:head>
   <title>example-story</title>

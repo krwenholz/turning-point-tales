@@ -1,3 +1,18 @@
+<script>
+  import { slide } from "src/lib/Transition/index.js";
+
+  export let className = "";
+  export let currentStoryNode = ["start"];
+  export let consequences = [];
+  export let history = [{ storyNode: "start" }];
+  $: history = history.map(record => record.storyNode);
+  let highlight = false;
+
+  const highlightOnChange = () => ({
+    update: () => (highlight = true)
+  });
+</script>
+
 <style>
   .overview {
     background: white;
@@ -47,21 +62,6 @@
     animation: 0.4s ease-in highlight forwards;
   }
 </style>
-
-<script>
-  import { slide } from "src/lib/Transition/index.js";
-
-  export let className = "";
-  export let currentStoryNode = ["start"];
-  export let consequences = [];
-  export let history = [{ storyNode: "start" }];
-  $: history = history.map(record => record.storyNode);
-  let highlight = false;
-
-  const highlightOnChange = () => ({
-    update: () => (highlight = true)
-  });
-</script>
 
 <ul class="{`overview ${className}`}">
   <li>

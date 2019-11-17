@@ -1,3 +1,17 @@
+<script>
+  import Button from "../../components/Button.svelte";
+  import Input from "../../components/Form/Input.svelte";
+  import { fetchCsrf } from "../../lib/client/csrf";
+  import { onMount } from "svelte";
+  import { stores } from "@sapper/app";
+
+  const { page } = stores();
+
+  let csrf;
+
+  onMount(() => (csrf = fetchCsrf()));
+</script>
+
 <style>
   .login {
     width: 100%;
@@ -16,20 +30,6 @@
     margin-top: 8px;
   }
 </style>
-
-<script>
-  import Button from "../../components/Button.svelte";
-  import Input from "../../components/Form/Input.svelte";
-  import { fetchCsrf } from "../../lib/client/csrf";
-  import { onMount } from "svelte";
-  import { stores } from "@sapper/app";
-
-  const { page } = stores();
-
-  let csrf;
-
-  onMount(() => (csrf = fetchCsrf()));
-</script>
 
 {#if $page.query.error === 'unknown'}
   <section class="errors text">

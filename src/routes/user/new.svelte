@@ -1,41 +1,3 @@
-<style>
-  .text {
-    margin: auto;
-    max-width: 38rem;
-  }
-
-  section {
-    width: 100%;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  p {
-    text-align: left;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  :global(.checkbox) {
-    margin: 0 8px 16px 0;
-  }
-
-  .form-group {
-    display: flex;
-    align-items: center;
-  }
-
-  .form-group :global(.input) {
-    margin-bottom: 0;
-  }
-
-  :global(.form-group input[type="checkbox"]) {
-    margin-right: 16px;
-  }
-</style>
-
 <script>
   import * as sapper from "@sapper/app";
   import { fade } from "src/lib/Transition";
@@ -86,6 +48,44 @@
     }
   });
 </script>
+
+<style>
+  .text {
+    margin: auto;
+    max-width: 38rem;
+  }
+
+  section {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  p {
+    text-align: left;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  :global(.checkbox) {
+    margin: 0 8px 16px 0;
+  }
+
+  .form-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .form-group :global(.input) {
+    margin-bottom: 0;
+  }
+
+  :global(.form-group input[type="checkbox"]) {
+    margin-right: 16px;
+  }
+</style>
 
 <svelte:head>
   <title>User Creation</title>

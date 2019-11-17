@@ -1,26 +1,3 @@
-<style>
-  section {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    bottom: 10vh;
-    left: 0;
-  }
-
-  p {
-    font-size: var(--root-font-size-lg);
-    text-align: center;
-    background: var(--root-color-background);
-    cursor: pointer;
-    border: 1px solid var(--root-color-primary-altered);
-    border-radius: var(--root-border-radius);
-    padding: var(--root-wrapper-padding);
-    box-shadow: 10px 5px 5px var(--root-color-primary-altered);
-  }
-</style>
-
 <script>
   import { createEventDispatcher } from "svelte";
   import { fade } from "svelte/transition";
@@ -47,6 +24,29 @@
     timeout = null;
   };
 </script>
+
+<style>
+  section {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 10vh;
+    left: 0;
+  }
+
+  p {
+    font-size: var(--root-font-size-lg);
+    text-align: center;
+    background: var(--root-color-background);
+    cursor: pointer;
+    border: 1px solid var(--root-color-primary-altered);
+    border-radius: var(--root-border-radius);
+    padding: var(--root-wrapper-padding);
+    box-shadow: 10px 5px 5px var(--root-color-primary-altered);
+  }
+</style>
 
 {#if earnedBadge}
   <section

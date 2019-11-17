@@ -1,10 +1,3 @@
-<style>
-  .type-text {
-    width: 90%;
-    max-width: 80ch;
-  }
-</style>
-
 <script>
   import { setDynamicInterval } from "../lib/DynamicInterval";
   import { createEventDispatcher } from "svelte";
@@ -78,6 +71,13 @@
     }, getTypingSpeed());
   };
 </script>
+
+<style>
+  .type-text {
+    width: 90%;
+    max-width: 80ch;
+  }
+</style>
 
 <p class="type-text">
   {#if typedText}
