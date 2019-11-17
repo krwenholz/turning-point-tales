@@ -1,11 +1,3 @@
-<style>
-  :global(.adventure) {
-    margin: auto;
-    width: 90%;
-    max-width: 80ch;
-  }
-</style>
-
 <script>
   import Adventure from "src/components/Adventure";
   import * as sapper from "@sapper/app";
@@ -89,6 +81,14 @@
     }
   };
 </script>
+
+<style>
+  :global(.adventure) {
+    margin: auto;
+    width: 90%;
+    max-width: 80ch;
+  }
+</style>
 
 <Adventure
   story="{story.content}"

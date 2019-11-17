@@ -1,3 +1,16 @@
+<script>
+  import { getContext } from "svelte";
+  import { TABS } from "./Tabs.svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+
+  export let name;
+
+  const { registerTab, selectTab, selectedTab, selectIdx } = getContext(TABS);
+
+  registerTab(name);
+</script>
+
 <style>
   button {
     flex: 1;
@@ -14,19 +27,6 @@
     border-bottom: var(--root-border-cta);
   }
 </style>
-
-<script>
-  import { getContext } from "svelte";
-  import { TABS } from "./Tabs.svelte";
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
-
-  export let name;
-
-  const { registerTab, selectTab, selectedTab, selectIdx } = getContext(TABS);
-
-  registerTab(name);
-</script>
 
 <button
   class="tab"

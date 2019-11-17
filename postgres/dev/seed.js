@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
-const {
-  Pool
-} = require('pg');
+const { Pool } = require("pg");
 const Logger = require("js-logger");
 const securePassword = require("secure-password");
-const stories = require('./stories.js');
+const stories = require("./stories.js");
 
 Logger.useDefaults();
 
@@ -18,7 +16,7 @@ const pool = new Pool({
  * RESET Database
  */
 const reset = async () => {
-  Logger.info('Resetting database...');
+  Logger.info("Resetting database...");
 
   try {
     await pool.query(
@@ -29,10 +27,10 @@ const reset = async () => {
     TRUNCATE stories CASCADE;
     TRUNCATE visitations CASCADE;
     TRUNCATE subscriptions CASCADE;
-    `,
+    `
     );
 
-    Logger.info('... Database reset.');
+    Logger.info("... Database reset.");
   } catch (err) {
     Logger.error(err);
     return Promise.reject(err);
@@ -63,12 +61,12 @@ const addUser = async (firstName, lastName, email, password) => {
 };
 
 const seedUsers = async () => {
-  Logger.info('Adding seed users...');
+  Logger.info("Adding seed users...");
 
-  await addUser('Jeff', 'Jefferson', 'jeff@h2wib.com', 'foo');
-  await addUser('John', 'Jefferson', 'test-nonsubscriber@h2wib.com', 'foo');
-  await addUser('kyle', 'kype', 'kyle@h2wib.com', 'foo');
-  await addUser('kc', 'Cool kid', 'kristopherpaulsen@gmail.com', 'foo');
+  await addUser("Jeff", "Jefferson", "jeff@h2wib.com", "foo");
+  await addUser("John", "Jefferson", "test-nonsubscriber@h2wib.com", "foo");
+  await addUser("kyle", "kype", "kyle@h2wib.com", "foo");
+  await addUser("kc", "Cool kid", "kristopherpaulsen@gmail.com", "foo");
 };
 
 /*
@@ -76,7 +74,11 @@ const seedUsers = async () => {
  */
 // Want a real subscription? You can use a dummy card:
 // https://stripe.com/docs/testing#cards
-const addSubscription = async (userEmail, subscriptionPeriodEnd, stripeCustomerId) => {
+const addSubscription = async (
+  userEmail,
+  subscriptionPeriodEnd,
+  stripeCustomerId
+) => {
   try {
     await pool.query(
       `
@@ -97,11 +99,11 @@ const addSubscription = async (userEmail, subscriptionPeriodEnd, stripeCustomerI
 };
 
 const seedSubscriptions = async () => {
-  Logger.info('Seeding subscriptions...');
+  Logger.info("Seeding subscriptions...");
 
   const subEnd = new Date();
   subEnd.setMonth(subEnd.getMonth() + 1);
-  await addSubscription('jeff@h2wib.com', subEnd, 'DUMMY');
+  await addSubscription("jeff@h2wib.com", subEnd, "DUMMY");
 };
 
 /*
@@ -123,7 +125,15 @@ const addStory = async ({
         stories (title, author, badges, preview, content, tags, general_release)
       VALUES ($1, $2, $3, $4, $5, $6, $7)
     `,
-      [title, author, JSON.stringify(badges), preview, JSON.stringify(content), tags, generalRelease]
+      [
+        title,
+        author,
+        JSON.stringify(badges),
+        preview,
+        JSON.stringify(content),
+        tags,
+        generalRelease
+      ]
     );
 
     Logger.info("... Story added", title);
@@ -134,7 +144,7 @@ const addStory = async ({
 };
 
 const seedStories = async () => {
-  Logger.info('Adding seed stories...');
+  Logger.info("Adding seed stories...");
 
   for (const story of stories) {
     await addStory(story);
@@ -167,16 +177,20 @@ const addVisitation = async (userEmail, node, previousNode) => {
 };
 
 const seedVisitations = async () => {
-  Logger.info('Seeding visitations...');
+  Logger.info("Seeding visitations...");
 
-  await addVisitation('jeff@h2wib.com', 'file_actual_weather_change', 'supplementary_form_36_a');
+  await addVisitation(
+    "jeff@h2wib.com",
+    "file_actual_weather_change",
+    "supplementary_form_36_a"
+  );
 };
 
 /**
  * Run
  */
 (async () => {
-  Logger.info('Seeding begins...');
+  Logger.info("Seeding begins...");
 
   await reset();
   await seedUsers();
@@ -184,5 +198,5 @@ const seedVisitations = async () => {
   await seedStories();
   await seedVisitations();
 
-  Logger.info('Seeding finished...');
+  Logger.info("Seeding finished...");
 })();

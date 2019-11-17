@@ -1,3 +1,22 @@
+<script>
+  import { createEventDispatcher } from "svelte";
+
+  export let disabled = false;
+  export let type = "button";
+  export let variation = "button";
+  export let isSubmitting = false;
+
+  let active = false;
+  let self = {};
+  const dispatch = createEventDispatcher();
+
+  const isHover = () => {
+    if (!process.browser) return false;
+
+    return "ontouchstart" in window ? "" : "HOVER";
+  };
+</script>
+
 <style>
   button {
     display: flex;
@@ -61,25 +80,6 @@
     opacity: 0.7;
   }
 </style>
-
-<script>
-  import { createEventDispatcher } from "svelte";
-
-  export let disabled = false;
-  export let type = "button";
-  export let variation = "button";
-  export let isSubmitting = false;
-
-  let active = false;
-  let self = {};
-  const dispatch = createEventDispatcher();
-
-  const isHover = () => {
-    if (!process.browser) return false;
-
-    return "ontouchstart" in window ? "" : "HOVER";
-  };
-</script>
 
 <button
   bind:this="{self}"

@@ -1,3 +1,10 @@
+<script>
+  import Logo from "./icons/Logo.html";
+  import { stores } from "@sapper/app";
+
+  const { session } = stores();
+</script>
+
 <style>
   header {
     display: flex;
@@ -79,13 +86,6 @@
     font-weight: bold;
   }
 </style>
-
-<script>
-  import Logo from "./icons/Logo.html";
-  import { stores } from "@sapper/app";
-
-  const { session } = stores();
-</script>
 
 <header>
   <nav>

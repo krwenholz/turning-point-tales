@@ -22,7 +22,6 @@ describe("Stories", () => {
   it("displays earned badges", () => {
     cy.contains("📁").should("exist");
     cy.contains("😫").should("exist");
-    // TODO(kyle): Add badges so these display
     cy.contains("... only a small number remaining.").should("exist");
     cy.contains("... many more to discover.").should("exist");
   });

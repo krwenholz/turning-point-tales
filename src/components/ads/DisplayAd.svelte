@@ -1,3 +1,16 @@
+<script>
+  import * as sapper from "@sapper/app";
+  import Button from "src/components/Button.svelte";
+  import { choicesAndAttributes, content } from "src/components/ads/data";
+  import { createEventDispatcher } from "svelte";
+  import { sampleSize } from "lodash";
+
+  const dispatch = createEventDispatcher();
+
+  let step = "intro";
+  let tags;
+</script>
+
 <style>
   /* Hack to avoid cross-browser scrollbar pop-in */
   :global(html) {
@@ -43,19 +56,6 @@
     }
   }
 </style>
-
-<script>
-  import * as sapper from "@sapper/app";
-  import Button from "src/components/Button.svelte";
-  import { choicesAndAttributes, content } from "src/components/ads/data";
-  import { createEventDispatcher } from "svelte";
-  import { sampleSize } from "lodash";
-
-  const dispatch = createEventDispatcher();
-
-  let step = "intro";
-  let tags;
-</script>
 
 <section class="display-ad">
   {#if tags === undefined}

@@ -1,12 +1,12 @@
+<script>
+  export let className;
+</script>
+
 <style>
   svg {
     fill: currentColor;
   }
 </style>
-
-<script>
-  export let className;
-</script>
 
 <svg
   version="1.1"

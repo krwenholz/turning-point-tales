@@ -1,28 +1,3 @@
-<style>
-  .stripe-card {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 8px;
-    border: var(--root-border);
-    padding: 8px;
-    border-radius: var(--root-border-radius);
-    font-size: 20px;
-  }
-
-  .errors {
-    color: var(--root-color-error);
-    padding: 8px 0 8px 0;
-  }
-
-  #cancellation {
-    border: var(--root-border);
-    border-color: var(--root-color-error);
-    border-radius: var(--root-border-radius);
-    margin-top: 16px;
-    padding: 8px;
-  }
-</style>
-
 <script>
   import Button from "src/components/Button.svelte";
   import { fetchCsrf } from "src/lib/client/csrf";
@@ -153,6 +128,31 @@
 
   Logger.info($session.user);
 </script>
+
+<style>
+  .stripe-card {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+    border: var(--root-border);
+    padding: 8px;
+    border-radius: var(--root-border-radius);
+    font-size: 20px;
+  }
+
+  .errors {
+    color: var(--root-color-error);
+    padding: 8px 0 8px 0;
+  }
+
+  #cancellation {
+    border: var(--root-border);
+    border-color: var(--root-color-error);
+    border-radius: var(--root-border-radius);
+    margin-top: 16px;
+    padding: 8px;
+  }
+</style>
 
 {#if $session.user.stripeCustomerId}
   <p>
