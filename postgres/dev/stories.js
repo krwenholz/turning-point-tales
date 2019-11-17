@@ -50,8 +50,8 @@ const stories = [
       },
       head_to_hr_kiosk: {
         text: [
-          "Going to HR was not MR. Bank's favorite past time. It was always very involved, very arduous, and worst of all, extremely accommodating. Of course, that wasn't entirely HR's fault. HR had long ago been completely automated. All it's human inhabitants had been fired, layed off, or generally given reduced benefits to 'gradually rightsize' the branch and be replaced with self-help kiosks. Almost immediately, office satisfaction went up by all possible means of measurement, and the program was deemed a smashing success in the quarterly employee survey also supplied by the new HR department.",
-          "Still, Banks wished there were a more convenient way to deal with internal office politics and general job dissatisfaction, but this was the way things were, and there wasn't much Banks could do about it. Getting up, Banks headed to HR, turning 45 degrees in his chair, reaching his hand out, and opening the HR-Self-Help Kiosk tucked away in the corner of his office. Exhausted, annoyed, and perspiring, Banks stepped inside and closed the privacy door behind him, shielding himself from any discerning ears that might be listening in his private office",
+          "Going to HR was not Mr. Bank's favorite past time. It was always very involved, very arduous, and worst of all, extremely accommodating. Of course, that wasn't entirely HR's fault. HR had long ago been completely automated. All its human inhabitants had been fired, layed off, or generally given reduced benefits to 'gradually downsize' the branch and be replaced with self-help kiosks. Almost immediately, office satisfaction went up by all possible means of measurement, and the program was deemed a smashing success in the quarterly employee survey also supplied by the new HR department.",
+          "Still, Banks wished there were a more convenient way to deal with internal office politics and general job dissatisfaction, but this was the way things were, and there wasn't much Banks could do about it. Getting up, Banks headed to HR, turning 45 degrees in his chair, reaching his hand out, and opening the HR-Self-Help Kiosk tucked away in the corner of his office. Exhausted, annoyed, and perspiring, Banks stepped inside and closed the privacy door behind him, shielding himself from any discerning ears that might be listening to his private conversations.",
           "The kiosk was cozy, warm, and generally comfortable enough, with a large screen expanding in the middle of the enclosure. Peering at it, Banks began to fill the prerequisite questions that every HR visit mandated."
         ],
         decisions: [
@@ -99,8 +99,8 @@ const stories = [
       file_a_formal_complaint: {
         text: [
           "Swiveling in his chair, Banks reached into a large set of filing shelves directly next to his desk. If anything was going to change, it would require the most important catalyst of all; A well-documented, and thoroughly filled 'Request for Weather Change'.",
-          "Being the orderly and considerate gentleman that he was, all things required paperwork, and looking for the impromptu change in the weather was no exception. Reaching into the cabinet, he flipped quickly through various request forms, from 'Annual Hail Invariant Comparison Reports', to 'Simplified Rainfall Measurement Metrics for Gross Adjusted Intra-Ship Analytics', the latter being a recurring favorite in the hectic fall months, where such reports allowed for critical quarterly reports.",
-          "Reaching past the otherwise tempting documents, he found the weather request forms, and laid them out in a neat pile on top of his desk. Placing his finger on the page, he scanned towards the top level index, which stated, 'For all pre-approved weather request forms, use 'Post-Approval Form 35-B'. For other requests, please use 'Pre-Approval Form 36-A''. Much to his chagrin, Banks couldn't readily remember if he had ever filled a pre-approval form. Even worse, he wasn't sure if it mattered"
+          "Being the orderly and considerate gentleman that he was, all things required paperwork, and looking for the impromptu change in the weather was no exception. Reaching into the cabinet, he flipped quickly through various request forms, from 'Annual Hail Invariant Comparison Reports', to 'Simplified Rainfall Measurement Metrics for Gross Adjusted Intra-Ship Analytics', the latter being a recurring favorite in the hectic fall months, where such reports allowed for critical quarterly presentations.",
+          "Reaching past the otherwise tempting documents, he found the weather request forms, and laid them out in a neat pile on top of his desk. Placing his finger on the page, he scanned towards the top level index, which stated, 'For all pre-approved weather request forms, use 'Post-Approval Form 35-B'. For other requests, please use 'Pre-Approval Form 36-A'. Much to his chagrin, Banks couldn't readily remember if he had ever filled a pre-approval form. Even worse, he wasn't sure if it mattered"
         ],
         decisions: [
           {
@@ -143,20 +143,20 @@ const stories = [
         text: [
           "Hoping that this would be the last preliminary piece of paperwork, Mr Banks pick up 'Supplementary Form 36-A', and proceed to read:",
           "Signing this document declares all parties to have filled the appropriate pre-requisite paperwork, including, but not limited to, A Post-Approval Form, or An Alternate Post-Approval Form, with the former preceded by a pre-approval process, or the latter preceded by a Pre-Post-Alternate Supplementary form.",
-          "Looking down, Mr Banks signed his name on the dotted line."
+          "Looking down, Mr. Banks signed his name on the dotted line."
         ],
         decisions: [
           {
             storyNode: "file_actual_weather_change",
-            label: "File the weather change"
+            label: "Sign name, and file the weather change request"
           }
         ]
       },
       file_actual_weather_change: {
         text: [
-          "Had he been any other man, he would perhaps be worried at this point that he had missed some detail, some nuance, in the seemingly endless list of documents to complete. Mr Banks, however, was no ordinary man, and upon lifting up the final 'Request for Weather change' document, he knew with complete certainty that he had taken the one, and only, correct path to create the proper paper trail. 100% certain, and nothing less",
-          "Looking down, he quickly requested, with all the poetic grace that a government contracted astrological engineer could conjure, a compelling and unequivocal request for a small and intermittent downpour next Tuesday(Monday, of course, being far too ambitious of a day to request)",
-          "It wasn't much, maybe 5-10 minutes of a gentle trickle, but it was what the ship needed, what 'everyone' needs. A little spontaneity, a little change was good, and Mr Banks would be the one to create it.",
+          "Had he been any other man, he would perhaps be worried at this point that he had missed some detail, some nuance, in the seemingly endless list of documents to complete. Mr Banks, however, was no ordinary man, and upon lifting up the final 'Request for Weather Change' document, he knew with complete certainty that he had taken the one, and only, correct path to create the proper paper trail. 100% certain, and nothing less",
+          "Looking down, he quickly requested, with all the poetic grace that a government contracted astrological engineer could conjure, a compelling and unequivocal request for a small and intermittent downpour next Tuesday (as any other day, of course, being far too ambitious of a day to request)",
+          "It wasn't much, maybe 5-10 minutes of a gentle trickle, but it was what the ship needed, what 'everyone' needed. A little spontaneity, a little change was good, and Mr. Banks would be the one to create it.",
           "Tucking the form inside a tube, he placed it into the delivery system next to him, where it shot up into the ceiling, and out of site. A moment later, a beep echoed out, and a single line appeared on the screen in front of him:",
           "Next Tuesday, imminent showers. 4 minutes, 9:37 pm to 9:41 pm. Followed by clear skies",
           "With a satisfied grin, Banks leaned back in his chair, and stared out the window. Soon, everything would be different, and he had done it the right way: in a small, well lit room, with proper documentation in compact verbiage and sans-serif font, all neatly organized and scheduled.",
@@ -194,18 +194,18 @@ const stories = [
       },
       alternate_post_approval_form_36_a: {
         text: [
-          "With immense trepidation, Banks picked up the 'Alternate Post Approval Form 36-A'. 'Best Not to tempt fate', he thought to himself. Of course, the consequences for filling out the wrong form were generally innocent enough, usually just requiring more forms. Usually.",
+          "With immense trepidation, Banks picked up the 'Alternate Post Approval Form 36-A'. 'Best not to tempt fate', he thought to himself. Of course, the consequences for filling out the wrong form were generally innocent enough, usually just requiring more forms. Usually...",
           "Staring down, Banks began to dot his I's, check boxes, and give great attention to all matters of minutiae in this, the sacred recording of logistics",
           "Name: Jonathan Banks",
           "Age: 30",
           "Occupation: Astrological Intraship Meteorologist Level 2",
-          "'Standard questions so far', he thought to himself, scribbling and checkmarking with wild abandon. He was at this point in his life quite adept at maneuvering the complex world of forms and filings, recording details with the same love an attention a sculpture would when pulling forms out of rock; He had submitted many forms in his day, and he was becoming exceedingly efficient at it.",
+          "'Standard questions so far', he thought to himself, scribbling and checkmarking with wild abandon. He was at this point in his life quite adept at maneuvering the complex world of forms and filings, recording details with the same love an attention a sculpter would when pulling beauty out of rock; He had submitted many forms in his day, and he had made it into something of an art.",
           "Looking down, he saw in what was becoming gradually smaller, and much finer print, the following:",
           "'For all individuals herein referred to as the 'consenting party', do acknowledge that they have filled out the following documents, wholey, and completely, in the order hereby presented, free of omission, inclusion, or partial completion'",
           "'The 'Alternate Post-Approval Form 36-A', without the subsequent 'Post-Approval Form 35-B'",
-          "Mr Banks blinked, rubbed his forehead, and continued on with the list",
+          "Mr. Banks blinked, rubbed his forehead, and continued on with the list",
           "Both forms completed after the preliminary Approval Process, referenced here as 'Post Approval', but not inclusive of each other, except in the case of a Post-Approval waiver for an unintended filling of an Alternate Post-Approval in-tandem with a Post-Approval Form.",
-          "Mr Banks eyes narrow as he leaned closer to the page.",
+          "Mr. Banks eyes narrow as he leaned closer to the page.",
           "Should such a filing occur, whether known or unknown willining to the client, an additional 'Pre-Post-Alternate Supplementary Waiver Form 38-A' should be filled, such that all forms will be re reconciled post submission but pre consideration",
           "Once again lifting up the page, Mr. Banks Saw two other documents underneath"
         ],
@@ -249,7 +249,7 @@ const stories = [
           "Pressing the screen, he proceeded to answer the discrete questionnaire",
           "'Do you wish to self identify?'",
           "'Sure', Banks thought to himself, and typed in his information",
-          "'Weight: 185'",
+          "'Weight: 185 lb'",
           "'Age: 30'",
           "'Sex: Male'",
           "A small beep emanated from the machine, but it quickly faded away",
@@ -259,19 +259,19 @@ const stories = [
           "'Address: Leviathan Block 34-A, 7th Floor, Room 3'",
           '\'Height: 6"1""\'',
           "'Parent Count: Two'",
-          "'Religious affiliation: Protestant'",
-          "A whirring sound began to emanate from the machine, and Banks was momentarily worried that it might shut off. He'd really rather prefer not to repeat any information",
+          "'Religious affiliation: Unafiliated'",
+          "A whirring sound began to emanate from the machine, and Banks was momentarily worried that it might shut off. He'd really prefer to avoid filling out the form again.",
           "Education Level: Post-Graduate",
           "'Paid-Time-Off: Unlimited'",
           "Gross-Income: 250,000 ISC",
-          "At this point, the machine let our a loud whir, and the smell of smoke began to woft from the back of the machine. With an exasperated sigh, Banks smacked the side of the monitor, and with a chirp, it sprung back to life. A sentence scrolled across the screen:",
-          "Would you like to fill out the adjusted Privilege and Disclosure form"
+          "At this point, the machine let our a loud whir, and the smell of smoke began to woft from the back of the contraption. With an exasperated sigh, Banks smacked the side of the monitor, and with a chirp, it sprung back to life. A sentence scrolled across the screen:",
+          "Would you like to fill out the adjusted Privilege and Disclosure form?"
         ],
         decisions: [
           {
             storyNode: "optional_priveledge_and_adjustment_reconciliation_form",
             label:
-              "Fill out optional Privilege and Adjustment Reconciliation Form"
+              "Do not fill out optional Privilege and Adjustment Reconciliation Form"
           }
         ]
       },
@@ -300,6 +300,14 @@ const stories = [
           {
             storyNode: "consent_and_file_the_complaint",
             label: "Yes"
+          },
+          {
+            storyNode: "consent_and_file_the_complaint",
+            label: "Of Course"
+          },
+          {
+            storyNode: "consent_and_file_the_complaint",
+            label: "Absolutely"
           }
         ]
       }
