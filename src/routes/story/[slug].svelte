@@ -8,6 +8,7 @@
     if (res.status == 200) {
       return {
         story: json.content,
+        storyId: json.content,
         title: json.title,
         badges: json.badges,
         generalRelease: json.general_release
@@ -96,8 +97,10 @@
       })
       .then(recordedVisitations => {
         for (let visitation of recordedVisitations) {
-          visitations.push(visitation.node_name);
-          visitations = visitations;
+          if (visitation.story_id === $page.params.slug) {
+            visitations.push(visitation.node_name);
+            visitations = visitations;
+          }
         }
       })
       .catch(error => {

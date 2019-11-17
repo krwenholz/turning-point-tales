@@ -42,10 +42,8 @@ CREATE TABLE IF NOT EXISTS visitations(
   story_id uuid REFERENCES stories(id),
   node_name TEXT NOT NULL,
   previous_node_name TEXT,
-  total INTEGER NOT NULL DEFAULT 0,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE(user_id, story_id, node_name, previous_node_name)
+  modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS subscriptions(
