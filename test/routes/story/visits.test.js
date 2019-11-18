@@ -1,12 +1,7 @@
-import {
-  pool
-} from "src/lib/server/database";
-import {
-  get,
-  post
-} from "src/routes/story/visits";
+import { pool } from "src/lib/server/database";
+import { get, post } from "src/routes/story/visits";
 
-jest.mock('src/lib/server/database');
+jest.mock("src/lib/server/database");
 
 let req;
 let res;
@@ -17,85 +12,85 @@ beforeEach(() => {
   req = {
     user: {
       id: 1
-    },
+    }
   };
 
   res = {
-    send: jest.fn().mockName('mockSend'),
-    status: jest.fn().mockName('mockStatus'),
-    end: jest.fn().mockName('mockEnd'),
+    send: jest.fn().mockName("mockSend"),
+    status: jest.fn().mockName("mockStatus"),
+    end: jest.fn().mockName("mockEnd")
   };
 
-  pool.query = jest.fn().mockName('query');
+  pool.query = jest.fn().mockName("query");
 });
 
-test('handles new visit', () => {
+test("handles new visit", () => {
   pool.query.mockResolvedValueOnce({});
 
   req.body = {
-    storyId: 'foo',
-    nodeName: 'bar',
-    previousNodeName: 'baz',
+    storyId: "foo",
+    nodeName: "bar",
+    previousNodeName: "baz"
   };
 
   return post(req, res).then(() => {
     expect(res.status).toHaveBeenCalledWith(200);
 
     const [queryString, parameters] = pool.query.mock.calls[0];
-    expect(queryString)
-      .toMatch(/(.|\n)*INSERT INTO visitations(.|\n)*DO UPDATE SET(.|\n)*;/);
-    expect(parameters)
-      .toEqual(expect.arrayContaining([1, 'foo', 'bar', 'baz']));
-  })
+    expect(queryString).toMatch(/(.|\n)*INSERT INTO visitations(.|\n)*;/);
+    expect(parameters).toEqual(
+      expect.arrayContaining([1, "foo", "bar", "baz"])
+    );
+  });
 });
 
-test('handles new visit failure', () => {
-  pool.query.mockRejectedValueOnce('bad thing happened');
+test("handles new visit failure", () => {
+  pool.query.mockRejectedValueOnce("bad thing happened");
 
   req.body = {
-    storyId: 'foo',
-    nodeName: 'bar',
-    previousNodeName: 'baz',
+    storyId: "foo",
+    nodeName: "bar",
+    previousNodeName: "baz"
   };
 
   return post(req, res).then(() => {
     expect(res.status).toHaveBeenCalledWith(500);
 
     const [queryString, parameters] = pool.query.mock.calls[0];
-    expect(queryString)
-      .toMatch(/(.|\n)*INSERT INTO visitations(.|\n)*DO UPDATE SET(.|\n)*;/);
-    expect(parameters)
-      .toEqual(expect.arrayContaining([1, 'foo', 'bar', 'baz']));
-  })
+    expect(queryString).toMatch(/(.|\n)*INSERT INTO visitations(.|\n)*;/);
+    expect(parameters).toEqual(
+      expect.arrayContaining([1, "foo", "bar", "baz"])
+    );
+  });
 });
 
-test('handles returning visits', () => {
+test("handles returning visits", () => {
   pool.query.mockResolvedValueOnce({
-    rows: ['quux']
+    rows: ["quux"]
   });
 
   return get(req, res).then(() => {
     expect(res.status).toHaveBeenCalledWith(200);
-    expect(res.end).toHaveBeenCalledWith(JSON.stringify(['quux']));
+    expect(res.end).toHaveBeenCalledWith(JSON.stringify(["quux"]));
 
     const [queryString, parameters] = pool.query.mock.calls[0];
-    expect(queryString)
-      .toMatch(/(.|\n)*SELECT \* FROM visitations(.|\n)*WHERE(.|\n)*;/);
-    expect(parameters)
-      .toEqual(expect.arrayContaining([1]));
-  })
+    expect(queryString).toMatch(
+      /(.|\n)*SELECT story_id, node_name FROM visitations(.|\n)*WHERE(.|\n)*;/
+    );
+    expect(parameters).toEqual(expect.arrayContaining([1]));
+  });
 });
 
-test('handles returning visits failure', () => {
-  pool.query.mockRejectedValueOnce('bad thing happened');
+test("handles returning visits failure", () => {
+  pool.query.mockRejectedValueOnce("bad thing happened");
 
   return get(req, res).then(() => {
     expect(res.status).toHaveBeenCalledWith(500);
 
     const [queryString, parameters] = pool.query.mock.calls[0];
-    expect(queryString)
-      .toMatch(/(.|\n)*SELECT \* FROM visitations(.|\n)*WHERE(.|\n)*;/);
-    expect(parameters)
-      .toEqual(expect.arrayContaining([1]));
-  })
+    expect(queryString).toMatch(
+      /(.|\n)*SELECT story_id, node_name FROM visitations(.|\n)*WHERE(.|\n)*;/
+    );
+    expect(parameters).toEqual(expect.arrayContaining([1]));
+  });
 });
