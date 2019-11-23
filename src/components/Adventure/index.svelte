@@ -22,7 +22,7 @@
   export let visitations;
   export let store = writable({
     storyNode: storyNode,
-    canSkipIntro: false,
+    hasInitialCompletion: false,
     history: [
       {
         consequences: [],
@@ -33,7 +33,7 @@
   });
 
   $: $store.storyNode = getStartingPoint();
-  $: $store.canSkipIntro = checkInitialCompletion(visitations);
+  $: $store.hasInitialCompletion = checkInitialCompletion(visitations);
   $: currentPage = story[$store.storyNode];
   $: haveRemainingDecisions = !story[$store.storyNode].final;
   $: {
@@ -60,8 +60,8 @@
     $store.history.find(recorded => recorded.storyNode === storyNode);
 
   const recordUnlockSkipIntro = () => {
-    if ($store.canSkipIntro) return;
-    $store.canSkipIntro = currentPage.final;
+    if ($store.hasInitialCompletion) return;
+    $store.hasInitialCompletion = currentPage.final;
   };
 
   const scrollWindow = () => {
@@ -106,7 +106,9 @@
   };
 
   const showSkipIntro = () =>
-    $store.canSkipIntro && $store.storyNode === "start";
+    $store.hasInitialCompletion &&
+    $store.storyNode === "start" &&
+    getStoryNodeAfterIntro(story, 'start') !== 'start';
 
   const skipIntro = () =>
     goToDecision({
@@ -245,7 +247,7 @@
       <nav class="end-of-story-navigation">
         {#if showSkipIntro()}
           <Button variation="secondary" on:click="{skipIntro}">
-            <span>* Skip intro</span>
+            <span>Skip intro</span>
             <Undo />
           </Button>
         {/if}
