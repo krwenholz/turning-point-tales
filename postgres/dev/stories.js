@@ -328,7 +328,7 @@ const stories = [
   {
     author: "Sean Wong-Westbrooke",
     title: "Wagons and Dragons: Caravan to the Capital",
-    tags: ["fantasy", "funny"],
+    tags: ["fantasy", "fast-paced"],
     generalRelease: new Date("January 01, 2030, 03:24:00"),
     badges: [
       {
