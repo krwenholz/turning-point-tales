@@ -11,7 +11,7 @@ import {
 
 const initialState = {
   storyNode: undefined,
-  canSkipIntro: false,
+  hasInitialCompletion: false,
   history: [{
     storyNode: 'start',
     consequences: [],
