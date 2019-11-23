@@ -109,12 +109,25 @@
   });
 </script>
 
+<style>
+
+  .route-adventure :global(.button) {
+    min-width: 100%;
+  }
+
+  @media only screen and (min-width: 600px) {
+    .route-adventure :global(.button) {
+      min-width: auto;
+    }
+  }
+</style>
+
 <svelte:head>
   <title>{title}</title>
 </svelte:head>
 
 {#if isSubscribed || (released && adSeen)}
-  <div class="story-container">
+  <div class="route-adventure">
     <Adventure
       {story}
       {title}

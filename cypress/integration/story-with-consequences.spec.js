@@ -44,6 +44,7 @@ describe('Story with consequences and history', () => {
       .click()
 
     cy.get('button')
+      .contains('well')
       .click();
 
     cy.get('button')
@@ -56,6 +57,7 @@ describe('Story with consequences and history', () => {
       .get('p')
       .contains('Yay, cars are fun')
       .get('button')
+      .contains('well')
       .click()
       .get('p')
       .contains('You could really go for')
