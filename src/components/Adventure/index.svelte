@@ -208,9 +208,8 @@
 
   .end-of-story-navigation {
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     justify-content: space-evenly;
-    margin-top: 32px;
   }
 
   @media only screen and (min-height: 700px) {
@@ -234,12 +233,6 @@
 
     {#if haveRemainingDecisions}
       <nav in:fade>
-        {#if showSkipIntro()}
-          <Button variation="secondary" on:click="{skipIntro}">
-            <span>* Skip intro</span>
-            <Undo />
-          </Button>
-        {/if}
         {#each filterAvailable(currentPage.decisions) as decision}
           <Button
             disabled="{decision.disabled}"
@@ -248,19 +241,26 @@
           </Button>
         {/each}
       </nav>
-    {:else}
+    {/if}
       <nav class="end-of-story-navigation">
-        <Button variation="secondary" on:click="{goBack}">
-          <span>go back</span>
-          <ReplayOne />
-        </Button>
+        {#if showSkipIntro()}
+          <Button variation="secondary" on:click="{skipIntro}">
+            <span>* Skip intro</span>
+            <Undo />
+          </Button>
+        {/if}
+        {#if !haveRemainingDecisions}
         <Button
           variation="secondary"
           on:click="{() => goToDecision({ storyNode: 'start' })}">
           <span>restart</span>
           <Undo />
         </Button>
+        {/if}
+        <Button variation="secondary" on:click={goBack}>
+          <span>go back</span>
+          <ReplayOne />
+        </Button>
       </nav>
-    {/if}
   </section>
 {/if}
