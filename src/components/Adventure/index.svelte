@@ -19,7 +19,7 @@
   export let story;
   export let storyNode;
   export let title;
-  export let visitations;
+  export let visitations = [];
   export let store = writable({
     storyNode: storyNode,
     hasInitialCompletion: false,
