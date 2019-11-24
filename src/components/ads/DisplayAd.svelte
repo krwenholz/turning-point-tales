@@ -77,9 +77,11 @@
       {#each ad.description as line}
         <p>{line}</p>
       {/each}
-      <p>
-        <a href="{ad.link}">I'd like to know more</a>
-      </p>
+      {#each ad.links as { source, url }}
+        <p>
+          <a href="{url}">I'd like to know more ({source})</a>
+        </p>
+      {/each}
     {/each}
 
     <Button on:click="{() => dispatch('end')}">
