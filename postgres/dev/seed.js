@@ -40,17 +40,17 @@ const reset = async () => {
 /*
  * USERS
  */
-const addUser = async (firstName, lastName, email, password) => {
+const addUser = async (firstName, lastName, email, password, type) => {
   try {
     const hash = await passwordHasher.hash(Buffer.from(password));
 
     await pool.query(
       `
       INSERT INTO
-        users (email, first_name, last_name, password_hash)
-      VALUES ($1, $2, $3, $4)
+        users (email, first_name, last_name, password_hash, type)
+      VALUES ($1, $2, $3, $4, $5)
     `,
-      [email, firstName, lastName, hash]
+      [email, firstName, lastName, hash, type]
     );
 
     Logger.info("... User added", email);
@@ -63,10 +63,11 @@ const addUser = async (firstName, lastName, email, password) => {
 const seedUsers = async () => {
   Logger.info("Adding seed users...");
 
-  await addUser("Jeff", "Jefferson", "jeff@h2wib.com", "foo");
-  await addUser("John", "Jefferson", "test-nonsubscriber@h2wib.com", "foo");
-  await addUser("kyle", "kype", "kyle@h2wib.com", "foo");
-  await addUser("kc", "Cool kid", "kristopherpaulsen@gmail.com", "foo");
+  await addUser("Jeff", "subscriber", "jeff@h2wib.com", "foo", 0);
+  await addUser("Non Sub", "not", "test-nonsubscriber@h2wib.com", "foo", 0);
+  await addUser("Admin", "admin", "foo@h2wib.com", "foo", 20);
+  await addUser("Creator", "creator", "kristopherpaulsen@gmail.com", "foo", 10);
+  await addUser("kc", "kid", "kristopherpaulsen@gmail.com", "foo", 10);
 };
 
 /*

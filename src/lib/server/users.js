@@ -2,9 +2,7 @@ import AWS from "aws-sdk";
 import Logger from "js-logger";
 import config from "config";
 import securePassword from "secure-password";
-import {
-  pool
-} from "src/lib/server/database.js";
+import { pool } from "src/lib/server/database.js";
 
 const passwordHasher = securePassword();
 
@@ -19,6 +17,7 @@ const findUser = async identifier => {
         users.id as id,
         users.first_name as "firstName",
         users.last_name as "lastName",
+        users.type as "type",
         users.password_hash as "passwordHash",
         subscriptions.stripe_customer_id as "stripeCustomerId",
         subscriptions.subscription_id as "subscriptionId",
@@ -49,6 +48,7 @@ const findUserSafeDetails = async identifier => {
         users.email,
         users.id as id,
         users.first_name as "firstName",
+        users.type as "type",
         subscriptions.stripe_customer_id as "stripeCustomerId",
         subscriptions.subscription_id as "subscriptionId",
         subscriptions.subscription_period_end as "subscriptionPeriodEnd"
@@ -72,12 +72,7 @@ const findUserSafeDetails = async identifier => {
   }
 };
 
-const addUser = async ({
-  firstName,
-  lastName,
-  email,
-  password
-}) => {
+const addUser = async ({ firstName, lastName, email, password }) => {
   try {
     const hash = await passwordHasher.hash(Buffer.from(password));
 
@@ -120,9 +115,7 @@ const removeUser = async identifier => {
   }
 };
 
-const updateUserPassword = async (identifier, {
-  password
-}) => {
+const updateUserPassword = async (identifier, { password }) => {
   const hash = await passwordHasher.hash(Buffer.from(password));
 
   try {
@@ -147,7 +140,13 @@ const updateUserPassword = async (identifier, {
   }
 };
 
-const setSubscriptionDetails = async (identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd, errors = null) => {
+const setSubscriptionDetails = async (
+  identifier,
+  stripeCustomerId,
+  subscriptionId,
+  subscriptionPeriodEnd,
+  errors = null
+) => {
   try {
     await pool.query(
       `
@@ -166,7 +165,13 @@ const setSubscriptionDetails = async (identifier, stripeCustomerId, subscription
           subscription_id = $3,
           subscription_period_end = $4;
     `,
-      [identifier, stripeCustomerId, subscriptionId, subscriptionPeriodEnd, errors]
+      [
+        identifier,
+        stripeCustomerId,
+        subscriptionId,
+        subscriptionPeriodEnd,
+        errors
+      ]
     );
     return {
       identifier,
