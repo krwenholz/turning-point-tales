@@ -63,11 +63,10 @@ const addUser = async (firstName, lastName, email, password, type) => {
 const seedUsers = async () => {
   Logger.info("Adding seed users...");
 
-  await addUser("Jeff", "subscriber", "jeff@h2wib.com", "foo", 0);
+  await addUser("Subscriber", "sub", "test-subscriber@h2wib.com", "foo", 0);
   await addUser("Non Sub", "not", "test-nonsubscriber@h2wib.com", "foo", 0);
-  await addUser("Admin", "admin", "admin@h2wib.com", "foo", 20);
+  await addUser("Admin", "admin", "test-admin@h2wib.com", "foo", 20);
   await addUser("Creator", "creator", "test-creator@h2wib.com", "foo", 10);
-  await addUser("kc", "kid", "kristopherpaulsen@gmail.com", "foo", 10);
 };
 
 /*
@@ -104,7 +103,7 @@ const seedSubscriptions = async () => {
 
   const subEnd = new Date();
   subEnd.setMonth(subEnd.getMonth() + 1);
-  await addSubscription("jeff@h2wib.com", subEnd, "DUMMY");
+  await addSubscription("test-subscriber@h2wib.com", subEnd, "DUMMY");
 };
 
 /*
@@ -181,7 +180,7 @@ const seedVisitations = async () => {
   Logger.info("Seeding visitations...");
 
   await addVisitation(
-    "jeff@h2wib.com",
+    "test-creator@h2wib.com",
     "Mr. Banks",
     "file_actual_weather_change",
     "supplementary_form_36_a"
