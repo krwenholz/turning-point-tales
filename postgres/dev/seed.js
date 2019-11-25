@@ -65,8 +65,8 @@ const seedUsers = async () => {
 
   await addUser("Jeff", "subscriber", "jeff@h2wib.com", "foo", 0);
   await addUser("Non Sub", "not", "test-nonsubscriber@h2wib.com", "foo", 0);
-  await addUser("Admin", "admin", "foo@h2wib.com", "foo", 20);
-  await addUser("Creator", "creator", "kristopherpaulsen@gmail.com", "foo", 10);
+  await addUser("Admin", "admin", "admin@h2wib.com", "foo", 20);
+  await addUser("Creator", "creator", "test-creator@h2wib.com", "foo", 10);
   await addUser("kc", "kid", "kristopherpaulsen@gmail.com", "foo", 10);
 };
 
