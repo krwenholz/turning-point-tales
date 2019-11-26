@@ -50,19 +50,6 @@
 </script>
 
 <style>
-  .text {
-    margin: auto;
-    max-width: 38rem;
-  }
-
-  section {
-    width: 100%;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: center;
-  }
-
   p {
     text-align: left;
     margin-bottom: 0;
@@ -190,7 +177,7 @@
   </Form>
 </section>
 
-<section>
+<section class="text">
   <p>
     If you already have an account with us, you can log in
     <a href="/user/login">here</a>
