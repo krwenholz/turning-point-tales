@@ -247,7 +247,7 @@ const stories = [
         text: [
           "Banks had always considered himself an open and honest person, and, if possible, was happy to help with anything that could be used to create a more inclusive and diverse workplace.",
           "Pressing the screen, he proceeded to answer the discrete questionnaire",
-          "'Do you wish to self identify?'",
+          "'Do you wish to self-identify?'",
           "'Sure', Banks thought to himself, and typed in his information",
           "'Weight: 185 lb'",
           "'Age: 30'",
@@ -259,12 +259,12 @@ const stories = [
           "'Address: Leviathan Block 34-A, 7th Floor, Room 3'",
           '\'Height: 6"1""\'',
           "'Parent Count: Two'",
-          "'Religious affiliation: Unafiliated'",
+          "'Religious affiliation: Unaffiliated'",
           "A whirring sound began to emanate from the machine, and Banks was momentarily worried that it might shut off. He'd really prefer to avoid filling out the form again.",
           "Education Level: Post-Graduate",
           "'Paid-Time-Off: Unlimited'",
           "Gross-Income: 250,000 ISC",
-          "At this point, the machine let our a loud whir, and the smell of smoke began to woft from the back of the contraption. With an exasperated sigh, Banks smacked the side of the monitor, and with a chirp, it sprung back to life. A sentence scrolled across the screen:",
+          "At this point, the machine let out a loud whir, and the smell of smoke began to waft from the back of the contraption. With an exasperated sigh, Banks smacked the side of the monitor, and with a chirp, it sprung back to life. A sentence scrolled across the screen:",
           "Would you like to fill out the adjusted Privilege and Disclosure form?"
         ],
         decisions: [
