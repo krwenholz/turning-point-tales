@@ -259,10 +259,12 @@
           <Undo />
         </Button>
         {/if}
+        {#if $store.storyNode !== 'start'}
         <Button variation="secondary" on:click={goBack}>
           <span>go back</span>
           <ReplayOne />
         </Button>
+        {/if}
       </nav>
   </section>
 {/if}
