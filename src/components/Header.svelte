@@ -36,6 +36,10 @@
     margin: 0 0 0 8px;
   }
 
+  hr {
+    height: 80%;
+  }
+
   :global(svg) {
     width: 24px;
   }
@@ -63,27 +67,31 @@
   }
 
   .user-block {
-    margin-right: 16px;
+    margin-left: 16px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-content: center;
   }
 
-  .user-block:hover .menu,
-  .user-block:active .menu {
-    left: auto;
-    right: 16px;
-  }
-
-  .menu {
-    background-color: var(--root-color-background);
-    border-radius: var(--root-border-radius);
-    border: 1px solid gray;
-    position: absolute;
-    left: -999em;
-    margin-top: 5px;
-    padding: 5px;
-  }
-
-  .menu a:hover {
+  .user-block a:hover {
     font-weight: bold;
+  }
+
+  .user-block > * {
+    margin-left: 10px;
+  }
+
+  .user-block > *:first-child {
+    margin-left: 0;
+  }
+
+  @media only screen and (max-width: 700px) {
+    #user_name,
+    #user_divider {
+      display: none;
+    }
   }
 </style>
 
@@ -96,10 +104,10 @@
     {#if $session.user}
       <div class="user-block">
         <span id="user_name">{$session.user.firstName}</span>
-        <div class="menu">
-          <a href="/user/profile">Profile and settings</a>
-          <a href="/api/user/logout">Logout</a>
-        </div>
+        <hr id="user_divider" />
+        <a href="/user/profile">Profile and settings</a>
+        <hr />
+        <a href="/api/user/logout">Logout</a>
       </div>
     {:else}
       <a data-cy="test-login-hook" href="/user/login" class="nav-vert">
