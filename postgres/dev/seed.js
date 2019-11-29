@@ -154,8 +154,6 @@ const seedStories = async () => {
 /*
  * VISITATIONS
  */
-// Want a real subscription? You can use a dummy card:
-// https://stripe.com/docs/testing#cards
 const addVisitation = async (userEmail, story, node, previousNode) => {
   try {
     await pool.query(
@@ -169,7 +167,7 @@ const addVisitation = async (userEmail, story, node, previousNode) => {
       [userEmail, story, node, previousNode]
     );
 
-    Logger.info("... Visitation added", userEmail);
+    Logger.info("... Visitation added", userEmail, story, node, previousNode);
   } catch (err) {
     Logger.error(err);
     return Promise.reject(err);
@@ -180,7 +178,7 @@ const seedVisitations = async () => {
   Logger.info("Seeding visitations...");
 
   await addVisitation(
-    "test-creator@h2wib.com",
+    "test-subscriber@h2wib.com",
     "Mr. Banks",
     "file_actual_weather_change",
     "supplementary_form_36_a"
