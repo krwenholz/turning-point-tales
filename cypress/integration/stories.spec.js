@@ -20,8 +20,8 @@ describe("Stories", () => {
   });
 
   it("displays earned badges", () => {
-    cy.contains("📁").should("exist");
-    cy.contains("😫").should("exist");
+    cy.contains("📁", { timeout: 3000 }).should("exist");
+    cy.contains("😫", { timeout: 3000 }).should("exist");
     cy.contains("... only a small number remaining.").should("exist");
     cy.contains("... many more to discover.").should("exist");
   });
