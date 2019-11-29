@@ -44,7 +44,7 @@
 
       window.location.href = "/"; //hard refresh needed to propogate login
     } catch ({ response }) {
-      errorMsg = `Unable to create your account. Please check for spelling and formatting.`;
+      errorMsg = `Unable to create your account. Please check your spelling and formatting. If you already have an account, please request a password reset using the login page.`;
     }
   });
 </script>
@@ -166,8 +166,7 @@
         I agree to the
         <a href="/tos">Terms of Service</a>
         and
-        <a href="/privacy">Privacy Policy</a>
-        .
+        <a href="/privacy">Privacy Policy.</a>
       </label>
     </div>
 
@@ -180,7 +179,6 @@
 <section class="text">
   <p>
     If you already have an account with us, you can log in
-    <a href="/user/login">here</a>
-    .
+    <a href="/user/login">here.</a>
   </p>
 </section>
