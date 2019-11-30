@@ -202,28 +202,27 @@
   }
 
   nav {
-    margin: 30px auto auto auto;
+    margin: auto auto 0 auto;
+    width: 100%;
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: flex-start;
   }
 
+  @media only screen and (min-width: 600px) {
+    nav {
+      width: auto
+    }
+  }
+
   .adventure :global(.button) {
-    margin-bottom: 16px;
     min-width: 100%;
   }
 
-  .end-of-story-navigation {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-evenly;
-  }
-
-  @media only screen and (min-height: 700px) {
-    nav :global(.button) {
-      width: fit-content;
-    }
+  .adventure :global(.button:not(:last-of-type)) {
+    margin-bottom: 16px;
+    min-width: 100%;
   }
 </style>
 
