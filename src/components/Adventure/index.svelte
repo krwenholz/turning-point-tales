@@ -215,8 +215,9 @@
     justify-content: flex-start;
   }
 
-  .indented {
+  .poem {
     padding-left: 48px;
+    font-style: italic;
   }
 
   @media only screen and (min-width: 600px) {
@@ -243,7 +244,7 @@
 
     {#if currentPage}
       {#each currentPage.text as paragraph}
-        <p class={get(paragraph, 'format', '')}>
+        <p class={get(paragraph, 'formating', []).join(' ')}>
           {@html get(paragraph, 'words', paragraph)}
         </p>
       {/each}
