@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import compression from "compression";
 import config from "config";
 import cookieParser from "cookie-parser";
-import csurf from "csurf";
 import express from "express";
 import helmet from "helmet";
 import passport from "passport";
@@ -17,7 +16,7 @@ import { Store } from "svelte/store";
 import { Strategy as LocalStrategy } from "passport-local";
 import { exposeCsrfMiddleware } from "src/lib/server/csrf";
 import { exposeStripeKeyMiddleware } from "src/lib/server/stripe";
-import { initPassport } from "./authentication";
+import { initPassport, csrfProtection } from "src/authentication";
 import { pool } from "src/lib/server/database.js";
 import { requireHttps } from "src/lib/server/require_https";
 import { requireRoot } from "src/lib/server/require_root";
@@ -49,7 +48,13 @@ const middleware = [
   bodyParser.urlencoded({
     extended: false
   }),
-  bodyParser.json(),
+  bodyParser.json({
+    verify: (req, res, buf) => {
+      // Sometimes (e.g. Stripe hook routes) we'll want the raw body. So we'll save it.
+      // TODO(kyle): Properly done we would split our express routes up a bit.
+      if (req.path.includes("api")) req.rawBody = buf;
+    }
+  }),
   requestsLogger(),
   requireHttps,
   requireRoot,
@@ -79,16 +84,7 @@ const middleware = [
       secure: !config.get("dev")
     }
   }),
-  csurf({
-    cookie: {
-      domain: config.get("server.domain"),
-      httpOnly: true,
-      key: "session-" + config.get("server.domain"),
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-      sameSite: "lax",
-      secure: !config.get("dev")
-    }
-  }),
+  csrfProtection,
   exposeCsrfMiddleware,
   exposeStripeKeyMiddleware,
   nonce,

@@ -1,4 +1,6 @@
 import Logger from "js-logger";
+import config from "config";
+import csurf from "csurf";
 import passport from "passport";
 import securePassword from "secure-password";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
@@ -75,14 +77,20 @@ const allowedPrefixes = [
   "/user/login"
 ];
 
+const noAuthRoute = req => {
+  return (
+    allowedBaseRoutes.includes(req.path) ||
+    allowedPrefixes.some(prefix => req.path.startsWith(prefix))
+  );
+};
+
 /**
  * Protects our routes based on some rules.
  * You get a redirect for bad HTML requests and a 401 for API-esque JS or JSON requests.
  */
 const protectNonDefaultRoutes = (req, res, next) => {
   if (req.isAuthenticated()) next();
-  else if (allowedBaseRoutes.includes(req.path)) next();
-  else if (allowedPrefixes.some(prefix => req.path.startsWith(prefix))) next();
+  else if (noAuthRoute(req)) next();
   else {
     Logger.info("Unauthenticated access found on url: ", req.url);
 
@@ -150,4 +158,20 @@ const initPassport = () => {
   passport.authenticationMiddleware = () => protectNonDefaultRoutes;
 };
 
-export { initPassport };
+const csrf = csurf({
+  cookie: {
+    domain: config.get("server.domain"),
+    httpOnly: true,
+    key: "session-" + config.get("server.domain"),
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    sameSite: "lax",
+    secure: !config.get("dev")
+  }
+});
+
+const csrfProtection = (req, res, next) => {
+  if (noAuthRoute(req)) next();
+  else csrf(req, res, next);
+};
+
+export { initPassport, csrfProtection };

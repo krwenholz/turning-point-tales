@@ -26,7 +26,8 @@ module.exports = {
     secretKey: Buffer.from(process.env.STRIPE_SECRET_KEY || "").toString(
       "base64"
     ),
-    subscriptionId: process.env.STRIPE_SUBSCRIPTION_PLAN_ID || ""
+    subscriptionId: process.env.STRIPE_SUBSCRIPTION_PLAN_ID || "",
+    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || ""
   },
   aws: {
     default: {},
