@@ -103,13 +103,18 @@
 <section class="landing">
   <div class="text">
     <h1>Adventures you choose, tales you get lost in.</h1>
-    <div class="prompt" in:fade on:click="{() => typer.skipTyping()}">
+    <div
+      data-cy="landing-text-scroll"
+      class="prompt"
+      in:fade on:click="{() => typer.skipTyping()}"
+    >
       <TypeText
         bind:this="{typer}"
         on:end="{() => (typingEnd = true)}"
         typingSpeed="{0}"
         jitter="{'100'}"
-        text="{[`On an intergalatic starship, traveling at half the speed of light, one man sat bored to death in his stuffy office.`]}" />
+        text="{[`On an intergalatic starship, traveling at half the speed of light, one man sat bored to death in his stuffy office.`]}"
+      />
     </div>
   </div>
 
