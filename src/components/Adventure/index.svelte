@@ -4,7 +4,7 @@
   import TypeText from "../TypeText.svelte";
   import Undo from "src/components/icons/Undo.svelte";
   import ReplayOne from "src/components/icons/ReplayOne.svelte";
-  import { uniq, last, filter, get } from 'lodash';
+  import { get, uniq, last, filter } from 'lodash';
   import { fade } from "src/lib/Transition";
   import { safeWindow } from "src/lib/client/safe-window.js";
   import { writable } from "svelte/store";
@@ -32,7 +32,7 @@
 
   $: $store.storyNode = getStartingPoint();
   $: $store.hasInitialCompletion = checkInitialCompletion(visitations);
-  $: currentPage = getCurrentPage(story[$store.storyNode]);
+  $: currentPage = story[$store.storyNode];
   $: haveRemainingDecisions = !story[$store.storyNode].final;
   $: {
     setURL();
@@ -215,6 +215,10 @@
     justify-content: flex-start;
   }
 
+  .indented {
+    padding-left: 48px;
+  }
+
   @media only screen and (min-width: 600px) {
     nav {
       width: auto
@@ -239,7 +243,9 @@
 
     {#if currentPage}
       {#each currentPage.text as paragraph}
-        <p>{@html paragraph}</p>
+        <p class={get(paragraph, 'format', '')}>
+          {@html get(paragraph, 'words', paragraph)}
+        </p>
       {/each}
     {/if}
 
