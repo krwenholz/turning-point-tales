@@ -113,6 +113,14 @@
   <title>{title}</title>
 </svelte:head>
 
+<style>
+  .route-adventure {
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+  }
+</style>
+
 {#if isSubscribed || (released && adSeen)}
   <div class="route-adventure">
     <Adventure

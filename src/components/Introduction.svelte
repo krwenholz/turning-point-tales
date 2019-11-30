@@ -44,7 +44,7 @@
 </style>
 
 <section class="introduction">
-  <h1>Where will you take your next tale?</h1>
+  <h1>Where will your next tale take you?</h1>
 
   <div>
     {#if !isSubscriber}
