@@ -69,8 +69,7 @@
   .user-block {
     margin-left: 16px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row;
     justify-content: flex-end;
     align-content: center;
   }
@@ -88,9 +87,25 @@
   }
 
   @media only screen and (max-width: 700px) {
-    #user_name,
-    #user_divider {
+    .user-name,
+    .user-name + hr {
       display: none;
+    }
+  }
+
+  @media only screen and (max-width: 450px) {
+    .user-block {
+      flex-direction: column;
+      justify-content: center;
+      align-content: center;
+    }
+
+    .user-block > * {
+      margin: 5px 0 5px 0;
+    }
+
+    hr {
+      width: 80%;
     }
   }
 </style>
@@ -103,8 +118,8 @@
     </a>
     {#if $session.user}
       <div class="user-block">
-        <span id="user_name">{$session.user.firstName}</span>
-        <hr id="user_divider" />
+        <span class="user-name">{$session.user.firstName}</span>
+        <hr />
         <a href="/user/profile">Profile and settings</a>
         <hr />
         <a href="/api/user/logout">Logout</a>
