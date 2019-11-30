@@ -1098,108 +1098,108 @@ const stories = [
         text: [
           "The voice is distant, but its sullen sweetness is almost addictive. As the rafts go deeper through the tunnel the voice grows in strength, echoing and dancing off the walls until its words and female voice can be discerned.",
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“There is something in the sea”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“From the deep or the cove?”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Larger than the greatest tree”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Swifter than a dove”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“The Leviathan cometh, and it comes for thee”",
           },
           "“I know this song!” says Bard. “It’s a sailor shanty, a fun one! I think!”",
           '“You think?!” Sakurai shouts before taking a moment to think. “Okay, just sing! I’m damn tired of this water!” He says retching once more. "I hope this person is kinder than the    wizard," Sakurai thinks. Bard readies his lyre and takes a deep breath.',
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“There is something in the sea”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“What do you see Captain?”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“A beast that should not be!”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Ready the Cannon!”",
           },
           "The beautiful voice calls back in response to the song, a new energy injected into her previously sullen voice.",
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Oh, there is something in the sea”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Ready Men!”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“A hundred arms, a thousand eyes, a thing that should not be!”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Fire!”",
           },
           "It is now the bard’s turn once again. “Come on now, clap along everyone!” Some do, most look at Bard as if he's gone mad.",
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Oh, there is something in the sea”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Is it dead? Is it alive?”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Who cares, let us flee!”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Before the Leviathan can arrive!”",
           },
           "The two singers now mix their voices and sing together. Sakurai can almost hear the crashing of waves, booming cannons, and panicked men.",
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Oh, there is something in the sea”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Oh, gods the ship is swallowed”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Now we are in the maw”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Now we are lost”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“There is something in the sea!”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“A thing that should not be!”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“There is something crawling inside me!”",
           },
           {
-            formating: ['poem'],
+            formatting: ['poem'],
             words: "“Oh, gods help us!”",
           },
           "Bard does a final strumming of his lyre before replying, “Haha! Thank you for the song friend! Are you on dry land? My companions and I are in great need of a reprieve!” There is no vocal response, but a large flame shines in the darkness illuminating the makings of a small wooden dock. The rafts quickly make for it and after securing themselves, everyone takes a much-needed rest on the blissfully still stone floor."

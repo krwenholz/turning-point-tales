@@ -244,7 +244,7 @@
 
     {#if currentPage}
       {#each currentPage.text as paragraph}
-        <p class={get(paragraph, 'formating', []).join(' ')}>
+        <p class={get(paragraph, 'formatting', []).join(' ')}>
           {@html get(paragraph, 'words', paragraph)}
         </p>
       {/each}
