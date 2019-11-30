@@ -32,7 +32,7 @@
 
   $: $store.storyNode = getStartingPoint();
   $: $store.hasInitialCompletion = checkInitialCompletion(visitations);
-  $: currentPage = story[$store.storyNode];
+  $: currentPage = getCurrentPage();
   $: haveRemainingDecisions = !story[$store.storyNode].final;
   $: {
     setURL();
@@ -44,6 +44,15 @@
       history: $store.history,
       consequences: last($store.history).consequences
     });
+  }
+
+  const getCurrentPage = () => {
+    const currentPage = story[$store.storyNode];
+
+    return {
+      ...currentPage,
+      text: currentPage.text.map(line => line.replace(/\s\s+?/gi, '&nbsp; ')),
+    }
   }
 
   const normalize = (decision = {}) => {
@@ -234,7 +243,7 @@
 
     {#if currentPage}
       {#each currentPage.text as paragraph}
-        <p>{paragraph}</p>
+        <p>{@html paragraph}</p>
       {/each}
     {/if}
 
