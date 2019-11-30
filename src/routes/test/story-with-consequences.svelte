@@ -27,7 +27,7 @@
             storyNode: "breakfast",
             consequences: ["rested"],
             label: "Hit snooze, then finally wake up. I want to be rested"
-          }
+          },
         ]
       },
       breakfast: {
