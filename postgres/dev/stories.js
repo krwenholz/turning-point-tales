@@ -1096,38 +1096,112 @@ const stories = [
       },
       listen_to_song: {
         text: [
-          "The voice is distant, but its sullen sweetness is almost addictive. As the rafts go deeper through the tunnel the voice grows in strength, echoing and dancing off the walls until its words and female voice can be discerned.  ",
-          "     “There is something in the sea”",
-          "     “There is something in the sea”",
-          "     “From the deep or the cove?”",
-          "     “Larger than the greatest tree”",
-          "     “Swifter than a dove”",
-          "     “The Leviathan cometh, and it comes for thee” (PLEASE FORMAT ME - END)",
+          "The voice is distant, but its sullen sweetness is almost addictive. As the rafts go deeper through the tunnel the voice grows in strength, echoing and dancing off the walls until its words and female voice can be discerned.",
+          {
+            format: 'indented',
+            words: "“There is something in the sea”",
+          },
+          {
+            format: 'indented',
+            words: "“From the deep or the cove?”",
+          },
+          {
+            format: 'indented',
+            words: "“Larger than the greatest tree”",
+          },
+          {
+            format: 'indented',
+            words: "“Swifter than a dove”",
+          },
+          {
+            format: 'indented',
+            words: "“The Leviathan cometh, and it comes for thee”",
+          },
           "“I know this song!” says Bard. “It’s a sailor shanty, a fun one! I think!”",
           '“You think?!” Sakurai shouts before taking a moment to think. “Okay, just sing! I’m damn tired of this water!” He says retching once more. "I hope this person is kinder than the    wizard," Sakurai thinks. Bard readies his lyre and takes a deep breath.',
-          "     “There is something in the sea”",
-          "     “What do you see Captain?”",
-          "     “A beast that should not be!”",
-          "     “Ready the Cannon!”",
+          {
+            format: 'indented',
+            words: "“There is something in the sea”",
+          },
+          {
+            format: 'indented',
+            words: "“What do you see Captain?”",
+          },
+          {
+            format: 'indented',
+            words: "“A beast that should not be!”",
+          },
+          {
+            format: 'indented',
+            words: "“Ready the Cannon!”",
+          },
           "The beautiful voice calls back in response to the song, a new energy injected into her previously sullen voice.",
-          "     “Oh, there is something in the sea”",
-          "     “Ready Men!”",
-          "     “A hundred arms, a thousand eyes, a thing that should not be!”",
-          "     “Fire!”",
+          {
+            format: 'indented',
+            words: "“Oh, there is something in the sea”",
+          },
+          {
+            format: 'indented',
+            words: "“Ready Men!”",
+          },
+          {
+            format: 'indented',
+            words: "“A hundred arms, a thousand eyes, a thing that should not be!”",
+          },
+          {
+            format: 'indented',
+            words: "“Fire!”",
+          },
           "It is now the bard’s turn once again. “Come on now, clap along everyone!” Some do, most look at Bard as if he's gone mad.",
-          "     “Oh, there is something in the sea”",
-          "     “Is it dead? Is it alive?”",
-          "     “Who cares, let us flee!”",
-          "     “Before the Leviathan can arrive!”",
+          {
+            format: 'indented',
+            words: "“Oh, there is something in the sea”",
+          },
+          {
+            format: 'indented',
+            words: "“Is it dead? Is it alive?”",
+          },
+          {
+            format: 'indented',
+            words: "“Who cares, let us flee!”",
+          },
+          {
+            format: 'indented',
+            words: "“Before the Leviathan can arrive!”",
+          },
           "The two singers now mix their voices and sing together. Sakurai can almost hear the crashing of waves, booming cannons, and panicked men.",
-          "     (PLEASE FORMAT ME - START) “Oh, there is something in the sea”",
-          "     “Oh, gods the ship is swallowed”",
-          "     “Now we are in the maw”",
-          "     “Now we are lost”",
-          "     “There is something in the sea!”",
-          "     “A thing that should not be!”",
-          "     “There is something crawling inside me!”",
-          "     “Oh, gods help us!”",
+          {
+            format: 'indented',
+            words: "“Oh, there is something in the sea”",
+          },
+          {
+            format: 'indented',
+            words: "“Oh, gods the ship is swallowed”",
+          },
+          {
+            format: 'indented',
+            words: "“Now we are in the maw”",
+          },
+          {
+            format: 'indented',
+            words: "“Now we are lost”",
+          },
+          {
+            format: 'indented',
+            words: "“There is something in the sea!”",
+          },
+          {
+            format: 'indented',
+            words: "“A thing that should not be!”",
+          },
+          {
+            format: 'indented',
+            words: "“There is something crawling inside me!”",
+          },
+          {
+            format: 'indented',
+            words: "“Oh, gods help us!”",
+          },
           "Bard does a final strumming of his lyre before replying, “Haha! Thank you for the song friend! Are you on dry land? My companions and I are in great need of a reprieve!” There is no vocal response, but a large flame shines in the darkness illuminating the makings of a small wooden dock. The rafts quickly make for it and after securing themselves, everyone takes a much-needed rest on the blissfully still stone floor."
         ],
         decisions: [{ label: "Locate Singer", storyNode: "locate_singer" }]
