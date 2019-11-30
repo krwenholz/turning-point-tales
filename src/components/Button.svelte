@@ -20,7 +20,8 @@
 <style>
   button {
     display: flex;
-    padding: 8px;
+    padding: 12px;
+    min-height: 50px;
     justify-content: center;
     align-items: center;
     font-size: var(--root-font-size-md);

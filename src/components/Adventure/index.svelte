@@ -4,9 +4,7 @@
   import TypeText from "../TypeText.svelte";
   import Undo from "src/components/icons/Undo.svelte";
   import ReplayOne from "src/components/icons/ReplayOne.svelte";
-  import uniq from "lodash/uniq";
-  import last from "lodash/last";
-  import filter from "lodash/filter";
+  import { uniq, last, filter, get } from 'lodash';
   import { fade } from "src/lib/Transition";
   import { safeWindow } from "src/lib/client/safe-window.js";
   import { writable } from "svelte/store";
@@ -56,7 +54,7 @@
     };
   };
 
-  const alreadyVisited = ({ storyNode }) =>
+  const alreadyVisited = ({ storyNode } = {}) =>
     $store.history.find(recorded => recorded.storyNode === storyNode);
 
   const recordUnlockSkipIntro = () => {
@@ -110,6 +108,14 @@
     $store.storyNode === "start" &&
     getStoryNodeAfterIntro(story, 'start') !== 'start';
 
+  const showGoBackButton = () => {
+    if ($store.storyNode === 'start') return false;
+
+    const previousDecision = $store.history[$store.history.length - 2];
+
+    return get(previousDecision, 'storyNode') !== $store.storyNode;
+  }
+
   const skipIntro = () =>
     goToDecision({
       storyNode: getStoryNodeAfterIntro(story, $store.storyNode)
@@ -118,7 +124,7 @@
   const getStoryNodeAfterIntro = (story, storyNode) => {
     const page = story[storyNode];
 
-    if (story.start.decisions.length > 1 || page.final) {
+    if (page.final || story.start.decisions.length > 1) {
       return "start";
     }
 
@@ -196,8 +202,7 @@
   }
 
   nav {
-    margin-top: auto;
-    width: 100%;
+    margin: 30px auto auto auto;
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -206,6 +211,7 @@
 
   .adventure :global(.button) {
     margin-bottom: 16px;
+    min-width: 100%;
   }
 
   .end-of-story-navigation {
@@ -233,8 +239,28 @@
       {/each}
     {/if}
 
-    {#if haveRemainingDecisions}
-      <nav in:fade>
+    <nav in:fade>
+      {#if showSkipIntro()}
+        <Button variation="secondary" on:click="{skipIntro}">
+          <span>Skip intro</span>
+          <Undo />
+        </Button>
+      {/if}
+      {#if !haveRemainingDecisions}
+        <Button
+          variation="secondary"
+          on:click="{() => goToDecision({ storyNode: 'start' })}">
+          <span>restart</span>
+          <Undo />
+        </Button>
+      {/if}
+      {#if showGoBackButton()}
+        <Button variation="secondary" on:click={goBack}>
+          <span>go back</span>
+          <ReplayOne />
+        </Button>
+      {/if}
+      {#if haveRemainingDecisions}
         {#each filterAvailable(currentPage.decisions) as decision}
           <Button
             disabled="{decision.disabled}"
@@ -242,29 +268,7 @@
             {decision.label}
           </Button>
         {/each}
-      </nav>
-    {/if}
-      <nav class="end-of-story-navigation">
-        {#if showSkipIntro()}
-          <Button variation="secondary" on:click="{skipIntro}">
-            <span>Skip intro</span>
-            <Undo />
-          </Button>
-        {/if}
-        {#if !haveRemainingDecisions}
-        <Button
-          variation="secondary"
-          on:click="{() => goToDecision({ storyNode: 'start' })}">
-          <span>restart</span>
-          <Undo />
-        </Button>
-        {/if}
-        {#if $store.storyNode !== 'start'}
-        <Button variation="secondary" on:click={goBack}>
-          <span>go back</span>
-          <ReplayOne />
-        </Button>
-        {/if}
-      </nav>
+      {/if}
+    </nav>
   </section>
 {/if}
