@@ -109,19 +109,6 @@
   });
 </script>
 
-<style>
-
-  .route-adventure :global(.button) {
-    min-width: 100%;
-  }
-
-  @media only screen and (min-width: 600px) {
-    .route-adventure :global(.button) {
-      min-width: auto;
-    }
-  }
-</style>
-
 <svelte:head>
   <title>{title}</title>
 </svelte:head>
