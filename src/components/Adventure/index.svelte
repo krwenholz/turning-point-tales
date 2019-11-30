@@ -245,14 +245,6 @@
           <Undo />
         </Button>
       {/if}
-      {#if !haveRemainingDecisions}
-        <Button
-          variation="secondary"
-          on:click="{() => goToDecision({ storyNode: 'start' })}">
-          <span>restart</span>
-          <Undo />
-        </Button>
-      {/if}
       {#if showGoBackButton()}
         <Button variation="secondary" on:click={goBack}>
           <span>go back</span>
@@ -267,6 +259,13 @@
             {decision.label}
           </Button>
         {/each}
+      {:else}
+        <Button
+          variation="secondary"
+          on:click="{() => goToDecision({ storyNode: 'start' })}">
+          <span>restart</span>
+          <Undo />
+        </Button>
       {/if}
     </nav>
   </section>
