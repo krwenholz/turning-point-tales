@@ -16,7 +16,7 @@
   export let haveRemainingDecisions = true;
   export let story;
   export let storyNode;
-  export let title;
+  export let title = '';
   export let visitations = [];
   export let store = writable({
     storyNode: storyNode,
@@ -32,7 +32,7 @@
 
   $: $store.storyNode = getStartingPoint();
   $: $store.hasInitialCompletion = checkInitialCompletion(visitations);
-  $: currentPage = getCurrentPage();
+  $: currentPage = getCurrentPage(story[$store.storyNode]);
   $: haveRemainingDecisions = !story[$store.storyNode].final;
   $: {
     setURL();
@@ -46,14 +46,10 @@
     });
   }
 
-  const getCurrentPage = () => {
-    const currentPage = story[$store.storyNode];
-
-    return {
-      ...currentPage,
-      text: currentPage.text.map(line => line.replace(/\s\s+?/gi, '&nbsp; ')),
-    }
-  }
+  const getCurrentPage = (currentPage) => ({
+    ...currentPage,
+    text: currentPage.text.map(line => line.replace(/\s\s+?/gi, '&nbsp; ')),
+  });
 
   const normalize = (decision = {}) => {
     return {
