@@ -34,7 +34,28 @@ describe('Story with consequences and history', () => {
     cy.contains('?');
   })
 
-  it('Allows option after second go around with correct decision', () => {
+  it('back button does not exist on start of story', () => {
+    cy.get('button')
+    .url().should('contain', 'start')
+    .get('button')
+    .contains('go back')
+    .should('not.exist');
+  })
+
+  it('goes back to previous node on back button click', () => {
+    cy.get('button')
+    .contains('wake up')
+    .click()
+    .get('button')
+    .contains('go back')
+    .click()
+    .url().should('contain', 'start')
+    .get('button')
+    .contains('go back')
+    .should('not.exist');
+  })
+
+  it('Allows option after second go around with consequence', () => {
     chooseAvocadoToast();
 
     cy.get('button')

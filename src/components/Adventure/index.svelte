@@ -16,7 +16,7 @@
   export let haveRemainingDecisions = true;
   export let story;
   export let storyNode;
-  export let title;
+  export let title = '';
   export let visitations = [];
   export let store = writable({
     storyNode: storyNode,
@@ -32,7 +32,7 @@
 
   $: $store.storyNode = getStartingPoint();
   $: $store.hasInitialCompletion = checkInitialCompletion(visitations);
-  $: currentPage = story[$store.storyNode];
+  $: currentPage = getCurrentPage(story[$store.storyNode]);
   $: haveRemainingDecisions = !story[$store.storyNode].final;
   $: {
     setURL();
@@ -45,6 +45,11 @@
       consequences: last($store.history).consequences
     });
   }
+
+  const getCurrentPage = (currentPage) => ({
+    ...currentPage,
+    text: currentPage.text.map(line => line.replace(/\s\s+?/gi, '&nbsp; ')),
+  });
 
   const normalize = (decision = {}) => {
     return {
@@ -234,7 +239,7 @@
 
     {#if currentPage}
       {#each currentPage.text as paragraph}
-        <p>{paragraph}</p>
+        <p>{@html paragraph}</p>
       {/each}
     {/if}
 
@@ -242,14 +247,6 @@
       {#if showSkipIntro()}
         <Button variation="secondary" on:click="{skipIntro}">
           <span>Skip intro</span>
-          <Undo />
-        </Button>
-      {/if}
-      {#if !haveRemainingDecisions}
-        <Button
-          variation="secondary"
-          on:click="{() => goToDecision({ storyNode: 'start' })}">
-          <span>restart</span>
           <Undo />
         </Button>
       {/if}
@@ -267,6 +264,13 @@
             {decision.label}
           </Button>
         {/each}
+      {:else}
+        <Button
+          variation="secondary"
+          on:click="{() => goToDecision({ storyNode: 'start' })}">
+          <span>restart</span>
+          <Undo />
+        </Button>
       {/if}
     </nav>
   </section>
