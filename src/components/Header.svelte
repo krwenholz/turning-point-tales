@@ -118,7 +118,7 @@
     </a>
     {#if $session.user}
       <div class="user-block">
-        <span class="user-name">{$session.user.firstName}</span>
+        <span data-cy="user-name" class="user-name">{$session.user.firstName}</span>
         <hr />
         <a href="/user/profile">Profile and settings</a>
         <hr />
