@@ -310,20 +310,20 @@ const stories = [
             label: "Absolutely"
           }
         ]
+      },
+      stop_the_clocks: {
+        text: [
+          "Sitting in a small office, high above the city, Banks realized that he, and he alone, had complete control of the weather, if only until someone realized the now laid-off Ms. Florentine had suddenly logged in on a Sunday afternoon. Of course, that was unlikely. The investors of the Leviathan had spared no expense in its creation, save for Technical and Administrative personnel, many of whom refused to work on Sundays. They were a bit understaffed.",
+          "On the screen in front of him, the time was 1:35. In one minute, the weekly pre-scheduled neighborhood association's Sunday downpour would end. He had to make the most of this time, savor every moment, or better yet, stop it from ending. Furiously typing, fingers flying on the keyboard, he entered out a single command, then hit enter. Waiting, holding his breath, the clock halted at 1:35, unchanging. Every synchronized clock on the ship was stuck at 1:35pm, on a Sunday afternoon. Outside, the rain continued pouring.",
+          "Spinning in his chair to stare at the monitors next to him, Banks watched as the gentle and delicate downpour outside continued past it's usually pre-determined stop time of 1:36. Basking in the gentle glow the screens, each monitor was a window into the different lives of the neighborhoods on the ship. Those neighborhoods, from the look of it, were quickly descending into chaos.",
+          "Many of the streets were starting to show signs of flooding. The storm drains, normally well equipped to funnel water to redistribution centers, were no longer open. The storm systems were independently scheduled, using their own internal clocks for redundancy. It's system, and the meteorological systems, were now completely out of sync.",
+          "On another screen, small shapes, which Banks could only assume to be children, were jumping in the small lakes left by the downpour. Around them, a sea of cars were beginning to form, their owners long having abandoned them due to a lack of visibility. It had been years since any cars were built with windshield wipers, as it neither rain, nor snowed. At Least, not without a schedule.",
+          "A smile slowly began to creep up the sides of Banks mouth, as he eyes darted from one monitor to another. A man was shaking his fist at a cloud, using a waste bin as a makeshift umbrella. A woman was covering her dogs mouth, fearing it might drown, as the creature stared into the downpour, utterly and completely dumbfounded.",
+          "And while the mayhem roared down on the city, banks began to lean back in his chair, and grinned a large toothy grin. People panicking, children playing, no one would be sure when, or whether, the weather would end; And that was exactly as Banks intended it."
+        ],
+        final: true
       }
     },
-    stop_the_clocks: {
-      text: [
-        "Sitting in a small office, high above the city, Banks realized that he, and he alone, had complete control of the weather, if only until someone realized the now laid-off Ms. Florentine had suddenly logged in on a Sunday afternoon. Of course, that was unlikely. The investors of the Leviathan had spared no expense in its creation, save for Technical and Administrative personnel, many of whom refused to work on Sundays. They were a bit understaffed.",
-        "On the screen in front of him, the time was 1:35. In one minute, the weekly pre-scheduled neighborhood association's Sunday downpour would end. He had to make the most of this time, savor every moment, or better yet, stop it from ending. Furiously typing, fingers flying on the keyboard, he entered out a single command, then hit enter. Waiting, holding his breath, the clock halted at 1:35, unchanging. Every synchronized clock on the ship was stuck at 1:35pm, on a Sunday afternoon. Outside, the rain continued pouring.",
-        "Spinning in his chair to stare at the monitors next to him, Banks watched as the gentle and delicate downpour outside continued past it's usually pre-determined stop time of 1:36. Basking in the gentle glow the screens, each monitor was a window into the different lives of the neighborhoods on the ship. Those neighborhoods, from the look of it, were quickly descending into chaos.",
-        "Many of the streets were starting to show signs of flooding. The storm drains, normally well equipped to funnel water to redistribution centers, were no longer open. The storm systems were independently scheduled, using their own internal clocks for redundancy. It's system, and the meteorological systems, were now completely out of sync.",
-        "On another screen, small shapes, which Banks could only assume to be children, were jumping in the small lakes left by the downpour. Around them, a sea of cars were beginning to form, their owners long having abandoned them due to a lack of visibility. It had been years since any cars were built with windshield wipers, as it neither rain, nor snowed. At Least, not without a schedule.",
-        "A smile slowly began to creep up the sides of Banks mouth, as he eyes darted from one monitor to another. A man was shaking his fist at a cloud, using a waste bin as a makeshift umbrella. A woman was covering her dogs mouth, fearing it might drown, as the creature stared into the downpour, utterly and completely dumbfounded.",
-        "And while the mayhem roared down on the city, banks began to lean back in his chair, and grinned a large toothy grin. People panicking, children playing, no one would be sure when, or whether, the weather would end; And that was exactly as Banks intended it."
-      ],
-      final: true
-    }
   },
   {
     author: "Sean Wong-Westbrooke",
