@@ -392,7 +392,7 @@ const stories = [
         node: "wake_up_2"
       }
     ],
-    preview: "...The eleven-year old boy's voice is calm, only disturbed by the beginnings of its cracking and deepening. “We are not heroes. We do not adventure. We do not hunt monsters. We have another duty. Delivering food to the hungry. Clothes to the cold. Arms to the weak. Giving all safe passage. So long as our wheels spin, so will this world.”"
+    preview: "...The eleven-year old boy's voice is calm, only disturbed by the beginnings of its cracking and deepening. “We are not heroes. We do not adventure. We do not hunt monsters. We have another duty. Delivering food to the hungry. Clothes to the cold. Arms to the weak. Giving all safe passage. So long as our wheels spin, so will this world.”",
     content: {
       dive: {
         text: [
