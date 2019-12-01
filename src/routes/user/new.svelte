@@ -114,7 +114,7 @@
       <br />
     {/if}
 
-    <label for="firstName">First name</label>
+    <label for="firstName">First Name</label>
     <Input
       id="firstName"
       type="text"
@@ -122,12 +122,12 @@
       placeholder="First Name"
       required />
 
-    <label for="firstName">Last name</label>
+    <label for="firstName">Last Name</label>
     <Input
       id="lastName"
       type="text"
       on:input="{e => (lastName = e.target.value)}"
-      placeholder="First Name"
+      placeholder="Last Name"
       required />
 
     <label for="email">Email</label>
@@ -135,7 +135,7 @@
       id="email"
       type="email"
       on:input="{e => (email = e.target.value)}"
-      placeholder="First Name"
+      placeholder="Email"
       required />
 
     <label for="password">Password</label>
@@ -143,16 +143,16 @@
       id="password"
       type="password"
       on:input="{e => (password = e.target.value)}"
-      placeholder="password"
+      placeholder="Password"
       required />
 
-    <label for="confirmPassword">Confirm your password</label>
+    <label for="confirmPassword">Confirm Your Password</label>
     <Input
       bind:this="{confirmPasswordElement}"
       id="confirmPassword"
       type="password"
       on:input="{e => (confirmPassword = e.target.value)}"
-      placeholder="confirm password"
+      placeholder="Confirm Your Password"
       required />
 
     <div class="form-group">
