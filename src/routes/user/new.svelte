@@ -103,8 +103,7 @@
 
   <p>
     More questions? Check out our
-    <a href="/faq">FAQ</a>
-    .
+    <a href="/faq">FAQ.</a>
   </p>
 </section>
 

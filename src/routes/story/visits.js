@@ -21,7 +21,7 @@ const getVisitations = async userId => {
   try {
     const results = await pool.query(
       `
-      SELECT story_id, node_name FROM visitations
+      SELECT DISTINCT story_id, node_name FROM visitations
       WHERE user_id = $1
       GROUP BY story_id, node_name;
     `,
