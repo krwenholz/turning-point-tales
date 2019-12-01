@@ -251,18 +251,6 @@
     {/if}
 
     <nav in:fade>
-      {#if showSkipIntro()}
-        <Button variation="secondary" on:click="{skipIntro}">
-          <span>Skip intro</span>
-          <Undo />
-        </Button>
-      {/if}
-      {#if showGoBackButton()}
-        <Button variation="secondary" on:click={goBack}>
-          <span>go back</span>
-          <ReplayOne />
-        </Button>
-      {/if}
       {#if haveRemainingDecisions}
         {#each filterAvailable(currentPage.decisions) as decision}
           <Button
@@ -277,6 +265,18 @@
           on:click="{() => goToDecision({ storyNode: 'start' })}">
           <span>restart</span>
           <Undo />
+        </Button>
+      {/if}
+      {#if showSkipIntro()}
+        <Button variation="secondary" on:click="{skipIntro}">
+          <span>Skip intro</span>
+          <Undo />
+        </Button>
+      {/if}
+      {#if showGoBackButton()}
+        <Button variation="secondary" on:click={goBack}>
+          <span>go back</span>
+          <ReplayOne />
         </Button>
       {/if}
     </nav>
