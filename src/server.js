@@ -98,7 +98,9 @@ const middleware = [
           (req, res) => `'nonce-${res.locals.nonce}'`
         ],
         connectSrc: ["'self'", "api.stripe.com"].concat(additionalSrcs),
-        frameSrc: ["js.stripe.com", "hooks.stripe.com"]
+        frameSrc: ["js.stripe.com", "hooks.stripe.com"],
+        styleSrc: ["'self'", "fonts.googleapis.com"],
+        fontSrc: ["'self'", "fonts.gstatic.com"]
       }
     }
   }),
