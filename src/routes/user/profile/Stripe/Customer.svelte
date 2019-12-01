@@ -173,7 +173,7 @@
 {:else}
   <p>
     Become an adventurer for $4/month. Adventurers see no ads, access the most
-    dangerous content two weeks before the masses, and claim a soft spot in our
+    dangerous content four weeks before the masses, and claim a soft spot in our
     hearts.
   </p>
 
