@@ -53,8 +53,8 @@
         if (response["status"] === "success") {
           paymentNotYetProcessed = false;
           finalMessage = `Thank you for becoming an adventurer! Welcome to soft spot ${Math.floor(
-            Math.random() * 1000000000000
-          )}.`;
+            Math.random() * 10000
+          ).toLocaleString()}.`;
           return;
         }
 
@@ -126,11 +126,15 @@
     });
   });
 
+  const adventureHome = () => {
+    window.location.href = "/"; //hard refresh needed to propogate login
+  };
+
   Logger.info($session.user);
 </script>
 
 <style>
-  .stripe-card {
+  .card {
     display: flex;
     flex-direction: column;
     margin-bottom: 8px;
@@ -181,11 +185,13 @@
 {/if}
 
 {#if finalMessage}
-  <p>{finalMessage}</p>
+  <div class="card">
+    <p>{finalMessage}</p>
+  </div>
 {/if}
 
 {#if paymentNotYetProcessed}
-  <div class="stripe-card">
+  <div class="card">
     <label for="card-element">Credit or debit card</label>
     <div id="card-element">
       <!-- A Stripe Element will be inserted here. -->
@@ -203,6 +209,10 @@
     {#if $session.user.stripeCustomerId}
       Continue adventuring for $4 a month
     {:else}Adventure further for $4 a month{/if}
+  </Button>
+{:else}
+  <Button on:click="{adventureHome}" disabled="{paymentFormDisabled}">
+    Head home and start adventuring!
   </Button>
 {/if}
 
