@@ -92,6 +92,8 @@ const middleware = [
   helmet.contentSecurityPolicy({
     reportOnly: false,
     directives: {
+      reportUri: "/csp_report",
+      defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
         "https://js.stripe.com",
@@ -100,7 +102,16 @@ const middleware = [
       connectSrc: ["'self'", "https://api.stripe.com"].concat(additionalSrcs),
       frameSrc: ["js.stripe.com", "https://hooks.stripe.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"]
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      imgSrc: ["'self'", "https://*.stripe.com"],
+      workerSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+        "https://fonts.googleapis.com",
+        "https://hooks.stripe.com",
+        "https://api.stripe.com",
+        "https://js.stripe.com"
+      ]
     }
   }),
   passport.initialize(),
