@@ -92,7 +92,7 @@ const middleware = [
   helmet.contentSecurityPolicy({
     reportOnly: false,
     directives: {
-      reportUri: "/csp_report",
+      //reportUri: "/csp_report",
       defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
