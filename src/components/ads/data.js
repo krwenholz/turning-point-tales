@@ -49,19 +49,6 @@ const rawContent = [
       {
         source: "Amazon",
         url:
-          "https://www.amazon.com/gp/product/B07CXG6C9W/ref=as_li_tl?ie=UTF8&tag=h2wib-20&camp=1789&creative=9325&linkCode=as2&creativeASIN=B07CXG6C9W&linkId=69d7122e352a625f76cf7c092dd7c3d4"
-      }
-    ],
-    attributes: ["founder-read-help"],
-    description: [
-      "Reading is fun. It's even more fun when the library and more are at your fingertips. Check out a Kindle for an easy screen reading experience."
-    ]
-  },
-  {
-    links: [
-      {
-        source: "Amazon",
-        url:
           "https://www.amazon.com/gp/product/B000H1217M/ref=as_li_tl?ie=UTF8&tag=h2wib-20&camp=1789&creative=9325&linkCode=as2&creativeASIN=B000H1217M&linkId=189d8148ba858ff0fde311ebd760e742"
       }
     ],
@@ -382,19 +369,6 @@ const rawContent = [
       {
         source: "Amazon",
         url:
-          "https://www.amazon.com/gp/product/B019U00D7K/ref=as_li_tl?ie=UTF8&tag=h2wib-20&camp=1789&creative=9325&linkCode=as2&creativeASIN=B019U00D7K&linkId=474e9a17528fc54ab856a2d021a5bdfd"
-      }
-    ],
-    attributes: ["founder-random"],
-    description: [
-      "Hear that? Didn't think you would, cause nothing beats noise-cancling bliss. Finally, you have your nice books, and your quiet thoughts to yourself. Time for a bit of silent reading."
-    ]
-  },
-  {
-    links: [
-      {
-        source: "Amazon",
-        url:
           "https://www.amazon.com/gp/product/B00I48M9PE/ref=as_li_tl?ie=UTF8&tag=h2wib-20&camp=1789&creative=9325&linkCode=as2&creativeASIN=B00I48M9PE&linkId=bad5d6d4889b910298654fe0243f0b65"
       }
     ],
@@ -453,19 +427,6 @@ const rawContent = [
     attributes: ["founder-random"],
     description: [
       "Bring a little light to your life, with all the power of smart bulbs. Any color, any time, fully programmable and fully customizable. Analog lights are so 1879. Get with the times, and stay lit."
-    ]
-  },
-  {
-    links: [
-      {
-        source: "Amazon",
-        url:
-          "https://www.amazon.com/gp/product/B07W9B83YV/ref=as_li_tl?ie=UTF8&tag=h2wib-20&camp=1789&creative=9325&linkCode=as2&creativeASIN=B07W9B83YV&linkId=4e51e2210a616d8056bb473e7bec3fb9"
-      }
-    ],
-    attributes: ["founder-random"],
-    description: [
-      "Looking to find yourself? How about a couple lost items? Just strap these bad boys on, and let the power of the electromagnetic spectrum be your guide. Activate homing beacon, find keys. Simple as that."
     ]
   },
   {
