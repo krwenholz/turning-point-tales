@@ -94,13 +94,13 @@ const middleware = [
       directives: {
         scriptSrc: [
           "'self'",
-          "https://js.stripe.com",
+          "js.stripe.com",
           (req, res) => `'nonce-${res.locals.nonce}'`
         ],
-        connectSrc: ["'self'", "https://api.stripe.com"].concat(additionalSrcs),
-        frameSrc: ["js.stripe.com", "https://hooks.stripe.com"],
-        styleSrc: ["'self'", "https://fonts.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com"]
+        connectSrc: ["'self'", "api.stripe.com"].concat(additionalSrcs),
+        frameSrc: ["js.stripe.com", "hooks.stripe.com"],
+        styleSrc: ["'self'", "fonts.googleapis.com"],
+        fontSrc: ["'self'", "fonts.gstatic.com"]
       }
     }
   }),
