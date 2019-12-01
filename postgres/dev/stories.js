@@ -323,13 +323,13 @@ const stories = [
         ],
         final: true
       }
-    },
+    }
   },
   {
     author: "Sean Wong-Westbrooke",
     title: "Wagons and Dragons: Caravan to the Capital",
     tags: ["fantasy", "fast-paced"],
-    generalRelease: new Date("January 01, 2030, 03:24:00"),
+    generalRelease: new Date("January 1, 2020, 00:00:00"),
     badges: [
       {
         icon: "🍻",
@@ -392,7 +392,8 @@ const stories = [
         node: "wake_up_2"
       }
     ],
-    preview: "...The eleven-year old boy's voice is calm, only disturbed by the beginnings of its cracking and deepening. “We are not heroes. We do not adventure. We do not hunt monsters. We have another duty. Delivering food to the hungry. Clothes to the cold. Arms to the weak. Giving all safe passage. So long as our wheels spin, so will this world.”",
+    preview:
+      "...The eleven-year old boy's voice is calm, only disturbed by the beginnings of its cracking and deepening. “We are not heroes. We do not adventure. We do not hunt monsters. We have another duty. Delivering food to the hungry. Clothes to the cold. Arms to the weak. Giving all safe passage. So long as our wheels spin, so will this world.”",
     content: {
       dive: {
         text: [
@@ -665,7 +666,7 @@ const stories = [
       },
       take_cover: {
         text: [
-"Sakura deftly takes Gamon into his arms the two take what shelter they can behind the thick fireside logs. Despite the security, the sound of arrows driving deep into the wood makes Sakurai's heart skip. As Sakurai and Gamon hide, Bard is trying desperately to drag away the hulking female adventurer. Barely able to move her, Bard continues to survive only because Mai's thick armor deflects the arrows trying to pick them off.",
+          "Sakura deftly takes Gamon into his arms the two take what shelter they can behind the thick fireside logs. Despite the security, the sound of arrows driving deep into the wood makes Sakurai's heart skip. As Sakurai and Gamon hide, Bard is trying desperately to drag away the hulking female adventurer. Barely able to move her, Bard continues to survive only because Mai's thick armor deflects the arrows trying to pick them off.",
           "“Gamon, hold onto me and do not let go. Do not let go! Come!” Sakurai runs over to Bard and together they manage to lift the warrior. All throughout the camps are dozens of Sakurai's friends and new strangers cower behind stumps and boxes, waiting for a plan, for help. Tents are ablaze. The horses are crying. The sound of steel on steel rings loudly. “To the wagons!” Sakurai shouts. And with steps that feel like running through mud Sakurai's injured party makes their desperate way to the lead red wagon. The mercenaries and armed men are yelling about being surrounded as they are cut down one by one by men in black. As their formations fail they begin to call for everyone to flee. Sakurai and Bard toss Mai into the back of the wagon and climb aboard as Gamon readies the horses.",
           '“Southern Guild, to me!" Sakurai takes the reins pushes the horses harder than ever before. The wagon shakes violently along the rocky earth, it feels as if it were to break apart in an instant. There is only one path in the Crossroads open, the Valley of Ruins, whether it be a trap or not does not matter, the whole surrounding forest has been set aflame and dozens of bloody wagons and arrow filled bodies litter the other roads out. All that can be done is pray this path bears salvation. ',
           "As Sakurai exits the camp he sees in the corner of his eye for just an instant, a half-dozen archers, their steel arrows bright silver in the moonlight. Sakurai is frozen in time, his arms as taught as the bowstrings about to kill him. As they release Sakurai pulls the wagon to the side in a last-ditch attempt to survive. He shuts his eyes as something pushes him down into his seat.",
@@ -676,7 +677,7 @@ const stories = [
           "“To the left! Go in the dungeon! We can hide in there!” Bard yells.",
           '"We’ll be trapped!”',
           "“We’re trapped anyway! Look!” Bard points to the top of the valley, a great boulder pushed by some great inhuman shadow is rolling down the hill towards Sakurai and the band of wagons following them."
-    ],
+        ],
         decisions: [{ label: "Enter Dungeon", storyNode: "enter_dungeon" }]
       },
       fight_mimic: {
@@ -796,7 +797,8 @@ const stories = [
       },
       leave_wizard: {
         text: [
-          "Whatever reward is being offered isn’t worth the trouble of him coming back. They set fire to any and all scrolls they can find in the lab so no more gate scrolls can be made. Without the dungeon key or a scroll, he will truly be trapped once and for all. It sounds like justice."    ],
+          "Whatever reward is being offered isn’t worth the trouble of him coming back. They set fire to any and all scrolls they can find in the lab so no more gate scrolls can be made. Without the dungeon key or a scroll, he will truly be trapped once and for all. It sounds like justice."
+        ],
         decisions: [
           {
             label: "Teleport to Capital",
@@ -816,7 +818,7 @@ const stories = [
           "“Enough with this talk and tests, let us relax. Another song?” Bard offers, already tuning his lyre.",
           "“Please.” Sakurai says.",
           "A song of travels and friends dances in the air. Gamon is fruitlessly trying to arm wrestle Mai as the masters pour themselves very full glasses of wine. Sakurai is pouring himself another cup when the arrows strike. The first arrow takes Mai's ear. The second lodges in her shoulder and knocks her to the ground. In the same moment the masters Gogol and Ennis are peppered with a half-dozen more.",
-          "“Mai?” whispers Gamon."    
+          "“Mai?” whispers Gamon."
         ],
         decisions: [{ label: "Take Cover!", storyNode: "take_cover" }]
       },
@@ -1019,7 +1021,7 @@ const stories = [
           'The scarred orc thumps his chest with a loud thud and smiles a great toothy smile, "We won of course! Took the Capital in one night. Killed ten humans myself!" The crew of orcs cheer in pride while the humans\' eyes go wide at the news of destruction. "The Dark Lord holds dominion over nearly all of the continent now. I have to say though, you wizards and witches are really lucky, you and your followers got pardons for being human and land grants if you swore loyalty to the Dark Lord. Congratulations!" Sakurai quietly thanks the gods that the sun has set fully now, so that the darkness can hide his horrified expression. ',
           "The evening goes on and the orcs eagerly ask the witch about her time under the mountain and the fate of her master. Thankfully for Sakurai's party, she and Bard are excellent liars and story tellers. The orcs are thoroughly entertained and they happily share a supper of fish stew, hard tack, and grog. After four years without meat and eating little but mushroom soups, for now, dinner is mostly grog. ",
           'Late in the night, the ship arrives at last at port. Attached to it is a bright and vibrant city of buildings of brutal but elegant make, as if it were carved out of a mountain by dragon fire and hammer. The sound of songs not penned by men and the smells of unknown spices waft over the orcs\' ship. Working the ports are a mixture of all kind of dark creatures doing things no human could have imagined except in jest. Merfolk are guiding ships carefully to their docks. Giants and trolls quickly load and unload cargo. Fairies are delivering messages. And over seeing it all is a red dragon perched atop an extravagant and towering red brick building, its sign reads: "The Western Trade Company".  '
-       ],
+        ],
         decisions: [{ label: "Leave the Ship", storyNode: "leave_ship" }]
       },
       thank_witch_2: {
@@ -1098,109 +1100,110 @@ const stories = [
         text: [
           "The voice is distant, but its sullen sweetness is almost addictive. As the rafts go deeper through the tunnel the voice grows in strength, echoing and dancing off the walls until its words and female voice can be discerned.",
           {
-            formatting: ['poem'],
-            words: "“There is something in the sea”",
+            formatting: ["poem"],
+            words: "“There is something in the sea”"
           },
           {
-            formatting: ['poem'],
-            words: "“From the deep or the cove?”",
+            formatting: ["poem"],
+            words: "“From the deep or the cove?”"
           },
           {
-            formatting: ['poem'],
-            words: "“Larger than the greatest tree”",
+            formatting: ["poem"],
+            words: "“Larger than the greatest tree”"
           },
           {
-            formatting: ['poem'],
-            words: "“Swifter than a dove”",
+            formatting: ["poem"],
+            words: "“Swifter than a dove”"
           },
           {
-            formatting: ['poem'],
-            words: "“The Leviathan cometh, and it comes for thee”",
+            formatting: ["poem"],
+            words: "“The Leviathan cometh, and it comes for thee”"
           },
           "“I know this song!” says Bard. “It’s a sailor shanty, a fun one! I think!”",
           '“You think?!” Sakurai shouts before taking a moment to think. “Okay, just sing! I’m damn tired of this water!” He says retching once more. "I hope this person is kinder than the    wizard," Sakurai thinks. Bard readies his lyre and takes a deep breath.',
           {
-            formatting: ['poem'],
-            words: "“There is something in the sea”",
+            formatting: ["poem"],
+            words: "“There is something in the sea”"
           },
           {
-            formatting: ['poem'],
-            words: "“What do you see Captain?”",
+            formatting: ["poem"],
+            words: "“What do you see Captain?”"
           },
           {
-            formatting: ['poem'],
-            words: "“A beast that should not be!”",
+            formatting: ["poem"],
+            words: "“A beast that should not be!”"
           },
           {
-            formatting: ['poem'],
-            words: "“Ready the Cannon!”",
+            formatting: ["poem"],
+            words: "“Ready the Cannon!”"
           },
           "The beautiful voice calls back in response to the song, a new energy injected into her previously sullen voice.",
           {
-            formatting: ['poem'],
-            words: "“Oh, there is something in the sea”",
+            formatting: ["poem"],
+            words: "“Oh, there is something in the sea”"
           },
           {
-            formatting: ['poem'],
-            words: "“Ready Men!”",
+            formatting: ["poem"],
+            words: "“Ready Men!”"
           },
           {
-            formatting: ['poem'],
-            words: "“A hundred arms, a thousand eyes, a thing that should not be!”",
+            formatting: ["poem"],
+            words:
+              "“A hundred arms, a thousand eyes, a thing that should not be!”"
           },
           {
-            formatting: ['poem'],
-            words: "“Fire!”",
+            formatting: ["poem"],
+            words: "“Fire!”"
           },
           "It is now the bard’s turn once again. “Come on now, clap along everyone!” Some do, most look at Bard as if he's gone mad.",
           {
-            formatting: ['poem'],
-            words: "“Oh, there is something in the sea”",
+            formatting: ["poem"],
+            words: "“Oh, there is something in the sea”"
           },
           {
-            formatting: ['poem'],
-            words: "“Is it dead? Is it alive?”",
+            formatting: ["poem"],
+            words: "“Is it dead? Is it alive?”"
           },
           {
-            formatting: ['poem'],
-            words: "“Who cares, let us flee!”",
+            formatting: ["poem"],
+            words: "“Who cares, let us flee!”"
           },
           {
-            formatting: ['poem'],
-            words: "“Before the Leviathan can arrive!”",
+            formatting: ["poem"],
+            words: "“Before the Leviathan can arrive!”"
           },
           "The two singers now mix their voices and sing together. Sakurai can almost hear the crashing of waves, booming cannons, and panicked men.",
           {
-            formatting: ['poem'],
-            words: "“Oh, there is something in the sea”",
+            formatting: ["poem"],
+            words: "“Oh, there is something in the sea”"
           },
           {
-            formatting: ['poem'],
-            words: "“Oh, gods the ship is swallowed”",
+            formatting: ["poem"],
+            words: "“Oh, gods the ship is swallowed”"
           },
           {
-            formatting: ['poem'],
-            words: "“Now we are in the maw”",
+            formatting: ["poem"],
+            words: "“Now we are in the maw”"
           },
           {
-            formatting: ['poem'],
-            words: "“Now we are lost”",
+            formatting: ["poem"],
+            words: "“Now we are lost”"
           },
           {
-            formatting: ['poem'],
-            words: "“There is something in the sea!”",
+            formatting: ["poem"],
+            words: "“There is something in the sea!”"
           },
           {
-            formatting: ['poem'],
-            words: "“A thing that should not be!”",
+            formatting: ["poem"],
+            words: "“A thing that should not be!”"
           },
           {
-            formatting: ['poem'],
-            words: "“There is something crawling inside me!”",
+            formatting: ["poem"],
+            words: "“There is something crawling inside me!”"
           },
           {
-            formatting: ['poem'],
-            words: "“Oh, gods help us!”",
+            formatting: ["poem"],
+            words: "“Oh, gods help us!”"
           },
           "Bard does a final strumming of his lyre before replying, “Haha! Thank you for the song friend! Are you on dry land? My companions and I are in great need of a reprieve!” There is no vocal response, but a large flame shines in the darkness illuminating the makings of a small wooden dock. The rafts quickly make for it and after securing themselves, everyone takes a much-needed rest on the blissfully still stone floor."
         ],
