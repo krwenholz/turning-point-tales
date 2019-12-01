@@ -96,6 +96,7 @@
 
     nav :global(.button) {
       width: fit-content;
+      width: -moz-fit-content;
     }
   }
 </style>
