@@ -25,7 +25,6 @@
       })
       .then(response => {
         for (let visitation of response) {
-          console.log("vvv", visitation);
           visitations.add(visitation.node_name);
           visitations = visitations; // because reactivity
         }
