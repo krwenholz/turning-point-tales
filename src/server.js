@@ -42,7 +42,7 @@ const nonce = (req, res, next) => {
 
 const additionalSrcs = [];
 if (config.get("dev"))
-  additionalSrcs.push(config.get("server.domain") + ":3000");
+  additionalSrcs.push(config.get("server.domain") + ":10000");
 
 const middleware = [
   bodyParser.urlencoded({
@@ -90,10 +90,8 @@ const middleware = [
   exposeStripeKeyMiddleware,
   nonce,
   helmet.contentSecurityPolicy({
-    reportOnly: true,
+    reportOnly: false,
     directives: {
-      reportUri: "/csp_report",
-      defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
         "https://js.stripe.com",
@@ -101,7 +99,7 @@ const middleware = [
       ],
       connectSrc: ["'self'", "https://api.stripe.com"].concat(additionalSrcs),
       frameSrc: ["js.stripe.com", "https://hooks.stripe.com"],
-      styleSrc: ["'self'", "https://fonts.googleapis.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"]
     }
   }),
