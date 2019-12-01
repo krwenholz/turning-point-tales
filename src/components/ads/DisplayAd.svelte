@@ -79,7 +79,7 @@
       {/each}
       {#each ad.links as { source, url }}
         <p>
-          <a href="{url}">I'd like to know more ({source})</a>
+          <a href="{url}" target="_blank">I'd like to know more ({source})</a>
         </p>
       {/each}
     {/each}

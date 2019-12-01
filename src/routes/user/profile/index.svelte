@@ -75,16 +75,11 @@
   <Tabs>
     <TabList>
       <Tab name="adventurer">Adventurer</Tab>
-      <Tab name="notifications">Notifications</Tab>
       <Tab name="settings">Settings</Tab>
     </TabList>
 
     <TabPanel>
       <Customer />
-    </TabPanel>
-
-    <TabPanel>
-      <Notifications />
     </TabPanel>
 
     <TabPanel>
