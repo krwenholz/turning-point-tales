@@ -27,7 +27,6 @@
     <a href="mailto:support@turningpointtales.com">
       support@turningpointtales.com
     </a>
-    .
   </p>
 
   <button on:click="{deleteUser}">DELETE</button>
