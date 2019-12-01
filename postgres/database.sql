@@ -1,7 +1,7 @@
 --TODO: https: //github.com/djrobstep/migra
   --TODO: https: //github.com/sqitchers/sqitch
 
-  CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TRIGGER update_story_modtime BEFORE UPDATE ON stories FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
 
@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS stories(
   tags text[] NOT NULL,
   general_release TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+  modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (title, author)
 );
 
 CREATE TABLE IF NOT EXISTS users(
