@@ -52,6 +52,7 @@ const allowedBaseRoutes = [
   "/api/user/initiate_login",
   "/api/user/logout",
   "/api/user/new",
+  "/csp_report",
   "/example-story",
   "/faq",
   "/index",
