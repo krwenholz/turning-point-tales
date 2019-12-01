@@ -90,7 +90,7 @@ const middleware = [
   nonce,
   helmet({
     contentSecurityPolicy: {
-      reportOnly: true,
+      reportOnly: false,
       directives: {
         scriptSrc: [
           "'self'",

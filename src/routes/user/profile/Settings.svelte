@@ -1,7 +1,8 @@
 <script>
-  import * as sapper from "@sapper/app";
   const { goto } = sapper;
   const { session } = sapper.stores();
+  import * as sapper from "@sapper/app";
+  import Button from "src/components/Button.svelte";
   import { axios } from "src/lib/axios";
 
   const deleteUser = async () => {
@@ -19,7 +20,7 @@
   };
 </script>
 
-<section class="text">
+<section>
   <p>
     Sometimes the adventure needs to end. If that's the case for you, You can
     request to delete your user here. If there's anything we can do to keep you
@@ -29,7 +30,7 @@
     </a>
   </p>
 
-  <button on:click="{deleteUser}">DELETE</button>
+  <Button on:click="{deleteUser}">DELETE</Button>
 </section>
 
 <!--<h3>Hey, {$session.user.firstName}!</h3>-->
