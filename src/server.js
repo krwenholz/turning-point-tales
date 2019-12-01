@@ -42,12 +42,13 @@ const nonce = (req, res, next) => {
 
 const additionalSrcs = [];
 if (config.get("dev"))
-  additionalSrcs.push(config.get("server.domain") + ":10000");
+  additionalSrcs.push(config.get("server.domain") + ":3000");
 
 const middleware = [
   bodyParser.urlencoded({
     extended: false
   }),
+  bodyParser.json({ type: "application/csp-report" }),
   bodyParser.json({
     verify: (req, res, buf) => {
       // Sometimes (e.g. Stripe hook routes) we'll want the raw body. So we'll save it.
@@ -88,20 +89,20 @@ const middleware = [
   exposeCsrfMiddleware,
   exposeStripeKeyMiddleware,
   nonce,
-  helmet({
-    contentSecurityPolicy: {
-      reportOnly: false,
-      directives: {
-        scriptSrc: [
-          "'self'",
-          "js.stripe.com",
-          (req, res) => `'nonce-${res.locals.nonce}'`
-        ],
-        connectSrc: ["'self'", "api.stripe.com"].concat(additionalSrcs),
-        frameSrc: ["js.stripe.com", "hooks.stripe.com"],
-        styleSrc: ["'self'", "fonts.googleapis.com"],
-        fontSrc: ["'self'", "fonts.gstatic.com"]
-      }
+  helmet.contentSecurityPolicy({
+    reportOnly: true,
+    directives: {
+      reportUri: "/csp_report",
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "https://js.stripe.com",
+        (req, res) => `'nonce-${res.locals.nonce}'`
+      ],
+      connectSrc: ["'self'", "https://api.stripe.com"].concat(additionalSrcs),
+      frameSrc: ["js.stripe.com", "https://hooks.stripe.com"],
+      styleSrc: ["'self'", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"]
     }
   }),
   passport.initialize(),
