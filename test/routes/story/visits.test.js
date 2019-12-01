@@ -75,7 +75,7 @@ test("handles returning visits", () => {
 
     const [queryString, parameters] = pool.query.mock.calls[0];
     expect(queryString).toMatch(
-      /(.|\n)*SELECT story_id, node_name FROM visitations(.|\n)*WHERE(.|\n)*;/
+      /(.|\n)*SELECT DISTINCT story_id, node_name FROM visitations(.|\n)*WHERE(.|\n)*;/
     );
     expect(parameters).toEqual(expect.arrayContaining([1]));
   });
@@ -89,7 +89,7 @@ test("handles returning visits failure", () => {
 
     const [queryString, parameters] = pool.query.mock.calls[0];
     expect(queryString).toMatch(
-      /(.|\n)*SELECT story_id, node_name FROM visitations(.|\n)*WHERE(.|\n)*;/
+      /(.|\n)*SELECT DISTINCT story_id, node_name FROM visitations(.|\n)*WHERE(.|\n)*;/
     );
     expect(parameters).toEqual(expect.arrayContaining([1]));
   });
