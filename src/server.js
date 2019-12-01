@@ -99,8 +99,8 @@ const middleware = [
         ],
         connectSrc: ["'self'", "https://api.stripe.com"].concat(additionalSrcs),
         frameSrc: ["js.stripe.com", "https://hooks.stripe.com"],
-        styleSrc: ["https://fonts.googleapis.com"],
-        fontSrc: ["https://fonts.gstatic.com"]
+        styleSrc: ["'self'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"]
       }
     }
   }),
