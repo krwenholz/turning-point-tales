@@ -38,7 +38,12 @@
 
 <section class="teaser-story">
   <div>
-    <Adventure {storyNode} title="" story="{teaserStory}" />
+    <Adventure
+      enableExtraNavigation={false}
+      title=""
+      story="{teaserStory}"
+      {storyNode}
+    />
   </div>
 
   <nav>
