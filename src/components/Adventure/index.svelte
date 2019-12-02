@@ -18,6 +18,7 @@
   export let storyNode;
   export let title = '';
   export let visitations = [];
+  export let enableExtraNavigation = true;
   export let store = writable({
     storyNode: storyNode,
     hasInitialCompletion: false,
@@ -109,11 +110,14 @@
   };
 
   const showSkipIntro = () =>
+    enableExtraNavigation &&
     $store.hasInitialCompletion &&
     $store.storyNode === "start" &&
     getStoryNodeAfterIntro(story, 'start') !== 'start';
 
   const showGoBackButton = () => {
+    if(!enableExtraNavigation) return false;
+
     if ($store.storyNode === 'start') return false;
 
     const previousDecision = $store.history[$store.history.length - 2];
@@ -259,7 +263,7 @@
             {decision.label}
           </Button>
         {/each}
-      {:else}
+      {:else if enableExtraNavigation}
         <Button
           variation="secondary"
           on:click="{() => goToDecision({ storyNode: 'start' })}">
