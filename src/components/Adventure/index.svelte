@@ -9,6 +9,7 @@
   import { safeWindow } from "src/lib/client/safe-window.js";
   import { writable } from "svelte/store";
   import { createEventDispatcher } from "svelte";
+  import { goto } from "@sapper/app";
   const dispatch = createEventDispatcher();
 
   export let className = "";
@@ -238,6 +239,12 @@
     margin-bottom: 16px;
     min-width: 100%;
   }
+
+  .adventure :global(.explore-other-stories) {
+    min-width: fit-content;
+    min-width: moz-fit-content;
+    margin-top: 16px;
+  }
 </style>
 
 {#if process.browser}
@@ -281,6 +288,15 @@
         <Button variation="secondary" on:click={goBack}>
           <span>go back</span>
           <ReplayOne />
+        </Button>
+      {/if}
+      {#if !haveRemainingDecisions}
+        <Button
+          className={'explore-other-stories'}
+          variation="link"
+          on:click={() => goto('/')}
+        >
+          <span>Explore other stories</span>
         </Button>
       {/if}
     </nav>
