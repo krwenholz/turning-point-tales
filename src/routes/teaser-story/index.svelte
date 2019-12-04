@@ -48,12 +48,11 @@
 
   <nav>
     <Button on:click="{redirect('/user/new')}">
-      <span>Start reading!</span>
+      <span>Create an account!</span>
     </Button>
 
-    <Button on:click="{redirect('/about')}">
+    <Button variation='link' on:click="{redirect('/about')}">
       <span>Learn about us</span>
-      <Book />
     </Button>
   </nav>
 </section>

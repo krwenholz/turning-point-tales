@@ -54,7 +54,7 @@
   }
 
   :global(.button) {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
     width: 100%;
   }
 
@@ -130,7 +130,7 @@
         <span>A day in the life of Mr. Banks</span>
       </Button>
 
-      <Button on:click="{redirect('/teaser-story', 'hooked')}">
+      <Button variation='link' on:click="{redirect('/teaser-story', 'hooked')}">
         <span>Join the adventure</span>
       </Button>
 

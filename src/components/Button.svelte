@@ -1,6 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
 
+  export let className = '';
   export let disabled = false;
   export let type = "button";
   export let variation = "button";
@@ -15,6 +16,11 @@
 
     return "ontouchstart" in window ? "" : "HOVER";
   };
+
+  const toggleActiveOnEnter = ({ keyCode }) => {
+    if (keyCode !== 13) return;
+    active = true;
+  }
 </script>
 
 <style>
@@ -43,6 +49,20 @@
     border-radius: var(--root-border-radius);
     background-color: transparent;
     color: var(--root-color-primary);
+  }
+
+  .button--link {
+    width: fit-content;
+    background-color: transparent;
+    color: var(--root-color-accent);
+    border-bottom: 2px solid currentColor;
+    border-radius: 0px;
+    padding: 0;
+    min-height: 20px;
+  }
+
+  #HOVER.button.button--link:hover {
+    box-shadow: none;
   }
 
   #HOVER.button:hover {
@@ -84,16 +104,13 @@
 
 <button
   bind:this="{self}"
-  class="{`button button--${variation}`}"
-  class:active
-  id="{isHover()}"
+  class="{`button button--${variation} ${className}`}"
   {type}
   {disabled}
-  on:keyup="{() => (active = false)}"
-  on:keydown="{({ keyCode }) => {
-    if (keyCode !== 13) return;
-    active = true;
-  }}"
+  on:keyup={() => (active = false)}
+  on:keydown={toggleActiveOnEnter}
+  class:active
+  id={isHover()}
   on:click
   class:disabled>
   {#if isSubmitting}
