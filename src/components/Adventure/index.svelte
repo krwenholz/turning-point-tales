@@ -270,7 +270,8 @@
             {decision.label}
           </Button>
         {/each}
-      {:else if enableExtraNavigation}
+      {/if}
+      {#if enableExtraNavigation}
         <Button
           variation="secondary"
           on:click="{() => goToDecision({ storyNode: 'start' })}">
@@ -290,7 +291,7 @@
           <ReplayOne />
         </Button>
       {/if}
-      {#if !haveRemainingDecisions}
+      {#if !haveRemainingDecisions && enableExtraNavigation}
         <Button
           className={'explore-other-stories'}
           variation="link"
