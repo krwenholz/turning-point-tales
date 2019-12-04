@@ -93,5 +93,7 @@
 <Adventure
   story="{story.content}"
   store="{mainAdventure()}"
+  enableExtraNavigation={true}
   className="adventure"
-  storyNode="{'start'}" />
+  storyNode="{'start'}"
+/>
