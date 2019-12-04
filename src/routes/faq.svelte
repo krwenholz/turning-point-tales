@@ -67,11 +67,12 @@
     We hate to see you go. If there's anything we can do to convince you to
     stay, please hit us up at
     <a href="mailto:support@turningpointtales.com">
-      support@turningpointtales.com
+      support@turningpointtales.com.
     </a>
-    . If you still want to become a regular townsperson again, then head to
+    If you still want to become a regular townsperson again and leave paid
+    adventuring behind, then head to
     <a href="/user/profile?tab=adventurer">your profile</a>
-    .
+    and select the option to "Cancel subscription".
   </details>
 
   <details>
@@ -79,7 +80,6 @@
     We're a business with ambitions to have other businesses, so we made a
     parent company to take care of all the baby businesses! We called it "How
     Hard Would It Be LLC". You can learn a little more
-    <a href="h2wib.com">here</a>
-    .
+    <a href="http://h2wib.com">here.</a>
   </details>
 </section>
