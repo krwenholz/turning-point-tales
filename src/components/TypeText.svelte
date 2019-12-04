@@ -72,15 +72,6 @@
   };
 </script>
 
-<style>
-  .type-text {
-    width: 90%;
-    max-width: 80ch;
-  }
-</style>
-
-<p class="type-text">
-  {#if typedText}
-    {@html typedText}
-  {/if}
-</p>
+{#if typedText}
+  {@html typedText}
+{/if}

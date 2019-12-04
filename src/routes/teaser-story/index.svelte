@@ -38,7 +38,7 @@
 
 <section class="teaser-story">
   <div>
-    <Adventure {storyNode} title="" story="{teaserStory}" />
+    <Adventure storyNode="start" title="" story="{teaserStory}" />
   </div>
 
   <nav>
