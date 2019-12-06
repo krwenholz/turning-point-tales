@@ -137,11 +137,11 @@
 
 {#if typingEnd}
   <nav in:fade>
-    <Button on:click="{() => goto('/teaser-story')}">
+    <Button on:click="{() => goto('/teaser-story?storyNode=start')}">
       <span>A day in the life of Mr. Banks</span>
     </Button>
 
-    <Button variation='link' on:click="{redirect('/teaser-story', 'hooked')}">
+    <Button variation='link' on:click="{goto('/teaser-story?storyNode=hooked')}">
       <span>Join the adventure</span>
     </Button>
   </nav>
