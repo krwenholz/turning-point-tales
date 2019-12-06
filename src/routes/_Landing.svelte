@@ -141,7 +141,7 @@
       <span>A day in the life of Mr. Banks</span>
     </Button>
 
-    <Button variation='link' on:click="{goto('/teaser-story?storyNode=hooked')}">
+    <Button variation='link' on:click="{() => goto('/user/new')}">
       <span>Join the adventure</span>
     </Button>
   </nav>
