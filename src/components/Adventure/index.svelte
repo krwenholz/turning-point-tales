@@ -116,7 +116,7 @@
     getStoryNodeAfterIntro(story, "start") !== "start";
 
   const showGoBackButton = () => {
-    if(!enableExtraNavigation || $store.storyNode === 'state') return false;
+    if(!enableExtraNavigation || $store.storyNode === 'start') return false;
 
     const previousDecision = $store.history[$store.history.length - 2];
 
