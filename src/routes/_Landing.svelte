@@ -6,9 +6,6 @@
 
   let typingEnd = false;
   let typer;
-
-  const redirect = (href, storyNode) => () =>
-    goto(`${href}?storyNode=${storyNode}`);
 </script>
 
 <style>
@@ -16,21 +13,26 @@
     width: 100%;
     display: flex;
     flex: 1 1;
-    flex-flow: column;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
     align-self: center;
   }
 
   .text {
     display: flex;
     flex-flow: column;
+    align-self: flex-start;
+    margin-bottom: 64px;
   }
 
-  .prompt {
+  .prompt,
+  .details {
     display: flex;
     width: 100%;
+    flex-flow: column;
     justify-content: center;
     text-align: center;
-    margin-bottom: 64px;
   }
 
   h1 {
@@ -75,7 +77,7 @@
     }
 
     h1 {
-      font-size: 48px;
+      font-size: 44px;
       line-height: 1.3;
     }
 
@@ -101,39 +103,46 @@
   }
 </style>
 
-<section class="landing">
+<section class="landing" on:click="{() => typer.skipTyping()}">
   <div class="text">
-    <h1>Adventures you choose, tales you get lost in.</h1>
-    <div
-      data-cy="landing-text-scroll"
-      class="prompt"
-      in:fade on:click="{() => typer.skipTyping()}"
-    >
+    <h1>
       <TypeText
         bind:this="{typer}"
         on:end="{() => (typingEnd = true)}"
-        typingSpeed="{0}"
+        typingSpeed="{5}"
         jitter="{'100'}"
-        text="{[`On an intergalatic starship, traveling at half the speed of light, one man sat bored to death in his stuffy office.`]}"
-      />
-    </div>
+        text="{[`Adventures you choose, tales you get lost in.`]}" />
+    </h1>
+    {#if typingEnd}
+      <div class="details" in:fade>
+        <p>
+          Turning Point Tales lets your choices determine where the story goes.
+          We find new adventures from excellent, often unknown, authors and
+          bring them to you in this unique format. Your first choice is
+          below....
+        </p>
+        <p data-cy="landing-text-scroll" class="prompt" in:fade>
+          On an intergalatic starship, traveling at half the speed of light, one
+          man sat bored to death in his stuffy office.
+        </p>
+      </div>
+    {/if}
   </div>
 
   <img
     src="/landing.png"
     alt="A dog, a rock creature, and an astronaut cuddle up with a silly human
     pretending to read" />
-
-  {#if typingEnd}
-    <nav in:fade>
-      <Button on:click="{redirect('/teaser-story', 'start')}">
-        <span>A day in the life of Mr. Banks</span>
-      </Button>
-
-      <Button variation='link' on:click="{redirect('/teaser-story', 'hooked')}">
-        <span>Join the adventure</span>
-      </Button>
-
-    </nav>
-  {/if}
 </section>
+
+{#if typingEnd}
+  <nav in:fade>
+    <Button on:click="{() => goto('/teaser-story')}">
+      <span>A day in the life of Mr. Banks</span>
+    </Button>
+
+    <Button variation='link' on:click="{redirect('/teaser-story', 'hooked')}">
+      <span>Join the adventure</span>
+    </Button>
+  </nav>
+{/if}

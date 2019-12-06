@@ -66,8 +66,7 @@
     <Button type="submit">Log in</Button>
     <span class="reset-text">
       Forgot your password? Click
-      <a data-cy="password-reset" href="/password-reset">here</a>
-      .
+      <a data-cy="password-reset" href="/password-reset">here.</a>
       <span></span>
     </span>
   </form>
