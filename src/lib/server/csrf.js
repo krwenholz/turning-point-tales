@@ -1,5 +1,23 @@
 import Logger from "js-logger";
 import config from "config";
+import csurf from "csurf";
+
+const csrf = csurf({
+  cookie: {
+    domain: config.get("server.domain"),
+    httpOnly: true,
+    key: "session-" + config.get("server.domain"),
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    sameSite: "lax",
+    secure: !config.get("dev")
+  }
+});
+
+const csrfProtection = (req, res, next) => {
+  const noCsrfRoutes = ["/api/payments/hooks"];
+  if (noCsrfRoutes.includes(req)) next();
+  else csrf(req, res, next);
+};
 
 /**
  * Add the CSRF token to a cookie our JS can read.
@@ -17,4 +35,4 @@ const exposeCsrfMiddleware = (req, res, next) => {
   next();
 };
 
-export { exposeCsrfMiddleware };
+export { csrfProtection, exposeCsrfMiddleware };

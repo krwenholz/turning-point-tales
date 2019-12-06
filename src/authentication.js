@@ -1,6 +1,5 @@
 import Logger from "js-logger";
 import config from "config";
-import csurf from "csurf";
 import passport from "passport";
 import securePassword from "secure-password";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
@@ -159,20 +158,4 @@ const initPassport = () => {
   passport.authenticationMiddleware = () => protectNonDefaultRoutes;
 };
 
-const csrf = csurf({
-  cookie: {
-    domain: config.get("server.domain"),
-    httpOnly: true,
-    key: "session-" + config.get("server.domain"),
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    sameSite: "lax",
-    secure: !config.get("dev")
-  }
-});
-
-const csrfProtection = (req, res, next) => {
-  if (noAuthRoute(req)) next();
-  else csrf(req, res, next);
-};
-
-export { initPassport, csrfProtection };
+export { initPassport };
