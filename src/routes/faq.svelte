@@ -70,9 +70,8 @@
       support@turningpointtales.com.
     </a>
     If you still want to become a regular townsperson again and leave paid
-    adventuring behind, then head to
-    <a href="/user/profile?tab=adventurer">your profile</a>
-    and select the option to "Cancel subscription".
+    adventuring behind, then log in, head to your profile and select the option
+    to "Cancel subscription".
   </details>
 
   <details>
