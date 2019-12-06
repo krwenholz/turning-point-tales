@@ -109,10 +109,6 @@
   });
 </script>
 
-<svelte:head>
-  <title>{title}</title>
-</svelte:head>
-
 <style>
   .route-adventure {
     display: flex;
@@ -120,6 +116,10 @@
     flex: 1;
   }
 </style>
+
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
 
 {#if isSubscribed || (released && adSeen)}
   <div class="route-adventure">

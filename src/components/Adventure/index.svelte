@@ -1,10 +1,9 @@
 <script>
   import Button from "../Button.svelte";
   import CrossOut from "../icons/CrossOut.svelte";
-  import TypeText from "../TypeText.svelte";
   import Undo from "src/components/icons/Undo.svelte";
   import ReplayOne from "src/components/icons/ReplayOne.svelte";
-  import { get, uniq, last, filter } from 'lodash';
+  import { get, uniq, last, filter } from "lodash";
   import { fade } from "src/lib/Transition";
   import { safeWindow } from "src/lib/client/safe-window.js";
   import { writable } from "svelte/store";
@@ -17,7 +16,7 @@
   export let haveRemainingDecisions = true;
   export let story;
   export let storyNode;
-  export let title = '';
+  export let title = "";
   export let visitations = [];
   export let enableExtraNavigation = true;
   export let store = writable({
@@ -48,9 +47,9 @@
     });
   }
 
-  const getCurrentPage = (currentPage) => ({
+  const getCurrentPage = currentPage => ({
     ...currentPage,
-    text: currentPage.text.map(line => line.replace(/\s\s+?/gi, '&nbsp; ')),
+    text: currentPage.text.map(line => line.replace(/\s\s+?/gi, "&nbsp; "))
   });
 
   const normalize = (decision = {}) => {
@@ -114,17 +113,15 @@
     enableExtraNavigation &&
     $store.hasInitialCompletion &&
     $store.storyNode === "start" &&
-    getStoryNodeAfterIntro(story, 'start') !== 'start';
+    getStoryNodeAfterIntro(story, "start") !== "start";
 
   const showGoBackButton = () => {
-    if(!enableExtraNavigation) return false;
-
-    if ($store.storyNode === 'start') return false;
+    if(!enableExtraNavigation || $store.storyNode === 'state') return false;
 
     const previousDecision = $store.history[$store.history.length - 2];
 
-    return get(previousDecision, 'storyNode') !== $store.storyNode;
-  }
+    return get(previousDecision, "storyNode") !== $store.storyNode;
+  };
 
   const skipIntro = () =>
     goToDecision({
@@ -227,7 +224,7 @@
 
   @media only screen and (min-width: 600px) {
     nav {
-      width: auto
+      width: auto;
     }
   }
 
@@ -255,7 +252,7 @@
 
     {#if currentPage}
       {#each currentPage.text as paragraph}
-        <p class={get(paragraph, 'formatting', []).join(' ')}>
+        <p class="{get(paragraph, 'formatting', []).join(' ')}">
           {@html get(paragraph, 'words', paragraph)}
         </p>
       {/each}
@@ -286,7 +283,7 @@
         </Button>
       {/if}
       {#if showGoBackButton()}
-        <Button variation="secondary" on:click={goBack}>
+        <Button variation="secondary" on:click="{goBack}">
           <span>go back</span>
           <ReplayOne />
         </Button>

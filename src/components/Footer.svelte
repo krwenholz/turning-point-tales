@@ -53,7 +53,7 @@
       <img alt="Twitter" class="social" src="/social/twitter_circle.png" />
     </a>
     <a
-      href="https://www.instagram.com/TurningPointTales/"
+      href="https://www.instagram.com/TPTales/"
       target="_blank"
       rel="noopener noreferrer">
       <img alt="Instagram" class="social" src="/social/instagram.png" />
