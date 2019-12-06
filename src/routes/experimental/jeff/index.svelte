@@ -1,6 +1,7 @@
 <script>
-  import { onMount } from "svelte";
+  import yaml from "js-yaml";
   import { Logger } from "src/lib/client/logger";
+  import { onMount } from "svelte";
 
   let stats = {};
 
@@ -20,4 +21,4 @@
   });
 </script>
 
-<pre>{JSON.stringify(stats, null, 2)}</pre>
+<pre>{yaml.safeDump(stats)}</pre>
