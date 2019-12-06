@@ -19,20 +19,26 @@
     margin-right: calc(-1 * (100vw - 100%));
   }
 
-  .display-ad {
-    min-height: 100%;
-    max-width: 80ch;
-    flex: 1 0 auto;
-    display: flex;
-    flex-flow: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin: 0 auto 0 auto;
+  :global(.button) {
+    margin-bottom: 16px;
+    width: 100%;
   }
 
   :global(.button) {
     margin-bottom: 16px;
+    min-width: 200px;
     width: 100%;
+  }
+
+  section {
+    min-height: 100%;
+    max-width: 80ch;
+    display: flex;
+    flex: 1 0 auto;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0 auto 0 auto;
   }
 
   nav {
@@ -44,12 +50,6 @@
     justify-content: flex-start;
   }
 
-  :global(.button) {
-    margin-bottom: 16px;
-    min-width: 200px;
-    width: 100%;
-  }
-
   @media only screen and (min-height: 700px) {
     nav :global(.button) {
       width: fit-content;
@@ -57,7 +57,7 @@
   }
 </style>
 
-<section class="display-ad">
+<section>
   {#if tags === undefined}
     <p>
       <a href="/user/profile?tab=adventurer">Become a full adventurer now?</a>
@@ -65,7 +65,7 @@
 
     <p>Or can we interest you in a small diversion before your story?</p>
 
-    <nav id="ad-options">
+    <nav>
       {#each sampleSize(Object.keys(choicesAndAttributes), 2) as choice}
         <Button on:click="{() => (tags = choicesAndAttributes[choice])}">
           {choice}
