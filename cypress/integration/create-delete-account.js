@@ -8,6 +8,7 @@ describe("creating and deleting accounts", () => {
 
     deleteUser(cy);
 
+    // TODO(kyle): Why is this so flaky?
     cy.url()
       .should("match", /\//)
       .get("header nav span")

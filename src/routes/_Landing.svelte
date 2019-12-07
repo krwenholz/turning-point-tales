@@ -3,9 +3,58 @@
   import TypeText from "../components/TypeText.svelte";
   import { fade } from "../lib/Transition";
   import { goto } from "@sapper/app";
+  import { join } from "lodash";
 
-  let typingEnd = false;
   let typer;
+  let walkthroughDiv;
+  let walkthroughIndex = -1;
+  let scrollY;
+  let displayedWalkthrough = [];
+
+  // TODO(kyle): give first choice
+  // TODO(kyle): each choice displays elements or lead to Banks (at end?) but always give choice to join
+  // TODO(kyle): Last choice does not display a next
+  let walkthrough = [
+    {
+      details: ["Your first choice is below...."]
+    },
+    {
+      lead: "This is for you.",
+      details: [
+        "New stories come out every month, subscriber only for three to four weeks."
+      ]
+    },
+    {
+      lead: "Great stories are just waiting to be found.",
+      details: [
+        "Our stories are original, sourced from unknown authors, and stamped with the “we really enjoyed this” guarantee. The tooling and platform will eventually be open to everyone."
+      ]
+    },
+    {
+      lead: "Focus on the journey.",
+      details: [
+        "When you finish a story, you’ll get a badge to remember the experience. Some stories take a while, so we save your place as you read (per device)."
+      ]
+    },
+    {
+      lead: "Every choice matters.",
+      details: [
+        "Stories are deep, often twenty minute, experiences. A few choices lead to swift ends. When they do, it’s an end worth reading. But don’t panic! We let you go back after every decision."
+      ]
+    },
+    {
+      lead: "We are glad you came."
+    }
+  ];
+
+  $: {
+    displayedWalkthrough = walkthrough.slice(0, walkthroughIndex + 1);
+    scrollY =
+      scrollY +
+      (walkthroughDiv && walkthroughDiv.lastChild
+        ? walkthroughDiv.lastChild.getBoundingClientRect().top
+        : 0);
+  }
 </script>
 
 <style>
@@ -14,8 +63,8 @@
     display: flex;
     flex: 1 1;
     flex-flow: row;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-evenly;
+    align-items: baseline;
     align-self: center;
   }
 
@@ -26,8 +75,7 @@
     margin-bottom: 64px;
   }
 
-  .prompt,
-  .details {
+  .walkthrough {
     display: flex;
     width: 100%;
     flex-flow: column;
@@ -39,6 +87,7 @@
     text-align: center;
     align-self: center;
     max-width: 400px;
+    padding-bottom: 20px;
   }
 
   img {
@@ -53,6 +102,10 @@
     flex-flow: column;
     align-items: center;
     margin: 0 auto 0 auto;
+  }
+
+  .lead {
+    font-weight: bold;
   }
 
   :global(.button) {
@@ -70,10 +123,6 @@
     .landing {
       flex-flow: row wrap;
       justify-content: space-around;
-    }
-
-    .prompt :global(p) {
-      font-size: 16px;
     }
 
     h1 {
@@ -103,30 +152,32 @@
   }
 </style>
 
+<svelte:window bind:scrollY />
+
 <section class="landing" on:click="{() => typer.skipTyping()}">
   <div class="text">
     <h1>
       <TypeText
         bind:this="{typer}"
-        on:end="{() => (typingEnd = true)}"
-        typingSpeed="{5}"
+        on:end="{() => walkthroughIndex++}"
+        typingSpeed="{0}"
         jitter="{'100'}"
         text="{[`Adventures you choose, tales you get lost in.`]}" />
     </h1>
-    {#if typingEnd}
-      <div class="details" in:fade>
-        <p>
-          Turning Point Tales lets your choices determine where the story goes.
-          We find new adventures from excellent, often unknown, authors and
-          bring them to you in this unique format. Your first choice is
-          below....
-        </p>
-        <p data-cy="landing-text-scroll" class="prompt" in:fade>
-          On an intergalatic starship, traveling at half the speed of light, one
-          man sat bored to death in his stuffy office.
-        </p>
-      </div>
-    {/if}
+    <div class="walkthrough" bind:this="{walkthroughDiv}" in:fade>
+      {#each displayedWalkthrough as { lead, details } (lead + join(details, ''))}
+        <div in:fade>
+          {#if lead}
+            <p class="lead">{lead}</p>
+          {/if}
+          {#if details}
+            {#each details as paragraph}
+              <p>{paragraph}</p>
+            {/each}
+          {/if}
+        </div>
+      {/each}
+    </div>
   </div>
 
   <img
@@ -135,14 +186,20 @@
     pretending to read" />
 </section>
 
-{#if typingEnd}
+{#if displayedWalkthrough.length}
   <nav in:fade>
-    <Button on:click="{() => goto('/teaser-story?storyNode=start')}">
-      <span>A day in the life of Mr. Banks</span>
+    {#if displayedWalkthrough.length !== walkthrough.length}
+      <Button on:click="{() => walkthroughIndex++}">
+        <span>Learn more about the site</span>
+      </Button>
+    {/if}
+
+    <Button variation="link" on:click="{() => goto('/teaser-story')}">
+      <span>Experience a day aboard an intergalactic starship</span>
     </Button>
 
-    <Button variation='link' on:click="{() => goto('/user/new')}">
-      <span>Join the adventure</span>
+    <Button variation="link" on:click="{() => goto('/user/new')}">
+      <span>Adventure now</span>
     </Button>
   </nav>
 {/if}

@@ -40,6 +40,8 @@
   };
 
   export const skipTyping = () => {
+    if (typedText === text) return;
+
     typedText = getChars().join(""); // clear before event loop;
 
     interval.stop(() => {
