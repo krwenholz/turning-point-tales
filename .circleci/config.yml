@@ -28,10 +28,10 @@ commands:
       - run:
           name: Latest Chrome for Cypress
           command: |
-              curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-              sudo dpkg -i google-chrome.deb
-              sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-              rm google-chrome.deb
+            curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg -i google-chrome.deb
+            sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
+            rm google-chrome.deb
       - restore_cache:
           keys:
             - test-app-{{ checksum "package.json" }}
@@ -56,30 +56,31 @@ commands:
       - run:
           name: Build
           command: |
-              docker build -t app/$CIRCLE_SHA1 -t \
-              registry.heroku.com/<< parameters.app >>/web .
+            docker build -t app/$CIRCLE_SHA1 -t \
+            registry.heroku.com/<< parameters.app >>/web .
       - run:
           name: Push image
           command: |
-              docker login --username=_ --password=$HEROKU_AUTH_TOKEN_JANUARY_2019 registry.heroku.com
-              docker push registry.heroku.com/<< parameters.app >>/web
+            docker login --username=_ --password=$HEROKU_AUTH_TOKEN_JANUARY_2019 registry.heroku.com
+            docker push registry.heroku.com/<< parameters.app >>/web
       - run:
           name: Release image
           command: |
-              image_id=`docker inspect app/$CIRCLE_SHA1 --format={{.Id}}`
-              echo "Releasing image $image_id"
-              # Update this if we add a non-web worker
-              # https://devcenter.heroku.com/articles/container-registry-and-runtime#api
-              curl -n -X PATCH https://api.heroku.com/apps/<< parameters.app >>/formation \
-              -d "{ \"updates\": [{\"type\": \"web\", \"docker_image\": \"$image_id\" }]}" \
-              -H "Authorization: Bearer $HEROKU_AUTH_TOKEN_JANUARY_2019" \
-              -H "Content-Type: application/json" \
-              -H "Accept: application/vnd.heroku+json; version=3.docker-releases"
+            image_id=`docker inspect app/$CIRCLE_SHA1 --format={{.Id}}`
+            echo "Releasing image $image_id"
+            # Update this if we add a non-web worker
+            # https://devcenter.heroku.com/articles/container-registry-and-runtime#api
+            curl -n -X PATCH https://api.heroku.com/apps/<< parameters.app >>/formation \
+            -d "{ \"updates\": [{\"type\": \"web\", \"docker_image\": \"$image_id\" }]}" \
+            -H "Authorization: Bearer $HEROKU_AUTH_TOKEN_JANUARY_2019" \
+            -H "Content-Type: application/json" \
+            -H "Accept: application/vnd.heroku+json; version=3.docker-releases"
 
 jobs:
   unit-test:
     docker:
       - image: circleci/node:11.6.0
+    resource_class: small
     steps:
       - jest-test
 
@@ -92,6 +93,7 @@ jobs:
   reset-staging:
     docker:
       - image: circleci/node:11.6.0
+    resource_class: small
     steps:
       - checkout
       - run:
