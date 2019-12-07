@@ -118,11 +118,13 @@
     </a>
     {#if $session.user}
       <div class="user-block">
-        <span data-cy="user-name" class="user-name">{$session.user.firstName}</span>
+        <span data-cy="user-name" class="user-name">
+          {$session.user.firstName}
+        </span>
         <hr />
-        <a href="/user/profile">Profile and settings</a>
+        <a href="/user/profile">Settings</a>
         <hr />
-        <a href="/api/user/logout">Logout</a>
+        <a href="/api/user/logout">Log out</a>
       </div>
     {:else}
       <a data-cy="test-login-hook" href="/user/login" class="nav-vert">

@@ -15,18 +15,17 @@
     flex-flow: column;
   }
 
-  h1 {
-    display: inline-flex;
-    align-items: center;
-    grid-area: heading;
-    min-width: 200px;
-    max-width: 20ch;
-  }
-
-  p {
+  .enticement {
     display: flex-start;
     align-items: center;
-    grid-area: description;
+    grid-area: enticement;
+    max-width: 80ch;
+  }
+
+  .explainer {
+    display: flex-start;
+    align-items: center;
+    grid-area: explainer;
     max-width: 80ch;
   }
 
@@ -38,6 +37,14 @@
     max-width: 100%;
   }
 
+  h1 {
+    display: inline-flex;
+    align-items: center;
+    grid-area: heading;
+    min-width: 200px;
+    max-width: 20ch;
+  }
+
   @media screen and (min-width: 600px) {
     .introduction {
       flex-flow: row;
@@ -47,9 +54,9 @@
     .about {
       display: grid;
       grid-template-areas:
-        "heading     heading     image"
-        "description description image"
-        ".           .           image"
+        "heading    heading    image"
+        "enticement enticement image"
+        "explainer  explainer  image";
     }
 
     img {
@@ -58,32 +65,37 @@
   }
 
   @media screen and (min-width: 1300px) {
-    img { padding-left: 100px; }
+    img {
+      padding-left: 100px;
+    }
   }
 </style>
 
 <section class="introduction">
-  <div class='about'>
-    <h1 class='heading'>Where will your next tale take you?</h1>
+  <div class="about">
+    <h1 class="heading">Where will your next tale take you?</h1>
     <img
       src="/landing.png"
       alt="A dog, a rock creature, and an astronaut cuddle up with a silly human
-    pretending to read"
-    />
+      pretending to read" />
     {#if !isSubscriber}
-      <p class='description'>
+      <p class="enticement">
         Looks like you aren't subscribed yet. That's keeping you from the
         freshest content, exclusive previews, and more. You can fix this by
         <a href="/user/profile?tab=adventurer">becoming an adventurer.</a>
       </p>
     {:else}
-      <p class='description'>
+      <p class="enticement">
         Dive into the world of grues, cardinal directions, and spooky houses.
         Reading can be scary, and not just for the illiterate! Buckle up, and
         prepare for the choices ahead.
       </p>
     {/if}
+    <p class="explainer">
+      This is a home page. Here, you'll find stories and badges earned, with
+      some sense for how many are left. At the top you'll see links to access
+      settings (subscription preferences, etc.) or log out.
+    </p>
   </div>
-
 
 </section>
