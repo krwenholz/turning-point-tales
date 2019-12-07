@@ -1,0 +1,56 @@
+name: CD
+on:
+  push:
+    branches:
+      - master
+      - github_actions
+
+jobs:
+  jest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 11.6
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - run: npm install
+      - run: npm run jest
+  staging-integration-test:
+    runs-on: ubuntu-latest
+    # let's make sure our tests pass on Chrome browser
+    name: Cypress on Chrome
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 11.6
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - run: npm install
+      - name: Install latest Chrome
+        run: |
+          curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome.deb
+          sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
+          rm google-chrome.deb
+      - name: Run Cypress
+        run: CYPRESS_BASE_URL=https://ourfirstbigthing.howhardwoulditbe.com npm run cy:run
+        # ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2019 }}
+        # ${{ secrets.STAGING_DATABASE_URL }}
