@@ -90,19 +90,6 @@ jobs:
       - deploy:
           app: our-first-big-thing
 
-  reset-staging:
-    docker:
-      - image: circleci/node:11.6.0
-    resource_class: small
-    steps:
-      - checkout
-      - run:
-          name: Install
-          command: npm install
-      - run:
-          name: Seed
-          command: CONNECTION_STRING="$STAGING_DATABASE_URL" npm run db:seed
-
   deploy-production:
     machine: true
     steps:

@@ -1,9 +1,8 @@
 name: CD
 on:
   push:
-    branches:
-      - master
-      - github_actions
+    tags:
+      - deploy-*
 
 jobs:
   jest:
@@ -24,10 +23,30 @@ jobs:
             ${{ runner.os }}-
       - run: npm install
       - run: npm run jest
+  reset-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 11.6
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - run: npm install
+      - name: Seed
+        run: CONNECTION_STRING="${{secrets.STAGING_DATABASE_URL}}" npm run db:seed
   staging-integration-test:
     runs-on: ubuntu-latest
     # let's make sure our tests pass on Chrome browser
     name: Cypress on Chrome
+    needs: reset-staging
     steps:
       - name: Checkout
         uses: actions/checkout@v1
