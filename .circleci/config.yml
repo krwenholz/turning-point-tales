@@ -103,12 +103,6 @@ jobs:
           name: Seed
           command: CONNECTION_STRING="$STAGING_DATABASE_URL" npm run db:seed
 
-  test-staging:
-    machine: true
-    steps:
-      - integration-test:
-          url: https://ourfirstbigthing.howhardwoulditbe.com
-
   deploy-production:
     machine: true
     steps:
@@ -128,10 +122,6 @@ workflows:
       - deploy-staging:
           requires:
             - wait-for-dat-button-press
-      - test-staging:
-          requires:
-            - deploy-staging
-            - reset-staging
       - deploy-production:
           requires:
             - test-staging
