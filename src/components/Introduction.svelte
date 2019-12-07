@@ -56,6 +56,10 @@
       margin-left: auto;
     }
   }
+
+  @media screen and (min-width: 1300px) {
+    img { padding-left: 100px; }
+  }
 </style>
 
 <section class="introduction">
