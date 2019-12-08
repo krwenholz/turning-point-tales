@@ -105,7 +105,7 @@
       grid-template-areas:
         "typed-text image           image"
         "typed-text image           image"
-        "nav        walkthrough     walkthrough"
+        "nav        walkthrough     walkthrough";
     }
 
     h1 {
@@ -131,13 +131,13 @@
   }
 </style>
 
-<svelte:window/>
+<svelte:window />
 
 <section class="landing" on:click="{() => typer.skipTyping()}">
   <h1>
     <TypeText
       bind:this="{typer}"
-      on:end="{() => showNav = true}"
+      on:end="{() => (showNav = true)}"
       typingSpeed="{40}"
       jitter="{'60'}"
       text="{[`Adventures you choose,`, `tales you get lost in.`]}" />
@@ -146,25 +146,20 @@
   <img
     src="/landing.png"
     alt="A dog, a rock creature, and an astronaut cuddle up with a silly human
-  pretending to read" />
+    pretending to read" />
 
   {#if showNav}
     <nav in:fade>
-      <Button on:click="{() => goto('/user/new')}">
-        Create an account
-      </Button>
+      <Button on:click="{() => goto('/user/new')}">Create an account</Button>
 
       <Button variation="secondary" on:click="{() => goto('/teaser-story')}">
         A day aboard an intergalactic starship
       </Button>
 
       {#if !showWalkthrough}
-      <Button
-        variation="link"
-        on:click="{() => showWalkthrough = true }"
-      >
-        Learn more about the site
-      </Button>
+        <Button variation="link" on:click="{() => (showWalkthrough = true)}">
+          Learn more about the site
+        </Button>
       {/if}
     </nav>
   {/if}
