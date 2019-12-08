@@ -21,6 +21,15 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Cache cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache # some cached files, cypress, are stored here
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-${{ env.cache-name }}-
+            ${{ runner.os }}-cache-
+            ${{ runner.os }}-
       - run: npm install
       - run: npm run jest
   deploy-staging:
@@ -62,6 +71,15 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+      - name: Cache cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache # some cached files, cypress, are stored here
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-${{ env.cache-name }}-
+            ${{ runner.os }}-cache-
+            ${{ runner.os }}-
       - run: npm install
       - name: Seed
         run: CONNECTION_STRING="${{secrets.STAGING_DATABASE_URL}}" npm run db:seed
@@ -79,11 +97,20 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v1
         with:
-          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/node_modules # npm cache files are stored in `~/.npm` on Linux/macOS
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Cache cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache # some cached files, cypress, are stored here
+          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-cache-${{ env.cache-name }}-
+            ${{ runner.os }}-cache-
             ${{ runner.os }}-
       - run: npm install
       - name: Install latest Chrome
