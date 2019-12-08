@@ -1,52 +1,5 @@
 version: 2.1
 commands:
-  jest-test:
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - test-app-{{ checksum "package.json" }}
-      - run:
-          name: Install
-          command: npm install
-      - save_cache:
-          key: test-app-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-            - ~/.cache
-      - run:
-          name: Jest Tests
-          command: |
-            NODE_ENV=test npm run jest test/
-
-  integration-test:
-    parameters:
-      url:
-        type: string
-    steps:
-      - checkout
-      - run:
-          name: Latest Chrome for Cypress
-          command: |
-            curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            sudo dpkg -i google-chrome.deb
-            sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-            rm google-chrome.deb
-      - restore_cache:
-          keys:
-            - test-app-{{ checksum "package.json" }}
-      - run:
-          name: Install
-          command: npm install
-      - save_cache:
-          key: test-app-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-            - ~/.cache
-      - run:
-          name: Cypress Tests
-          command: |
-            CYPRESS_BASE_URL=<< parameters.url >> npm run cy:run
   deploy:
     parameters:
       app:
