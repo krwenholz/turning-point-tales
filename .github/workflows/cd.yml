@@ -23,8 +23,32 @@ jobs:
             ${{ runner.os }}-
       - run: npm install
       - run: npm run jest
+  deploy-staging:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/checkout@master
+      - name: login
+        uses: actions/heroku@master
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2019 }}
+        with:
+          args: container:login
+      - name: push
+        uses: actions/heroku@master
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2019 }}
+        with:
+          args: container:push -a our-first-big-thing web
+      - name: release
+        uses: actions/heroku@master
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2019 }}
+        with:
+          args: container:release -a our-first-big-thing web
   reset-staging:
     runs-on: ubuntu-latest
+    needs: deploy-staging
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
