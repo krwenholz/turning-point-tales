@@ -25,14 +25,15 @@
 <script>
   import * as sapper from "@sapper/app";
   import Adventure from "src/components/Adventure";
-  import DisplayAd from "src/components/ads/DisplayAd.svelte";
   import BadgePopup from "src/routes/story/_BadgePopup.svelte";
+  import Button from "src/components/Button.svelte";
+  import DisplayAd from "src/components/ads/DisplayAd.svelte";
   import { Logger } from "src/lib/client/logger";
   import { adStore } from "src/lib/stores/browserStore/display-ads";
   import { fetchCsrf } from "src/lib/client/csrf";
   import { mainAdventure } from "src/lib/stores/browserStore/main-adventure";
   import { onMount } from "svelte";
-  import { stores } from "@sapper/app";
+  import { goto, stores } from "@sapper/app";
   import { userSubscribed } from "src/lib/client/user";
 
   export let story;
@@ -42,12 +43,13 @@
 
   const { page, session } = sapper.stores();
   const isSubscribed = userSubscribed($session.user);
-  const released = new Date(generalRelease) < new Date();
   const oneDay = 1 * 24 * 60 * 60 * 1000;
+  const released = new Date(generalRelease) < new Date();
+  let haveRemainingDecisions = true;
+  let badgePopup;
+  let csrf;
   let previousNodeName = $page.query.storyNode;
   let visitations = [];
-  let csrf;
-  let badgePopup;
 
   const adInfo = adStore();
 
@@ -115,6 +117,19 @@
     flex-flow: column;
     flex: 1;
   }
+
+  .final-options {
+    flex-shrink: 0;
+    flex-grow: 0;
+    align-self: center;
+    margin: 16px 0;
+  }
+
+  .route-adventure :global(.explore-other-stories) {
+    min-width: fit-content;
+    min-width: moz-fit-content;
+    margin-top: 16px;
+  }
 </style>
 
 <svelte:head>
@@ -130,9 +145,27 @@
       className="adventure"
       storyNode="{$page.query.storyNode}"
       {visitations}
+      bind:haveRemainingDecisions
       on:pageChange="{recordVisit}"
       on:pageChange="{({ detail }) => badgePopup.newPage(detail.storyNode)}" />
     <BadgePopup {badges} bind:this="{badgePopup}" />
+    {#if !haveRemainingDecisions}
+      <div class="final-options">
+        {#if !isSubscribed}
+          <Button
+            variation="link"
+            on:click="{() => goto('/user/profile?tab=adventurer')}">
+            <span>Enjoy more great tales, become an adventurer now</span>
+          </Button>
+        {/if}
+        <Button
+          className="{'explore-other-stories'}"
+          variation="link"
+          on:click="{() => goto('/')}">
+          <span>Explore other stories</span>
+        </Button>
+      </div>
+    {/if}
   </div>
 {:else if released}
   <DisplayAd on:end="{adFinished}" />
