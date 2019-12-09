@@ -3,7 +3,7 @@
 const { Pool } = require("pg");
 const Logger = require("js-logger");
 const securePassword = require("secure-password");
-const stories = require("./stories.js");
+const stories = require("../../stories/index.js");
 
 Logger.useDefaults();
 
@@ -11,6 +11,8 @@ const passwordHasher = securePassword();
 const pool = new Pool({
   connectionString: process.env.CONNECTION_STRING
 });
+
+Logger.info("Using connection string: ", process.env.CONNECTION_STRING);
 
 /*
  * RESET Database

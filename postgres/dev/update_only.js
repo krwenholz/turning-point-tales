@@ -3,7 +3,7 @@
 const { Pool } = require("pg");
 const Logger = require("js-logger");
 const securePassword = require("secure-password");
-const stories = require("./stories.js");
+const stories = require("../../stories/index.js");
 
 Logger.useDefaults();
 

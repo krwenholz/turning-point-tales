@@ -6,9 +6,6 @@
 
   const { page, session } = stores();
 
-  export let stories;
-  export let foo;
-
   $: if ($page.query.user === "clear") {
     Logger.info("Clearing user");
     $session.user = null;
