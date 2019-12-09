@@ -116,7 +116,7 @@
     getStoryNodeAfterIntro(story, "start") !== "start";
 
   const showGoBackButton = () => {
-    if(!enableExtraNavigation || $store.storyNode === 'start') return false;
+    if (!enableExtraNavigation || $store.storyNode === "start") return false;
 
     const previousDecision = $store.history[$store.history.length - 2];
 
@@ -236,12 +236,6 @@
     margin-bottom: 16px;
     min-width: 100%;
   }
-
-  .adventure :global(.explore-other-stories) {
-    min-width: fit-content;
-    min-width: moz-fit-content;
-    margin-top: 16px;
-  }
 </style>
 
 {#if process.browser}
@@ -286,15 +280,6 @@
         <Button variation="secondary" on:click="{goBack}">
           <span>go back</span>
           <ReplayOne />
-        </Button>
-      {/if}
-      {#if !haveRemainingDecisions && enableExtraNavigation}
-        <Button
-          className={'explore-other-stories'}
-          variation="link"
-          on:click={() => goto('/')}
-        >
-          <span>Explore other stories</span>
         </Button>
       {/if}
     </nav>

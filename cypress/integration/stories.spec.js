@@ -19,9 +19,18 @@ describe("Stories", () => {
     );
   });
 
+  it("displays correct options at end", () => {
+    cy.contains("Continue...").click();
+    cy.location().then(loc => {
+      cy.visit(loc.pathname + "?storyNode=stop_the_clocks");
+    });
+    cy.contains("restart").should("exist");
+    cy.contains("go back").should("exist");
+    cy.contains("Explore other stories").should("exist");
+  });
+
   it("displays earned badges", () => {
     cy.contains("📁", { timeout: 3000 }).should("exist");
-    cy.contains("😫", { timeout: 3000 }).should("exist");
     cy.contains("... only a small number remaining.").should("exist");
     cy.contains("... many more to discover.").should("exist");
   });
