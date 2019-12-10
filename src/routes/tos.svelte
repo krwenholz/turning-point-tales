@@ -5,7 +5,7 @@
 <section class="text">
   <h2>Turning Point Tales: Terms of Service</h2>
 
-  <p>Effective date: March 21, 2018</p>
+  <p>Effective date: November 21, 2019</p>
 
   <p>
     A document in which we get some not-so-scary words out of the way, so we can
