@@ -1,8 +1,15 @@
 name: CD
 on:
   push:
-    tags:
-      - deploy-*
+    branches:
+      - master
+    paths-ignore:
+      - stories*
+      - postgres*
+      - test*
+      - infrastructure*
+      - cypress*
+      - scripts*
 
 jobs:
   jest:
