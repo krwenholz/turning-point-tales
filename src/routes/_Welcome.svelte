@@ -12,11 +12,6 @@
 
   let visitations = new Set([]);
 
-  $: if ($page.query.user === "clear") {
-    Logger.info("Clearing user");
-    $session.user = null;
-  }
-
   onMount(() => {
     fetch("/story/visits")
       .then(response => {

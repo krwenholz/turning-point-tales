@@ -4,8 +4,8 @@ WORKDIR /usr/src/app
 
 COPY package*.json webpack.config.js ./
 COPY config ./config
-COPY src ./src
 COPY static ./static
+COPY src ./src
 
 RUN npm install
 

@@ -1,13 +1,13 @@
 <script>
   import * as sapper from "@sapper/app";
-  import { fade } from "src/lib/Transition";
   import { axios } from "src/lib/axios";
+  import { fade } from "src/lib/Transition";
   import { statusTracking } from "src/lib/stores/status-tracking";
   import { Input, Form, Checkbox } from "src/components/Form";
   import Button from "src/components/Button.svelte";
   import FAQ from "src/routes/faq.svelte";
 
-  const { page } = sapper.stores();
+  const { page, session } = sapper.stores();
   const { goto } = sapper;
 
   let form;
@@ -42,7 +42,11 @@
         password
       });
 
-      window.location.href = "/"; //hard refresh needed to propogate login
+      // Populate the session, because we don't always get a full page refresh.
+      const sessionResponse = await axios.get("/api/user/session");
+      if (sessionResponse.data) session.set(sessionResponse.data);
+
+      window.location.href = "/";
     } catch ({ response }) {
       errorMsg = `Unable to create your account. Please check your spelling and formatting. If you already have an account, please request a password reset using the login page.`;
     }
