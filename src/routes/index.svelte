@@ -11,7 +11,7 @@
 
   $: if ($page.query.user === "clear") {
     Logger.info("Clearing user");
-    $session.user = null;
+    session.set({});
   }
 </script>
 
