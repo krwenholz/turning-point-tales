@@ -126,6 +126,8 @@ input[type="checkbox"] {
   min-height: 26px;
 }
 
+img { width: 100%; }
+
 /* UTILS */
 
 .hidden {

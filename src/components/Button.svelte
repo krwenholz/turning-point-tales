@@ -48,17 +48,17 @@
     min-width: auto;
     border-radius: var(--root-border-radius);
     background-color: transparent;
-    color: var(--root-color-primary);
+    color: var(--root-color-accent);
   }
 
   .button--link {
     width: fit-content;
     background-color: transparent;
     color: var(--root-color-accent);
-    border-bottom: 2px solid currentColor;
-    border-radius: 0px;
+    border: none;
     padding: 0;
     min-height: 20px;
+    text-decoration: underline;
   }
 
   #HOVER.button.button--link:hover {
