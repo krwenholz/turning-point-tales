@@ -27,7 +27,7 @@
   }
 
   .reset-text {
-    margin-top: 8px;
+    margin-top: 16px;
   }
 </style>
 
@@ -38,7 +38,6 @@
       <a href="mailto:support@turningpointtales.com">
         support@turningpointtales.com
       </a>
-      .
     </p>
   </section>
 {/if}
@@ -64,10 +63,9 @@
     </Input>
 
     <Button type="submit">Log in</Button>
-    <span class="reset-text">
+    <div class="reset-text">
       Forgot your password? Click
       <a data-cy="password-reset" href="/password-reset">here.</a>
-      <span></span>
-    </span>
+    </div>
   </form>
 </section>

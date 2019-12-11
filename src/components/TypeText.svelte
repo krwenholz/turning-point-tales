@@ -36,7 +36,7 @@
     return text
       .join("\n")
       .split("")
-      .map(char => char.replace(/\n/, "<br/><br/>"));
+      .map(char => char.replace(/\n/, "<br/>"));
   };
 
   export const skipTyping = () => {
