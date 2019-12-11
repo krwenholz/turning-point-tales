@@ -1,26 +1,26 @@
 describe("unauthenticated redirects", () => {
   it("redirects to landing", () => {
-    cy.visit("/");
-    cy.url().should("match", /\//);
-    cy.contains("Adventures you choose, tales you get lost in.", {
-      timeout: 5000
-    }).should("exist");
+    cy.visit("/")
+      .url().should("match", /\//);
+
+    cy.contains("Adventures you choose,")
+      .contains("tales you get lost in")
   });
 
   it("allows direct navigation to the landing page", () => {
-    cy.visit("/");
-    cy.url().should("match", /\//);
-    cy.contains("Adventures you choose, tales you get lost in.", {
-      timeout: 5000
-    }).should("exist");
+    cy.visit("/")
+      .url().should("match", /\//);
+
+    cy.contains("Adventures you choose,", { timeout: 5000 })
+    .contains("tales you get lost in", { timeout: 5000 })
   });
 
   it("redirects to landing when visiting auth-only content", () => {
     cy.visit("/story/1");
     cy.url().should("match", /\//);
-    cy.contains("Adventures you choose, tales you get lost in.", {
-      timeout: 5000
-    }).should("exist");
+
+    cy.contains("Adventures you choose,", { timeout: 5000 })
+      .contains("tales you get lost in", { timeout: 5000 })
   });
 });
 
@@ -42,33 +42,31 @@ describe("authenticated", () => {
 
 describe("content", () => {
   it("provides details on landing", () => {
-    cy.visit("/");
-    cy.url().should("match", /\//);
-    cy.contains("Adventures you choose, tales you get lost in.", {
-      timeout: 5000
-    }).should("exist");
+    cy.visit("/")
+      .url().should("match", /\//);
 
-    cy.contains("Learn more about the site").should("exist");
-    cy.contains("Experience a day aboard an intergalactic starship").should(
-      "exist"
-    );
-    cy.contains("Adventure now").should("exist");
+    cy.contains("Adventures you choose,", { timeout: 5000 })
+      .contains("tales you get lost in", { timeout: 5000 });
 
-    cy.contains("Learn more about the site").click();
-    cy.contains("This is for you.").should("exist");
-    cy.contains("Learn more about the site").click();
-    cy.contains("Learn more about the site").click();
-    cy.contains("Learn more about the site").click();
-    cy.contains("Learn more about the site").click();
-    cy.contains("We are glad you came.").should("exist");
-    cy.contains("Learn more about the site").should("not.exist");
+    cy.get('button')
+      .contains("A day aboard an intergalactic");
+
+    cy.get("button")
+      .contains("Create an account")
+
+    cy.contains('Learn more about the site').click()
+
+    cy.contains("This is for you.");
+
+    cy.contains("We are glad you came.");
   });
 
   it("visits teaser story", () => {
     cy.visit("/")
-      .get(".landing .text h1")
+      .get(".landing h1")
       .click();
-    cy.contains("Experience a day aboard an intergalactic starship")
+
+    cy.contains("A day aboard an intergalactic starship")
       .click()
       .url()
       .should("match", /\/teaser-story/);

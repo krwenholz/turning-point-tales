@@ -6,18 +6,10 @@
   import { join } from "lodash";
 
   let typer;
-  let walkthroughDiv;
-  let walkthroughIndex = -1;
-  let scrollY;
-  let displayedWalkthrough = [];
+  let showWalkthrough = false;
+  let showNav = false;
 
-  // TODO(kyle): give first choice
-  // TODO(kyle): each choice displays elements or lead to Banks (at end?) but always give choice to join
-  // TODO(kyle): Last choice does not display a next
-  let walkthrough = [
-    {
-      details: ["Your first choice is below...."]
-    },
+  const walkthrough = [
     {
       lead: "This is for you.",
       details: [
@@ -46,33 +38,17 @@
       lead: "We are glad you came."
     }
   ];
-
-  $: {
-    displayedWalkthrough = walkthrough.slice(0, walkthroughIndex + 1);
-    scrollY =
-      scrollY +
-      (walkthroughDiv && walkthroughDiv.lastChild
-        ? walkthroughDiv.lastChild.getBoundingClientRect().top
-        : 0);
-  }
 </script>
 
 <style>
   .landing {
-    width: 100%;
     display: flex;
+    width: 100%;
     flex: 1 1;
-    flex-flow: row;
+    flex-flow: column;
     justify-content: space-evenly;
     align-items: baseline;
     align-self: center;
-  }
-
-  .text {
-    display: flex;
-    flex-flow: column;
-    align-self: flex-start;
-    margin-bottom: 64px;
   }
 
   .walkthrough {
@@ -80,25 +56,29 @@
     width: 100%;
     flex-flow: column;
     justify-content: center;
-    text-align: center;
+    text-align: left;
   }
 
   h1 {
+    margin-top: 0;
+    min-height: 70px;
     text-align: center;
     align-self: center;
-    max-width: 400px;
-    padding-bottom: 20px;
+    line-height: 30px;
+    font-size: 20px;
   }
 
   img {
-    display: none;
-    width: auto;
-    height: 500px;
-    transform: translate(0, -25%);
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
   }
 
   nav {
     display: flex;
+    min-height: 200px;
+    width: fit-content;
+    width: -moz-fit-content;
     flex-flow: column;
     align-items: center;
     margin: 0 auto 0 auto;
@@ -113,59 +93,85 @@
     width: 100%;
   }
 
-  @media only screen and (min-height: 700px) {
+  @media only screen and (min-width: 800px) {
     .landing {
-      margin-top: 15vh;
-    }
-  }
-
-  @media only screen and (min-width: 1150px) {
-    .landing {
-      flex-flow: row wrap;
-      justify-content: space-around;
+      display: grid;
+      flex: none;
+      margin: auto;
+      grid-gap: 24px;
+      width: 70vw;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto minmax(200px, 1fr);
+      grid-template-areas:
+        "typed-text image           image"
+        "typed-text image           image"
+        "nav        walkthrough     walkthrough"
     }
 
     h1 {
-      font-size: 44px;
-      line-height: 1.3;
-    }
-
-    .text {
-      width: 50%;
+      grid-area: typed-text;
+      font-size: 2.5vw;
+      line-height: inherit;
     }
 
     img {
-      display: flex;
-      transform: none;
-      max-width: 50%;
+      grid-area: image;
     }
 
     nav {
-      width: 100%;
+      grid-area: nav;
+      width: 70%;
       display: flex;
     }
 
-    nav :global(.button) {
-      width: fit-content;
-      width: -moz-fit-content;
+    .walkthrough {
+      grid-area: walkthrough;
+      align-self: start;
     }
   }
 </style>
 
-<svelte:window bind:scrollY />
+<svelte:window/>
 
 <section class="landing" on:click="{() => typer.skipTyping()}">
-  <div class="text">
-    <h1>
-      <TypeText
-        bind:this="{typer}"
-        on:end="{() => walkthroughIndex++}"
-        typingSpeed="{0}"
-        jitter="{'100'}"
-        text="{[`Adventures you choose, tales you get lost in.`]}" />
-    </h1>
-    <div class="walkthrough" bind:this="{walkthroughDiv}" in:fade>
-      {#each displayedWalkthrough as { lead, details } (lead + join(details, ''))}
+  <h1>
+    <TypeText
+      bind:this="{typer}"
+      on:end="{() => showNav = true}"
+      typingSpeed="{40}"
+      jitter="{'60'}"
+      text="{[`Adventures you choose,`, `tales you get lost in.`]}" />
+  </h1>
+
+  <img
+    src="/landing.png"
+    alt="A dog, a rock creature, and an astronaut cuddle up with a silly human
+  pretending to read" />
+
+  {#if showNav}
+    <nav in:fade>
+      <Button on:click="{() => goto('/user/new')}">
+        Create an account
+      </Button>
+
+      <Button variation="secondary" on:click="{() => goto('/teaser-story')}">
+        A day aboard an intergalactic starship
+      </Button>
+
+      {#if !showWalkthrough}
+      <Button
+        variation="link"
+        on:click="{() => showWalkthrough = true }"
+      >
+        Learn more about the site
+      </Button>
+      {/if}
+    </nav>
+  {/if}
+
+  {#if showWalkthrough}
+    <div class="walkthrough" in:fade>
+      {#each walkthrough as { lead, details } (lead + join(details, ''))}
         <div in:fade>
           {#if lead}
             <p class="lead">{lead}</p>
@@ -178,28 +184,5 @@
         </div>
       {/each}
     </div>
-  </div>
-
-  <img
-    src="/landing.png"
-    alt="A dog, a rock creature, and an astronaut cuddle up with a silly human
-    pretending to read" />
+  {/if}
 </section>
-
-{#if displayedWalkthrough.length}
-  <nav in:fade>
-    {#if displayedWalkthrough.length !== walkthrough.length}
-      <Button on:click="{() => walkthroughIndex++}">
-        <span>Learn more about the site</span>
-      </Button>
-    {/if}
-
-    <Button variation="link" on:click="{() => goto('/teaser-story')}">
-      <span>Experience a day aboard an intergalactic starship</span>
-    </Button>
-
-    <Button variation="link" on:click="{() => goto('/user/new')}">
-      <span>Adventure now</span>
-    </Button>
-  </nav>
-{/if}

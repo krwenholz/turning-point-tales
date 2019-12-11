@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    padding: 0 var(--root-wrapper-padding);
+    padding-bottom: 16px;
     width: 100%;
     margin-top: auto;
     background-color: var(--root-color-background);
