@@ -3,7 +3,7 @@ describe("NonSubscriber", () => {
     cy.logInNonSubscriber();
   });
 
-  it("displays ads", () => {
+  it("displays ads and conversion", () => {
     cy.contains("Continue...").click();
     cy.contains(
       /(Reading recommendations from the founders and creators|Reading adjacent things|Reading orthogonal things)/
@@ -12,6 +12,16 @@ describe("NonSubscriber", () => {
       .click()
       .url()
       .should("match", /\/story\/[a-z0-9-]+\?storyNode=start/);
+
+    cy.location().then(loc => {
+      cy.visit(loc.pathname + "?storyNode=stop_the_clocks");
+    });
+    cy.contains("restart").should("exist");
+    cy.contains("go back").should("exist");
+    cy.contains("Enjoy more great tales, become an adventurer now").should(
+      "exist"
+    );
+    cy.contains("Explore other stories").should("exist");
   });
 
   it("blocks early content", () => {
@@ -22,18 +32,5 @@ describe("NonSubscriber", () => {
     cy.get(".story-previews")
       .find("button")
       .should("have.length", 1);
-  });
-
-  it("prompts conversion on story ends", () => {
-    cy.contains("Continue...").click();
-    cy.location().then(loc => {
-      cy.visit(loc.pathname + "?storyNode=stop_the_clocks");
-    });
-    cy.contains("restart").should("exist");
-    cy.contains("go back").should("exist");
-    cy.contains("Enjoy more great tales, become an adventurer now").should(
-      "exist"
-    );
-    cy.contains("Explore other stories").should("exist");
   });
 });
