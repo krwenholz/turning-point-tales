@@ -3,6 +3,12 @@ describe("Stories", () => {
     cy.logIn();
   });
 
+  it("displays earned badges", () => {
+    cy.contains("📁", { timeout: 3000 }).should("exist");
+    cy.contains("... only a small number remaining.").should("exist");
+    cy.contains("... many more to discover.").should("exist");
+  });
+
   it("displays badges when earned", () => {
     cy.contains("Continue...").click();
     cy.location()
@@ -27,11 +33,5 @@ describe("Stories", () => {
     cy.contains("restart").should("exist");
     cy.contains("go back").should("exist");
     cy.contains("Explore other stories").should("exist");
-  });
-
-  it("displays earned badges", () => {
-    cy.contains("📁", { timeout: 3000 }).should("exist");
-    cy.contains("... only a small number remaining.").should("exist");
-    cy.contains("... many more to discover.").should("exist");
   });
 });

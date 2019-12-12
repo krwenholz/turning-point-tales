@@ -110,9 +110,9 @@
             <span class="badge">{badge.icon}</span>
           {/if}
         {/each}
-        {#if 0.66 < undiscoveredBadgePercent}
+        {#if undiscoveredBadgePercent > 0.5}
           ... many more to discover.
-        {:else if 0.33 < undiscoveredBadgePercent}
+        {:else if undiscoveredBadgePercent > 0}
           ... only a small number remaining.
         {/if}
       </p>
