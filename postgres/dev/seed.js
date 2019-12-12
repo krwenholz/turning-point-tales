@@ -185,6 +185,13 @@ const seedVisitations = async () => {
     "file_actual_weather_change",
     "supplementary_form_36_a"
   );
+
+  await addVisitation(
+    "test-subscriber@h2wib.com",
+    "Mr. Banks",
+    "stop_the_clocks",
+    "looks_under_desk"
+  );
 };
 
 /**
