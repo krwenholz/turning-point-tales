@@ -1,5 +1,5 @@
 <script>
-  import Preview from "src/components/StoryPreview/Preview.svelte";
+  import Preview from "./Preview.svelte";
   import { goto } from "@sapper/app";
 
   export let stories = [];

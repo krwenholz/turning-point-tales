@@ -42,6 +42,7 @@
     recordUnlockSkipIntro();
     dispatch("pageChange", {
       storyNode: $store.storyNode,
+      final: Boolean(currentPage.final),
       history: $store.history,
       consequences: last($store.history).consequences
     });

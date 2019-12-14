@@ -11,6 +11,32 @@ export default {
       "And Mr. Banks, who oversaw this triumphant testament of man’s ability to carve in the vast desert of space a single bastion of life, knew only two things would never change. The first, as he knew all too well, was the weather. The second was this; He was unbelievably, undeniably, unequivocally bored out of his mind.",
       "Something had to change."
     ],
-    final: true
-  }
+    decisions: [
+      {
+        storyNode: "file_a_formal_complaint",
+        label:
+        "Time to solve this problem the right way, with a formal complaint to HR"
+      },
+      {
+        storyNode: "file_a_formal_weather_change",
+        label: "Only through paperwork, can the goal be achieved."
+      }
+    ]
+  },
+  file_a_formal_weather_change: {
+    text: [
+      "Swiveling in his chair, Banks reached into a large set of filing shelves directly next to his desk. If anything was going to change, it would require the most important catalyst of all; A well-documented, and thoroughly filled 'Request for Weather Change'.",
+      "Being the orderly and considerate gentleman that he was, all things required paperwork, and looking for the impromptu change in the weather was no exception. Reaching into the cabinet, he flipped quickly through various request forms, from 'Annual Hail Invariant Comparison Reports', to 'Simplified Rainfall measurement metrics for Gross Adjusted intra-ship analytics', the latter being a recurring favorite in the hectic fall months, where such reports allowed for critical quarterly reports.",
+      "Reaching past the otherwise tempting documents, he found the weather request forms, and laid them out in a neat pile on top of his desk. Placing his finger onto the page, he scanned towards the top level index, which stated, 'For all pre-approved weather request forms, use 'Post-Approval Form 35-B'. For other requests, please use 'Pre-Approval Form 36-A'. Much to his chagrin, Banks couldn't readily remember if he had ever filled a pre-approval form. Even worse, he wasn't sure if it mattered"
+    ],
+    final: true,
+  },
+  file_a_formal_complaint: {
+    text: [
+      "Swiveling in his chair, Banks reached into a large set of filing shelves directly next to his desk. If anything was going to change, it would require the most important catalyst of all; A well-documented, and thoroughly filled 'Request for Weather Change'.",
+      "Being the orderly and considerate gentleman that he was, all things required paperwork, and looking for the impromptu change in the weather was no exception. Reaching into the cabinet, he flipped quickly through various request forms, from 'Annual Hail Invariant Comparison Reports', to 'Simplified Rainfall Measurement Metrics for Gross Adjusted Intra-Ship Analytics', the latter being a recurring favorite in the hectic fall months, where such reports allowed for critical quarterly presentations.",
+      "Reaching past the otherwise tempting documents, he found the weather request forms, and laid them out in a neat pile on top of his desk. Placing his finger on the page, he scanned towards the top level index, which stated, 'For all pre-approved weather request forms, use 'Post-Approval Form 35-B'. For other requests, please use 'Pre-Approval Form 36-A'. Much to his chagrin, Banks couldn't readily remember if he had ever filled a pre-approval form. Even worse, he wasn't sure if it mattered"
+    ],
+    final: true,
+  },
 };
