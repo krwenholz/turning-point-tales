@@ -1,6 +1,6 @@
 <script>
   import Introduction from "src/components/Introduction.svelte";
-  import StoryPreviews from "src/components/StoryPreview/index.svelte";
+  import StoryPreview from "./StoryPreview";
   import { onMount } from "svelte";
   import { userSubscribed } from "src/lib/client/user";
   import { Logger } from "src/lib/client/logger";
@@ -63,4 +63,4 @@
 
 <Introduction isSubscriber="{userSubscribed($session.user)}" />
 
-<StoryPreviews {stories} isSubscriber="{userSubscribed($session.user)}" />
+<StoryPreview {stories} isSubscriber="{userSubscribed($session.user)}" />

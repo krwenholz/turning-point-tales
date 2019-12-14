@@ -1,23 +1,29 @@
+const skipTypedInto = () => {
+  cy.visit('/')
+    .get(".landing h1")
+    .click();
+}
+
 describe("unauthenticated redirects", () => {
+  beforeEach(skipTypedInto);
+
   it("redirects to landing", () => {
-    cy.visit("/")
-      .url().should("match", /\//);
+    cy.url().should("match", /\//);
 
     cy.contains("Adventures you choose,")
       .contains("tales you get lost in")
   });
 
   it("allows direct navigation to the landing page", () => {
-    cy.visit("/")
-      .url().should("match", /\//);
+    cy.url().should("match", /\//);
 
     cy.contains("Adventures you choose,", { timeout: 5000 })
     .contains("tales you get lost in", { timeout: 5000 })
   });
 
   it("redirects to landing when visiting auth-only content", () => {
-    cy.visit("/story/1");
-    cy.url().should("match", /\//);
+    cy.visit("/story/1")
+      .url().should("match", /\//);
 
     cy.contains("Adventures you choose,", { timeout: 5000 })
       .contains("tales you get lost in", { timeout: 5000 })
@@ -25,6 +31,8 @@ describe("unauthenticated redirects", () => {
 });
 
 describe("authenticated", () => {
+  beforeEach(skipTypedInto);
+
   it("redirects to root after login", () => {
     cy.logIn()
       .url()
@@ -35,15 +43,20 @@ describe("authenticated", () => {
 
   it("should be able to access auth-only pages", () => {
     cy.logIn();
-    cy.contains("Continue...").click();
-    cy.url().should("match", /\/story\/[a-z0-9-]+\?storyNode=start/);
+
+    cy.contains("Continue...")
+      .click();
+
+    cy.url()
+      .should("match", /\/story\/[a-z0-9-]+\?storyNode=start/);
   });
 });
 
-describe("content", () => {
+describe("learn more", () => {
+  beforeEach(skipTypedInto);
+
   it("provides details on landing", () => {
-    cy.visit("/")
-      .url().should("match", /\//);
+    cy.url().should("match", /\//);
 
     cy.contains("Adventures you choose,", { timeout: 5000 })
       .contains("tales you get lost in", { timeout: 5000 });
@@ -60,15 +73,24 @@ describe("content", () => {
 
     cy.contains("We are glad you came.");
   });
+});
+
+describe('navigation buttons', () => {
+  beforeEach(skipTypedInto);
+
+  it("visits the 'create an account' page", () => {
+    cy.get("button")
+    .contains("Create an account")
+    .click()
+    .url()
+    .should("match", /\/user\/new/);
+  });
 
   it("visits teaser story", () => {
-    cy.visit("/")
-      .get(".landing h1")
-      .click();
-
-    cy.contains("A day aboard an intergalactic starship")
+      cy.get('button')
+      .contains("A day aboard an intergalactic starship")
       .click()
       .url()
       .should("match", /\/teaser-story/);
   });
-});
+})

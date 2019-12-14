@@ -23,11 +23,10 @@
 </script>
 
 <script>
-  import * as sapper from "@sapper/app";
   import Adventure from "src/components/Adventure";
+  import DisplayAd from "./DisplayAd";
   import BadgePopup from "src/routes/story/_BadgePopup.svelte";
   import Button from "src/components/Button.svelte";
-  import DisplayAd from "src/components/ads/DisplayAd.svelte";
   import { Logger } from "src/lib/client/logger";
   import { adStore } from "src/lib/stores/browserStore/display-ads";
   import { fetchCsrf } from "src/lib/client/csrf";
@@ -41,7 +40,7 @@
   export let badges;
   export let generalRelease;
 
-  const { page, session } = sapper.stores();
+  const { page, session } = stores();
   const isSubscribed = userSubscribed($session.user);
   const oneDay = 1 * 24 * 60 * 60 * 1000;
   const released = new Date(generalRelease) < new Date();
@@ -61,7 +60,7 @@
     Logger.info("bbb", badges, detail);
   };
 
-  const recordVisit = ({ detail }) => {
+  const recordVisit = (detail) => {
     fetch("/story/visits", {
       method: "POST",
       headers: {
@@ -88,9 +87,10 @@
 
   $: adSeen = Date.now() - $adInfo.dateSeen < oneDay;
 
-  onMount(() => (csrf = fetchCsrf()));
 
   onMount(() => {
+    csrf = fetchCsrf();
+
     fetch("/story/visits")
       .then(response => {
         if (!response.ok) throw new Error("Response was not ok");
@@ -136,18 +136,22 @@
   <title>{title}</title>
 </svelte:head>
 
-{#if isSubscribed || (released && adSeen)}
+{#if process.browser && isSubscribed || (released && adSeen)}
   <div class="route-adventure">
     <Adventure
       {story}
       {title}
+      {visitations}
       store="{mainAdventure(story)}"
       className="adventure"
       storyNode="{$page.query.storyNode}"
-      {visitations}
+      goto={goto}
       bind:haveRemainingDecisions
-      on:pageChange="{recordVisit}"
-      on:pageChange="{({ detail }) => badgePopup.newPage(detail.storyNode)}" />
+      on:pageChange="{({ detail }) => {
+        recordVisit(detail);
+        badgePopup.newPage(detail.storyNode)
+      }}"
+    />
     <BadgePopup {badges} bind:this="{badgePopup}" />
     {#if !haveRemainingDecisions}
       <div class="final-options">
