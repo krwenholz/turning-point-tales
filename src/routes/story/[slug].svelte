@@ -136,7 +136,7 @@
   <title>{title}</title>
 </svelte:head>
 
-{#if isSubscribed || (released && adSeen)}
+{#if process.browser && isSubscribed || (released && adSeen)}
   <div class="route-adventure">
     <Adventure
       {story}

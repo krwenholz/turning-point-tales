@@ -239,50 +239,48 @@
   }
 </style>
 
-{#if process.browser}
-  <section class="{`adventure ${className}`}">
-    {#if title && currentPage.storyNode === 'start'}
-      <h3>{title}</h3>
-    {/if}
+<section class="{`adventure ${className}`}">
+  {#if title && currentPage.storyNode === 'start'}
+    <h3>{title}</h3>
+  {/if}
 
-    {#if currentPage}
-      {#each currentPage.text as paragraph}
-        <p class="{get(paragraph, 'formatting', []).join(' ')}">
-          {@html get(paragraph, 'words', paragraph)}
-        </p>
+  {#if currentPage}
+    {#each currentPage.text as paragraph}
+      <p class="{get(paragraph, 'formatting', []).join(' ')}">
+        {@html get(paragraph, 'words', paragraph)}
+      </p>
+    {/each}
+  {/if}
+
+  <nav in:fade>
+    {#if haveRemainingDecisions}
+      {#each filterAvailable(currentPage.decisions) as decision}
+        <Button
+          disabled="{decision.disabled}"
+          on:click="{() => goToDecision(decision)}">
+          {decision.label}
+        </Button>
       {/each}
     {/if}
-
-    <nav in:fade>
-      {#if haveRemainingDecisions}
-        {#each filterAvailable(currentPage.decisions) as decision}
-          <Button
-            disabled="{decision.disabled}"
-            on:click="{() => goToDecision(decision)}">
-            {decision.label}
-          </Button>
-        {/each}
-      {/if}
-      {#if enableExtraNavigation}
-        <Button
-          variation="secondary"
-          on:click="{() => goToDecision({ storyNode: 'start' })}">
-          <span>restart</span>
-          <Undo />
-        </Button>
-      {/if}
-      {#if showSkipIntro()}
-        <Button variation="secondary" on:click="{skipIntro}">
-          <span>Skip intro</span>
-          <Undo />
-        </Button>
-      {/if}
-      {#if showGoBackButton()}
-        <Button variation="secondary" on:click="{goBack}">
-          <span>go back</span>
-          <ReplayOne />
-        </Button>
-      {/if}
-    </nav>
-  </section>
-{/if}
+    {#if enableExtraNavigation}
+      <Button
+        variation="secondary"
+        on:click="{() => goToDecision({ storyNode: 'start' })}">
+        <span>restart</span>
+        <Undo />
+      </Button>
+    {/if}
+    {#if showSkipIntro()}
+      <Button variation="secondary" on:click="{skipIntro}">
+        <span>Skip intro</span>
+        <Undo />
+      </Button>
+    {/if}
+    {#if showGoBackButton()}
+      <Button variation="secondary" on:click="{goBack}">
+        <span>go back</span>
+        <ReplayOne />
+      </Button>
+    {/if}
+  </nav>
+</section>
