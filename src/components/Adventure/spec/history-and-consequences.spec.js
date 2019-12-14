@@ -15,15 +15,15 @@ describe('<Adventure/> e.g history and consequences', () => {
       storyNode:'start',
       enableExtraNavigation: false,
     }));
-  })
+  });
 
-  const chooseWakeUpEarly = async () => await fireEvent.click(getByText(container, /^wake up/))
-  const chooseSleepingIn = async () => await fireEvent.click(getByText(container, /^Hit snooze/))
-  const chooseCoffee = async () => await fireEvent.click(getByText(container, /^coffee/));
-  const chooseAvocadoToast = async () => await fireEvent.click(getByText(container, /^avocado toast/));
-  const chooseWalking = async () => await fireEvent.click(getByText(container, /^Guess you'll walk/));
-  const chooseDriving = async () => await fireEvent.click(getByText(container, /Drive car/));
-  const chooseStartOver = async () => await fireEvent.click(queryByText(container, 'well, time to start over'));
+  const chooseWakeUpEarly = () => fireEvent.click(getByText(container, /^wake up/))
+  const chooseSleepingIn = () => fireEvent.click(getByText(container, /^Hit snooze/))
+  const chooseCoffee = () => fireEvent.click(getByText(container, /^coffee/));
+  const chooseAvocadoToast = () => fireEvent.click(getByText(container, /^avocado toast/));
+  const chooseWalking = () => fireEvent.click(getByText(container, /^Guess you'll walk/));
+  const chooseDriving = () => fireEvent.click(getByText(container, /Drive car/));
+  const chooseStartOver =  () => fireEvent.click(queryByText(container, 'well, time to start over'));
 
   it('shows two options', async () => {
     const buttons = getAllByText(container, /wake up/);
