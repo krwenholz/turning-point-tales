@@ -8,7 +8,6 @@
   import { safeWindow } from "src/lib/client/safe-window.js";
   import { writable } from "svelte/store";
   import { createEventDispatcher } from "svelte";
-  import { goto } from "@sapper/app";
   const dispatch = createEventDispatcher();
 
   export let className = "";
@@ -19,6 +18,7 @@
   export let title = "";
   export let visitations = [];
   export let enableExtraNavigation = true;
+  export let goto = () => {};
   export let store = writable({
     storyNode: storyNode,
     hasInitialCompletion: false,

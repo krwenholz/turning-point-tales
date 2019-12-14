@@ -23,7 +23,6 @@
 </script>
 
 <script>
-  import * as sapper from "@sapper/app";
   import Adventure from "src/components/Adventure";
   import DisplayAd from "./DisplayAd";
   import BadgePopup from "src/routes/story/_BadgePopup.svelte";
@@ -41,7 +40,7 @@
   export let badges;
   export let generalRelease;
 
-  const { page, session } = sapper.stores();
+  const { page, session } = stores();
   const isSubscribed = userSubscribed($session.user);
   const oneDay = 1 * 24 * 60 * 60 * 1000;
   const released = new Date(generalRelease) < new Date();
@@ -146,6 +145,7 @@
       store="{mainAdventure(story)}"
       className="adventure"
       storyNode="{$page.query.storyNode}"
+      goto={goto}
       bind:haveRemainingDecisions
       on:pageChange="{({ detail }) => {
         recordVisit(detail);
