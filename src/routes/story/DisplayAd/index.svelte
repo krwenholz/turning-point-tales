@@ -1,7 +1,7 @@
 <script>
   import * as sapper from "@sapper/app";
   import Button from "src/components/Button.svelte";
-  import { choicesAndAttributes, content } from "src/components/ads/data";
+  import { choicesAndAttributes, content } from "./data.js";
   import { createEventDispatcher } from "svelte";
   import { sampleSize } from "lodash";
 

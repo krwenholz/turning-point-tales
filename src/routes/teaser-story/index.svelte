@@ -1,5 +1,5 @@
 <script>
-  import teaserStory from "./teaserStory.js";
+  import teaserStory from "./data.js";
   import { fade } from "../../lib/Transition";
   import Adventure from "../../components/Adventure/index.svelte";
   import Patreon from "../../components/icons/Patreon.svelte";
@@ -10,6 +10,7 @@
   const { page } = sapper.stores();
 
   let storyNode = $page.query.storyNode;
+  let showNav = false;
 
   const redirect = href => () => sapper.goto(href);
 </script>
@@ -28,7 +29,7 @@
     display: flex;
     flex-flow: column;
     align-items: center;
-    margin: 0 auto 0 auto;
+    margin: auto auto 0 auto;
   }
 </style>
 
@@ -39,20 +40,24 @@
 <section class="teaser-story">
   <div>
     <Adventure
-      enableExtraNavigation={false}
       title=""
+      enableExtraNavigation={false}
       story="{teaserStory}"
       {storyNode}
+      on:pageChange={ e => showNav = e.detail.final }
     />
   </div>
 
-  <nav>
-    <Button on:click="{redirect('/user/new')}">
-      <span>Create an account!</span>
-    </Button>
+  {#if showNav}
+    <nav>
+      <Button on:click="{redirect('/user/new')}">
+        <span>Create an account!</span>
+      </Button>
 
-    <Button variation='link' on:click="{redirect('/about')}">
-      <span>Learn about us</span>
-    </Button>
-  </nav>
+      <Button variation='link' on:click="{redirect('/about')}">
+        <span>Learn about us</span>
+      </Button>
+    </nav>
+  {/if}
+
 </section>

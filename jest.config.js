@@ -9,5 +9,6 @@ module.exports = {
     "^.+\\.js$": "babel-jest",
     "^.+\\.svelte$": "jest-transform-svelte",
   },
+  setupFilesAfterEnv: ['./jest.setup.js'],
 }
 

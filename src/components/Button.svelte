@@ -8,7 +8,6 @@
   export let isSubmitting = false;
 
   let active = false;
-  let self = {};
   const dispatch = createEventDispatcher();
 
   const isHover = () => {
@@ -103,7 +102,6 @@
 </style>
 
 <button
-  bind:this="{self}"
   class="{`button button--${variation} ${className}`}"
   {type}
   {disabled}
