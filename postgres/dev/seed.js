@@ -42,17 +42,24 @@ const reset = async () => {
 /*
  * USERS
  */
-const addUser = async (firstName, lastName, email, password, type) => {
+const addUser = async (
+  firstName,
+  lastName,
+  email,
+  password,
+  type,
+  created = new Date()
+) => {
   try {
     const hash = await passwordHasher.hash(Buffer.from(password));
 
     await pool.query(
       `
       INSERT INTO
-        users (email, first_name, last_name, password_hash, type)
-      VALUES ($1, $2, $3, $4, $5)
+        users (email, first_name, last_name, password_hash, type, created)
+      VALUES ($1, $2, $3, $4, $5, $6)
     `,
-      [email, firstName, lastName, hash, type]
+      [email, firstName, lastName, hash, type, created]
     );
 
     Logger.info("... User added", email);
@@ -66,7 +73,14 @@ const seedUsers = async () => {
   Logger.info("Adding seed users...");
 
   await addUser("Subscriber", "sub", "test-subscriber@h2wib.com", "foo", 0);
-  await addUser("Non Sub", "not", "test-nonsubscriber@h2wib.com", "foo", 0);
+  await addUser(
+    "Non Sub",
+    "not",
+    "test-nonsubscriber@h2wib.com",
+    "foo",
+    0,
+    new Date("2019-01-01")
+  );
   await addUser("Admin", "admin", "test-admin@h2wib.com", "foo", 20);
   await addUser("Creator", "creator", "test-creator@h2wib.com", "foo", 10);
 };

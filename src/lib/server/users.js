@@ -49,6 +49,7 @@ const findUserSafeDetails = async identifier => {
         users.id as id,
         users.first_name as "firstName",
         users.type as "type",
+        users.created as "created",
         subscriptions.stripe_customer_id as "stripeCustomerId",
         subscriptions.subscription_id as "subscriptionId",
         subscriptions.subscription_period_end as "subscriptionPeriodEnd"
