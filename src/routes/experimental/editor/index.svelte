@@ -1,13 +1,13 @@
 <script>
   import * as sapper from "@sapper/app";
   import Adventure from "src/components/Adventure";
+  import Button from "src/components/Button.svelte";
+  import Graph from "./_graph";
+  import Overview from "src/components/Adventure/Overview.svelte";
+  import Toggle from "src/components/Form/Toggle.svelte";
+  import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
   import exampleStory from "src/lib/local-stories/story-with-consequences";
   import yaml from "js-yaml";
-  import { graph, validateStoryNode } from "src/lib/client/story_graphs.js";
-  import Overview from "src/components/Adventure/Overview.svelte";
-  import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
-  import Button from "src/components/Button.svelte";
-  import Toggle from "src/components/Form/Toggle.svelte";
 
   const { page, session } = sapper.stores();
 
@@ -29,6 +29,33 @@
     consequences = e.detail.consequences;
   };
 
+  const validateStoryNode = (title, node) => {
+    if (!node) {
+      throw `Expected to find a storyNode "${title}" but failed`;
+    }
+    if (!node["text"]) {
+      throw `Your storyNode "${title}" needs a text field`;
+    }
+
+    if (node["final"]) return;
+
+    if (!node["decisions"]) {
+      throw `Your storyNode "${title}" needs a decisions field`;
+    }
+    if (node["decisions"].length < 1) {
+      throw `Your storyNode "${title}" needs at least one decision`;
+    }
+    const decisions = node["decisions"];
+    for (const ii in node["decisions"]) {
+      if (!decisions[ii]["label"]) {
+        throw `Your decision "${title}.${ii}" needs a label field`;
+      }
+      if (!decisions[ii]["storyNode"]) {
+        throw `Your decision "${title}.${ii}" needs a storyNode field`;
+      }
+    }
+  };
+
   const load = () => {
     let uncheckedStory;
     try {
@@ -43,8 +70,6 @@
     }
 
     story = uncheckedStory;
-    if (simulation) simulation.stop();
-    simulation = graph(story, "svg.story-graph");
   };
 </script>
 
@@ -113,18 +138,10 @@
     flex: 1;
   }
 
-  .story-graph {
+  .story-box {
     width: 100%;
     min-height: 80vh;
     border: solid;
-  }
-
-  /* Need a nasty global here because it's unused until later and we don't want svelte
-     stripping it*/
-  :global(svg.story-graph .link) {
-    stroke: #999;
-    stroke-opacity: 0.6;
-    stroke-width: 1px;
   }
 
   @media only screen and (min-width: 1150px) {
@@ -175,7 +192,7 @@
   </aside>
 </section>
 
-<section>
+<section class="story-box">
   <h2>Preview</h2>
-  <svg class="story-graph"></svg>
+  <Graph {story} />
 </section>
