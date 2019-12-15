@@ -176,9 +176,8 @@
   </p>
 {:else}
   <p>
-    Become an adventurer for $4/month. Adventurers see no ads, access the most
-    dangerous content four weeks before the masses, and claim a soft spot in our
-    hearts.
+    Become an adventurer for $4/month. Adventurers see no ads, access all
+    content, support our paid creators, and claim a soft spot in our hearts.
   </p>
 
   <p>Our hearts are of a very squishy variety, so there's room for everyone.</p>
