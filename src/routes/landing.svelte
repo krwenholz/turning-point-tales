@@ -12,14 +12,12 @@
   const walkthrough = [
     {
       lead: "This is for you.",
-      details: [
-        "New stories come out every month, subscriber only for three to four weeks."
-      ]
+      details: ["New stories come out every month, subscriber only for now."]
     },
     {
       lead: "Great stories are just waiting to be found.",
       details: [
-        "Our stories are original, sourced from unknown authors, and stamped with the “we really enjoyed this” guarantee. The tooling and platform will eventually be open to everyone."
+        "Our stories are original, sourced from unknown authors we pay, and stamped with the “we really enjoyed this” guarantee. The tooling and platform will eventually be open to everyone."
       ]
     },
     {

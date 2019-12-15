@@ -85,7 +85,7 @@
     <h2>{title}</h2>
     <small>by {author}</small>
     {#if !isReleased}
-      <small>Subscribers only before {releaseDate.toDateString()}</small>
+      <small>Subscribers only</small>
       {#if !isSubscriber}
         <small>
           <a href="/user/profile?tab=adventurer">
