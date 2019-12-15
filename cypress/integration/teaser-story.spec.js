@@ -8,8 +8,21 @@ const assertHasNormalNavigation = () => {
   cy.contains("Learn about us");
 }
 
+const skipIntro = () => {
+  cy.get('button')
+    .contains('continue')
+    .click()
+    .contains('continue')
+    .click()
+    .contains('continue')
+    .click()
+}
+
 describe("teaser-story", () => {
-  beforeEach(() => cy.visit('/teaser-story?storyNode=start'));
+  beforeEach(() => {
+    cy.visit('/teaser-story?storyNode=start')
+    skipIntro();
+  });
 
   it("presents two options to the reader", () => {
     cy.contains("Time to solve this problem the right way");
