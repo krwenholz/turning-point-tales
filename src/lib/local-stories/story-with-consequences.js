@@ -1,31 +1,29 @@
 export default {
   start: {
-    text: [
-      "It's a monday, and you're sleeping, what should you do?"
-    ],
-    decisions: [{
+    text: ["It's a monday, and you're sleeping, what should you do?"],
+    decisions: [
+      {
         storyNode: "breakfast",
-        label: "wake up immediately and start my day, no time to waste.",
+        label: "wake up immediately and start my day, no time to waste."
       },
       {
         storyNode: "breakfast",
-        consequences: ['rested'],
-        label: "Hit snooze, then finally wake up. I want to be rested",
+        consequences: ["rested"],
+        label: "Hit snooze, then finally wake up. I want to be rested"
       }
     ]
   },
   breakfast: {
-    text: [
-      'You could really go for a meal before you start your day...'
-    ],
-    decisions: [{
+    text: ["You could really go for a meal before you start your day..."],
+    decisions: [
+      {
         storyNode: "how_to_travel",
         label: "coffee",
-        consequences: ['rested'],
+        consequences: ["rested"]
       },
       {
         storyNode: "how_to_travel",
-        label: "avocado toast",
+        label: "avocado toast"
       }
     ]
   },
@@ -33,33 +31,44 @@ export default {
     text: [
       "You need to get to work, I hope you're rested and ready for the day!"
     ],
-    decisions: [{
+    decisions: [
+      {
         storyNode: "drive_car",
         label: "Drive car",
-        requires: ['rested'],
+        requires: ["rested"]
       },
       {
         storyNode: "walk",
-        label: "Guess you'll walk",
+        label: "Guess you'll walk"
       }
     ]
   },
   drive_car: {
-    text: [
-      "Yay, cars are fun"
-    ],
-    decisions: [{
-      storyNode: "start",
-      label: "well, time to start over",
-    }, ]
+    text: ["Yay, cars are fun"],
+    decisions: [
+      {
+        storyNode: "start",
+        label: "well, time to start over"
+      },
+      {
+        storyNode: "worker_bee",
+        label: "Hi ho hi ho"
+      }
+    ]
   },
   walk: {
-    text: [
-      "Walking sucks, and so does exercise"
-    ],
-    decisions: [{
-      storyNode: "start",
-      label: "well, time to start over",
-    }, ]
+    text: ["Walking sucks, and so does exercise"],
+    decisions: [
+      {
+        storyNode: "start",
+        label: "well, time to start over"
+      }
+    ]
   },
+  worker_bee: {
+    text: [
+      "It's work, but someone's gotta do it. May as well do it with a smile!"
+    ],
+    final: true
+  }
 };

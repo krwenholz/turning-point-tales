@@ -1,6 +1,7 @@
 <script>
   import * as d3 from "d3";
   import "d3-selection-multi";
+  import { filter, min } from "lodash";
 
   // Sources of inspiration
   // start: https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7
@@ -11,9 +12,19 @@
 
   export let story = {};
 
+  const NODE_RADIUS = 7;
+  const NODE_DIAMETER = NODE_RADIUS * 2;
+
+  const starGenerator = d3
+    .symbol()
+    .type(d3.symbolStar)
+    .size(150);
+  const starPath = starGenerator();
   const colors = d3.scaleOrdinal(d3.schemeCategory10);
+
   let simulation;
   let svgElement;
+  let maxDepth = 1;
 
   /**
    * Starts a story graph animation on the specificed svg and for the given data.
@@ -26,19 +37,18 @@
     const svg = d3.select(svgElement);
     const width = Number(svgElement.getBoundingClientRect().width);
     const height = Number(svgElement.getBoundingClientRect().height);
+    const constrainedRadius = min([width, height]) / 2;
 
     simulation = d3
       .forceSimulation()
-      .force("charge", d3.forceManyBody().strength(-70))
       .force(
         "link",
         d3
           .forceLink()
           .id(d => d.id)
-          .distance(100)
-          .strength(1)
+          .strength(0)
       )
-      .force("center", d3.forceCenter(width / 2, height / 2));
+      .force("charge", d3.forceCollide(NODE_RADIUS * 10));
 
     defineArrows(svg);
 
@@ -99,6 +109,7 @@
       visited.add(title);
       nodes[title] = {
         depth,
+        final: node.final,
         id: title,
         name: title
       };
@@ -190,8 +201,8 @@
       .enter()
       // put some attributes on the nice group element (which holds our line and some text)
       // note the "circular" reference here that creates things that weren"t here before
-      // but later on might be grabbed by our `selectAll` and updated to match whatever we define
-      // later
+      // but later on might be grabbed by our `selectAll` and updated to match whatever we
+      // define later
       // Stick a "line" element in there
       .append("line")
       .attr("class", "link")
@@ -257,11 +268,20 @@
       );
 
     node
+      .filter(d => d.final === undefined)
       .append("circle")
-      .attr("r", 7)
+      .attr("r", NODE_RADIUS)
       .style("fill", (d, i) => {
         return colors(i);
       });
+
+    node
+      .filter(d => d.final)
+      .append("path")
+      .style("fill", (d, i) => {
+        return colors(i);
+      })
+      .attr("d", starPath);
 
     node
       .append("text")
@@ -287,12 +307,12 @@
         if (d.fixed) return `translate(${d.fx}, ${d.fy})`;
 
         let x = d.x;
-        if (x > width) x = width;
-        if (x < 0) x = 0;
+        if (x > width) x = width - NODE_DIAMETER;
+        if (x < 0) x = 0 + NODE_DIAMETER;
 
         let y = d.y;
-        if (y > height) y = height;
-        if (y < 0) y = 0;
+        if (y > height) y = height - NODE_DIAMETER;
+        if (y < 0) y = 0 + NODE_DIAMETER;
 
         return `translate(${x}, ${y})`;
       });
