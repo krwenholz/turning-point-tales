@@ -38,15 +38,13 @@
 </svelte:head>
 
 <section class="teaser-story">
-  <div>
-    <Adventure
-      title=""
-      enableExtraNavigation={false}
-      story="{teaserStory}"
-      {storyNode}
-      on:pageChange={ e => showNav = e.detail.final }
-    />
-  </div>
+  <Adventure
+    title=""
+    enableExtraNavigation={false}
+    story="{teaserStory}"
+    {storyNode}
+    on:pageChange={ e => showNav = e.detail.final }
+  />
 
   {#if showNav}
     <nav>
