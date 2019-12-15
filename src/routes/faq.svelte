@@ -48,14 +48,14 @@
 
   <details>
     <summary>When is the next story coming?</summary>
-    Subscribers should expect a new story every three to four weeks. Three weeks
-    later, we'll release the story for non-subscribers. In between releases,
+    Subscribers should expect a new story every month. At some point, we may
+    release the story for non-subscribers. In between releases,
     subscribers should expect emails with teasers, creator interviews, and more.
   </details>
 
   <details>
     <summary>Why do you require accounts?</summary>
-    Creating an account grants you access to the library of adventures. We use
+    Creating an account grants you access to our adventures. We use
     your email and name, which we only share for things like payments, to
     personalize the experience and send you exciting updates. In lieu of sharing
     your data and browsing with a third party, we handcraft some interesting
