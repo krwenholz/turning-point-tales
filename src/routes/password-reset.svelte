@@ -61,14 +61,16 @@
   }
 
   a { text-align: left; }
+
+  h3 {
+    margin-bottom: 32px;
+  }
 </style>
 
 <Form>
   {#if successMsg}
     <h3 in:fade>{successMsg}</h3>
-    {#if $page.query.token}
-      <a href="/user/login">Click here to login</a>
-    {/if}
+    <a href="/user/login">return to login</a>
   {:else if $page.query.token}
     <h2>New Password</h2>
     <small>Try not to forget this one!</small>
