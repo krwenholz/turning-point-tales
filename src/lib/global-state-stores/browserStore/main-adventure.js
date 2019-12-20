@@ -1,7 +1,7 @@
 import sha256 from 'crypto-js/sha256'
 import {
   browserStore
-} from '../browserStore';
+} from './index';
 import {
   MAIN_ADVENTURE
 } from './preDefinedKeys';

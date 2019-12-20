@@ -2,7 +2,7 @@
   import * as sapper from "@sapper/app";
   import { axios } from "src/lib/axios";
   import { fade } from "src/lib/Transition";
-  import { statusTracking } from "src/lib/stores/status-tracking";
+  import { statusTracking } from "src/lib/status-tracking";
   import { Input, Form, Checkbox } from "src/components/Form";
   import Button from "src/components/Button.svelte";
   import FAQ from "src/routes/faq.svelte";

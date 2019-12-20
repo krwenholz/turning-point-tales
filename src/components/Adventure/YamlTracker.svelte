@@ -1,7 +1,6 @@
 <script>
   import yaml from "js-yaml";
   import AnimatedStoryNode from "./AnimatedStoryNode.svelte";
-  import { first } from "src/lib/utils";
 
   const { keys } = Object;
 
