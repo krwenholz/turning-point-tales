@@ -1,13 +1,13 @@
 <script>
-  import { getContext } from "svelte";
-  import { TABS } from "./Tabs.svelte";
+  import { getContext } from 'svelte';
+  import { TABS } from './Tabs.svelte';
+  const { register, selected } = getContext(TABS);
 
-  const panel = Symbol();
-  const { registerPanel, selectedPanel } = getContext(TABS);
+  const panel = {};
 
-  registerPanel(panel);
+  register({ panel });
 </script>
 
-{#if $selectedPanel === panel}
+<div class:hidden="{$selected.panel !== panel}" >
   <slot />
-{/if}
+</div>
