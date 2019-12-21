@@ -67,6 +67,7 @@
   }
 
   img {
+    width: 100%;
     display: flex;
     max-width: 500px;
     margin: 0 auto;

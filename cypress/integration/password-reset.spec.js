@@ -3,7 +3,7 @@ describe("Password Reset Flow: Submit an email", () => {
     cy.visit("/password-reset");
   });
 
-  it("displays errors and success on reset flow", () => {
+  it("displays errors, success, and navigation on reset flow", () => {
     cy.logIn()
       .visit("/user/login")
       .get('[data-cy="password-reset"]')
@@ -24,6 +24,10 @@ describe("Password Reset Flow: Submit an email", () => {
       .click();
 
     cy.get("h3").should("contain", "You have been sent an email");
+
+    cy.contains('return to login')
+      .click()
+      .url().should('match', /user\/login/)
   });
 });
 
