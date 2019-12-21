@@ -8,10 +8,10 @@ export const emailPasswordReset = ({
 }) => email({
   to,
   from: 'noreply@turningpointtales.com',
-  subject: '[TurningPointTales] Please reset your password',
+  subject: 'TurningPointTales: Please reset your password',
   html: `
 You forgot your password, didn't you? A tale as old as time.<br/>
-We're won't hold it against you. Forgive and forget.<br/>
+We won't hold it against you<br/>
 Here's a link to reset your password.
 <br/>
 <br/>
