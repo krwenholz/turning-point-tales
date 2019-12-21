@@ -1,6 +1,6 @@
 import {
   browserStore
-} from '../browserStore';
+} from './index';
 import {
   AD_SEEN
 } from './preDefinedKeys';

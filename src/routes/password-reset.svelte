@@ -2,7 +2,7 @@
   import * as sapper from "@sapper/app";
   import { fade } from "../lib/Transition";
   import { axios } from "src/lib/axios";
-  import { statusTracking } from "../lib/stores/status-tracking";
+  import { statusTracking } from "../lib/status-tracking";
   import { Input, Form } from "src/components/Form";
   import Button from "src/components/Button.svelte";
 
@@ -41,17 +41,17 @@
 </script>
 
 <style>
-  :global(.password-reset) {
+  :global(.form) {
     width: 100%;
     max-width: 50ch;
   }
 
-  :global(.password-reset .button) {
+  :global(.form .button) {
     width: 100%;
     margin: 32px auto auto auto;
   }
 
-  :global(.password-reset .input) {
+  :global(.form .input) {
     width: 100%;
   }
 
@@ -60,17 +60,17 @@
     margin: 8px 0 8px 0;
   }
 
-  a {
-    text-align: left;
+  a { text-align: left; }
+
+  h3 {
+    margin-bottom: 32px;
   }
 </style>
 
-<Form className="password-reset">
+<Form>
   {#if successMsg}
     <h3 in:fade>{successMsg}</h3>
-    {#if $page.query.token}
-      <a href="/user/login">Click here to login</a>
-    {/if}
+    <a href="/user/login">return to login</a>
   {:else if $page.query.token}
     <h2>New Password</h2>
     <small>Try not to forget this one!</small>

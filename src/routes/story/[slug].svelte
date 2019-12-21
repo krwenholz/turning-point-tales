@@ -28,9 +28,9 @@
   import BadgePopup from "src/routes/story/_BadgePopup.svelte";
   import Button from "src/components/Button.svelte";
   import { Logger } from "src/lib/client/logger";
-  import { adStore } from "src/lib/stores/browserStore/display-ads";
+  import { adStore } from "src/lib/global-state-stores/browserStore/display-ads";
   import { fetchCsrf } from "src/lib/client/csrf";
-  import { mainAdventure } from "src/lib/stores/browserStore/main-adventure";
+  import { mainAdventure } from "src/lib/global-state-stores/browserStore/main-adventure";
   import { onMount } from "svelte";
   import { goto, stores } from "@sapper/app";
   import { userSubscribed } from "src/lib/client/user";
