@@ -8,6 +8,6 @@
   register({ panel });
 </script>
 
-<div class:hidden="{$selected.panel !== panel}" >
+{#if $selected.panel === panel}
   <slot />
-</div>
+{/if}
