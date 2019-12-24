@@ -1,14 +1,11 @@
-import Logger from "js-logger";
+import bunyan from "bunyan";
 import config from "config";
 import morgan from "morgan";
 
-const initLogging = () => {
-  Logger.useDefaults();
-  Logger.setLevel(config.get("dev") ? Logger.DEBUG : Logger.INFO);
-};
+const logger = bunyan.createLogger({ name: "browser" });
 
-const requestsLogger = () => {
+const requestLoggingMiddleware = () => {
   return morgan(config.get("logging.format"));
 };
 
-export { initLogging, requestsLogger };
+export { requestLoggingMiddleware, logger };

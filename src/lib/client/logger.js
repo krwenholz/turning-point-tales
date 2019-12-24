@@ -1,9 +1,5 @@
-import Logger from 'js-logger';
+import bunyan from "bunyan";
 
-Logger.useDefaults();
+const logger = bunyan.createLogger({ name: "browser" });
 
-const logger = Logger.get('browser');
-
-export {
-  Logger
-}
+export { logger };

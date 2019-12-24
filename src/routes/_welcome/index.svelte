@@ -3,7 +3,7 @@
   import StoryPreview from "./StoryPreview";
   import { onMount } from "svelte";
   import { userSubscribed } from "src/lib/client/user";
-  import { Logger } from "src/lib/client/logger";
+  import { logger } from "src/lib/client/logger";
   import { stores } from "@sapper/app";
 
   const { page, session } = stores();
@@ -24,8 +24,8 @@
           visitations = visitations; // because reactivity
         }
       })
-      .catch(error => {
-        Logger.error("Failed to fetch history", error);
+      .catch(err => {
+        logger.error(err, "Failed to fetch history");
       });
   });
 
@@ -38,8 +38,8 @@
       .then(response => {
         stories = response;
       })
-      .catch(error => {
-        Logger.error("Failed to fetch stories", error);
+      .catch(err => {
+        logger.error(err, "Failed to fetch stories");
       });
   });
 

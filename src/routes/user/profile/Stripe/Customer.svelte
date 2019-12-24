@@ -2,7 +2,7 @@
   import Button from "src/components/Button.svelte";
   import { fetchCsrf } from "src/lib/client/csrf";
   import { fetchStripeKey } from "src/lib/client/stripe";
-  import { Logger } from "src/lib/client/logger";
+  import { logger } from "src/lib/client/logger";
   import { onMount } from "svelte";
   import { stores } from "@sapper/app";
 
@@ -61,7 +61,7 @@
         return Promise.reject(response);
       })
       .catch(response => {
-        Logger.error("Charging card failed", response);
+        logger.error({ err: response }, "Charging card failed");
         cardErrors = response.message;
         charging = false;
       });
@@ -89,7 +89,7 @@
         return Promise.reject(response);
       })
       .catch(response => {
-        Logger.error("Unsubscribing failed");
+        logger.error("Unsubscribing failed");
         unsubscribeErrors = response.message;
         unsubscribing = false;
       });
@@ -129,8 +129,6 @@
   const adventureHome = () => {
     window.location.href = "/"; //hard refresh needed to propogate login
   };
-
-  Logger.info($session.user);
 </script>
 
 <style>

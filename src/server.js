@@ -1,5 +1,4 @@
 import * as sapper from "@sapper/server";
-import Logger from "js-logger";
 import bodyParser from "body-parser";
 import compression from "compression";
 import config from "config";
@@ -20,16 +19,15 @@ import { initPassport } from "src/authentication";
 import { pool } from "src/lib/server/database.js";
 import { requireHttps } from "src/lib/server/require_https";
 import { requireRoot } from "src/lib/server/require_root";
-import { initLogging, requestsLogger } from "./logging";
+import { logger, requestsLoggingMiddleware } from "./logging";
 
-initLogging();
 const dev = config.get("dev");
 
 const app = express();
 
-Logger.info("Starting server in  environment", config.get("environment"));
+logger.info({ environment: config.get("environment") }, "Starting server");
 if (!config.get("dev")) {
-  Logger.info("Enabling trust proxy");
+  logger.info("Enabling trust proxy");
   app.set("trust proxy", 1); // trust first proxy
 }
 
@@ -56,7 +54,7 @@ const middleware = [
       if (req.path.includes("api")) req.rawBody = buf;
     }
   }),
-  requestsLogger(),
+  requestsLoggingMiddleware(),
   requireHttps,
   requireRoot,
   compression({
@@ -132,6 +130,6 @@ const middleware = [
 
 app.use(...middleware).listen(config.get("server.port"), err => {
   if (err) {
-    Logger.error(err);
+    logger.error(err);
   }
 });

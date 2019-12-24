@@ -1,13 +1,13 @@
 <script>
   import Landing from "src/routes/landing.svelte";
   import Welcome from "src/routes/_welcome";
-  import { Logger } from "src/lib/client/logger";
+  import { logger } from "src/lib/client/logger";
   import { stores } from "@sapper/app";
 
   const { page, session } = stores();
 
   $: if ($page.query.user === "clear") {
-    Logger.info("Clearing user");
+    logger.info("Clearing user");
     session.set({});
   }
 </script>

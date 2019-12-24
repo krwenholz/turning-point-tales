@@ -27,7 +27,7 @@
   import DisplayAd from "./DisplayAd";
   import BadgePopup from "src/routes/story/_BadgePopup.svelte";
   import Button from "src/components/Button.svelte";
-  import { Logger } from "src/lib/client/logger";
+  import { logger } from "src/lib/client/logger";
   import { adStore } from "src/lib/global-state-stores/browserStore/display-ads";
   import { fetchCsrf } from "src/lib/client/csrf";
   import { mainAdventure } from "src/lib/global-state-stores/browserStore/main-adventure";
@@ -73,13 +73,16 @@
     })
       .then(response => {
         if (!response.ok) throw new Error("Response was not ok");
-        Logger.info("Successfully updated visitations", detail.storyNode);
+        logger.info(
+          { storyNode: detail.storyNode },
+          "Successfully updated visitations"
+        );
         previousNodeName = detail.storyNode;
         if (visitations.indexOf(detail.storyNode) !== -1)
           visitations.push(detail.storyNode);
       })
-      .catch(error => {
-        Logger.error("Error updating visitations", error);
+      .catch(err => {
+        logger.error(err, "Error updating visitations");
       });
   };
 
@@ -99,7 +102,7 @@
     fetch("/story/visits")
       .then(response => {
         if (!response.ok) throw new Error("Response was not ok");
-        Logger.info("Successfully fetched visitations");
+        logger.info("Successfully fetched visitations");
         return response.json();
       })
       .then(recordedVisitations => {
@@ -110,8 +113,8 @@
           }
         }
       })
-      .catch(error => {
-        Logger.error("Error fetching visitations", error);
+      .catch(err => {
+        logger.error(err, "Error fetching visitations");
       });
   });
 </script>

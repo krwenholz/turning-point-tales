@@ -1,5 +1,5 @@
 import AWS from "aws-sdk";
-import Logger from "js-logger";
+import { logger } from "src/logging";
 import config from "config";
 import securePassword from "secure-password";
 import { pool } from "src/lib/server/database.js";
@@ -35,7 +35,7 @@ const findUser = async identifier => {
 
     return results.rows[0];
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -68,7 +68,7 @@ const findUserSafeDetails = async identifier => {
 
     return results.rows[0];
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -86,10 +86,10 @@ const addUser = async ({ firstName, lastName, email, password }) => {
       [email, firstName, lastName, hash]
     );
 
-    Logger.info("User added", email);
+    logger.info({ email }, "User added");
     return findUserSafeDetails(email);
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -108,10 +108,10 @@ const removeUser = async identifier => {
       [identifier]
     );
 
-    Logger.info("User removed", identifier);
+    logger.info({ identifier }, "User removed");
     return Promise.resolve({});
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return promise.reject(err);
   }
 };
@@ -136,7 +136,7 @@ const updateUserPassword = async (identifier, { password }) => {
 
     return Promise.resolve({});
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -181,7 +181,7 @@ const setSubscriptionDetails = async (
       subscriptionPeriodEnd
     };
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
