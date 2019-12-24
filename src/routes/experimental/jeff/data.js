@@ -1,4 +1,4 @@
-import Logger from "js-logger";
+import { logger } from "src/logging";
 import { pool } from "src/lib/server/database.js";
 
 const users = async () => {
@@ -17,7 +17,7 @@ const users = async () => {
 
     return results.rows[0];
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -38,7 +38,7 @@ const subscriptions = async () => {
 
     return results.rows[0];
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -63,7 +63,7 @@ const recentVisitations = async () => {
 
     return results.rows;
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -79,8 +79,8 @@ export const get = async (req, res, next) => {
     });
 
     res.end(JSON.stringify(results));
-  } catch (e) {
-    Logger.error(e);
+  } catch (err) {
+    logger.error(err);
 
     res.writeHead(500, {
       "Content-Type": "application/json"

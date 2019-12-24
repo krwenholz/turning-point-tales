@@ -1,4 +1,3 @@
-import Logger from "js-logger";
 import config from "config";
 import csurf from "csurf";
 
