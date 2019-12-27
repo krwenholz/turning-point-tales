@@ -3,71 +3,54 @@
 </script>
 
 <script>
-  import { safeWindow } from "src/lib/client/safe-window.js";
-  import { setContext, onDestroy } from "svelte";
+  import { setContext, onDestroy, onMount } from "svelte";
   import { writable } from "svelte/store";
-  import { stores } from "@sapper/app";
+  import { get, first, isEmpty, concat, without, } from 'lodash';
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
-  const { page } = stores();
+  export let selectedTab = '';
 
-  const tabs = [];
-  const panels = [];
-  const selectedTab = writable(null);
-  const selectedPanel = writable(null);
+  let listOf = writable({
+    tabs: [],
+    panels: [],
+  })
+
+  let selected = writable({
+    panel: null,
+    tab: null,
+  });
 
   setContext(TABS, {
-    registerTab: tab => {
-      tabs.push(tab);
-      selectedTab.update(current => ($page.query.tab === tab ? tab : current));
+    selected,
+    register({ tab, panel }) {
+      const type = tab ? 'tabs' : 'panels';
+      const item = tab || panel;
 
-      onDestroy(() => {
-        const i = tabs.indexOf(tab);
-        tabs.splice(i, 1);
-        selectedTab.update(current =>
-          current === tab ? tabs[i] || tabs[tabs.length - 1] : current
-        );
-      });
+      $listOf[type] = concat($listOf[type], item);
+      $selected[type] = item;
+
+      onMount(() => {
+        $selected.tab = $listOf.tabs.includes(selectedTab) ? selectedTab : first($listOf.tabs);
+        $selected.panel = get($listOf.panels, $listOf.tabs.indexOf($selected.tab))
+      })
     },
+    choose(chosenTab) {
+      $selected.tab = chosenTab;
+      let idx =  $listOf.tabs.indexOf(chosenTab);
+      $selected.panel = $listOf.panels[idx];
 
-    registerPanel: panel => {
-      panels.push(panel);
-      const indexOfTab = tabs.indexOf($page.query.tab);
-      selectedPanel.update(current =>
-        current == undefined || indexOfTab == panels.length - 1
-          ? panel
-          : current
-      );
-
-      onDestroy(() => {
-        const i = panels.indexOf(panel);
-        panels.splice(i, 1);
-        selectedPanel.update(current =>
-          current === panel ? panels[i] || panels[panels.length - 1] : current
-        );
-      });
+      dispatch('tabSwitch', { chosenTab });
     },
-
-    selectIdx: idx => {
-      selectedTab.set(tabs[idx]);
-      selectedPanel.set(panels[idx]);
-    },
-
-    selectTab: tab => {
-      const i = tabs.indexOf(tab);
-      selectedTab.set(tab);
-      selectedPanel.set(panels[i]);
-
-      safeWindow().history.replaceState(
-        "",
-        "",
-        `${safeWindow().location.pathname}?tab=${tab}`
-      );
-    },
-
-    selectedTab,
-    selectedPanel
   });
 </script>
+
+<style>
+  .tabs {
+    display: flex;
+    flex-flow: column;
+  }
+</style>
 
 <div class="tabs">
   <slot />
