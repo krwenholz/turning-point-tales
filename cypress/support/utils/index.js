@@ -33,12 +33,9 @@ export const createUser = cy => {
 };
 
 export const deleteUser = cy => {
-  cy.visit("/user/profile")
-    .get("button")
-    .contains("Settings")
-    .click()
-    .get("button")
-    .contains("DELETE")
+  cy.visit("/user/profile?tab=settings");
+
+  cy.contains("DELETE")
     .click();
 };
 

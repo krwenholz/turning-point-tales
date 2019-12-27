@@ -3,40 +3,31 @@
   import { TABS } from "./Tabs.svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+  const { choose, selected, register } = getContext(TABS);
+  import uuidv4 from "uuid/v4";
 
-  export let name;
-
-  const { registerTab, selectTab, selectedTab, selectIdx } = getContext(TABS);
-
-  registerTab(name);
+  export let name = uuidv4();
+  register({ tab: name });
 </script>
 
 <style>
-  button {
-    flex: 1;
-    margin: 0 24px 0 0;
-    background: none;
-    border: none;
-    outline: none;
-    border-bottom: var(--root-border-cta);
-    border-bottom-color: transparent;
-    cursor: pointer;
+  .selected {
+    border-bottom: 2px solid var(--root-call-to-action);
+    color: #333;
   }
 
-  .selected {
-    border-bottom: var(--root-border-cta);
+  h3 {
+    margin-right: 24px;
+    cursor: pointer;
   }
 </style>
 
-<button
-  class="tab"
-  class:selected="{$selectedTab === name}"
-  on:click="{e => {
+<h3
+  class:selected="{$selected.tab === name}"
+  on:click="{() => {
+    choose(name);
     dispatch('click');
-    selectTab(name);
-  }}">
-  <h3>
-    <slot />
-  </h3>
-  <slot name="tab-content" />
-</button>
+  }}"
+>
+  <slot />
+</h3>
