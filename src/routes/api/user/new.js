@@ -1,19 +1,14 @@
-import Logger from 'js-logger';
-import config from 'config';
-import passport from 'passport';
-import securePassword from 'secure-password';
-import {
-  Strategy as LocalStrategy
-} from 'passport-local';
-import {
-  findUser,
-  addUser
-} from 'src/lib/server/users';
+import { logger } from "src/logging";
+import config from "config";
+import passport from "passport";
+import securePassword from "secure-password";
+import { Strategy as LocalStrategy } from "passport-local";
+import { findUser, addUser } from "src/lib/server/users";
 
 const get = (req, res) => {
-  res.redirect('/');
+  res.redirect("/");
   res.end();
-}
+};
 
 /**
  * Creates a new brand new user.
@@ -24,7 +19,7 @@ const post = async (req, res) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      password: req.body.password,
+      password: req.body.password
     });
 
     req.logIn(newUser, error => {
@@ -32,14 +27,10 @@ const post = async (req, res) => {
     });
 
     return res.end();
-  } catch (error) {
-    Logger.error('Error creating user', error);
-    res.status(400)
-      .end();
+  } catch (err) {
+    logger.error(err, "Error creating user");
+    res.status(400).end();
   }
-}
+};
 
-export {
-  get,
-  post
-}
+export { get, post };

@@ -1,24 +1,22 @@
 #!/usr/bin/env node
 
-const { Pool } = require("pg");
-const Logger = require("js-logger");
+const bunyan = require("bunyan");
 const securePassword = require("secure-password");
 const stories = require("../../stories/index.js");
+const { Pool } = require("pg");
 
-Logger.useDefaults();
+const logger = bunyan.createLogger({ name: "browser" });
 
 const passwordHasher = securePassword();
 const pool = new Pool({
   connectionString: process.env.CONNECTION_STRING
 });
 
-Logger.info("Using connection string: ", process.env.CONNECTION_STRING);
-
 /*
  * RESET Database
  */
 const reset = async () => {
-  Logger.info("Resetting database...");
+  logger.info("Resetting database...");
 
   try {
     await pool.query(
@@ -32,9 +30,9 @@ const reset = async () => {
     `
     );
 
-    Logger.info("... Database reset.");
+    logger.info("... Database reset.");
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -62,15 +60,15 @@ const addUser = async (
       [email, firstName, lastName, hash, type, created]
     );
 
-    Logger.info("... User added", email);
+    logger.info({ email }, "... User added");
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
 
 const seedUsers = async () => {
-  Logger.info("Adding seed users...");
+  logger.info("Adding seed users...");
 
   await addUser("Subscriber", "sub", "test-subscriber@h2wib.com", "foo", 0);
   await addUser(
@@ -107,15 +105,15 @@ const addSubscription = async (
       [userEmail, subscriptionPeriodEnd, stripeCustomerId]
     );
 
-    Logger.info("... Subscription added", userEmail);
+    logger.info({ userEmail }, "... Subscription added");
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
 
 const seedSubscriptions = async () => {
-  Logger.info("Seeding subscriptions...");
+  logger.info("Seeding subscriptions...");
 
   const subEnd = new Date();
   subEnd.setMonth(subEnd.getMonth() + 1);
@@ -152,15 +150,15 @@ const addStory = async ({
       ]
     );
 
-    Logger.info("... Story added", title);
+    logger.info({ title }, "... Story added");
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
 
 const seedStories = async () => {
-  Logger.info("Adding seed stories...");
+  logger.info("Adding seed stories...");
 
   for (const story of stories) {
     await addStory(story);
@@ -183,15 +181,18 @@ const addVisitation = async (userEmail, story, node, previousNode) => {
       [userEmail, story, node, previousNode]
     );
 
-    Logger.info("... Visitation added", userEmail, story, node, previousNode);
+    logger.info(
+      { userEmail, story, node, previousNode },
+      "... Visitation added"
+    );
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
 
 const seedVisitations = async () => {
-  Logger.info("Seeding visitations...");
+  logger.info("Seeding visitations...");
 
   await addVisitation(
     "test-subscriber@h2wib.com",
@@ -212,7 +213,7 @@ const seedVisitations = async () => {
  * Run
  */
 (async () => {
-  Logger.info("Seeding begins...");
+  logger.info("Seeding begins...");
 
   await reset();
   await seedUsers();
@@ -220,5 +221,5 @@ const seedVisitations = async () => {
   await seedStories();
   await seedVisitations();
 
-  Logger.info("Seeding finished...");
+  logger.info("Seeding finished...");
 })();

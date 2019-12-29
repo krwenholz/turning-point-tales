@@ -1,4 +1,4 @@
-import Logger from "js-logger";
+import { logger } from "src/logging";
 import config from "config";
 import passport from "passport";
 import securePassword from "secure-password";
@@ -16,22 +16,22 @@ const compare = (userPassword, hash) => {
     .then(result => {
       switch (result) {
         case securePassword.INVALID_UNRECOGNIZED_HASH:
-          Logger.error(
+          logger.error(
             "This hash was not made with secure-password. Attempt legacy algorithm"
           );
           return false;
         case securePassword.INVALID:
-          Logger.info("Invalid password");
+          logger.info("Invalid password");
           return false;
         case securePassword.VALID:
-          Logger.info("Authenticated");
+          logger.info("Authenticated");
           return true;
         case securePassword.VALID_NEEDS_REHASH:
-          Logger.info("Yay you made it, wait for us to improve your safety");
+          logger.info("Yay you made it, wait for us to improve your safety");
 
           passwordHasher.hash(userPassword, (err, improvedHash) => {
             if (err)
-              Logger.error(
+              logger.error(
                 "You are authenticated, but we could not improve your safety this time around"
               );
             // TODO: Save improvedHash somewhere
@@ -92,7 +92,7 @@ const protectNonDefaultRoutes = (req, res, next) => {
   if (req.isAuthenticated()) next();
   else if (noAuthRoute(req)) next();
   else {
-    Logger.info("Unauthenticated access found on url: ", req.url);
+    logger.info({ url: req.url }, "Unauthenticated access found on url");
 
     if (req.path.endsWith(".js") || req.path.endsWith(".json")) {
       res.writeHead(401);
@@ -130,7 +130,7 @@ passport.deserializeUser(async (id, cb) => {
  * All the nasty details of initializing Passport with our user store.
  */
 const initPassport = () => {
-  Logger.info("Initializing passport");
+  logger.info("Initializing passport");
 
   passport.use(
     new LocalStrategy(

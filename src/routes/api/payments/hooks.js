@@ -1,4 +1,4 @@
-import Logger from "js-logger";
+import { logger } from "src/logging";
 import config from "config";
 import rp from "request-promise-native";
 import stripe from "stripe";
@@ -12,14 +12,16 @@ const updateSubscription = (stripeCustomerId, event) => {
   const nextPeriodEnd = new Date(event.data.current_period_end * 1000);
   return findUserSafeDetails(stripeCustomerId).then(
     ({ id, subscriptionId, subscriptionPeriodEnd }) => {
-      Logger.info(
-        "Updating some Stripe details for our user",
-        id,
-        stripeCustomerId,
-        subscriptionId,
-        subscriptionPeriodEnd,
-        status,
-        nextPeriodEnd
+      logger.info(
+        {
+          id,
+          stripeCustomerId,
+          subscriptionId,
+          subscriptionPeriodEnd,
+          status,
+          nextPeriodEnd
+        },
+        "Updating some Stripe details for our user"
       );
 
       switch (status) {
@@ -64,7 +66,10 @@ const post = (req, res) => {
   );
   const stripeCustomerId = event.data.customer;
 
-  Logger.info("Received a Stripe hook", event.type, stripeCustomerId);
+  logger.info(
+    { eventType: event.type, stripeCustomerId },
+    "Received a Stripe hook"
+  );
 
   switch (event.type) {
     case "customer.subscription.updated":
@@ -74,20 +79,23 @@ const post = (req, res) => {
           res.end();
         })
         .catch(err => {
-          Logger.error(
-            "There was an error updating a customer subscription",
-            stripeCustomerId
+          logger.error(
+            { stripeCustomerId },
+            "There was an error updating a customer subscription"
           );
           res.status(400);
           res.end();
         });
     case "invoice.upcoming":
-      Logger.info("Invoice is upcoming for a customer", event.data.customer);
+      logger.info(
+        { customer: event.data.customer },
+        "Invoice is upcoming for a customer"
+      );
       res.status(200);
       res.end();
       return;
     default:
-      Logger.error("Recevied a bad payment hook.", event);
+      logger.error({ event: event }, "Recevied a bad payment hook.");
       res.status(400);
       res.end();
       return;
