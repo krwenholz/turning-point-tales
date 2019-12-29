@@ -1,151 +1,132 @@
 <script>
   import * as sapper from "@sapper/app";
+  import { writable } from 'svelte/store';
+  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import Adventure from "src/components/Adventure";
   import Button from "src/components/Button.svelte";
   import Graph from "./_graph";
-  import Overview from "src/components/Adventure/Overview.svelte";
+  import Overview from "src/components/Overview";
   import Toggle from "src/components/Form/Toggle.svelte";
   import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
   import exampleStory from "src/lib/local-stories/story-with-consequences";
   import yaml from "js-yaml";
+  import Scrollable from 'src/components/Scrollable.svelte';
+  import EditStory from 'src/components/EditStory';
+  import { isValidStory } from 'src/components/Adventure/validation';
+  import { copyToClipboard } from 'src/lib/copy-to-clipboard';
 
-  const { page, session } = sapper.stores();
-
-  let simulation;
   let story = exampleStory;
-  let storyText = yaml.safeDump(exampleStory);
-  let storyNode = $page.query.storyNode;
+  let storyNode = 'start';
   let history = [];
   let consequences = [];
-  let mode = "Edit";
 
-  const toggleMode = e => {
-    mode = e.target.checked ? "View" : "Edit";
-  };
+  $: storyIsValid = isValidStory(story);
 
-  const update = e => {
+  const updateOverview = e => {
     storyNode = e.detail.storyNode;
     history = e.detail.history;
     consequences = e.detail.consequences;
   };
 
-  const validateStoryNode = (title, node) => {
-    if (!node) {
-      throw `Expected to find a storyNode "${title}" but failed`;
-    }
-    if (!node["text"]) {
-      throw `Your storyNode "${title}" needs a text field`;
-    }
+  const updateStory = e => {
+    story = e.detail.story;
+  }
 
-    if (node["final"]) return;
+  const loadStoryFile = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.click();
 
-    if (!node["decisions"]) {
-      throw `Your storyNode "${title}" needs a decisions field`;
-    }
-    if (node["decisions"].length < 1) {
-      throw `Your storyNode "${title}" needs at least one decision`;
-    }
-    const decisions = node["decisions"];
-    for (const ii in node["decisions"]) {
-      if (!decisions[ii]["label"]) {
-        throw `Your decision "${title}.${ii}" needs a label field`;
+    input.onchange = (onChangeEvent) => {
+      const reader = new FileReader();
+
+      reader.onload = (onLoadEvent) => {
+        try {
+          story = yaml.safeLoad(onLoadEvent.target.result);
+          notifier.success('Story loaded successfully', 1500);
+        } catch(error) {
+          notifier.error('Story copied to clipboard', 1500);
+          console.error(errr);
+        }
       }
-      if (!decisions[ii]["storyNode"]) {
-        throw `Your decision "${title}.${ii}" needs a storyNode field`;
-      }
+
+      reader.readAsText(onChangeEvent.target.files[0]);
     }
+  }
+
+  const saveStoryfile = () => {
+    const storyBlob = new Blob([yaml.safeDump(story)], {type : 'text/plain'});
+    const url = URL.createObjectURL(storyBlob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = 'edited-story.yaml';
+    a.click();
+
+    window.URL.revokeObjectURL(url);
   };
 
-  const load = () => {
-    let uncheckedStory;
-    try {
-      uncheckedStory = yaml.safeLoad(storyText);
-      uncheckedStory["start"] = uncheckedStory["start"] || null;
-      for (const nodeKey in uncheckedStory) {
-        validateStoryNode(nodeKey, uncheckedStory[nodeKey]);
-      }
-    } catch (error) {
-      alert(error);
-      return;
-    }
-
-    story = uncheckedStory;
-  };
+  const  copyStoryToClipboard = async () => {
+    copyToClipboard(yaml.safeDump(story));
+    notifier.success('Story copied to clipboard', 1500);
+  }
 </script>
 
 <style>
-  .workbench {
-    display: flex;
-    flex-flow: column;
-    min-height: 78vh;
-    margin-top: 16px;
-  }
 
   .toolbox {
+    display: grid;
+    grid-gap: 24px;
+    margin-bottom: 32px;
+    grid-template-columns: auto 1fr 1fr;
+    grid-template-rows: minmax(150px, 15%) 1fr 1fr;
+    height: 85vh;
+    grid-template-areas:
+      "options   overview   adventure"
+      "edit-story edit-story adventure"
+      "edit-story edit-story adventure"
+  }
+
+  .toolbox :global(.scrollable-adventure) {
+    grid-area: adventure;
+    width: 100%;
+  }
+  .toolbox :global(.scrollable-edit-story) {
+    grid-area: edit-story;
+  }
+  .toolbox :global(.overview) {
+    grid-area: overview;
+  }
+  .toolbox .options {
+    grid-area: options;
     display: flex;
     flex-flow: column;
-    justify-content: flex-start;
-    flex: 1;
-    max-height: calc(100vh - 25vh);
-    margin-right: 32px;
+  }
+  .options :global(.button) {
+    margin-bottom: 8px;
   }
 
-  .toolbox :global(.yaml-tracker),
-  .toolbox :global(.overview) {
-    flex: 1;
-    border: 1px solid var(--root-color-primary-altered);
+  .options :global(.button) {
+    margin-right: 20px;
   }
 
-  .toolbox header {
-    display: inline-flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-bottom: 4px;
+  h2 {
+    border-bottom: 1px solid gray;
   }
 
-  header :global(.button) {
-    margin-left: 16px;
-  }
-
-  .current-mode {
-    line-height: 1;
-    font-size: var(--root-font-size-md);
-  }
-
-  header h2 {
-    line-height: 10px;
-  }
-
-  header nav {
-    display: inline-flex;
-    margin-left: auto;
-  }
-
-  header .toggle-text {
-    margin: 0 8px 0 8px;
-  }
-
-  .toolbox textarea {
-    flex: 1;
-    align-items: center;
-  }
-
-  .toolbox :global(.yaml-tracker) {
-    height: 100px;
-  }
-
-  .story-preview {
-    flex: 1;
-  }
-
-  .story-box {
+  .graph {
+    display: flex;
+    flex-flow: column;
     width: 100%;
-    min-height: 80vh;
     border: solid;
   }
 
+  .error {
+    margin: auto;
+  }
+
   @media only screen and (min-width: 1150px) {
-    .workbench {
+    .toolbox {
       flex-flow: row;
     }
   }
@@ -155,44 +136,43 @@
   <title>Editor</title>
 </svelte:head>
 
-<p>
-  Time to experiment. Go ahead and mess around with the example story. You can
-  draw out your decision tree and even experience the whole thing at the bottom
-  of this page.
-</p>
+<NotificationDisplay themes={{ success: 'green'}} />
 
-<section class="workbench">
-  <article class="toolbox">
-    <header>
-      <h2>
-        Toolbox
-        <span class="current-mode">{mode} |</span>
-      </h2>
-      <nav>
-        <span class="toggle-text">Switch</span>
-        <Toggle on:input="{toggleMode}" />
-      </nav>
-      <Button variation="link" class="loader" on:click="{load}">Load</Button>
-    </header>
-    {#if mode === 'Edit'}
-      <textarea rows="30" bind:value="{storyText}"></textarea>
-    {:else}
-      <Overview currentStoryNode="{storyNode}" {history} {consequences} />
-      <YamlTracker {story} {storyNode} {history} {consequences} />
-    {/if}
-  </article>
+<section class="toolbox">
+  <section class='options'>
+    <Button variation='link' on:click={loadStoryFile}>Load File</Button>
+    <Button variation='link' on:click={saveStoryfile}>Download</Button>
+    <Button variation='link' on:click={copyStoryToClipboard}>Copy to Clipboard</Button>
+  </section>
 
-  <aside class="story-preview">
+  <Overview {history} {consequences} />
+
+  <Scrollable className='scrollable-edit-story'>
+    <EditStory {story} on:edit={updateStory} />
+  </Scrollable>
+
+  <Scrollable className='scrollable-adventure'>
+    <h2 slot='heading'>
+      <i>Story Preview:</i>
+      <span>{storyNode}</span>
+    </h2>
     <Adventure
       {storyNode}
       {story}
-      enableScroll="{false}"
       title="Self titled adventure: Number One"
-      on:pageChange="{e => update(e)}" />
-  </aside>
+      on:pageChange={updateOverview}
+    />
+  </Scrollable>
 </section>
 
-<section class="story-box">
-  <h2>Preview</h2>
-  <Graph {story} />
+<br>
+<br>
+
+<section class="graph">
+  {#if storyIsValid}
+    <h2>Preview</h2>
+    <Graph {story} />
+  {:else}
+    <p class='error'> current story is invalid </p>
+  {/if}
 </section>
