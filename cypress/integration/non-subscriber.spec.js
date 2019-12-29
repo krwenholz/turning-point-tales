@@ -63,6 +63,6 @@ describe("NonSubscriber", () => {
       .click();
 
     cy.url()
-      .should("match", /\/story\/[a-z0-9-]+\?storyNode=start/);
+      .should("match", /\/story\/[a-z0-9-]+/);
   });
 });
