@@ -33,7 +33,6 @@
     "d3-selection-multi": "1.0.1",
     "express": "^4.16.4",
     "express-session": "1.16.1",
-    "fs": "0.0.1-security",
     "helmet": "3.21.0",
     "js-beautify": "^1.9.0",
     "js-yaml": "3.13.1",
