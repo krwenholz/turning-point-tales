@@ -11,7 +11,6 @@
   const dispatch = createEventDispatcher();
 
   export let className = "";
-  export let enableScroll = true;
   export let haveRemainingDecisions = true;
   export let story;
   export let storyNode;
@@ -36,9 +35,6 @@
   $: currentPage = story[$store.storyNode];
   $: haveRemainingDecisions = !story[$store.storyNode].final;
   $: {
-    setURL();
-    scrollWindow();
-    safeWindow().document.activeElement.blur();
     recordUnlockSkipIntro();
     dispatch("pageChange", {
       storyNode: $store.storyNode,
@@ -47,11 +43,6 @@
       consequences: last($store.history).consequences
     });
   }
-
-  const getCurrentPage = currentPage => ({
-    ...currentPage,
-    text: currentPage.text.map(line => line.replace(/\s\s+?/gi, "&nbsp; "))
-  });
 
   const normalize = (decision = {}) => {
     return {
@@ -67,12 +58,6 @@
   const recordUnlockSkipIntro = () => {
     if ($store.hasInitialCompletion) return;
     $store.hasInitialCompletion = currentPage.final;
-  };
-
-  const scrollWindow = () => {
-    if (!enableScroll) return;
-
-    safeWindow().scrollTo(0, 0);
   };
 
   const rewindHistory = decision =>
@@ -109,6 +94,12 @@
     setHistory(decision);
     $store.storyNode = decision.storyNode;
   };
+
+  const showRestart = () => {
+    if (!enableExtraNavigation || $store.storyNode === "start") return false;
+
+    return true;
+  }
 
   const showSkipIntro = () =>
     enableExtraNavigation &&
@@ -158,14 +149,6 @@
         disabled: !availableDecision
       };
     });
-
-  const setURL = () => {
-    safeWindow().history.replaceState(
-      "",
-      "",
-      `${safeWindow().location.pathname}?storyNode=${$store.storyNode}`
-    );
-  };
 
   const getStartingPoint = () => {
     if (typeof storyNode === "undefined") {
@@ -262,7 +245,7 @@
         </Button>
       {/each}
     {/if}
-    {#if enableExtraNavigation}
+    {#if showRestart()}
       <Button
         variation="secondary"
         on:click="{() => goToDecision({ storyNode: 'start' })}">

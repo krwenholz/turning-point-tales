@@ -35,6 +35,7 @@
   import { goto, stores } from "@sapper/app";
   import { userSubscribed } from "src/lib/client/user";
   import { some } from "lodash";
+  import { safeWindow } from 'src/lib/client/safe-window';
 
   export let story;
   export let title;
@@ -52,11 +53,25 @@
   let previousNodeName = $page.query.storyNode;
   let visitations = [];
 
+  $: adRecentlySeen = Date.now() - $adInfo.dateSeen < ONE_DAY;
+  $: userInTrial = finalNodeSeen(visitations) && Date.now() - $session.user.created < ONE_DAY * 4;
+  $: adDisabled = adRecentlySeen || userInTrial;
+
   const adInfo = adStore();
 
   const adFinished = () => {
     $adInfo.dateSeen = Date.now();
   };
+
+  const setURL = (storyNode) => {
+    safeWindow().history.replaceState(
+      "",
+      "",
+      `${safeWindow().location.pathname}?storyNode=${storyNode}`
+    );
+  };
+
+  const scrollToTop = () => safeWindow().scrollTo(0, 0);
 
   const recordVisit = detail => {
     fetch("/story/visits", {
@@ -86,12 +101,6 @@
   const finalNodeSeen = visitations => {
     return some(visitations, node => story[node].final);
   };
-
-  $: adRecentlySeen = Date.now() - $adInfo.dateSeen < ONE_DAY;
-  $: userInTrial =
-    finalNodeSeen(visitations) &&
-    Date.now() - $session.user.created < ONE_DAY * 4;
-  $: adDisabled = adRecentlySeen || userInTrial;
 
   onMount(() => {
     csrf = fetchCsrf();
@@ -147,15 +156,18 @@
       {story}
       {title}
       {visitations}
-      store="{mainAdventure(story)}"
-      className="adventure"
-      storyNode="{$page.query.storyNode}"
       {goto}
+      className="adventure"
+      store="{mainAdventure(story)}"
+      storyNode="{$page.query.storyNode}"
       bind:haveRemainingDecisions
       on:pageChange="{({ detail }) => {
         recordVisit(detail);
+        scrollToTop();
+        setURL(detail.storyNode)
         badgePopup.newPage(detail.storyNode);
-      }}" />
+      }}"
+    />
     <BadgePopup {badges} bind:this="{badgePopup}" />
     {#if !haveRemainingDecisions}
       <div class="final-options">

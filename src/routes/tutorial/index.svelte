@@ -5,7 +5,7 @@
   import Adventure from "src/components/Adventure/index.svelte";
   import tutorialStory from "src/lib/local-stories/tutorial-story.js";
   import storyWithConsequences from "src/lib/local-stories/story-with-consequences.js";
-  import Overview from "src/components/Adventure/Overview.svelte";
+  import Overview from "src/components/Overview";
   import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
 
   let overview;
@@ -75,7 +75,7 @@
 
 <section class="tutorial">
   <section class="helpers">
-    <Overview currentStoryNode="{storyNode}" {history} {consequences} />
+    <Overview {history} {consequences} />
     <YamlTracker story="{selectedStory}" {storyNode} {history} {consequences} />
   </section>
 
@@ -83,7 +83,8 @@
     <TabList>
       <Tab
         on:click="{() => tabSelected(storyWithConsequences)}"
-        name="storyWithConsequences">
+        name="storyWithConsequences"
+      >
         History and Consequences
       </Tab>
 
@@ -96,14 +97,16 @@
       <Adventure
         story="{storyWithConsequences}"
         storyNode="start"
-        on:pageChange="{e => update(e)}" />
+        on:pageChange="{e => update(e)}"
+      />
     </TabPanel>
 
     <TabPanel>
       <Adventure
         story="{tutorialStory}"
         storyNode="start"
-        on:pageChange="{e => update(e)}" />
+        on:pageChange="{e => update(e)}"
+      />
     </TabPanel>
   </Tabs>
 </section>

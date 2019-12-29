@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@babel/preset-env": "^7.5.5",
+    "@beyonk/svelte-notifications": "^2.0.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/svelte": "^1.11.0",
     "babel-jest": "^24.9.0",
