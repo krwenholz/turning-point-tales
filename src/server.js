@@ -19,7 +19,7 @@ import { initPassport } from "src/authentication";
 import { pool } from "src/lib/server/database.js";
 import { requireHttps } from "src/lib/server/require_https";
 import { requireRoot } from "src/lib/server/require_root";
-import { logger, requestsLoggingMiddleware } from "./logging";
+import { logger, requestLoggingMiddleware } from "./logging";
 
 const dev = config.get("dev");
 
@@ -54,7 +54,7 @@ const middleware = [
       if (req.path.includes("api")) req.rawBody = buf;
     }
   }),
-  requestsLoggingMiddleware(),
+  requestLoggingMiddleware(),
   requireHttps,
   requireRoot,
   compression({
