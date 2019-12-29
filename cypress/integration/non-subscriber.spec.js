@@ -1,7 +1,7 @@
 const { createUser } = require("../support/utils");
 
 describe("NonSubscriber", () => {
-  it.only("displays ads and conversion", () => {
+  it("displays ads and conversion", () => {
     cy.logInNonSubscriber();
     cy.contains("Continue...").click();
     cy.contains(
