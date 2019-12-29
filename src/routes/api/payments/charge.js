@@ -1,44 +1,43 @@
-import Logger from 'js-logger';
-import config from 'config';
-import rp from 'request-promise-native';
-import {
-  setSubscriptionDetails
-} from 'src/lib/server/users';
+import { logger } from "src/logging";
+import config from "config";
+import rp from "request-promise-native";
+import { setSubscriptionDetails } from "src/lib/server/users";
 
 /**
  * If this user is already registered in Stripe, cool, otherwise register them.
  */
 const getOrCreateStripeCustomer = (user, cardId) => {
-  if (user.stripeCustomerId != null) return Promise.resolve(user.stripeCustomerId);
+  if (user.stripeCustomerId != null)
+    return Promise.resolve(user.stripeCustomerId);
 
   const options = {
-    method: 'POST',
-    uri: 'https://api.stripe.com/v1/customers',
+    method: "POST",
+    uri: "https://api.stripe.com/v1/customers",
     headers: {
-      'Authorization': 'Basic ' + config.get('stripe.secretKey'),
+      Authorization: "Basic " + config.get("stripe.secretKey")
     },
     form: {
       email: user.email,
-      source: cardId,
+      source: cardId
     },
     json: true
   };
 
-  Logger.info('Creating stripe customer for user', user.id);
+  logger.info({ userId: user.id }, "Creating stripe customer for user");
 
   return rp(options)
-    .then((resp) => {
+    .then(resp => {
       const customerId = resp.id;
-      Logger.info('Stripe customer created', user.id, customerId);
+      logger.info({ userId: user.id, customerId }, "Stripe customer created");
 
-      return setSubscriptionDetails(user.id, customerId, null, null)
-        .then(({
-          stripeCustomerId
-        }) => stripeCustomerId);
-    }).catch((err) => {
-      Logger.error('Error creating customer', user.id, err);
+      return setSubscriptionDetails(user.id, customerId, null, null).then(
+        ({ stripeCustomerId }) => stripeCustomerId
+      );
+    })
+    .catch(err => {
+      logger.error({ userId: user.id, err: err }, "Error creating customer");
 
-      return Promise.reject('Creating user failed.');
+      return Promise.reject("Creating user failed.");
     });
 };
 
@@ -47,57 +46,84 @@ const getOrCreateStripeCustomer = (user, cardId) => {
  */
 const post = (req, res) => {
   return getOrCreateStripeCustomer(req.user, req.body.token.id)
-    .then((stripeCustomerId) => {
+    .then(stripeCustomerId => {
       const options = {
-        method: 'POST',
-        uri: 'https://api.stripe.com/v1/subscriptions',
+        method: "POST",
+        uri: "https://api.stripe.com/v1/subscriptions",
         headers: {
-          'Authorization': 'Basic ' + config.get('stripe.secretKey'),
+          Authorization: "Basic " + config.get("stripe.secretKey")
         },
         form: {
           customer: stripeCustomerId,
-          items: [{
-            plan: config.get('stripe.subscriptionId')
-          }],
-          expand: ['latest_invoice.payment_intent'],
+          items: [
+            {
+              plan: config.get("stripe.subscriptionId")
+            }
+          ],
+          expand: ["latest_invoice.payment_intent"]
         },
         json: true
       };
 
-      Logger.info('Creating subscription', req.user.id, stripeCustomerId);
+      logger.info(
+        { userId: req.user.id, stripeCustomerId: stripeCustomerId },
+        "Creating subscription"
+      );
       return rp(options);
     })
-    .then((resp) => {
+    .then(resp => {
       const subscriptionId = resp.id;
       const paymentIntent = resp.latest_invoice.payment_intent.status;
       const paymentStatus = resp.status;
       const currentPeriodEnd = resp.current_period_end;
-      Logger.info('Subscription creation response received', req.user.id, subscriptionId, paymentStatus, paymentIntent, resp.current_period_end)
+      logger.info(
+        {
+          userId: req.user.id,
+          subscriptionId,
+          paymentStatus,
+          paymentIntent,
+          currentPeriodEnd: resp.current_period_end
+        },
+        "Subscription creation response received"
+      );
 
-      if (paymentStatus === 'active' && paymentIntent === 'succeeded') {
-        return setSubscriptionDetails(req.user.id, resp.customer, subscriptionId, new Date(currentPeriodEnd * 1000));
+      if (paymentStatus === "active" && paymentIntent === "succeeded") {
+        return setSubscriptionDetails(
+          req.user.id,
+          resp.customer,
+          subscriptionId,
+          new Date(currentPeriodEnd * 1000)
+        );
       }
 
-      Logger.error('Subscription creation error', req.user.id, paymentStatus, paymentIntent)
-      return Promise.reject('Subscription failure')
+      logger.error(
+        { userId: req.user.id, paymentStatus, paymentIntent },
+        "Subscription creation error"
+      );
+      return Promise.reject("Subscription failure");
     })
     .then(() => {
-      res.send(JSON.stringify({
-        'status': 'success'
-      }));
+      res.send(
+        JSON.stringify({
+          status: "success"
+        })
+      );
       res.end();
     })
-    .catch((err) => {
-      Logger.error('Error creating subscription', req.user.id, err);
+    .catch(err => {
+      logger.error(
+        { userId: req.user.id, err: err },
+        "Error creating subscription"
+      );
 
-      res.send(JSON.stringify({
-        'status': 'error',
-        'message': 'The charge failed, please try again or contact support.'
-      }));
+      res.send(
+        JSON.stringify({
+          status: "error",
+          message: "The charge failed, please try again or contact support."
+        })
+      );
       res.end();
     });
-}
+};
 
-export {
-  post
-}
+export { post };

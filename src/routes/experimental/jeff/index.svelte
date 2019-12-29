@@ -1,6 +1,6 @@
 <script>
   import yaml from "js-yaml";
-  import { Logger } from "src/lib/client/logger";
+  import { logger } from "src/lib/client/logger";
   import { onMount } from "svelte";
 
   let stats = {};
@@ -14,8 +14,8 @@
       .then(response => {
         stats = response;
       })
-      .catch(error => {
-        Logger.error("Failed to fetch stats", error);
+      .catch(err => {
+        logger.error(err, "Failed to fetch stats");
         stats = `Error fetching data!`;
       });
   });

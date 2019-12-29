@@ -1,4 +1,4 @@
-import Logger from "js-logger";
+import { logger } from "src/logging";
 import { pool } from "src/lib/server/database.js";
 
 const addVisitation = async ({ userId, storyId, nodeName, previousNode }) => {
@@ -12,7 +12,7 @@ const addVisitation = async ({ userId, storyId, nodeName, previousNode }) => {
     );
     return Promise.resolve({});
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -29,7 +29,7 @@ const getVisitations = async userId => {
     );
     return results.rows;
   } catch (err) {
-    Logger.error(err);
+    logger.error(err);
     return Promise.reject(err);
   }
 };
@@ -40,12 +40,15 @@ const getVisitations = async userId => {
 const get = async (req, res) => {
   return getVisitations(req.user.id)
     .then(visitations => {
-      Logger.info("Fetched visitations", req.user.id, visitations.length);
+      logger.info(
+        { userId: req.user.id, visitationsLegth: visitations.length },
+        "Fetched visitations"
+      );
       res.status(200);
       res.end(JSON.stringify(visitations));
     })
     .catch(error => {
-      Logger.error("Error fetching visitation", req.user.id);
+      logger.error({ userId: req.user.id }, "Error fetching visitation");
       res.status(500);
       res.end();
     });
@@ -63,12 +66,12 @@ const post = async (req, res) => {
   };
   return addVisitation(visitation)
     .then(() => {
-      Logger.info("Added visitation", visitation);
+      logger.info({ visitation }, "Added visitation");
       res.status(200);
       res.end();
     })
     .catch(error => {
-      Logger.error("Error creating visitation", visitation);
+      logger.error({ visitation }, "Error creating visitation");
       res.status(500);
       res.end();
     });
