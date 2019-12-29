@@ -6,12 +6,7 @@
   export let className = "";
   export let consequences = [];
   export let history = [{ storyNode: "start" }];
-  let appear = false;
   $: history = map(history, 'storyNode');
-
-  const appearOnChange = () => ({
-    update: () => (appear = true)
-  });
 </script>
 
 <style>
@@ -47,20 +42,6 @@
 
   .overview :global(.content) {
     padding-top: 8px;
-  }
-
-  @keyframes appear {
-    0% {
-      opacity: 0;
-      transform: translateX(10px);
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  .appear {
-    animation: 0.4s ease-in appear forwards;
   }
 </style>
 
