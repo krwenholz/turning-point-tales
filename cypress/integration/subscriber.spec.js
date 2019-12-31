@@ -11,6 +11,6 @@ describe("Subscriber", () => {
     );
     cy.get(".story-previews")
       .find("button")
-      .should("have.length", 2);
+      .should("have.length", 3);
   });
 });
