@@ -1,6 +1,6 @@
 # Variables
 #######################################################################
-variable stage { type = "string" }
+variable stage { type = string }
 
 # Resources
 #######################################################################
@@ -14,11 +14,21 @@ module "logdrain" {
 module "elasticsearch" {
   source = "./elasticsearch"
 
-  stage = "staging"
+  stage          = var.stage
+  log_group_name = module.logdrain.log_group_name
+  log_group_arn  = module.logdrain.log_group_arn
 }
 
 # Outputs
 #######################################################################
-output "url" {
+output "logdrain_url" {
   value = module.logdrain.url
+}
+
+output "elasticsearch_url" {
+  value = module.elasticsearch.url
+}
+
+output "kibana" {
+  value = module.elasticsearch.kibana
 }
