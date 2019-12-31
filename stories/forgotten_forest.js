@@ -3,7 +3,93 @@ const forgotten_forest = {
   author: "Sean Wong-Westbrooke",
   tags: ["mystery", "horror"],
   generalRelease: new Date("January 1, 2020, 00:00:00"),
-  badges: [],
+  badges: [
+    {
+      icon: "🍻",
+      text: "Some things are better off dead anyway",
+      node: "let_it_wither",
+    },
+    {
+      icon: "🍻",
+      text: "Every man or monster for themselves",
+      node: "refuse_to_help",
+    },
+    {
+      icon: "🍻",
+      text: "The art of the deal",
+      node: "demand_a_deal_for_help",
+    },
+    {
+      icon: "",
+      text: "No man gets left behind",
+      node: "save_madds",
+    },
+    {
+      icon: "",
+      text: "Frasier would be proud",
+      node: "enter_therapy",
+    },
+    {
+      icon: "",
+      text: "Into the wild",
+      node: "return_to_forest",
+    },
+    {
+      icon: "",
+      text: "Please don't hurt me, I'm too pretty to die",
+      node: "surrender"
+    },
+    {
+      icon: "",
+      text: "All good things must come to an end",
+      node: "take_necklace_a_end"
+    },
+    {
+      icon: "",
+      text: "Peace and quiet at last",
+      node: "leave_necklace_a_end"
+    },
+    {
+      icon: "",
+      text: "Every man for himself!",
+      node: "abandon_madds"
+    },
+    {
+      icon: "",
+      text: "My precious",
+      node: "take_necklace_b",
+    },
+    {
+      icon: "",
+      text: "What's yours is yours, and what's mine is yours",
+      node: "leave_necklace_b",
+    },
+    {
+      icon: "",
+      text: "An adventurer always fufills their promises",
+      node: "keep_promise",
+    },
+    {
+      icon: "",
+      text: "Home sweet home",
+      node: "put_on_your_necklace",
+    },
+    {
+      icon: "",
+      text: "I didn't pinky promise",
+      node: "break_your_oath",
+    },
+    {
+      icon: "",
+      text: "Destroy all the things!",
+      node: "destroy_gudrid_and_sigurds_necklaces"
+    },
+    {
+      icon: "",
+      text: "It's not me, it's you",
+      node: "destroy_gudrids_necklace_killed_sigurd"
+    },
+  ],
   preview:
   "In the dream you see a thick dark forest with a small stone path winding into it. Your father took you hunting in forests as a child. It never really felt good to kill, but your father called it important to build your character. You did not care for it much, but you were good at it and your aim was true. But, out of all the forests, this one is different.",
   content: {
