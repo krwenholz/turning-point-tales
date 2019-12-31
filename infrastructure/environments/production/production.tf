@@ -13,7 +13,7 @@ terraform {
 # Configure the AWS Provider
 provider "aws" {
   version = "~> 2.0"
-  region = "us-west-2"
+  region  = "us-west-2"
 }
 
 module "project" {
@@ -22,3 +22,16 @@ module "project" {
   stage = "production"
 }
 
+# Outputs
+#######################################################################
+output "logdrain_url" {
+  value = module.project.logdrain_url
+}
+
+output "elasticsearch_url" {
+  value = module.project.elasticsearch_url
+}
+
+output "kibana" {
+  value = module.project.kibana
+}

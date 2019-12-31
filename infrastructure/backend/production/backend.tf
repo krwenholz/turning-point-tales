@@ -9,7 +9,7 @@ provider "aws" {
 module "prod_backend" {
   source     = "git::https://github.com/cloudposse/terraform-aws-tfstate-backend.git?ref=master"
   namespace  = "h2wib"
-  stage      = "prod"
+  stage      = "production"
   name       = "terraform"
   attributes = ["state"]
   region     = "us-west-2"
