@@ -55,12 +55,13 @@ describe('Adventure', () => {
   })
 
   it('allows user to visit another story', () => {
-    cy.location().then((loc) => {
-      cy.visit(loc.pathname + '?storyNode=file_a_formal_complaint')
-        .visit('/')
-        .get('.story-previews').find('button').last()
+      cy.visit('/')
+        .get('.story-previews')
+        .find('button')
+        .last()
         .click()
-        .url().should('match', /\/story\/[a-z0-9-]+\?storyNode=start/);
+
+      cy.url()
+        .should('match', /\/story\/[a-z0-9-]+\?storyNode=start/);
     });
-  })
 });

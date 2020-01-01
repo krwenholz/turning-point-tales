@@ -2,4 +2,5 @@
   "svelteSortOrder": "scripts-styles-markup",
   "svelteStrictMode": true,
   "tabWidth": 2,
+  "svelteBracketNewLine": true,
 }

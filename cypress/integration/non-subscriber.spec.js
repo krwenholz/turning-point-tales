@@ -7,10 +7,12 @@ describe("NonSubscriber", () => {
     cy.contains(
       /(Reading recommendations from the founders and creators|Reading adjacent things|Reading orthogonal things)/
     ).click();
+
     cy.contains("Now back to the regularly scheduled programming....")
-      .click()
-      .url()
-      .should("match", /\/story\/[a-z0-9-]+\?storyNode=start/);
+      .click();
+
+    cy.url()
+      .should("match", /\/story\/[a-z0-9-]+/);
 
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=stop_the_clocks");
@@ -58,8 +60,9 @@ describe("NonSubscriber", () => {
       /(Reading recommendations from the founders and creators|Reading adjacent things|Reading orthogonal things)/
     ).click();
     cy.contains("Now back to the regularly scheduled programming....")
-      .click()
-      .url()
-      .should("match", /\/story\/[a-z0-9-]+\?storyNode=start/);
+      .click();
+
+    cy.url()
+      .should("match", /\/story\/[a-z0-9-]+/);
   });
 });

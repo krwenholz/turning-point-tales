@@ -40,6 +40,7 @@
     bind:this="{input}"
     class="{`input ${className}`}"
     class:disabled
+    on:change
     on:click
     on:blur
     on:input
