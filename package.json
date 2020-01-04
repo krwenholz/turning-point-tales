@@ -12,7 +12,7 @@
     "jest": "jest --config=jest.config.js",
     "format": "prettier --write --plugin-search-dir=. ./**/*.html ./**/*.svelte ./**/*.js",
     "db:seed": "node postgres/dev/seed.js",
-    "db:update_only": "node postgres/dev/update_only.js"
+    "db:update_only": "NODE_PATH='./' node postgres/dev/update_only.js"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "7.6.2",
@@ -59,6 +59,7 @@
     "@testing-library/svelte": "^1.11.0",
     "babel-jest": "^24.9.0",
     "cypress": "^3.7.0",
+    "esm": "^3.2.25",
     "jest": "24.9.0",
     "jest-transform-svelte": "^2.1.0",
     "js-logger": "^1.6.0",
