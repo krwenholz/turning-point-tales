@@ -5,87 +5,87 @@ const forgotten_forest = {
   generalRelease: new Date("January 1, 2099, 00:00:00"),
   badges: [
     {
-      icon: "🍻",
+      icon: "💀",
       text: "Some things are better off dead anyway",
       node: "let_it_wither"
     },
     {
-      icon: "🍻",
+      icon: "💨",
       text: "Every man or monster for themselves",
       node: "refuse_to_help"
     },
     {
-      icon: "🍻",
+      icon: "🙅",
       text: "The art of the deal",
       node: "demand_a_deal_for_help"
     },
     {
-      icon: "",
+      icon: "🆘",
       text: "No man gets left behind",
       node: "save_madds"
     },
     {
-      icon: "",
+      icon: "😏",
       text: "Frasier would be proud",
       node: "enter_therapy"
     },
     {
-      icon: "",
+      icon: "🌲",
       text: "Into the wild",
       node: "return_to_forest"
     },
     {
-      icon: "",
+      icon: "🎀",
       text: "Please don't hurt me, I'm too pretty to die",
       node: "surrender"
     },
     {
-      icon: "",
+      icon: "🔚",
       text: "All good things must come to an end",
       node: "take_necklace_a_end"
     },
     {
-      icon: "",
+      icon: "🔇",
       text: "Peace and quiet at last",
       node: "leave_necklace_a_end"
     },
     {
-      icon: "",
+      icon: "🏃",
       text: "Every man for himself!",
       node: "abandon_madds"
     },
     {
-      icon: "",
+      icon: "💍",
       text: "My precious",
       node: "take_necklace_b"
     },
     {
-      icon: "",
+      icon: "📤",
       text: "What's yours is yours, and what's mine is yours",
       node: "leave_necklace_b"
     },
     {
-      icon: "",
+      icon: "⌛",
       text: "An adventurer always fufills their promises",
       node: "keep_promise"
     },
     {
-      icon: "",
+      icon: "🏠",
       text: "Home sweet home",
       node: "put_on_your_necklace"
     },
     {
-      icon: "",
+      icon: "🚫",
       text: "I didn't pinky promise",
       node: "break_your_oath"
     },
     {
-      icon: "",
+      icon: "🎆",
       text: "Destroy all the things!",
       node: "destroy_gudrid_and_sigurds_necklaces"
     },
     {
-      icon: "",
+      icon: "😬",
       text: "It's not me, it's you",
       node: "destroy_gudrids_necklace_killed_sigurd"
     }
