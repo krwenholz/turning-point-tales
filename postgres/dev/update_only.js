@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 
 const { Pool } = require("pg");
-const Logger = require("js-logger");
 const securePassword = require("secure-password");
 const stories = require("../../stories/index.js");
-
-Logger.useDefaults();
 
 const pool = new Pool({
   connectionString: process.env.CONNECTION_STRING
@@ -49,15 +46,15 @@ const addStory = async ({
       ]
     );
 
-    Logger.info("... Story added", title);
+    console.info("... Story added", title);
   } catch (err) {
-    Logger.error(err);
+    console.error(err);
     return Promise.reject(err);
   }
 };
 
 const updateStories = async () => {
-  Logger.info("Updating stories...");
+  console.info("Updating stories...");
 
   for (const story of stories) {
     await addStory(story);
@@ -68,9 +65,9 @@ const updateStories = async () => {
  * Run
  */
 (async () => {
-  Logger.info("Updating begins...");
+  console.info("Updating begins...");
 
   await updateStories();
 
-  Logger.info("Updating finished...");
+  console.info("Updating finished...");
 })();
