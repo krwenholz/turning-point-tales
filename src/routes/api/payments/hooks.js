@@ -8,8 +8,8 @@ import {
 } from "src/lib/server/users";
 
 const updateSubscription = (stripeCustomerId, event) => {
-  const status = event.data.status;
-  const nextPeriodEnd = new Date(event.data.current_period_end * 1000);
+  const status = event.data.object.status;
+  const nextPeriodEnd = new Date(event.data.object.current_period_end * 1000);
   return findUserSafeDetails(stripeCustomerId).then(
     ({ id, subscriptionId, subscriptionPeriodEnd }) => {
       logger.info(
@@ -64,7 +64,7 @@ const post = (req, res) => {
     req.headers["stripe-signature"],
     config.get("stripe.webhookSecret")
   );
-  const stripeCustomerId = event.data.customer;
+  const stripeCustomerId = event.data.object.customer;
 
   logger.info(
     { eventType: event.type, stripeCustomerId },
@@ -88,7 +88,7 @@ const post = (req, res) => {
         });
     case "invoice.upcoming":
       logger.info(
-        { customer: event.data.customer },
+        { customer: event.data.object.customer },
         "Invoice is upcoming for a customer"
       );
       res.status(200);
