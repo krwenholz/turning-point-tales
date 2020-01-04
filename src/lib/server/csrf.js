@@ -14,7 +14,7 @@ const csrf = csurf({
 
 const csrfProtection = (req, res, next) => {
   const noCsrfRoutes = ["/api/payments/hooks"];
-  if (noCsrfRoutes.includes(req)) next();
+  if (noCsrfRoutes.includes(req.path)) next();
   else csrf(req, res, next);
 };
 
