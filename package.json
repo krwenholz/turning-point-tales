@@ -61,7 +61,6 @@
     "cypress": "^3.7.0",
     "jest": "24.9.0",
     "jest-transform-svelte": "^2.1.0",
-    "js-logger": "^1.6.0",
     "ndb": "^1.0.43",
     "npm-run-all": "^4.1.5",
     "sapper": "^0.27.0",

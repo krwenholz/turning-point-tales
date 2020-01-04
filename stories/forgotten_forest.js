@@ -2,37 +2,37 @@ const forgotten_forest = {
   title: "The Forgotten Forest",
   author: "Sean Wong-Westbrooke",
   tags: ["mystery", "horror"],
-  generalRelease: new Date("January 1, 2020, 00:00:00"),
+  generalRelease: new Date("January 1, 2099, 00:00:00"),
   badges: [
     {
       icon: "🍻",
       text: "Some things are better off dead anyway",
-      node: "let_it_wither",
+      node: "let_it_wither"
     },
     {
       icon: "🍻",
       text: "Every man or monster for themselves",
-      node: "refuse_to_help",
+      node: "refuse_to_help"
     },
     {
       icon: "🍻",
       text: "The art of the deal",
-      node: "demand_a_deal_for_help",
+      node: "demand_a_deal_for_help"
     },
     {
       icon: "",
       text: "No man gets left behind",
-      node: "save_madds",
+      node: "save_madds"
     },
     {
       icon: "",
       text: "Frasier would be proud",
-      node: "enter_therapy",
+      node: "enter_therapy"
     },
     {
       icon: "",
       text: "Into the wild",
-      node: "return_to_forest",
+      node: "return_to_forest"
     },
     {
       icon: "",
@@ -57,27 +57,27 @@ const forgotten_forest = {
     {
       icon: "",
       text: "My precious",
-      node: "take_necklace_b",
+      node: "take_necklace_b"
     },
     {
       icon: "",
       text: "What's yours is yours, and what's mine is yours",
-      node: "leave_necklace_b",
+      node: "leave_necklace_b"
     },
     {
       icon: "",
       text: "An adventurer always fufills their promises",
-      node: "keep_promise",
+      node: "keep_promise"
     },
     {
       icon: "",
       text: "Home sweet home",
-      node: "put_on_your_necklace",
+      node: "put_on_your_necklace"
     },
     {
       icon: "",
       text: "I didn't pinky promise",
-      node: "break_your_oath",
+      node: "break_your_oath"
     },
     {
       icon: "",
@@ -88,10 +88,10 @@ const forgotten_forest = {
       icon: "",
       text: "It's not me, it's you",
       node: "destroy_gudrids_necklace_killed_sigurd"
-    },
+    }
   ],
   preview:
-  "In the dream you see a thick dark forest with a small stone path winding into it. Your father took you hunting in forests as a child. It never really felt good to kill, but your father called it important to build your character. You did not care for it much, but you were good at it and your aim was true. But, out of all the forests, this one is different.",
+    "In the dream you see a thick dark forest with a small stone path winding into it. Your father took you hunting in forests as a child. It never really felt good to kill, but your father called it important to build your character. You did not care for it much, but you were good at it and your aim was true. But, out of all the forests, this one is different.",
   content: {
     start: {
       text: [
@@ -141,7 +141,7 @@ const forgotten_forest = {
         {
           storyNode: "take_necklace_a",
           label: "Take Necklace",
-          consequences: ["necklace"],
+          consequences: ["necklace"]
         },
         {
           storyNode: "leave_necklace_a",
@@ -471,7 +471,7 @@ const forgotten_forest = {
         "Epilogue: Cornered",
         "Years have passed now in your life as a worshipper of the forest god Aurvandil, “The Morning Star.”  In time the name almost sounds beautiful. Every day you are made to pray to Aurvandil to grow its power. As it grows in size and reach, it draws more and more people into the village. You become lost in the routine of capturing people and seeing them made into Shadows, enslaved like you, or simply eaten. It all becomes the same to you.",
         "You try not to think about the horror of your life. You focus on the food you are provided and the simple joy of breathing another breath. There is nothing else to your life. You lie to yourself and say that it is enough.",
-        "END",
+        "END"
       ],
       decisions: [
         {
@@ -707,7 +707,7 @@ const forgotten_forest = {
         {
           storyNode: "take_necklace_a_end",
           label: "Take Necklace",
-          consequences: ['necklace']
+          consequences: ["necklace"]
         },
         {
           storyNode: "leave_necklace_a_end",
@@ -939,7 +939,7 @@ const forgotten_forest = {
         }
       ]
     },
-    "examine_deer_shrine_drunk_petyr": {
+    examine_deer_shrine_drunk_petyr: {
       text: [
         "The world is tinted blue as a sort of bubble fills the room. The laughter of children surrounds you as the ghostly forms of children run after each other and pass through you. The room is filled with people and children talking, eating, and carving deer like the one you hold. It truly is a church.",
         "Petyr steps to the side to allow you to see a group of adults huddling closely together. “What are we going to do?”, a man asks.",
@@ -1094,7 +1094,7 @@ const forgotten_forest = {
         "Without worshippers, it seems the forest god’s power is limited. All it has the strength to do is feed you nightmares and whisper in your head. You can feel its angry voice reverberate inside your skull, its breath on the backs of your eyes. But that is all it can do. It is too weak for anything else. Knowledge of this only makes its words more bitter.",
         "Painkillers and alcohol work well to silence the voices, but as it focuses every last ounce of its rage on you, the quantity needed takes its toll. Your organs struggle to endure the poisoning and it becomes clear your actions are shaving away decades of your life.",
         "And what life remains, is troubled. Substance abuse to hide voices in your head isolates you from everyone but the doctors who try to help you. This is not much of a life and you wonder if there may have been another way.",
-        "END",
+        "END"
       ],
       decisions: [
         {
@@ -1217,9 +1217,8 @@ const forgotten_forest = {
         },
         {
           storyNode: "appeal_to_forest_god_with_necklace",
-          label:
-            "Appeal to Forest God with Ancestor’s Necklace",
-          requires: ['necklace']
+          label: "Appeal to Forest God with Ancestor’s Necklace",
+          requires: ["necklace"]
         },
         {
           storyNode: "try_to_escape",
@@ -1233,7 +1232,7 @@ const forgotten_forest = {
         "Epilogue: Surrendered",
         "Years have passed now in your life as a worshipper of the forest god Aurvandil. Soon after Madds’ death you were made a necklace to bind you to this place forever. You have accepted your subservience to your lord and your lineage. Every day your prayers grow its power and more and more people continue to arrive at the rebuilt village. All these arrivals are either turned to Shadows or join you in worship after watching one of their own devoured.",
         "You try not to think about the horror of your life. You focus on the food you are provided and the simple joy of breathing another breath. There is nothing else to your life. You lie to yourself and say that it is enough.",
-        "END",
+        "END"
       ],
       decisions: [
         {
@@ -1478,7 +1477,7 @@ const forgotten_forest = {
       text: [
         "You run down the trail with all your might. Your heart feels ready to burst and your lungs burn, but it is not enough. A mass of Shadows takes you by the legs and drag you to their master. The monster envelops you and takes away all of you that is human. You are now merely a shadow of the forest. Made to play house with and keep the monster company.",
         "You live in monotony and brotherhood with your fellow Shadows. The years go by and more descendants wander into the village to be turned into Shadows. Some even worship as normal humans, growing your lord’s power with every word of awe and love. In time the village becomes bustling and beautiful again, the streets patrolled by Shadows and each home full of worshippers by the hearths. There is even talk now among Aurvandil and its followers of expanding the magic forest towards the nearest town, a fishing hamlet, to have their residents bolster their ranks. Under their orders you go and retrieve the shotgun you brought with you so long ago. You begin to feel something almost like joy, knowing that from every day henceforth, you will fight to expand your god’s domain.",
-        "END",
+        "END"
       ],
       decisions: [
         {
