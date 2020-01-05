@@ -1,18 +1,34 @@
 <script>
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
-  import { set, keys, cloneDeep } from 'lodash';
+  import { set, keys, cloneDeep, isArray, isString, get } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
   export let story;
   story = cloneDeep(story);
 
-  const dispatch = createEventDispatcher();
+  $: {
+    console.clear();
+    console.log(story.start.text);
+  }
 
   const updateStory = (e) => {
+    debugger;
     set(story, e.detail.path, e.detail.value);
     dispatch('edit', { story });
+  }
+
+  const enter = (e) => {
+    debugger;
+    if(e.detail.type === 'storyText') {
+      set(
+        story,
+        [e.detail.storyNode, 'text'],
+        [...get(story, [e.detail.storyNode, 'text']), "a"]
+      );
+    }
   }
 </script>
 
@@ -44,11 +60,13 @@
       text={story[storyNode].text || []}
       storyNode={storyNode}
       on:edit={updateStory}
+      on:enter={enter}
     />
     <Decisions
       decisions={story[storyNode].decisions || []}
       storyNode={storyNode}
       on:edit={updateStory}
+      on:enter={enter}
     />
   </div>
   {/each}

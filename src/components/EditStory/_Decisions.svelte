@@ -1,10 +1,11 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+  import { getDispatches } from './_shared';
+
   export let decisions = [];
   export let storyNode = "";
-  import { createEventDispatcher } from "svelte";
-  import { getDispatchChange } from './_shared';
 
-  const dispatchChange = getDispatchChange(createEventDispatcher());
+  const dispatches = getDispatches(createEventDispatcher());
 </script>
 
 <style>
@@ -34,7 +35,18 @@
           <div
             ContentEditable
             class='content-editable'
-            on:input="{e => dispatchChange(e, [storyNode, 'decisions', idx, 'label'])}"
+            on:input={e => dispatches.edit({
+              value: e.target.textContent.trim(),
+              path: [storyNode, 'decisions', idx, 'label'],
+            })}
+            on:keydown={e => dispatches.keydown(e, {
+              idx,
+              storyNode,
+              type: 'decisionLabel',
+              value: e.target.textContent.trim(),
+              path: [storyNode, 'decisions', idx, 'label'],
+              keyCode: e.keyCode,
+            })}
           >
             {decision.label}
           </div>
@@ -44,7 +56,18 @@
           <div
             class='content-editable'
             ContentEditable
-            on:input="{e => dispatchChange(e, [storyNode, 'decisions', idx, 'storyNode'])}"
+            on:input={e => dispatches.edit({
+              value: e.target.textContent.trim(),
+              path: [storyNode, 'decisions', idx, 'storyNode'],
+            })}
+            on:keydown={e => dispatches.keydown(e, {
+              idx,
+              storyNode,
+              type: 'decisionStoryNode',
+              value: e.target.textContent.trim(),
+              path: [storyNode, 'decisions', idx, 'storyNode'],
+              keyCode: e.keyCode,
+            })}
           >
             {decision.storyNode}
           </div>

@@ -1,10 +1,11 @@
 <script>
+  import { createEventDispatcher } from "svelte";
+  import { getDispatches } from './_shared';
+
   export let text = [];
   export let storyNode = '';
-  import { createEventDispatcher } from "svelte";
-  import { getDispatchChange } from './_shared';
 
-  const dispatchChange = getDispatchChange(createEventDispatcher());
+  const dispatches = getDispatches(createEventDispatcher());
 </script>
 
 <style>
@@ -23,7 +24,18 @@
     <div
       class='content-editable'
       contenteditable
-      on:input={e => dispatchChange(e, [storyNode, 'text', idx])}
+      on:input={e => dispatches.edit({
+        value: e.target.textContent.trim(),
+        path: [storyNode, 'text', idx],
+      })}
+      on:keydown={e => dispatches.keydown({
+        idx,
+        storyNode,
+        type: 'storyText',
+        keyCode: e.keyCode,
+        value: e.target.textContent.trim(),
+        path: [storyNode, 'text', idx]
+      })}
     >
       {paragraph}
     </div>
