@@ -3,7 +3,8 @@
   import { fade } from "../lib/Transition";
   import { axios } from "src/lib/axios";
   import { statusTracking } from "../lib/status-tracking";
-  import { Input, Form } from "src/components/Form";
+  import Input from "src/components/Form/Input.svelte";
+  import Form from "src/components/Form/Form.svelte";
   import Button from "src/components/Button.svelte";
 
   const { page } = sapper.stores();
