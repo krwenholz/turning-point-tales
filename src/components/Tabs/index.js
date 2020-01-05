@@ -1,4 +1,4 @@
-export { default as Tabs } from './Tabs.svelte';
-export { default as TabList } from './TabList.svelte';
-export { default as Tab } from './Tab.svelte';
-export { default as TabPanel } from './TabPanel.svelte';
+export { default as Tabs } from './_Tabs.svelte';
+export { default as TabList } from './_TabList.svelte';
+export { default as Tab } from './_Tab.svelte';
+export { default as TabPanel } from './_TabPanel.svelte';

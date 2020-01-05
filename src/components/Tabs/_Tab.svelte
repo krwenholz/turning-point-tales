@@ -1,6 +1,6 @@
 <script>
   import { getContext } from "svelte";
-  import { TABS } from "./Tabs.svelte";
+  import { TABS } from "./_Tabs.svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
   const { choose, selected, register } = getContext(TABS);
