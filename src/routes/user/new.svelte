@@ -4,7 +4,6 @@
   import { fade } from "src/lib/Transition";
   import { statusTracking } from "src/lib/status-tracking";
   import Form from "src/components/Form";
-  import Checkbox from "src/components/Checkbox";
   import Input from "src/components/Input";
   import Button from "src/components/Button.svelte";
   import FAQ from "src/routes/faq.svelte";

@@ -37,13 +37,15 @@
 <label>
   <slot />
   <input
+    {type}
     bind:this="{input}"
-    class="{`input ${className}`}"
+    class="input"
     class:disabled
     on:change
     on:click
     on:blur
     on:input
     autocomplete="on"
-    {...$$props} />
+    {...$$props}
+  />
 </label>

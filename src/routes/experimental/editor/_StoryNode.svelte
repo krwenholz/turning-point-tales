@@ -1,0 +1,55 @@
+<script>
+  import Trash from 'src/components/icons/Trash';
+  import EditText from 'src/components/icons/EditText.svelte';
+  import Input from 'src/components/Input/index';
+  import { createEventDispatcher, afterUpdate } from "svelte";
+
+  const dispatch = createEventDispatcher();
+
+  export let storyIdx;
+  export let storyNode = '';
+  export let onInput = () => {};
+</script>
+
+<style>
+  .story-node {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .story-node :global(svg) {
+    fill: black;
+    margin-left: 16px;
+  }
+
+  .story-node :global(svg:hover) {
+    cursor: pointer;
+  }
+
+  .story-node :global(.input),
+  .story-node :global(label) {
+    margin: 0;
+  }
+</style>
+
+<div class='story-node'>
+  {#if storyNode === 'start'}
+    <span class='story-node'>{storyNode}</span>
+  {:else}
+    <Input
+      value={storyNode}
+      placeholder="Name of story node"
+      on:input={e => onInput(e, {
+        storyIdx,
+        storyNode,
+        changeLocation: 'storyNode',
+        prevValue: storyNode,
+      })}
+    />
+    <Trash on:click={() => dispatch('delete', { storyIdx })}>
+      Delete
+    </Trash>
+  {/if}
+</div>

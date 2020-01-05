@@ -1,9 +1,8 @@
 <script>
+  export let id = "";
   export let required = false;
   export let className = "";
-  export let id = "";
   export let checked = false;
-  export let onChange;
 </script>
 
 <style>
@@ -22,6 +21,7 @@
     cursor: pointer;
     min-height: 26px;
     min-width: 26px;
+    visibility: hidden;
   }
 
   .box {
@@ -57,9 +57,15 @@
   }
 </style>
 
-<label class="{`checkbox ${className}`}">
-  <input {...$$props} on:click="{onChange}" type="checkbox" />
-  <div class="box"></div>
-  <div class="mark"></div>
+<label class={`checkbox ${className}`} >
+  <input
+    {checked}
+    on:change
+    on:input
+    on:click
+    type="checkbox"
+  />
+  <div class="box" />
+  <div class="mark" />
   <slot />
 </label>
