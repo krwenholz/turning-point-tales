@@ -6,7 +6,7 @@
   import Button from "src/components/Button.svelte";
   import Graph from "./_graph";
   import Overview from "src/components/Overview";
-  import Toggle from "src/components/Form/Toggle.svelte";
+  import Toggle from "src/components/Toggle";
   import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
   import exampleStory from "src/lib/local-stories/story-with-consequences";
   import yaml from "js-yaml";

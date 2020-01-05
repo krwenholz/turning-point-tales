@@ -1,6 +1,6 @@
 <script>
   import Button from "../../components/Button.svelte";
-  import Input from "../../components/Form/Input.svelte";
+  import Input from "../../components/Input";
   import { fetchCsrf } from "../../lib/client/csrf";
   import { onMount } from "svelte";
   import { stores } from "@sapper/app";

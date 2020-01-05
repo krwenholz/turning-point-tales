@@ -3,9 +3,9 @@
   import { axios } from "src/lib/axios";
   import { fade } from "src/lib/Transition";
   import { statusTracking } from "src/lib/status-tracking";
-  import Form from "src/components/Form/Form.svelte";
-  import Checkbox from "src/components/Form/Checkbox.svelte";
-  import Input from "src/components/Form/Input.svelte";
+  import Form from "src/components/Form";
+  import Checkbox from "src/components/Checkbox";
+  import Input from "src/components/Input";
   import Button from "src/components/Button.svelte";
   import FAQ from "src/routes/faq.svelte";
 
