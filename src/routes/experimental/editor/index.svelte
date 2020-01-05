@@ -1,36 +1,30 @@
 <script>
   import * as sapper from "@sapper/app";
-  import { writable } from 'svelte/store';
+  import { editorBackup } from 'src/lib/global-state-stores/browserStore/editor-backup.js'
+  import { get, writable } from 'svelte/store';
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
-  import Adventure from "src/components/Adventure";
+  import Adventure from "src/components/Adventure/index";
   import Button from "src/components/Button.svelte";
-  import Graph from "./_graph";
-  import Overview from "src/components/Overview";
-  import Toggle from "src/components/Toggle";
-  import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
-  import exampleStory from "src/lib/local-stories/story-with-consequences";
+  import Overview from "src/components/Overview/index";
   import yaml from "js-yaml";
   import Scrollable from 'src/components/Scrollable.svelte';
-  import EditStory from 'src/components/EditStory';
+  import WritingPane from './_WritingPane.svelte';
+  import Graph from './_graph/index';
   import { isValidStory } from 'src/components/Adventure/validation';
   import { copyToClipboard } from 'src/lib/copy-to-clipboard';
 
-  let story = exampleStory;
+  let story = get(editorBackup())
   let storyNode = 'start';
   let history = [];
   let consequences = [];
 
-  $: storyIsValid = isValidStory(story);
+  $: storyIsValid = process.browser && isValidStory(story);
 
   const updateOverview = e => {
     storyNode = e.detail.storyNode;
     history = e.detail.history;
     consequences = e.detail.consequences;
   };
-
-  const updateStory = e => {
-    story = e.detail.story;
-  }
 
   const loadStoryFile = () => {
     const input = document.createElement('input');
@@ -65,39 +59,36 @@
 
     window.URL.revokeObjectURL(url);
   };
-
-  const  copyStoryToClipboard = async () => {
-    copyToClipboard(yaml.safeDump(story));
-    notifier.success('Story copied to clipboard', 1500);
-  }
 </script>
 
 <style>
 
-  .toolbox {
+  .editor {
     display: grid;
-    grid-gap: 24px;
+    grid-gap: 48px;
     margin-bottom: 32px;
     grid-template-columns: auto 1fr 1fr;
     grid-template-rows: minmax(150px, 15%) 1fr 1fr;
     height: 85vh;
     grid-template-areas:
-      "options   overview   adventure"
+      "options    overview   adventure"
       "edit-story edit-story adventure"
       "edit-story edit-story adventure"
   }
 
-  .toolbox :global(.scrollable-adventure) {
+  .editor :global(.scrollable-adventure) {
     grid-area: adventure;
     width: 100%;
+    padding-bottom: 8px;
   }
-  .toolbox :global(.scrollable-edit-story) {
+  .editor :global(.scrollable-edit-story) {
     grid-area: edit-story;
+    max-height: 100%;
   }
-  .toolbox :global(.overview) {
+  .editor :global(.overview) {
     grid-area: overview;
   }
-  .toolbox .options {
+  .editor .options {
     grid-area: options;
     display: flex;
     flex-flow: column;
@@ -114,19 +105,8 @@
     border-bottom: 1px solid gray;
   }
 
-  .graph {
-    display: flex;
-    flex-flow: column;
-    width: 100%;
-    border: solid;
-  }
-
-  .error {
-    margin: auto;
-  }
-
   @media only screen and (min-width: 1150px) {
-    .toolbox {
+    .editor {
       flex-flow: row;
     }
   }
@@ -138,18 +118,19 @@
 
 <NotificationDisplay themes={{ success: 'green'}} />
 
-<section class="toolbox">
+<section class="editor">
   <section class='options'>
     <Button variation='link' on:click={loadStoryFile}>Load File</Button>
     <Button variation='link' on:click={saveStoryfile}>Download</Button>
-    <Button variation='link' on:click={copyStoryToClipboard}>Copy to Clipboard</Button>
   </section>
 
   <Overview {history} {consequences} />
 
-  <Scrollable className='scrollable-edit-story'>
-    <EditStory {story} on:edit={updateStory} />
-  </Scrollable>
+  <WritingPane
+    {story}
+    className='scrollable-edit-story'
+    on:edit={e => story = e.detail.story}
+  />
 
   <Scrollable className='scrollable-adventure'>
     <h2 slot='heading'>
@@ -158,13 +139,12 @@
     </h2>
     <Adventure
       {storyNode}
-      {story}
+      story={story}
       title="Self titled adventure: Number One"
       on:pageChange={updateOverview}
     />
   </Scrollable>
 </section>
-
 <br>
 <br>
 

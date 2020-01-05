@@ -1,18 +1,12 @@
 <script>
-  let checked = false;
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+
+  export let toggled = false;
+  let checked = toggled;
 </script>
 
 <style>
-  /** Switch
-   -------------------------------------*/
-
-  .switch input {
-    position: absolute;
-    opacity: 0;
-  }
-
   .switch {
     display: inline-block;
     font-size: 20px; /* 1 */
@@ -20,6 +14,11 @@
     width: 2em;
     background: gray;
     border-radius: 1em;
+  }
+
+  .switch input {
+    position: absolute;
+    opacity: 0;
   }
 
   .switch div {
@@ -41,6 +40,6 @@
 </style>
 
 <label class="switch" class:checked>
-  <input on:input on:click bind:checked type="checkbox" />
+  <input on:change on:input on:click bind:checked type="checkbox" />
   <div></div>
 </label>

@@ -1,4 +1,4 @@
-import { values, reject, isEmpty, keys, map, filter, has } from 'lodash';
+import { get, values, reject, isEmpty, keys, map, filter, has } from 'lodash';
 
 export const isValidStory = (story) => {
   return hasValidDecisions(story) && hasValidFinalNodes(story);
@@ -15,7 +15,7 @@ const hasValidDecisions = (story) => {
     reject(values(story), {final: true}),
     'decisions'
   ).flat()
-  .map(decision => decision.storyNode);
+   .map(decision => get(decision, 'storyNode', ''));
 
   const invalidNodes = filter(potentialStoryNodes, storyNode => !has(story, storyNode));
 
