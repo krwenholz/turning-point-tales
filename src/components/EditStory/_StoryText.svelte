@@ -2,7 +2,7 @@
   export let text = [];
   export let storyNode = '';
   import { createEventDispatcher } from "svelte";
-  import { getDispatchChange } from './shared';
+  import { getDispatchChange } from './_shared';
 
   const dispatchChange = getDispatchChange(createEventDispatcher());
 </script>

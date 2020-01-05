@@ -1,6 +1,6 @@
 <script>
-  import StoryText from './StoryText.svelte';
-  import Decisions from './Decisions.svelte';
+  import StoryText from './_StoryText.svelte';
+  import Decisions from './_Decisions.svelte';
   import { set, keys, cloneDeep } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from "svelte";
