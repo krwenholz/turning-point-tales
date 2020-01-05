@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+require = require('esm')(module);
 const { Pool } = require("pg");
 const securePassword = require("secure-password");
 const stories = require("../../stories/index.js");
