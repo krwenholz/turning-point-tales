@@ -35,11 +35,7 @@
           <div
             ContentEditable
             class='content-editable'
-            on:input={e => dispatches.edit({
-              value: e.target.textContent.trim(),
-              path: [storyNode, 'decisions', idx, 'label'],
-            })}
-            on:keydown={e => dispatches.keydown(e, {
+            on:keyup={e => dispatches({
               idx,
               storyNode,
               type: 'decisionLabel',
@@ -56,11 +52,7 @@
           <div
             class='content-editable'
             ContentEditable
-            on:input={e => dispatches.edit({
-              value: e.target.textContent.trim(),
-              path: [storyNode, 'decisions', idx, 'storyNode'],
-            })}
-            on:keydown={e => dispatches.keydown(e, {
+            on:keyup={e => dispatches({
               idx,
               storyNode,
               type: 'decisionStoryNode',

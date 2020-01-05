@@ -24,17 +24,14 @@
     <div
       class='content-editable'
       contenteditable
-      on:input={e => dispatches.edit({
-        value: e.target.textContent.trim(),
-        path: [storyNode, 'text', idx],
-      })}
-      on:keydown={e => dispatches.keydown({
+      on:keydown|preventDefault
+      on:keyup={e => dispatches(e, {
         idx,
         storyNode,
         type: 'storyText',
-        keyCode: e.keyCode,
         value: e.target.textContent.trim(),
-        path: [storyNode, 'text', idx]
+        path: [storyNode, 'text', idx],
+        keyCode: e.keyCode,
       })}
     >
       {paragraph}

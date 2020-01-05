@@ -15,19 +15,17 @@
   }
 
   const updateStory = (e) => {
-    debugger;
     set(story, e.detail.path, e.detail.value);
     dispatch('edit', { story });
   }
 
   const enter = (e) => {
-    debugger;
     if(e.detail.type === 'storyText') {
-      set(
-        story,
-        [e.detail.storyNode, 'text'],
-        [...get(story, [e.detail.storyNode, 'text']), "a"]
-      );
+      story[e.detail.storyNode].text = [
+        ...get(story, [e.detail.storyNode, 'text']),
+        ""
+      ];
+      e.detail.nodeToFocus.focus();
     }
   }
 </script>
