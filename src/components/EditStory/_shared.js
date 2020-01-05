@@ -1,4 +1,12 @@
-export const getDispatches = dispatch => ({ keyCode, value, path, type, idx, storyNode }) => {
+export const getDispatches = dispatch => (e, {
+  value,
+  path,
+  type,
+  idx,
+  keyCode,
+  storyNode,
+  nodeToFocus
+}) => {
     if(keyCode === 13) {
       return dispatch('enter', { value, path, type, idx, storyNode })
     }

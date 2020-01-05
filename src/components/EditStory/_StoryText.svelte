@@ -25,6 +25,7 @@
       class='content-editable'
       contenteditable
       on:keydown|preventDefault
+      on:input={() => alert("WAT")}
       on:keyup={e => dispatches(e, {
         idx,
         storyNode,
@@ -32,6 +33,7 @@
         value: e.target.textContent.trim(),
         path: [storyNode, 'text', idx],
         keyCode: e.keyCode,
+        nodeToFocus: e.target,
       })}
     >
       {paragraph}

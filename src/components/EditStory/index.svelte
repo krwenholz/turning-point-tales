@@ -15,6 +15,7 @@
   }
 
   const updateStory = (e) => {
+    debugger;
     set(story, e.detail.path, e.detail.value);
     dispatch('edit', { story });
   }
@@ -25,7 +26,6 @@
         ...get(story, [e.detail.storyNode, 'text']),
         ""
       ];
-      e.detail.nodeToFocus.focus();
     }
   }
 </script>
