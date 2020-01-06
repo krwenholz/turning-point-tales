@@ -5,7 +5,7 @@
   export let text = [];
   export let focused = '';
   export let storyNode = '';
-  export let onEvents = {};
+  export let onUpdates = {};
   let nodes = {}
 
   afterUpdate(() => {
@@ -32,10 +32,10 @@
       bind:this={nodes[idx]}
       class='content-editable'
       contenteditable
-      {...onEvents({
+      {...onUpdates({
         idx,
         storyNode,
-        type: 'storyText',
+        keyType: 'storyText',
         path: [storyNode, 'text', idx],
         previousValue: paragraph,
       })}

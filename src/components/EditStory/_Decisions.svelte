@@ -1,5 +1,5 @@
 <script>
-  export let onEvents = {};
+  export let onUpdates = {};
   export let decisions = [];
   export let storyNode = "";
 </script>
@@ -31,13 +31,11 @@
           <div
             ContentEditable
             class='content-editable'
-            on:keyup={e => eventBus.keydown({
+            {...onUpdates({
               idx,
               storyNode,
-              type: 'decisionLabel',
-              value: e.target.textContent,
+              keyType: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'label'],
-              keyCode: e.keyCode,
             })}
           >
             {decision.label}
@@ -48,13 +46,11 @@
           <div
             class='content-editable'
             ContentEditable
-            on:keyup={e => eventBus.keydown({
+            {...onUpdates({
               idx,
               storyNode,
-              type: 'decisionStoryNode',
-              value: e.target.textContent,
+              keyType: 'decisionStoryNode',
               path: [storyNode, 'decisions', idx, 'storyNode'],
-              keyCode: e.keyCode,
             })}
           >
             {decision.storyNode}

@@ -6,14 +6,12 @@
 
   export let story;
   export let focused = '';
-  story = cloneDeep(story);
-
 
   $: {
     console.log(story);
   }
 
-  const onEvents = ({ previousValue, path, type, idx, storyNode }) => ({
+  const onUpdates = ({ previousValue, path, type, idx, storyNode }) => ({
     oninput(e) {
       if (previousValue === e.target.textContent) return;
 
@@ -26,7 +24,7 @@
     onkeydown(e) {
       if (e.keyCode === 13) {
         e.preventDefault();
-        return addNewParagraph({ type, storyNode, idx})
+        return addNewKey({ type, storyNode, idx, path })
       }
     },
   });
@@ -35,12 +33,19 @@
     story[toPath(path)] =  textContent;
   }
 
-  const addNewParagraph = ({ type, detail, storyNode }) => {
-    if(type === 'storyText') {
+  const addNewKey = ({ keyType, storyNode, idx, path }) => {
+    if(keyType === 'storyText') {
       story[storyNode].text = [
         ...get(story, [storyNode, 'text']),
         ""
       ];
+      debugger;
+    }
+    if(keyType === 'decisionLabel') {
+
+    }
+    if(keyType === 'decisionStoryNode') {
+
     }
   }
 
@@ -72,13 +77,13 @@
   <div>
     <b>{storyNode}</b>
     <StoryText
-      {onEvents}
+      {onUpdates}
       text={story[storyNode].text || []}
       storyNode={storyNode}
       on:deleteParagraph={deleteParagraph}
     />
     <Decisions
-      {onEvents}
+      {onUpdates}
       decisions={story[storyNode].decisions || []}
       storyNode={storyNode}
     />
