@@ -1,33 +1,50 @@
 <script>
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
-  import { set, keys, cloneDeep, isArray, isString, get } from 'lodash';
+  import { set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
 
   export let story;
+  export let focused = '';
   story = cloneDeep(story);
 
+
   $: {
-    console.clear();
-    console.log(story.start.text);
+    console.log(story);
   }
 
-  const updateStory = (e) => {
-    debugger;
-    set(story, e.detail.path, e.detail.value);
-    dispatch('edit', { story });
+  const onEvents = ({ previousValue, path, type, idx, storyNode }) => ({
+    oninput(e) {
+      if (previousValue === e.target.textContent) return;
+
+      //if (!previousValue && !textContent) { //return dispatch('deleteParagraph');}
+      updateStory({
+        textContent: e.target.textContent,
+        path
+      });
+    },
+    onkeydown(e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        return addNewParagraph({ type, storyNode, idx})
+      }
+    },
+  });
+
+  const updateStory = ({ path, textContent }) => {
+    story[toPath(path)] =  textContent;
   }
 
-  const enter = (e) => {
-    if(e.detail.type === 'storyText') {
-      story[e.detail.storyNode].text = [
-        ...get(story, [e.detail.storyNode, 'text']),
+  const addNewParagraph = ({ type, detail, storyNode }) => {
+    if(type === 'storyText') {
+      story[storyNode].text = [
+        ...get(story, [storyNode, 'text']),
         ""
       ];
     }
   }
+
+  const deleteParagraph = () => {};
 </script>
 
 <style>
@@ -55,16 +72,15 @@
   <div>
     <b>{storyNode}</b>
     <StoryText
+      {onEvents}
       text={story[storyNode].text || []}
       storyNode={storyNode}
-      on:edit={updateStory}
-      on:enter={enter}
+      on:deleteParagraph={deleteParagraph}
     />
     <Decisions
+      {onEvents}
       decisions={story[storyNode].decisions || []}
       storyNode={storyNode}
-      on:edit={updateStory}
-      on:enter={enter}
     />
   </div>
   {/each}

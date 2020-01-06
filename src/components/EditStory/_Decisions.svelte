@@ -1,11 +1,7 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import { getDispatches } from './_shared';
-
+  export let onEvents = {};
   export let decisions = [];
   export let storyNode = "";
-
-  const dispatches = getDispatches(createEventDispatcher());
 </script>
 
 <style>
@@ -35,11 +31,11 @@
           <div
             ContentEditable
             class='content-editable'
-            on:keyup={e => dispatches({
+            on:keyup={e => eventBus.keydown({
               idx,
               storyNode,
               type: 'decisionLabel',
-              value: e.target.textContent.trim(),
+              value: e.target.textContent,
               path: [storyNode, 'decisions', idx, 'label'],
               keyCode: e.keyCode,
             })}
@@ -52,11 +48,11 @@
           <div
             class='content-editable'
             ContentEditable
-            on:keyup={e => dispatches({
+            on:keyup={e => eventBus.keydown({
               idx,
               storyNode,
               type: 'decisionStoryNode',
-              value: e.target.textContent.trim(),
+              value: e.target.textContent,
               path: [storyNode, 'decisions', idx, 'storyNode'],
               keyCode: e.keyCode,
             })}

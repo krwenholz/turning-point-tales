@@ -1,13 +1,18 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-  import { getDispatches } from './_shared';
+  import { createEventDispatcher, afterUpdate } from "svelte";
   import { get } from 'lodash';
 
   export let text = [];
+  export let focused = '';
   export let storyNode = '';
-  export let story = {};
+  export let onEvents = {};
+  let nodes = {}
 
-  const dispatches = getDispatches(createEventDispatcher());
+  afterUpdate(() => {
+    if(nodes[focused]) {
+      console.log(nodes[focused]);
+    }
+  });
 </script>
 
 <style>
@@ -24,24 +29,14 @@
 <div class='story-text'>
   {#each text as paragraph, idx}
     <div
+      bind:this={nodes[idx]}
       class='content-editable'
       contenteditable
-      on:input={e => dispatches.input(e, {
+      {...onEvents({
         idx,
         storyNode,
         type: 'storyText',
         path: [storyNode, 'text', idx],
-        keyCode: e.keyCode,
-        value: e.target.textContent.trim(),
-        previousValue: paragraph,
-      })}
-      on:keydown={e => dispatches.keydown(e, {
-        idx,
-        storyNode,
-        type: 'storyText',
-        value: e.target.textContent.trim(),
-        path: [storyNode, 'text', idx],
-        keyCode: e.keyCode,
         previousValue: paragraph,
       })}
     >
