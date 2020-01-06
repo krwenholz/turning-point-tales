@@ -1,16 +1,20 @@
 <script>
   import { createEventDispatcher, afterUpdate } from "svelte";
-  import { get } from 'lodash';
+  import { get, toPath, join } from 'lodash';
 
   export let text = [];
-  export let focused = '';
+  export let focusPath = '';
   export let storyNode = '';
   export let onUpdates = {};
-  let nodes = {}
+  export let nodes = {};
+
+  $: {
+    console.log(nodes);
+  }
 
   afterUpdate(() => {
-    if(nodes[focused]) {
-      console.log(nodes[focused]);
+    if(nodes[focusPath]) {
+      nodes[focusPath].focus();
     }
   });
 </script>
@@ -29,7 +33,7 @@
 <div class='story-text'>
   {#each text as paragraph, idx}
     <div
-      bind:this={nodes[idx]}
+      bind:this={nodes[[storyNode, 'text', idx]]}
       class='content-editable'
       contenteditable
       {...onUpdates({

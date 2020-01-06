@@ -5,13 +5,9 @@
   import { writable } from 'svelte/store';
 
   export let story;
-  export let focused = '';
+  export let focusPath = '';
 
-  $: {
-    console.log(story);
-  }
-
-  const onUpdates = ({ previousValue, path, type, idx, storyNode }) => ({
+  const onUpdates = ({ previousValue, path, keyType, idx, storyNode }) => ({
     oninput(e) {
       if (previousValue === e.target.textContent) return;
 
@@ -24,26 +20,27 @@
     onkeydown(e) {
       if (e.keyCode === 13) {
         e.preventDefault();
-        return addNewKey({ type, storyNode, idx, path })
+        debugger;
+        return addNewKey({ keyType, storyNode, idx, path })
       }
     },
   });
 
   const updateStory = ({ path, textContent }) => {
-    story[toPath(path)] =  textContent;
+    set(story, path, textContent);
+    story = story; // activate reactive;
   }
 
   const addNewKey = ({ keyType, storyNode, idx, path }) => {
     if(keyType === 'storyText') {
-      story[storyNode].text = [
-        ...get(story, [storyNode, 'text']),
-        ""
-      ];
-      debugger;
+      story[storyNode].text = [ ...get(story, [storyNode, 'text']), '' ];
+      focusPath = [storyNode, 'text', idx + 1];
     }
+
     if(keyType === 'decisionLabel') {
 
     }
+
     if(keyType === 'decisionStoryNode') {
 
     }
@@ -78,12 +75,14 @@
     <b>{storyNode}</b>
     <StoryText
       {onUpdates}
+      {focusPath}
       text={story[storyNode].text || []}
       storyNode={storyNode}
       on:deleteParagraph={deleteParagraph}
     />
     <Decisions
       {onUpdates}
+      {focusPath}
       decisions={story[storyNode].decisions || []}
       storyNode={storyNode}
     />
