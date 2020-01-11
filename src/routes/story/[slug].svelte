@@ -24,18 +24,16 @@
 
 <script>
   import Adventure from "src/components/Adventure";
-  import DisplayAd from "./DisplayAd";
   import BadgePopup from "src/routes/story/_BadgePopup.svelte";
   import Button from "src/components/Button.svelte";
   import { logger } from "src/lib/client/logger";
-  import { adStore } from "src/lib/global-state-stores/browserStore/display-ads";
   import { fetchCsrf } from "src/lib/client/csrf";
   import { mainAdventure } from "src/lib/global-state-stores/browserStore/main-adventure";
   import { onMount } from "svelte";
   import { goto, stores } from "@sapper/app";
   import { userSubscribed } from "src/lib/client/user";
   import { some } from "lodash";
-  import { safeWindow } from 'src/lib/client/safe-window';
+  import { safeWindow } from "src/lib/client/safe-window";
 
   export let story;
   export let title;
@@ -53,17 +51,7 @@
   let previousNodeName = $page.query.storyNode;
   let visitations = [];
 
-  $: adRecentlySeen = Date.now() - $adInfo.dateSeen < ONE_DAY;
-  $: userInTrial = finalNodeSeen(visitations) && Date.now() - $session.user.created < ONE_DAY * 4;
-  $: adDisabled = adRecentlySeen || userInTrial;
-
-  const adInfo = adStore();
-
-  const adFinished = () => {
-    $adInfo.dateSeen = Date.now();
-  };
-
-  const setURL = (storyNode) => {
+  const setURL = storyNode => {
     safeWindow().history.replaceState(
       "",
       "",
@@ -153,7 +141,7 @@
   <title>{title}</title>
 </svelte:head>
 
-{#if (process.browser && isSubscribed) || (released && adDisabled)}
+{#if (process.browser && isSubscribed) || released}
   <div class="route-adventure">
     <Adventure
       {story}
@@ -167,7 +155,7 @@
       on:pageChange="{({ detail }) => {
         recordVisit(detail);
         scrollToTop();
-        setURL(detail.storyNode)
+        setURL(detail.storyNode);
         badgePopup.newPage(detail.storyNode);
       }}"
     />
@@ -177,21 +165,21 @@
         {#if !isSubscribed}
           <Button
             variation="link"
-            on:click="{() => goto('/user/profile?tab=adventurer')}">
+            on:click="{() => goto('/user/profile?tab=adventurer')}"
+          >
             <span>Enjoy more great tales, become an adventurer now</span>
           </Button>
         {/if}
         <Button
           className="{'explore-other-stories'}"
           variation="link"
-          on:click="{() => goto('/')}">
+          on:click="{() => goto('/')}"
+        >
           <span>Explore other stories</span>
         </Button>
       </div>
     {/if}
   </div>
-{:else if released}
-  <DisplayAd on:end="{adFinished}" />
 {:else}
   <p>
     Looks like this story isn't released to non-subscribers yet.
