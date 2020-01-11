@@ -31,6 +31,8 @@
     resize: none;
     border: none;
     transition: height 1s ease-in;
+    padding: 0;
+    margin: 0;
   }
 </style>
 

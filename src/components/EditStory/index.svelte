@@ -1,6 +1,7 @@
 <script>
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
+  import StoryNode from './_StoryNode.svelte';
   import TextArea from 'src/components/TextArea';
   import { setAt, dropIdx } from 'src/lib/utilities';
   import { clone, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
@@ -55,12 +56,17 @@
       e.preventDefault();
     }
   };
+
+  const deleteStoryNode = (e) => {
+    inOrderStory = dropIdx(inOrderStory, e.detail.storyIdx);
+  }
 </script>
 
 <style>
   .edit-story :global(.decisions) {
     padding-left: 40px;
   }
+
   .edit-story :global(.story-node) {
     font-size: 20px;
   }
@@ -73,15 +79,11 @@
 <section class='edit-story'>
   {#each inOrderStory as { storyNode, story }, storyIdx }
   <div class='story-fragment'>
-    <TextArea
-      value={storyNode}
-      className='story-node'
-      on:input={e => onInput(e, {
-        storyIdx,
-        path: [storyNode],
-        typeOfChange: 'storyNode',
-        prevValue: storyNode,
-      })}
+    <StoryNode
+      on:delete={deleteStoryNode}
+      {storyNode}
+      {storyIdx}
+      {onInput}
     />
     <StoryText
       {storyIdx}
