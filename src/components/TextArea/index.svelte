@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher, beforeUpdate } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
 
   export let value;
   let self = {};
@@ -22,7 +22,7 @@
     });
   }
 
-  beforeUpdate(addAutoResize);
+  onMount(addAutoResize);
 </script>
 
 <style>
