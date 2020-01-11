@@ -69,10 +69,6 @@
 </script>
 
 <style>
-  .edit-story :global(.decisions) {
-    padding-left: 40px;
-  }
-
   .edit-story :global(.story-node) {
     font-size: 20px;
   }

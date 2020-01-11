@@ -1,6 +1,7 @@
 <script>
   import TextArea from 'src/components/TextArea';
   import Plus from 'src/components/icons/Plus.svelte';
+  import Button from 'src/components/Button.svelte';
 
   export let storyIdx;
   export let focusPath = '';
@@ -12,11 +13,19 @@
 </script>
 
 <style>
+  .decisions :global(.text-area) {
+    margin-left: 20px;
+    width: 100%;
+    margin-bottom: 8px;
+    padding-left: 40px;
+  }
+
   .decision {
     margin-bottom: 32px;
   }
 
   h2 {
+    margin-left: 40px;
     display: flex;
   }
 
@@ -30,15 +39,20 @@
     flex-flow: row;
     align-items: center;
   }
+
   span {
     min-width: 15%;
     margin-left: 20px;
     margin-bottom: 12px;
   }
-  .decisions :global(.text-area) {
-    margin-left: 20px;
-    width: 100%;
-    margin-bottom: 8px;
+
+  .actions {
+    display: flex;
+  }
+
+  .actions :global(svg) {
+    width: 32px;
+    height: 32px;
   }
 </style>
 
@@ -94,5 +108,11 @@
         </div>
       </div>
     {/each}
+    <nav class='actions'>
+      <Button size='small' variation='link'>
+        <Plus/>
+        add new decision
+      </Button>
+    </nav>
   </section>
 {/if}
