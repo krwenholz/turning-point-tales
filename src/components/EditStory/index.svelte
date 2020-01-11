@@ -1,39 +1,57 @@
 <script>
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
+  import { dropIdx } from 'src/lib/utilities';
   import { set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
 
   export let story;
   export let focusPath = '';
 
-  const onUpdates = ({ previousValue, path, keyType, idx, storyNode }) => ({
-    oninput(e) {
-      if (previousValue === e.target.textContent) return;
+  $: { console.log(story.start.text); }
 
-      //if (!previousValue && !textContent) { //return dispatch('deleteParagraph');}
-      updateStory({
-        textContent: e.target.textContent,
-        path
-      });
-    },
-    onkeydown(e) {
-      if (e.keyCode === 13) {
-        e.preventDefault();
-        debugger;
-        return addNewKey({ keyType, storyNode, idx, path })
-      }
-    },
-  });
+  const clearFocusPath = () => focusPath = '';
 
-  const updateStory = ({ path, textContent }) => {
-    set(story, path, textContent);
-    story = story; // activate reactive;
+  const onInput = (e, { prevValue, path }) => {
+    if (prevValue === e.target.value.trim()) return;
+
+    updateStory({
+      value: e.target.value.trim(),
+      path
+    });
+  };
+
+  const onKeydown = (e, { prevValue, path, keyType, idx, storyNode }) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      addNewKey({ keyType, storyNode, idx, path })
+    }
+    else if (e.key === 'Backspace' && !prevValue) {
+      deleteText({ idx, storyNode });
+    }
+  };
+
+
+  const updateStory = ({ path, value }) => {
+    const [first, second, third] = path;
+
+    story[first][second][third] = value;
+
+    dispatch('edit', { story })
+  }
+
+  const deleteText = ({ idx, storyNode }) => {
+    story[storyNode].text = dropIdx(story[storyNode].text, idx)
+    focusPath = [storyNode, 'text', idx - 1];
   }
 
   const addNewKey = ({ keyType, storyNode, idx, path }) => {
     if(keyType === 'storyText') {
-      story[storyNode].text = [ ...get(story, [storyNode, 'text']), '' ];
+      console.log('once');
+      story[storyNode].text = [ ...get(story, [storyNode, 'text']), ''];
       focusPath = [storyNode, 'text', idx + 1];
     }
 
@@ -51,6 +69,8 @@
 
 <style>
   :global(textarea) {
+    overflow-y: hidden;
+    resize: none;
     border: none;
   }
 
@@ -63,9 +83,10 @@
     padding-left: 40px;
   }
 
-  :global(.content-editable) {
-    display: inline-block;
-    padding: 8px;
+
+  .edit-story :global(textarea) {
+    box-sizing: border-box;
+    resize: none;
   }
 </style>
 
@@ -74,15 +95,19 @@
   <div>
     <b>{storyNode}</b>
     <StoryText
-      {onUpdates}
+      {onInput}
+      {onKeydown}
       {focusPath}
+      {clearFocusPath}
       text={story[storyNode].text || []}
       storyNode={storyNode}
       on:deleteParagraph={deleteParagraph}
     />
     <Decisions
-      {onUpdates}
+      {onInput}
+      {onKeydown}
       {focusPath}
+      {clearFocusPath}
       decisions={story[storyNode].decisions || []}
       storyNode={storyNode}
     />

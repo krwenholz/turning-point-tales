@@ -1,7 +1,10 @@
 <script>
-  export let onUpdates = {};
+  export let focusPath = '';
+  export let clearFocusPath = () => {};
+  export let onKeydown = () => {};
+  export let onInput = () => {};
+  export let storyNode = '';
   export let decisions = [];
-  export let storyNode = "";
 </script>
 
 <style>
@@ -31,11 +34,19 @@
           <div
             ContentEditable
             class='content-editable'
-            {...onUpdates({
+            on:input={e => onInput(e, {
               idx,
               storyNode,
               keyType: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'label'],
+              prevValue: decision.label,
+            })}
+            on:keydown={e => onKeydown(e, {
+              idx,
+              storyNode,
+              keyType: 'decisionLabel',
+              path: [storyNode, 'decisions', idx, 'label'],
+              prevValue: decision.label,
             })}
           >
             {decision.label}
@@ -46,11 +57,19 @@
           <div
             class='content-editable'
             ContentEditable
-            {...onUpdates({
+            on:input={e => onInput(e, {
               idx,
               storyNode,
-              keyType: 'decisionStoryNode',
+              keyType: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'storyNode'],
+              prevValue: DECISION.storyNode,
+            })}
+            on:keydown={e => onKeydown(e, {
+              idx,
+              storyNode,
+              keyType: 'decisionLabel',
+              path: [storyNode, 'decisions', idx, 'storyNode'],
+              prevValue: decision.storyNode,
             })}
           >
             {decision.storyNode}

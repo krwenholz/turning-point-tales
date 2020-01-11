@@ -148,7 +148,7 @@
   <Overview {history} {consequences} />
 
   <Scrollable className='scrollable-edit-story'>
-    <EditStory {story} on:edit={updateStory} />
+    <EditStory story={exampleStory} on:edit={updateStory} />
   </Scrollable>
 
   <Scrollable className='scrollable-adventure'>
