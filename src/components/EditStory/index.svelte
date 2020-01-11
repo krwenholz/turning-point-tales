@@ -16,6 +16,21 @@
     story: story[key],
   }));
 
+  $: {
+    dispatch('edit', {
+      story: inOrderStory.reduce((story, fragment) => {
+        return {
+          ...story,
+          [fragment.storyNode]: fragment.story,
+        }
+      }, {})
+    });
+  }
+
+  $: {
+    console.log(inOrderStory[0].story.decisions[0].label);
+  }
+
   const clearFocusPath = () => focusPath = '';
 
   const onInput = (e, { prevValue, path, typeOfChange, storyIdx }) => {
@@ -25,27 +40,25 @@
       return;
     }
     else if (typeOfChange === 'storyNode') {
-      story[value] = story[prevValue]
-      delete story[prevValue];
+      inOrderStory[storyIdx].storyNode = value;
     }
     else {
-      story = setAt(story, path, value);
+      inOrderStory = setAt(inOrderStory, path, value);
+      console.log(inOrderStory[0].story.decisions[0].label);
     }
-
-    dispatch('edit', { story })
   };
 
   const onKeydown = (e, { prevValue, path, typeOfChange, idx, storyNode, storyIdx }) => {
     if (e.key === 'Enter') {
       if(typeOfChange === 'storyText') {
-        story[storyNode].text = story[storyNode].text.concat('');
-        focusPath = [storyNode, 'text', idx + 1];
+        inOrderStory[storyIdx].story.text = inOrderStory[storyIdx].story.text.concat("");
+        focusPath = [storyIdx, 'story', 'text', idx + 1];
         e.preventDefault();
       }
     }
     else if (e.key === 'Backspace' && !prevValue) {
-      story[storyNode].text = dropIdx(story[storyNode].text, idx)
-      focusPath = [storyNode, 'text', idx - 1];
+      inOrderStory[storyIdx].story.text = dropIdx(inOrderStory[storyIdx].story.text, idx)
+      focusPath = [storyIdx, 'story', 'text', idx - 1];
       e.preventDefault();
     }
   };

@@ -45,14 +45,14 @@
               storyIdx,
               storyNode,
               typeOfChange: 'decisionLabel',
-              path: [storyNode, 'decisions', idx, 'label'],
+              path: [storyIdx, 'story', 'decisions', idx, 'label'],
               prevValue: decision.label,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
               storyNode,
               typeOfChange: 'decisionLabel',
-              path: [storyNode, 'decisions', idx, 'label'],
+              path: [storyIdx, 'story', 'decisions', idx, 'label'],
               prevValue: decision.label,
             })}
           />
@@ -65,16 +65,16 @@
               idx,
               storyIdx,
               storyNode,
-              typeOfChange: 'decisionLabel',
-              path: [storyNode, 'decisions', idx, 'storyNode'],
+              typeOfChange: 'decisionStoryNode',
+              path: [storyIdx, 'decisions', idx, 'storyNode'],
               prevValue: decision.storyNode,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
               storyIdx,
               storyNode,
-              typeOfChange: 'decisionLabel',
-              path: [storyNode, 'decisions', idx, 'storyNode'],
+              typeOfChange: 'decisionStoryNode',
+              path: [storyIdx, 'decisions', idx, 'storyNode'],
               prevValue: decision.storyNode,
             })}
           />

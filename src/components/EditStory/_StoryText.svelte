@@ -24,7 +24,6 @@
   .story-text {
     display: flex;
     flex-flow: column;
-    margin-bottom: 24px;
   }
 
   .story-text :global(.text-area) {
@@ -36,13 +35,13 @@
   {#each text as paragraph, idx}
     <TextArea
       value={paragraph}
-      bind:this={nodes[[storyNode, 'text', idx]]}
+      bind:this={nodes[[storyIdx, 'story', 'text', idx]]}
       on:input={ e => onInput(e, {
         idx,
         storyIdx,
         storyNode,
         typeOfChange: 'storyText',
-        path: [storyNode, 'text', idx],
+        path: [storyIdx, 'story', 'text', idx],
         prevValue: paragraph,
       })}
       on:keydown={ e => onKeydown(e, {
@@ -50,7 +49,7 @@
         storyIdx,
         storyNode,
         typeOfChange: 'storyText',
-        path: [storyNode, 'text', idx],
+        path: [storyIdx, 'story', 'text', idx],
         prevValue: paragraph,
       })}
     />
