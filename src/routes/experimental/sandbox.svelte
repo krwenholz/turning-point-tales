@@ -13,6 +13,6 @@
   inc
 </button>
 
-<button on:click={() => story.concatTo(['2', 'stuff'], Math.random())} >
+<button on:click={() => story.pushAt(['2', 'stuff'], Math.random())} >
   add RANDO
 </button>

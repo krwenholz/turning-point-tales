@@ -26,23 +26,10 @@ export const settable = (initial) => {
 
       return prev;
     }),
-    concatAt: (path, value) => update(prev => {
-      const temp = { ...prev };
+    pushAt: (path, value) => update(prev => {
+      const temp = [ ...prev ];
       set(temp, path, [...get(prev, path), value]);
       return temp;
     })
   }
-}
-
-[1,2,3];
-
-const story = {
-  decisions: [
-    {
-
-    },
-    {
-
-    },
-  ]
 }
