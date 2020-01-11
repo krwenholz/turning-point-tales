@@ -39,14 +39,14 @@
       on:input={ e => onInput(e, {
         idx,
         storyNode,
-        addition: 'storyText',
+        typeOfChange: 'storyText',
         path: [storyNode, 'text', idx],
         prevValue: paragraph,
       })}
       on:keydown={ e => onKeydown(e, {
         idx,
         storyNode,
-        addition: 'storyText',
+        typeOfChange: 'storyText',
         path: [storyNode, 'text', idx],
         prevValue: paragraph,
       })}

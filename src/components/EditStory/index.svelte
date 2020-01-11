@@ -1,6 +1,7 @@
 <script>
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
+  import TextArea from 'src/components/TextArea';
   import { setAt, dropIdx } from 'src/lib/utilities';
   import { clone, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
@@ -11,54 +12,39 @@
   export let story;
   export let focusPath = '';
 
-  $: { console.log(story.start.text); }
+  $: { console.log(story); }
 
   const clearFocusPath = () => focusPath = '';
 
-  const onInput = (e, { prevValue, path }) => {
-    if (prevValue === e.target.value.trim()) return;
+  const onInput = (e, { prevValue, path, typeOfChange }) => {
+    const value = e.target.value.trim();
 
-    updateStory({
-      value: e.target.value.trim(),
-      path
-    });
+    if (prevValue === value) return;
+
+    if(typeOfChange === 'storyNode') {
+      story[value] = story[prevValue]
+      delete story[prevValue];
+    } else {
+      story = setAt(story, path, value);
+    }
+
+    dispatch('edit', { story })
   };
 
-  const onKeydown = (e, { prevValue, path, addition, idx, storyNode }) => {
+  const onKeydown = (e, { prevValue, path, typeOfChange, idx, storyNode }) => {
     if (e.key === 'Enter') {
-      addNewKey({ addition, storyNode, idx })
-      e.preventDefault();
+      if(typeOfChange === 'storyText') {
+        story[storyNode].text = story[storyNode].text.concat('');
+        focusPath = [storyNode, 'text', idx + 1];
+        e.preventDefault();
+      }
     }
     else if (e.key === 'Backspace' && !prevValue) {
-      deleteText({ idx, storyNode });
+      story[storyNode].text = dropIdx(story[storyNode].text, idx)
+      focusPath = [storyNode, 'text', idx - 1];
       e.preventDefault();
     }
   };
-
-  const updateStory = ({ path, value }) => {
-    story = setAt(story, path, value);
-    dispatch('edit', { story })
-  }
-
-  const deleteText = ({ idx, storyNode }) => {
-    story[storyNode].text = dropIdx(story[storyNode].text, idx)
-    focusPath = [storyNode, 'text', idx - 1];
-  }
-
-  const addNewKey = ({ addition, storyNode, idx }) => {
-    if(addition === 'storyText') {
-      story[storyNode].text = story[storyNode].text.concat('');
-      focusPath = [storyNode, 'text', idx + 1];
-    }
-
-    if(addition === 'decisionLabel') {
-
-    }
-
-    if(addition === 'decisionStoryNode') {
-
-    }
-  }
 
   const deleteParagraph = () => {};
 </script>
@@ -76,7 +62,14 @@
 <section class='edit-story'>
   {#each keys(story) as storyNode}
   <div>
-    <b>{storyNode}</b>
+    <TextArea
+      value={storyNode}
+      on:input={e => onInput(e, {
+        path: [storyNode],
+        typeOfChange: 'storyNode',
+        prevValue: storyNode,
+      })}
+    />
     <StoryText
       {onInput}
       {onKeydown}

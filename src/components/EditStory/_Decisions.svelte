@@ -42,14 +42,14 @@
             on:input={e => onInput(e, {
               idx,
               storyNode,
-              addition: 'decisionLabel',
+              typeOfChange: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'label'],
               prevValue: decision.label,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
               storyNode,
-              addition: 'decisionLabel',
+              typeOfChange: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'label'],
               prevValue: decision.label,
             })}
@@ -62,14 +62,14 @@
             on:input={e => onInput(e, {
               idx,
               storyNode,
-              addition: 'decisionLabel',
+              typeOfChange: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'storyNode'],
               prevValue: decision.storyNode,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
               storyNode,
-              addition: 'decisionLabel',
+              typeOfChange: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'storyNode'],
               prevValue: decision.storyNode,
             })}
