@@ -18,9 +18,8 @@
   .story-node {
     display: flex;
     flex-flow: row wrap;
-    margin-bottom: 15px;
   }
-  i {
+  span {
     margin-left: 20px;
     margin-bottom: 12px;
   }
@@ -36,7 +35,7 @@
     {#each decisions as decision, idx}
       <div class='decision'>
         <div class="label">
-          <i>Label</i>
+          <span>Label</span>
           <TextArea
             value={decision.label}
             on:input={e => onInput(e, {
@@ -57,7 +56,7 @@
           />
         </div>
         <div class="story-node">
-          <i>StoryNode</i>
+          <span>StoryNode</span>
           <TextArea
             value={decision.storyNode}
             on:input={e => onInput(e, {
