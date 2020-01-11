@@ -64,7 +64,7 @@
               storyNode,
               addition: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'storyNode'],
-              prevValue: DECISION.storyNode,
+              prevValue: decision.storyNode,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
