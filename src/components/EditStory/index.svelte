@@ -11,27 +11,31 @@
 
   export let story;
   export let focusPath = '';
-
-  $: { console.log(story); }
+  let inOrderStory = keys(story).map(key => ({
+    storyNode: key,
+    story: story[key],
+  }));
 
   const clearFocusPath = () => focusPath = '';
 
-  const onInput = (e, { prevValue, path, typeOfChange }) => {
+  const onInput = (e, { prevValue, path, typeOfChange, storyIdx }) => {
     const value = e.target.value.trim();
 
-    if (prevValue === value) return;
-
-    if(typeOfChange === 'storyNode') {
+    if (prevValue === value) {
+      return;
+    }
+    else if (typeOfChange === 'storyNode') {
       story[value] = story[prevValue]
       delete story[prevValue];
-    } else {
+    }
+    else {
       story = setAt(story, path, value);
     }
 
     dispatch('edit', { story })
   };
 
-  const onKeydown = (e, { prevValue, path, typeOfChange, idx, storyNode }) => {
+  const onKeydown = (e, { prevValue, path, typeOfChange, idx, storyNode, storyIdx }) => {
     if (e.key === 'Enter') {
       if(typeOfChange === 'storyText') {
         story[storyNode].text = story[storyNode].text.concat('');
@@ -45,8 +49,6 @@
       e.preventDefault();
     }
   };
-
-  const deleteParagraph = () => {};
 </script>
 
 <style>
@@ -60,31 +62,33 @@
 </style>
 
 <section class='edit-story'>
-  {#each keys(story) as storyNode}
+  {#each inOrderStory as { storyNode, story }, storyIdx }
   <div>
     <TextArea
       value={storyNode}
       on:input={e => onInput(e, {
+        storyIdx,
         path: [storyNode],
         typeOfChange: 'storyNode',
         prevValue: storyNode,
       })}
     />
     <StoryText
+      {storyIdx}
       {onInput}
       {onKeydown}
       {focusPath}
       {clearFocusPath}
-      text={story[storyNode].text || []}
+      text={inOrderStory[storyIdx].story.text || []}
       storyNode={storyNode}
-      on:deleteParagraph={deleteParagraph}
     />
     <Decisions
+      {storyIdx}
       {onInput}
       {onKeydown}
       {focusPath}
       {clearFocusPath}
-      decisions={story[storyNode].decisions || []}
+      decisions={inOrderStory[storyIdx].story.decisions || []}
       storyNode={storyNode}
     />
   </div>

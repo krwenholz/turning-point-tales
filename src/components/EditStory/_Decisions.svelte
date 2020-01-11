@@ -1,6 +1,7 @@
 <script>
   import TextArea from 'src/components/TextArea';
 
+  export let storyIdx;
   export let focusPath = '';
   export let clearFocusPath = () => {};
   export let onKeydown = () => {};
@@ -41,6 +42,7 @@
             value={decision.label}
             on:input={e => onInput(e, {
               idx,
+              storyIdx,
               storyNode,
               typeOfChange: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'label'],
@@ -61,6 +63,7 @@
             value={decision.storyNode}
             on:input={e => onInput(e, {
               idx,
+              storyIdx,
               storyNode,
               typeOfChange: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'storyNode'],
@@ -68,6 +71,7 @@
             })}
             on:keydown={e => onKeydown(e, {
               idx,
+              storyIdx,
               storyNode,
               typeOfChange: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'storyNode'],

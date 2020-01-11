@@ -3,6 +3,7 @@
   import { createEventDispatcher, afterUpdate } from "svelte";
   import { get, toPath, join, cloneDeep } from 'lodash';
 
+  export let storyIdx;
   export let text = [];
   export let focusPath = '';
   export let clearFocusPath = () => {};
@@ -38,6 +39,7 @@
       bind:this={nodes[[storyNode, 'text', idx]]}
       on:input={ e => onInput(e, {
         idx,
+        storyIdx,
         storyNode,
         typeOfChange: 'storyText',
         path: [storyNode, 'text', idx],
@@ -45,6 +47,7 @@
       })}
       on:keydown={ e => onKeydown(e, {
         idx,
+        storyIdx,
         storyNode,
         typeOfChange: 'storyText',
         path: [storyNode, 'text', idx],
