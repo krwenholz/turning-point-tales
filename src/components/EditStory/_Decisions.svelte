@@ -11,22 +11,21 @@
 </script>
 
 <style>
+  .decision {
+    margin-bottom: 16px;
+  }
   .label,
   .story-node {
     display: flex;
     flex-flow: row wrap;
     margin-bottom: 15px;
   }
-
-  .decision {
-    margin-bottom: 16px;
-  }
-
   i {
+    margin-left: 20px;
     margin-bottom: 12px;
   }
-
   .decisions :global(.text-area) {
+    margin-left: 20px;
     width: 100%;
   }
 </style>

@@ -2,6 +2,7 @@
   import { createEventDispatcher, onMount } from "svelte";
 
   export let value;
+  export let className = '';
   let self = {};
 
   onMount(() => {
@@ -36,7 +37,7 @@
 <textarea
   {value}
   data-autoresize
-  class='text-area'
+  class={`text-area ${className}`}
   bind:this={self}
   on:focus
   on:keydown

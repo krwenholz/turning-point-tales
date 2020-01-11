@@ -58,12 +58,11 @@
 </script>
 
 <style>
-  .edit-story :global(.story-text) {
-    padding-left: 40px;
-  }
-
   .edit-story :global(.decisions) {
     padding-left: 40px;
+  }
+  .edit-story :global(.story-node) {
+    font-size: 20px;
   }
 </style>
 
@@ -72,6 +71,7 @@
   <div>
     <TextArea
       value={storyNode}
+      className='story-node'
       on:input={e => onInput(e, {
         storyIdx,
         path: [storyNode],
