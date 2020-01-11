@@ -66,6 +66,20 @@
       inOrderStory = dropIdx(inOrderStory, e.detail.storyIdx);
     }
   }
+
+  const addNewDecision = (e) => {
+    const decisions = inOrderStory[e.detail.storyIdx].story.decisions;
+
+    inOrderStory[e.detail.storyIdx].story.decisions = [
+      ...decisions,
+      {
+        label: 'placeholder',
+        storyNode: 'start'
+      }
+    ];
+
+    e.preventDefault();
+  }
 </script>
 
 <style>
@@ -74,7 +88,7 @@
   }
 
   .story-fragment {
-    margin-bottom: 48px;
+    margin-bottom: 64px;
   }
 </style>
 
@@ -102,6 +116,7 @@
       {onKeydown}
       {focusPath}
       {clearFocusPath}
+      on:addNewDecision={addNewDecision}
       decisions={inOrderStory[storyIdx].story.decisions || []}
       storyNode={storyNode}
     />

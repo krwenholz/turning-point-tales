@@ -2,6 +2,9 @@
   import TextArea from 'src/components/TextArea';
   import Plus from 'src/components/icons/Plus.svelte';
   import Button from 'src/components/Button.svelte';
+  import { createEventDispatcher, afterUpdate } from "svelte";
+
+  const dispatch = createEventDispatcher();
 
   export let storyIdx;
   export let focusPath = '';
@@ -17,7 +20,6 @@
     margin-left: 20px;
     width: 100%;
     margin-bottom: 8px;
-    padding-left: 40px;
   }
 
   .decision {
@@ -25,7 +27,6 @@
   }
 
   h2 {
-    margin-left: 40px;
     display: flex;
   }
 
@@ -51,6 +52,7 @@
   }
 
   .actions :global(svg) {
+    margin-right: 16px;
     width: 32px;
     height: 32px;
   }
@@ -109,7 +111,7 @@
       </div>
     {/each}
     <nav class='actions'>
-      <Button size='small' variation='link'>
+      <Button on:click={() => dispatch('addNewDecision', { storyIdx })} size='small' variation='link'>
         <Plus/>
         add new decision
       </Button>
