@@ -25,13 +25,13 @@
   };
 
   const onKeydown = (e, { prevValue, path, addition, idx, storyNode }) => {
-    e.preventDefault();
-
     if (e.key === 'Enter') {
       addNewKey({ addition, storyNode, idx })
+      e.preventDefault();
     }
     else if (e.key === 'Backspace' && !prevValue) {
       deleteText({ idx, storyNode });
+      e.preventDefault();
     }
   };
 
