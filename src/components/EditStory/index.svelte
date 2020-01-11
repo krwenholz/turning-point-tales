@@ -18,12 +18,10 @@
 
   $: {
     dispatch('edit', {
-      story: inOrderStory.reduce((story, fragment) => {
-        return {
-          ...story,
-          [fragment.storyNode]: fragment.story,
-        }
-      }, {})
+      story: inOrderStory.reduce((story, fragment) => ({
+        ...story,
+        [fragment.storyNode]: fragment.story,
+      }), {})
     });
   }
 
