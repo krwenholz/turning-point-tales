@@ -1,8 +1,8 @@
 <script>
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
-  import { dropIdx } from 'src/lib/utilities';
-  import { set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
+  import { setAt, dropIdx } from 'src/lib/utilities';
+  import { clone, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
 
@@ -34,12 +34,8 @@
     }
   };
 
-
   const updateStory = ({ path, value }) => {
-    const [first, second, third] = path;
-
-    story[first][second][third] = value;
-
+    story = setAt(story, path, value);
     dispatch('edit', { story })
   }
 
@@ -50,7 +46,6 @@
 
   const addNewKey = ({ keyType, storyNode, idx, path }) => {
     if(keyType === 'storyText') {
-      console.log('once');
       story[storyNode].text = [ ...get(story, [storyNode, 'text']), ''];
       focusPath = [storyNode, 'text', idx + 1];
     }

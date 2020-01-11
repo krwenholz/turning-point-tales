@@ -1,4 +1,5 @@
 <script>
+  import TextArea from 'src/components/TextArea';
   import { createEventDispatcher, afterUpdate } from "svelte";
   import { get, toPath, join, cloneDeep } from 'lodash';
 
@@ -11,50 +12,30 @@
   export let nodes = {};
 
   afterUpdate(() => {
-    addAutoResize();
-
     if(nodes[focusPath]) {
       nodes[focusPath].focus();
       clearFocusPath();
     }
   });
-
-  // Stackoverflow ftw!
-  const addAutoResize = () => {
-    document.querySelectorAll('[data-autoresize]').forEach(element => {
-
-      const offset = element.offsetHeight - element.clientHeight;
-
-      document.addEventListener('input', event => {
-        event.target.style.height = 'auto';
-        event.target.style.height = event.target.scrollHeight + offset + 'px';
-      });
-
-      element.removeAttribute('data-autoresize');
-    });
-  }
-
 </script>
 
 <style>
   .story-text {
     display: flex;
     flex-flow: column;
+    margin-bottom: 24px;
   }
 
-  .content {
-    margin-bottom: 24px;
+  .story-text :global(.text-area) {
+    margin-bottom: 16px;
   }
 </style>
 
 <div class='story-text'>
   {#each text as paragraph, idx}
-    <textarea
-      data-autoresize
-      rows="1"
-      on:focus={() => console.log("FOCUS")}
-      bind:this={nodes[[storyNode, 'text', idx]]}
+    <TextArea
       value={paragraph}
+      bind:this={nodes[[storyNode, 'text', idx]]}
       on:input={ e => onInput(e, {
         idx,
         storyNode,
