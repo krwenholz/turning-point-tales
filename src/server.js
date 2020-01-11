@@ -5,6 +5,8 @@ import config from "config";
 import cookieParser from "cookie-parser";
 import express from "express";
 import helmet from "helmet";
+import https from "https";
+import fs from "fs";
 import passport from "passport";
 import pgSession from "connect-pg-simple";
 import securePassword from "secure-password";
@@ -16,10 +18,10 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { csrfProtection, exposeCsrfMiddleware } from "src/lib/server/csrf";
 import { exposeStripeKeyMiddleware } from "src/lib/server/stripe";
 import { initPassport } from "src/authentication";
+import { logger, requestLoggingMiddleware } from "./logging";
 import { pool } from "src/lib/server/database.js";
 import { requireHttps } from "src/lib/server/require_https";
 import { requireRoot } from "src/lib/server/require_root";
-import { logger, requestLoggingMiddleware } from "./logging";
 
 const dev = config.get("dev");
 
@@ -80,7 +82,7 @@ const middleware = [
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       name: "session-" + config.get("server.domain"),
       sameSite: "strict",
-      secure: !config.get("dev")
+      secure: true
     }
   }),
   csrfProtection,
@@ -128,8 +130,24 @@ const middleware = [
   })
 ];
 
-app.use(...middleware).listen(config.get("server.port"), err => {
-  if (err) {
-    logger.error(err);
-  }
-});
+app.use(...middleware);
+
+if (dev) {
+  https
+    .createServer(
+      {
+        key: fs.readFileSync("./certs/server.key"),
+        cert: fs.readFileSync("./certs/server.cert")
+      },
+      app
+    )
+    .listen(config.get("server.port"), err => {
+      logger.error(err);
+    });
+} else {
+  app.listen(config.get("server.port"), err => {
+    if (err) {
+      logger.error(err);
+    }
+  });
+}
