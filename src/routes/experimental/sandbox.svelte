@@ -9,7 +9,7 @@
   {JSON.stringify($story)}
 </div>
 
-<button on:click={() => story.dropAt([0])} >
+<button on:click={() => story.pullAt(['2', 'stuff'], 0)} >
   inc
 </button>
 
