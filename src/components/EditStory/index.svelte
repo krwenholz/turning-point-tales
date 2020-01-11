@@ -63,12 +63,6 @@
 </script>
 
 <style>
-  :global(textarea) {
-    overflow-y: hidden;
-    resize: none;
-    border: none;
-  }
-
   .edit-story :global(.story-text) {
     padding-left: 40px;
     margin-bottom: 32px;
@@ -76,12 +70,6 @@
 
   .edit-story :global(.decisions) {
     padding-left: 40px;
-  }
-
-
-  .edit-story :global(textarea) {
-    box-sizing: border-box;
-    resize: none;
   }
 </style>
 
