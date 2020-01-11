@@ -1,4 +1,6 @@
 <script>
+  import TextArea from 'src/components/TextArea';
+
   export let focusPath = '';
   export let clearFocusPath = () => {};
   export let onKeydown = () => {};
@@ -20,7 +22,11 @@
   }
 
   i {
-    width: 25%;
+    margin-bottom: 12px;
+  }
+
+  .decisions :global(.text-area) {
+    width: 100%;
   }
 </style>
 
@@ -31,49 +37,43 @@
       <div class='decision'>
         <div class="label">
           <i>Label</i>
-          <div
-            ContentEditable
-            class='content-editable'
+          <TextArea
+            value={decision.label}
             on:input={e => onInput(e, {
               idx,
               storyNode,
-              keyType: 'decisionLabel',
+              addition: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'label'],
               prevValue: decision.label,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
               storyNode,
-              keyType: 'decisionLabel',
+              addition: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'label'],
               prevValue: decision.label,
             })}
-          >
-            {decision.label}
-          </div>
+          />
         </div>
         <div class="story-node">
           <i>StoryNode</i>
-          <div
-            class='content-editable'
-            ContentEditable
+          <TextArea
+            value={decision.storyNode}
             on:input={e => onInput(e, {
               idx,
               storyNode,
-              keyType: 'decisionLabel',
+              addition: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'storyNode'],
               prevValue: DECISION.storyNode,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
               storyNode,
-              keyType: 'decisionLabel',
+              addition: 'decisionLabel',
               path: [storyNode, 'decisions', idx, 'storyNode'],
               prevValue: decision.storyNode,
             })}
-          >
-            {decision.storyNode}
-          </div>
+          />
         </div>
       </div>
     {/each}

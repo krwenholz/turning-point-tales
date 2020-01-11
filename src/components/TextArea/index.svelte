@@ -4,25 +4,24 @@
   export let value;
   let self = {};
 
-  export const focus = () => self.focus();
+  onMount(() => {
+      document.querySelectorAll('[data-autoresize]').forEach(element => {
 
-  const addAutoResize = () => {
-    document.querySelectorAll('[data-autoresize]').forEach(element => {
+        element.style.height = (element.scrollHeight)+"px";
 
-      element.style.height = (element.scrollHeight)+"px";
+        const offset = element.offsetHeight - element.clientHeight;
 
-      const offset = element.offsetHeight - element.clientHeight;
+        document.addEventListener('input', event => {
+          event.target.style.height = 'auto';
+          event.target.style.height = event.target.scrollHeight + offset + 'px';
+        });
 
-      document.addEventListener('input', event => {
-        event.target.style.height = 'auto';
-        event.target.style.height = event.target.scrollHeight + offset + 'px';
+        element.removeAttribute('data-autoresize');
       });
+    }
+  );
 
-      element.removeAttribute('data-autoresize');
-    });
-  }
-
-  onMount(addAutoResize);
+  export const focus = () => self.focus();
 </script>
 
 <style>
@@ -35,10 +34,10 @@
 </style>
 
 <textarea
-  class='text-area'
-  bind:this={self}
   {value}
   data-autoresize
+  class='text-area'
+  bind:this={self}
   on:focus
   on:keydown
   on:keyup

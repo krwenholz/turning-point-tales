@@ -24,10 +24,11 @@
     });
   };
 
-  const onKeydown = (e, { prevValue, path, keyType, idx, storyNode }) => {
+  const onKeydown = (e, { prevValue, path, addition, idx, storyNode }) => {
+    e.preventDefault();
+
     if (e.key === 'Enter') {
-      e.preventDefault();
-      addNewKey({ keyType, storyNode, idx, path })
+      addNewKey({ addition, storyNode, idx })
     }
     else if (e.key === 'Backspace' && !prevValue) {
       deleteText({ idx, storyNode });
@@ -44,17 +45,17 @@
     focusPath = [storyNode, 'text', idx - 1];
   }
 
-  const addNewKey = ({ keyType, storyNode, idx, path }) => {
-    if(keyType === 'storyText') {
-      story[storyNode].text = [ ...get(story, [storyNode, 'text']), ''];
+  const addNewKey = ({ addition, storyNode, idx }) => {
+    if(addition === 'storyText') {
+      story[storyNode].text = story[storyNode].text.concat('');
       focusPath = [storyNode, 'text', idx + 1];
     }
 
-    if(keyType === 'decisionLabel') {
+    if(addition === 'decisionLabel') {
 
     }
 
-    if(keyType === 'decisionStoryNode') {
+    if(addition === 'decisionStoryNode') {
 
     }
   }
@@ -65,7 +66,6 @@
 <style>
   .edit-story :global(.story-text) {
     padding-left: 40px;
-    margin-bottom: 32px;
   }
 
   .edit-story :global(.decisions) {
