@@ -27,10 +27,6 @@
     });
   }
 
-  $: {
-    console.log(inOrderStory[0].story.decisions[0].label);
-  }
-
   const clearFocusPath = () => focusPath = '';
 
   const onInput = (e, { prevValue, path, typeOfChange, storyIdx }) => {
@@ -44,7 +40,6 @@
     }
     else {
       inOrderStory = setAt(inOrderStory, path, value);
-      console.log(inOrderStory[0].story.decisions[0].label);
     }
   };
 
