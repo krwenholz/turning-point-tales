@@ -65,7 +65,7 @@
               storyIdx,
               storyNode,
               typeOfChange: 'decisionStoryNode',
-              path: [storyIdx, 'decisions', idx, 'storyNode'],
+              path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
               prevValue: decision.storyNode,
             })}
             on:keydown={e => onKeydown(e, {
@@ -73,7 +73,7 @@
               storyIdx,
               storyNode,
               typeOfChange: 'decisionStoryNode',
-              path: [storyIdx, 'decisions', idx, 'storyNode'],
+              path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
               prevValue: decision.storyNode,
             })}
           />

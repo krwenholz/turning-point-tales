@@ -23,6 +23,8 @@
         [fragment.storyNode]: fragment.story,
       }), {})
     });
+
+    console.log(JSON.stringify(inOrderStory[0].story.decisions[0], null, 2));
   }
 
   const clearFocusPath = () => focusPath = '';
