@@ -17,15 +17,18 @@
   .label,
   .story-node {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row;
+    align-items: center;
   }
   span {
+    min-width: 15%;
     margin-left: 20px;
     margin-bottom: 12px;
   }
   .decisions :global(.text-area) {
     margin-left: 20px;
     width: 100%;
+    margin-bottom: 8px;
   }
 </style>
 

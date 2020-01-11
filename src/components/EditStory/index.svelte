@@ -64,11 +64,15 @@
   .edit-story :global(.story-node) {
     font-size: 20px;
   }
+
+  .story-fragment {
+    margin-bottom: 48px;
+  }
 </style>
 
 <section class='edit-story'>
   {#each inOrderStory as { storyNode, story }, storyIdx }
-  <div>
+  <div class='story-fragment'>
     <TextArea
       value={storyNode}
       className='story-node'
