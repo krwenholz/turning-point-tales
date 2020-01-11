@@ -58,7 +58,13 @@
   };
 
   const deleteStoryNode = (e) => {
-    inOrderStory = dropIdx(inOrderStory, e.detail.storyIdx);
+    var answer = window.confirm(
+      "Are you sure you want to delete this story fragment?\n\n" +
+      "This will delete all it's text and decisions."
+    );
+    if(answer) {
+      inOrderStory = dropIdx(inOrderStory, e.detail.storyIdx);
+    }
   }
 </script>
 

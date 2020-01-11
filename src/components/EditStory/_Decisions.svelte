@@ -1,5 +1,6 @@
 <script>
   import TextArea from 'src/components/TextArea';
+  import Plus from 'src/components/icons/Plus.svelte';
 
   export let storyIdx;
   export let focusPath = '';
@@ -12,8 +13,17 @@
 
 <style>
   .decision {
-    margin-bottom: 16px;
+    margin-bottom: 32px;
   }
+
+  h2 {
+    display: flex;
+  }
+
+  h2 :global(svg) {
+    margin-left: 8px;
+  }
+
   .label,
   .story-node {
     display: flex;
@@ -34,7 +44,9 @@
 
 {#if decisions.length}
   <section class="decisions">
-    <b>Decisions</b>
+    <h2>
+      Decisions
+    </h2>
     {#each decisions as decision, idx}
       <div class='decision'>
         <div class="label">

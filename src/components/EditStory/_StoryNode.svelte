@@ -24,7 +24,7 @@
 
   .story-node :global(svg) {
     fill: black;
-    margin-right: 8px;
+    margin-right: 16px;
   }
 </style>
 
