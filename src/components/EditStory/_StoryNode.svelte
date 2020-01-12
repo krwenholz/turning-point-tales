@@ -41,10 +41,10 @@
       value={storyNode}
       className='story-node'
       on:input={e => onInput(e, {
-      storyIdx,
-      path: [storyNode],
-      typeOfChange: 'storyNode',
-      prevValue: storyNode,
+        storyIdx,
+        path: [storyNode],
+        typeOfChange: 'storyNode',
+        prevValue: storyNode,
       })}
     />
   {/if}
