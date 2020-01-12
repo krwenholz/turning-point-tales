@@ -20,7 +20,7 @@
   let history = [];
   let consequences = [];
 
-  $: storyIsValid = isValidStory(story);
+  $: storyIsValid = process.browser && isValidStory(story);
 
   const updateOverview = e => {
     storyNode = e.detail.storyNode;

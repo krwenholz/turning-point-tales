@@ -1,7 +1,7 @@
 <script>
-  import { settable } from 'src/lib/settable.js';
+  import { setWrittable } from 'src/lib/set-writtable.js';
 
-  const story = settable(['what', 'whom', { stuff: [] }]);
+  const story = setWrittable(['what', 'whom', { stuff: [] }]);
 </script>
 
 <div> {$story[0]} </div>

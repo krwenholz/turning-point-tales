@@ -15,7 +15,7 @@ const hasValidDecisions = (story) => {
     reject(values(story), {final: true}),
     'decisions'
   ).flat()
-  .map(decision => get(decision, 'storyNode', ''));
+   .map(decision => get(decision, 'storyNode', ''));
 
   const invalidNodes = filter(potentialStoryNodes, storyNode => !has(story, storyNode));
 

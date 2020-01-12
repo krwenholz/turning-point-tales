@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import { pullAt, dropRight, drop, last, set, get } from 'lodash';
 
-export const settable = (initial) => {
+export const setWrittable = (initial) => {
   const { set, subscribe, update } = writable(initial);
 
   return {

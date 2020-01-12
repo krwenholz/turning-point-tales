@@ -7,14 +7,14 @@
   import { clone, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
-  import { settable } from 'src/lib/settable.js';
+  import { setWrittable } from 'src/lib/set-writtable.js';
 
   const dispatch = createEventDispatcher();
 
   export let story;
   export let focusPath = '';
 
-  let inOrderStory = settable(
+  let inOrderStory = setWrittable(
     keys(story).map(key => ({
       storyNode: key,
       story: story[key],
@@ -22,10 +22,10 @@
   );
 
   $: {
-    dispatch('edit', { story: inOrderStoryToDict });
+    dispatch('edit', { story: asDict($inOrderStory) });
   }
 
-  const inOrderStoryToDic = () => $inOrderStory.reduce((story, fragment) => ({
+  const asDict = (storyArray) => storyArray.reduce((story, fragment) => ({
     ...story,
     [fragment.storyNode]: fragment.story,
   }), {});
