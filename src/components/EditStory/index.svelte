@@ -7,23 +7,23 @@
   import { clone, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
-  import { setWrittable } from 'src/lib/path-writtable.js';
+  import { pathWrittable } from 'src/lib/path-writtable.js';
 
   export let story;
   export let focusPath = '';
 
-  const dispatch = createEventDispatcher();
-
-  let inOrderStory = setWrittable(
+  let inOrderStory = pathWrittable(
     keys(story).map(key => ({
       storyNode: key,
       story: story[key],
     }))
   );
 
-  $: dispatch('edit', { story: asDict($inOrderStory) });
+  $: dispatch('edit', { story: asStoryDict($inOrderStory) });
 
-  const asDict = (storyArray) => storyArray.reduce((story, fragment) => ({
+  const dispatch = createEventDispatcher();
+
+  const asStoryDict = (storyArray) => storyArray.reduce((story, fragment) => ({
     ...story,
     [fragment.storyNode]: fragment.story,
   }), {});
@@ -37,20 +37,18 @@
       return;
     }
     else if (typeOfChange === 'storyNode') {
-      inOrderStory.setAt(value, [storyIdx, 'storyNode']);
+      inOrderStory.setAt([storyIdx, 'storyNode'], value);
     }
     else {
-      inOrderStory.setAt(value, path)
+      inOrderStory.setAt(path, value)
     }
   };
 
   const onKeydown = (e, { prevValue, path, typeOfChange, idx, storyNode, storyIdx }) => {
-    if (e.key === 'Enter') {
-      if(typeOfChange === 'storyText') {
-        inOrderStory.concatAt('', [storyIdx, 'story', 'text']);
-        focusPath = [storyIdx, 'story', 'text', idx + 1];
-        e.preventDefault();
-      }
+    if(e.key === 'Enter' && typeOfChange === 'storyText') {
+      inOrderStory.concatAt([storyIdx, 'story', 'text'], '');
+      focusPath = [storyIdx, 'story', 'text', idx + 1];
+      e.preventDefault();
     }
     else if (e.key === 'Backspace' && !prevValue) {
       inOrderStory.dropAt([storyIdx, 'story', 'text', idx]);
@@ -73,13 +71,10 @@
   const addNewDecision = (e) => {
     const path = [e.detail.storyIdx, 'story', 'decisions'];
 
-    inOrderStory.concatAt(
-      {
-        label: 'placeholder',
-        storyNode: 'start'
-      },
-      path
-    );
+    inOrderStory.concatAt(path, {
+      label: 'placeholder',
+      storyNode: 'start'
+    });
 
     e.preventDefault();
   }
