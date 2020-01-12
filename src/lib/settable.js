@@ -2,9 +2,10 @@ import { writable } from 'svelte/store';
 import { pullAt, dropRight, drop, last, set, get } from 'lodash';
 
 export const settable = (initial) => {
-  const { subscribe, update } = writable(initial);
+  const { set, subscribe, update } = writable(initial);
 
   return {
+    set,
     subscribe,
     setAt: (value, path) => update(prev => {
       const temp = { ...prev };

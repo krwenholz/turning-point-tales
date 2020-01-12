@@ -7,24 +7,28 @@
   import { clone, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
+  import { settable } from 'src/lib/settable.js';
 
   const dispatch = createEventDispatcher();
 
   export let story;
   export let focusPath = '';
-  let inOrderStory = keys(story).map(key => ({
-    storyNode: key,
-    story: story[key],
-  }));
+
+  let inOrderStory = settable(
+    keys(story).map(key => ({
+      storyNode: key,
+      story: story[key],
+    }))
+  );
 
   $: {
-    dispatch('edit', {
-      story: inOrderStory.reduce((story, fragment) => ({
-        ...story,
-        [fragment.storyNode]: fragment.story,
-      }), {})
-    });
+    dispatch('edit', { story: inOrderStoryToDict });
   }
+
+  const inOrderStoryToDic = () => $inOrderStory.reduce((story, fragment) => ({
+    ...story,
+    [fragment.storyNode]: fragment.story,
+  }), {});
 
   const clearFocusPath = () => focusPath = '';
 
@@ -35,23 +39,23 @@
       return;
     }
     else if (typeOfChange === 'storyNode') {
-      inOrderStory[storyIdx].storyNode = value;
+      $inOrderStory[storyIdx].storyNode = value;
     }
     else {
-      inOrderStory = setAt(inOrderStory, path, value);
+      $inOrderStory = setAt($inOrderStory, path, value);
     }
   };
 
   const onKeydown = (e, { prevValue, path, typeOfChange, idx, storyNode, storyIdx }) => {
     if (e.key === 'Enter') {
       if(typeOfChange === 'storyText') {
-        inOrderStory[storyIdx].story.text = inOrderStory[storyIdx].story.text.concat("");
+        $inOrderStory[storyIdx].story.text = $inOrderStory[storyIdx].story.text.concat("");
         focusPath = [storyIdx, 'story', 'text', idx + 1];
         e.preventDefault();
       }
     }
     else if (e.key === 'Backspace' && !prevValue) {
-      inOrderStory[storyIdx].story.text = dropIdx(inOrderStory[storyIdx].story.text, idx)
+      $inOrderStory[storyIdx].story.text = dropIdx($inOrderStory[storyIdx].story.text, idx)
       focusPath = [storyIdx, 'story', 'text', idx - 1];
       e.preventDefault();
     }
@@ -63,14 +67,14 @@
       "This will delete all it's text and decisions."
     );
     if(answer) {
-      inOrderStory = dropIdx(inOrderStory, e.detail.storyIdx);
+      $inOrderStory = dropIdx($inOrderStory, e.detail.storyIdx);
     }
   }
 
   const addNewDecision = (e) => {
-    const decisions = inOrderStory[e.detail.storyIdx].story.decisions;
+    const decisions = $inOrderStory[e.detail.storyIdx].story.decisions;
 
-    inOrderStory[e.detail.storyIdx].story.decisions = [
+    $inOrderStory[e.detail.storyIdx].story.decisions = [
       ...decisions,
       {
         label: 'placeholder',
@@ -93,7 +97,7 @@
 </style>
 
 <section class='edit-story'>
-  {#each inOrderStory as { storyNode, story }, storyIdx }
+  {#each $inOrderStory as { storyNode, story }, storyIdx }
   <div class='story-fragment'>
     <StoryNode
       on:delete={deleteStoryNode}
@@ -107,7 +111,7 @@
       {onKeydown}
       {focusPath}
       {clearFocusPath}
-      text={inOrderStory[storyIdx].story.text || []}
+      text={$inOrderStory[storyIdx].story.text || []}
       storyNode={storyNode}
     />
     <Decisions
@@ -117,7 +121,7 @@
       {focusPath}
       {clearFocusPath}
       on:addNewDecision={addNewDecision}
-      decisions={inOrderStory[storyIdx].story.decisions || []}
+      decisions={$inOrderStory[storyIdx].story.decisions || []}
       storyNode={storyNode}
     />
   </div>
