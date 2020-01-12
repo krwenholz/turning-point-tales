@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { pullAt, dropRight, drop, last, set, get } from 'lodash';
+import { pullAt, dropRight, drop, last, set as lodashSet, get } from 'lodash';
 
 export const setWrittable = (initial) => {
   const { set, subscribe, update } = writable(initial);
@@ -8,9 +8,8 @@ export const setWrittable = (initial) => {
     set,
     subscribe,
     setAt: (value, path) => update(prev => {
-      const temp = { ...prev };
-      set(temp, path, value);
-      return temp;
+      lodashSet(prev, path, value);
+      return prev;
     }),
     dropAt: (path) => update(prev => {
       if(path.length === 1) {
@@ -25,13 +24,10 @@ export const setWrittable = (initial) => {
 
       return prev;
     }),
-    pushAt: (value, path) => update(prev => {
-      const temp = [ ...prev ];
+    concatAt: (value, path) => update(prev => {
+      lodashSet(prev, path, [...get(prev, path), value]);
 
-      set(temp, path, [...get(prev, path), value]);
-      return temp;
+      return prev;
     })
   }
 }
-
-// story.setAt(text, [0, 'story', 'text', 1])

@@ -21,9 +21,7 @@
     }))
   );
 
-  $: {
-    dispatch('edit', { story: asDict($inOrderStory) });
-  }
+  $: dispatch('edit', { story: asDict($inOrderStory) });
 
   const asDict = (storyArray) => storyArray.reduce((story, fragment) => ({
     ...story,
@@ -39,48 +37,49 @@
       return;
     }
     else if (typeOfChange === 'storyNode') {
-      $inOrderStory[storyIdx].storyNode = value;
+      inOrderStory.setAt(value, [storyIdx, 'storyNode']);
     }
     else {
-      $inOrderStory = setAt($inOrderStory, path, value);
+      inOrderStory.setAt(value, path)
     }
   };
 
   const onKeydown = (e, { prevValue, path, typeOfChange, idx, storyNode, storyIdx }) => {
     if (e.key === 'Enter') {
       if(typeOfChange === 'storyText') {
-        $inOrderStory[storyIdx].story.text = $inOrderStory[storyIdx].story.text.concat("");
+        inOrderStory.concatAt('', [storyIdx, 'story', 'text']);
         focusPath = [storyIdx, 'story', 'text', idx + 1];
         e.preventDefault();
       }
     }
     else if (e.key === 'Backspace' && !prevValue) {
-      $inOrderStory[storyIdx].story.text = dropIdx($inOrderStory[storyIdx].story.text, idx)
+      inOrderStory.dropAt([storyIdx, 'story', 'text', idx]);
       focusPath = [storyIdx, 'story', 'text', idx - 1];
       e.preventDefault();
     }
   };
 
   const deleteStoryNode = (e) => {
+    const path = [e.detail.storyIdx];
     var answer = window.confirm(
       "Are you sure you want to delete this story fragment?\n\n" +
       "This will delete all it's text and decisions."
     );
     if(answer) {
-      $inOrderStory = dropIdx($inOrderStory, e.detail.storyIdx);
+      inOrderStory.dropAt(path);
     }
   }
 
   const addNewDecision = (e) => {
-    const decisions = $inOrderStory[e.detail.storyIdx].story.decisions;
+    const path = [e.detail.storyIdx, 'story', 'decisions'];
 
-    $inOrderStory[e.detail.storyIdx].story.decisions = [
-      ...decisions,
+    inOrderStory.concatAt(
       {
         label: 'placeholder',
         storyNode: 'start'
-      }
-    ];
+      },
+      path
+    );
 
     e.preventDefault();
   }
