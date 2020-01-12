@@ -2,36 +2,26 @@
   import TextArea from 'src/components/TextArea';
   import Plus from 'src/components/icons/Plus.svelte';
   import Button from 'src/components/Button.svelte';
-  import { createEventDispatcher, afterUpdate } from "svelte";
-
-  const dispatch = createEventDispatcher();
+  import Input from 'src/components/Input';
 
   export let storyIdx;
   export let focusPath = '';
   export let clearFocusPath = () => {};
   export let onKeydown = () => {};
   export let onInput = () => {};
+  export let onAddNewDecision = () => {};
   export let storyNode = '';
   export let decisions = [];
 </script>
 
 <style>
   .decisions :global(.text-area) {
-    margin-left: 20px;
     width: 100%;
     margin-bottom: 8px;
   }
 
-  .decision {
+  .decision:not(:last-of-type) {
     margin-bottom: 32px;
-  }
-
-  h2 {
-    display: flex;
-  }
-
-  h2 :global(svg) {
-    margin-left: 8px;
   }
 
   .label,
@@ -43,7 +33,6 @@
 
   span {
     min-width: 15%;
-    margin-left: 20px;
     margin-bottom: 12px;
   }
 
@@ -60,14 +49,12 @@
 
 {#if decisions.length}
   <section class="decisions">
-    <h2>
-      Decisions
-    </h2>
+    <span> Decisions </span>
     {#each decisions as decision, idx}
       <div class='decision'>
         <div class="label">
           <span>Label</span>
-          <TextArea
+          <Input
             value={decision.label}
             on:input={e => onInput(e, {
               idx,
@@ -88,7 +75,7 @@
         </div>
         <div class="story-node">
           <span>StoryNode</span>
-          <TextArea
+          <Input
             value={decision.storyNode}
             on:input={e => onInput(e, {
               idx,
@@ -110,11 +97,13 @@
         </div>
       </div>
     {/each}
-    <nav class='actions'>
-      <Button on:click={() => dispatch('addNewDecision', { storyIdx })} size='small' variation='link'>
-        <Plus/>
-        add new decision
-      </Button>
-    </nav>
+    <Button
+      size='small'
+      variation='link'
+      on:click={() => onAddNewDecision([storyIdx, 'story', 'decisions' ])}
+    >
+      <Plus/>
+      add new decision
+    </Button>
   </section>
 {/if}

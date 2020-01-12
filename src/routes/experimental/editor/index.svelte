@@ -6,16 +6,23 @@
   import Button from "src/components/Button.svelte";
   import Graph from "./_graph";
   import Overview from "src/components/Overview";
-  import Toggle from "src/components/Toggle";
-  import YamlTracker from "src/components/Adventure/YamlTracker.svelte";
-  import exampleStory from "src/lib/local-stories/story-with-consequences";
   import yaml from "js-yaml";
   import Scrollable from 'src/components/Scrollable.svelte';
   import EditStory from 'src/components/EditStory';
   import { isValidStory } from 'src/components/Adventure/validation';
   import { copyToClipboard } from 'src/lib/copy-to-clipboard';
 
-  let story = exampleStory;
+  let story = {
+    start: {
+      text: ['Once upon a time'],
+      decisions: [
+        {
+          label: 'end',
+          storyNode: 'end',
+        }
+      ],
+    },
+  }
   let storyNode = 'start';
   let history = [];
   let consequences = [];
@@ -82,7 +89,7 @@
     grid-template-rows: minmax(150px, 15%) 1fr 1fr;
     height: 85vh;
     grid-template-areas:
-      "options   overview   adventure"
+      "options    overview   adventure"
       "edit-story edit-story adventure"
       "edit-story edit-story adventure"
   }
@@ -93,6 +100,7 @@
   }
   .toolbox :global(.scrollable-edit-story) {
     grid-area: edit-story;
+    max-height: 100%;
   }
   .toolbox :global(.overview) {
     grid-area: overview;
@@ -147,9 +155,7 @@
 
   <Overview {history} {consequences} />
 
-  <Scrollable className='scrollable-edit-story'>
-    <EditStory story={exampleStory} on:edit={updateStory} />
-  </Scrollable>
+  <EditStory className='scrollable-edit-story' {story} on:edit={updateStory} />
 
   <Scrollable className='scrollable-adventure'>
     <h2 slot='heading'>

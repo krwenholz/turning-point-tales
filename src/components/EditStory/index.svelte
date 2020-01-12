@@ -3,13 +3,17 @@
   import Decisions from './_Decisions.svelte';
   import StoryNode from './_StoryNode.svelte';
   import TextArea from 'src/components/TextArea';
+  import Scrollable from 'src/components/Scrollable.svelte';
+  import Button from 'src/components/Button.svelte';
   import { setAt, dropIdx } from 'src/lib/utilities';
   import { clone, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
   import { pathWrittable } from 'src/lib/path-writtable.js';
+  const dispatch = createEventDispatcher();
 
   export let story;
+  export let className ='';
   export let focusPath = '';
 
   let inOrderStory = pathWrittable(
@@ -20,8 +24,6 @@
   );
 
   $: dispatch('edit', { story: asStoryDict($inOrderStory) });
-
-  const dispatch = createEventDispatcher();
 
   const asStoryDict = (storyArray) => storyArray.reduce((story, fragment) => ({
     ...story,
@@ -68,56 +70,88 @@
     }
   }
 
-  const addNewDecision = (e) => {
-    const path = [e.detail.storyIdx, 'story', 'decisions'];
+  const onAddNewDecision = (path) => inOrderStory.concatAt(path, {
+    label: 'placeholder',
+    storyNode: 'start'
+  });
 
-    inOrderStory.concatAt(path, {
-      label: 'placeholder',
-      storyNode: 'start'
-    });
+  const addNewStoryNode = (e) => {
+    $inOrderStory = [
+      ...$inOrderStory,
+      {
+        storyNode: 'placeholder',
+        story: {
+          text: [' '],
+          decisions: [
+            {
+              label: 'placeholder',
+              storyNode: 'placeholder',
+            }
+          ]
+        }
+      }
+    ];
 
-    e.preventDefault();
+    console.log($inOrderStory)
   }
 </script>
 
 <style>
-  .edit-story :global(.story-node) {
-    font-size: 20px;
+  .edit-story :global(.content) {
+    padding-top: 32px;
+  }
+
+  .edit-story .story-fragment :global(.label),
+  .edit-story .story-fragment :global(.input) {
+    margin: 0;
+  }
+
+  .action-panel {
+    padding: 8px 0 8px 0;
+    border-bottom: 2px solid gray;
+    display: flex;
   }
 
   .story-fragment {
-    margin-bottom: 64px;
+    margin-bottom: 86px;
   }
 </style>
 
-<section class='edit-story'>
-  {#each $inOrderStory as { storyNode, story }, storyIdx }
-  <div class='story-fragment'>
-    <StoryNode
-      on:delete={deleteStoryNode}
-      {storyNode}
-      {storyIdx}
-      {onInput}
-    />
-    <StoryText
-      {storyIdx}
-      {onInput}
-      {onKeydown}
-      {focusPath}
-      {clearFocusPath}
-      text={$inOrderStory[storyIdx].story.text || []}
-      storyNode={storyNode}
-    />
-    <Decisions
-      {storyIdx}
-      {onInput}
-      {onKeydown}
-      {focusPath}
-      {clearFocusPath}
-      on:addNewDecision={addNewDecision}
-      decisions={$inOrderStory[storyIdx].story.decisions || []}
-      storyNode={storyNode}
-    />
-  </div>
-  {/each}
+<section class={`edit-story ${className}`}>
+  <Scrollable>
+    <nav class='action-panel' slot='heading'>
+      <button on:click={addNewStoryNode}>add story node</button>
+    </nav>
+    <div slot='content'>
+      {#each $inOrderStory as { storyNode, story }, storyIdx }
+      <div class='story-fragment'>
+        <StoryNode
+          {storyNode}
+          {storyIdx}
+          {onInput}
+          on:delete={deleteStoryNode}
+        />
+        <StoryText
+          {storyIdx}
+          {onInput}
+          {onKeydown}
+          {focusPath}
+          {clearFocusPath}
+          text={$inOrderStory[storyIdx].story.text || []}
+          storyNode={storyNode}
+        />
+        <Decisions
+          {storyIdx}
+          {onInput}
+          {onKeydown}
+          {focusPath}
+          {clearFocusPath}
+          {onAddNewDecision}
+          decisions={$inOrderStory[storyIdx].story.decisions || []}
+          storyNode={storyNode}
+        />
+      </div>
+      {/each}
+    </div>
+  </Scrollable>
 </section>

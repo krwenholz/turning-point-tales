@@ -10,6 +10,7 @@
 <style>
   .scrollable {
     display: flex;
+    max-height: 100%;
     flex-flow: column;
     position: relative;
     overflow-y: auto;

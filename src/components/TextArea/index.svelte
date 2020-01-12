@@ -29,7 +29,7 @@
     overflow-y: hidden;
     resize: none;
     border: none;
-    padding: 0;
+    padding: 8px 0 0 0;
     margin: 0;
     background-color: transparent;
   }

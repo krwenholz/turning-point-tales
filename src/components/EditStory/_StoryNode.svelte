@@ -1,6 +1,7 @@
 <script>
-  import TextArea from 'src/components/TextArea';
   import Trash from 'src/components/icons/Trash';
+  import EditText from 'src/components/icons/EditText.svelte';
+  import Input from 'src/components/Input';
   import { createEventDispatcher, afterUpdate } from "svelte";
 
   const dispatch = createEventDispatcher();
@@ -16,7 +17,6 @@
     flex-flow: row;
     align-items: flex-start;
   }
-
   span,
   .story-node :global(.text-area) {
     margin-bottom: 16px;
@@ -32,14 +32,11 @@
   {#if storyNode === 'start'}
     <span class='story-node'>{storyNode}</span>
   {:else}
-    <Trash
-      on:click={() => dispatch('delete', { storyIdx })}
-    >
+    <Trash on:click={() => dispatch('delete', { storyIdx })}>
       Delete
     </Trash>
-    <TextArea
+    <Input
       value={storyNode}
-      className='story-node'
       on:input={e => onInput(e, {
         storyIdx,
         path: [storyNode],
