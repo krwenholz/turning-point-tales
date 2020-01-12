@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { pullAt, last, set, get, clone } from 'lodash';
+import { pullAt, dropRight, drop, last, set, get, clone } from 'lodash';
 
 export const settable = (initial) => {
   const { subscribe, update } = writable(initial);
@@ -12,15 +12,23 @@ export const settable = (initial) => {
       set(temp, path, value);
       return temp;
     }),
-    pullAt: (path, ...idxs) => update(prev => {
-      idxs.flat().forEach(idx => {
-        pullAt(get(prev, path), idx);
-      })
+    pull: (path) => update(prev => {
+      if(path.length === 1) {
+        pullAt(prev, path);
+      }
+
+      else {
+        pullAt(
+          get(prev, dropRight(path)),
+          last(path)
+        );
+      }
 
       return prev;
     }),
-    pushAt: (path, value) => update(prev => {
+    pushAt: (value, path) => update(prev => {
       const temp = [ ...prev ];
+
       set(temp, path, [...get(prev, path), value]);
       return temp;
     })

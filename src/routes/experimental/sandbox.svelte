@@ -9,10 +9,10 @@
   {JSON.stringify($story)}
 </div>
 
-<button on:click={() => story.pullAt(['2', 'stuff'], 0)} >
-  inc
+<button on:click={() => story.pull(['2', 'stuff', 0]) }>
+  dec
 </button>
 
-<button on:click={() => story.pushAt(['2', 'stuff'], Math.random())} >
+<button on:click={() => story.pushAt(Math.random(), [2, 'stuff'])} >
   add RANDO
 </button>
