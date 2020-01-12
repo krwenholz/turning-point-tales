@@ -7,7 +7,7 @@
   import { clone, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
-  import { setWrittable } from 'src/lib/set-writtable.js';
+  import { setWrittable } from 'src/lib/path-writtable.js';
 
   export let story;
   export let focusPath = '';
