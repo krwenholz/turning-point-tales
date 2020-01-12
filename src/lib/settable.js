@@ -1,22 +1,20 @@
 import { writable } from 'svelte/store';
-import { pullAt, dropRight, drop, last, set, get, clone } from 'lodash';
+import { pullAt, dropRight, drop, last, set, get } from 'lodash';
 
 export const settable = (initial) => {
   const { subscribe, update } = writable(initial);
 
   return {
     subscribe,
-    set: (set) => update(set),
-    setAt: (path, value) => update(prev => {
+    setAt: (value, path) => update(prev => {
       const temp = { ...prev };
       set(temp, path, value);
       return temp;
     }),
-    pull: (path) => update(prev => {
+    pullAt: (path, idx) => update(prev => {
       if(path.length === 1) {
         pullAt(prev, path);
       }
-
       else {
         pullAt(
           get(prev, dropRight(path)),
@@ -34,3 +32,5 @@ export const settable = (initial) => {
     })
   }
 }
+
+// story.setAt(text, [0, 'story', 'text', 1])
