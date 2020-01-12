@@ -12,7 +12,7 @@ export const setWrittable = (initial) => {
       set(temp, path, value);
       return temp;
     }),
-    pullAt: (path, idx) => update(prev => {
+    dropAt: (path) => update(prev => {
       if(path.length === 1) {
         pullAt(prev, path);
       }

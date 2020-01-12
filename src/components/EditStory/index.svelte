@@ -9,10 +9,10 @@
   import { createEventDispatcher } from 'svelte';
   import { setWrittable } from 'src/lib/set-writtable.js';
 
-  const dispatch = createEventDispatcher();
-
   export let story;
   export let focusPath = '';
+
+  const dispatch = createEventDispatcher();
 
   let inOrderStory = setWrittable(
     keys(story).map(key => ({
