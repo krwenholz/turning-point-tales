@@ -3,6 +3,7 @@
   import Plus from 'src/components/icons/Plus.svelte';
   import Button from 'src/components/Button.svelte';
   import Input from 'src/components/Input';
+  import Trash from 'src/components/icons/Trash.svelte';
 
   export let storyIdx;
   export let focusPath = '';
@@ -10,6 +11,7 @@
   export let onKeydown = () => {};
   export let onInput = () => {};
   export let onAddNewDecision = () => {};
+  export let onDeleteDecision = () => {};
   export let storyNode = '';
   export let decisions = [];
 </script>
@@ -31,6 +33,10 @@
     align-items: center;
   }
 
+  header {
+    display: flex;
+  }
+
   span {
     min-width: 15%;
     margin-bottom: 12px;
@@ -47,56 +53,9 @@
   }
 </style>
 
-{#if decisions.length}
-  <section class="decisions">
-    <span> Decisions </span>
-    {#each decisions as decision, idx}
-      <div class='decision'>
-        <div class="label">
-          <span>Label</span>
-          <Input
-            value={decision.label}
-            on:input={e => onInput(e, {
-              idx,
-              storyIdx,
-              storyNode,
-              typeOfChange: 'decisionLabel',
-              path: [storyIdx, 'story', 'decisions', idx, 'label'],
-              prevValue: decision.label,
-            })}
-            on:keydown={e => onKeydown(e, {
-              idx,
-              storyNode,
-              typeOfChange: 'decisionLabel',
-              path: [storyIdx, 'story', 'decisions', idx, 'label'],
-              prevValue: decision.label,
-            })}
-          />
-        </div>
-        <div class="story-node">
-          <span>StoryNode</span>
-          <Input
-            value={decision.storyNode}
-            on:input={e => onInput(e, {
-              idx,
-              storyIdx,
-              storyNode,
-              typeOfChange: 'decisionStoryNode',
-              path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
-              prevValue: decision.storyNode,
-            })}
-            on:keydown={e => onKeydown(e, {
-              idx,
-              storyIdx,
-              storyNode,
-              typeOfChange: 'decisionStoryNode',
-              path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
-              prevValue: decision.storyNode,
-            })}
-          />
-        </div>
-      </div>
-    {/each}
+<section class="decisions">
+  <header>
+    Decisions
     <Button
       size='small'
       variation='link'
@@ -105,5 +64,59 @@
       <Plus/>
       add new decision
     </Button>
-  </section>
+  </header>
+  {#if decisions.length}
+  {#each decisions as decision, idx}
+    <div class='decision'>
+      <div class="label">
+        <span>
+          Label
+          <Trash on:click={() => onDeleteDecision([storyIdx, 'story', 'decisions', idx])}>
+            Delete
+          </Trash>
+        </span>
+        <Input
+          value={decision.label}
+          on:input={e => onInput(e, {
+            idx,
+            storyIdx,
+            storyNode,
+            typeOfChange: 'decisionLabel',
+            path: [storyIdx, 'story', 'decisions', idx, 'label'],
+            prevValue: decision.label,
+          })}
+          on:keydown={e => onKeydown(e, {
+            idx,
+            storyNode,
+            typeOfChange: 'decisionLabel',
+            path: [storyIdx, 'story', 'decisions', idx, 'label'],
+            prevValue: decision.label,
+          })}
+        />
+      </div>
+      <div class="story-node">
+        <span>StoryNode</span>
+        <Input
+          value={decision.storyNode}
+          on:input={e => onInput(e, {
+            idx,
+            storyIdx,
+            storyNode,
+            typeOfChange: 'decisionStoryNode',
+            path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
+            prevValue: decision.storyNode,
+          })}
+          on:keydown={e => onKeydown(e, {
+            idx,
+            storyIdx,
+            storyNode,
+            typeOfChange: 'decisionStoryNode',
+            path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
+            prevValue: decision.storyNode,
+          })}
+        />
+      </div>
+    </div>
+  {/each}
 {/if}
+</section>

@@ -91,9 +91,9 @@
         }
       }
     ];
-
-    console.log($inOrderStory)
   }
+
+  const onDeleteDecision = (path) => inOrderStory.dropAt(path);
 </script>
 
 <style>
@@ -147,6 +147,7 @@
           {focusPath}
           {clearFocusPath}
           {onAddNewDecision}
+          {onDeleteDecision}
           decisions={$inOrderStory[storyIdx].story.decisions || []}
           storyNode={storyNode}
         />

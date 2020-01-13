@@ -15,8 +15,10 @@
   .story-node {
     display: flex;
     flex-flow: row;
-    align-items: flex-start;
+    align-items: center;
+    margin-bottom: 16px;
   }
+
   span,
   .story-node :global(.text-area) {
     margin-bottom: 16px;
@@ -24,7 +26,12 @@
 
   .story-node :global(svg) {
     fill: black;
-    margin-right: 16px;
+    margin-left: 16px;
+  }
+
+  .story-node :global(.input),
+  .story-node :global(label) {
+    margin: 0;
   }
 </style>
 
@@ -32,9 +39,6 @@
   {#if storyNode === 'start'}
     <span class='story-node'>{storyNode}</span>
   {:else}
-    <Trash on:click={() => dispatch('delete', { storyIdx })}>
-      Delete
-    </Trash>
     <Input
       value={storyNode}
       on:input={e => onInput(e, {
@@ -44,5 +48,8 @@
         prevValue: storyNode,
       })}
     />
+    <Trash on:click={() => dispatch('delete', { storyIdx })}>
+      Delete
+    </Trash>
   {/if}
 </div>

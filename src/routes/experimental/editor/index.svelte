@@ -83,7 +83,7 @@
 
   .toolbox {
     display: grid;
-    grid-gap: 24px;
+    grid-gap: 48px;
     margin-bottom: 32px;
     grid-template-columns: auto 1fr 1fr;
     grid-template-rows: minmax(150px, 15%) 1fr 1fr;

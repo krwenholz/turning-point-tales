@@ -56,21 +56,21 @@
         value={paragraph}
         bind:this={nodes[[storyIdx, 'story', 'text', idx]]}
         on:input={ e => onInput(e, {
-        idx,
-        storyIdx,
-        storyNode,
-        typeOfChange: 'storyText',
-        path: [storyIdx, 'story', 'text', idx],
-        prevValue: paragraph,
+          idx,
+          storyIdx,
+          storyNode,
+          typeOfChange: 'storyText',
+          path: [storyIdx, 'story', 'text', idx],
+          prevValue: paragraph,
         })}
         on:keydown={ e => onKeydown(e, {
-      idx,
-      storyIdx,
-      storyNode,
-      typeOfChange: 'storyText',
-      path: [storyIdx, 'story', 'text', idx],
-      prevValue: paragraph,
-      })}
+          idx,
+          storyIdx,
+          storyNode,
+          typeOfChange: 'storyText',
+          path: [storyIdx, 'story', 'text', idx],
+          prevValue: paragraph,
+        })}
       />
     </p>
   {/each}
