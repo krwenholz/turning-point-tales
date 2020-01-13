@@ -22,6 +22,7 @@
     background: var(--root-color-background);
     text-align: center;
     margin-bottom: 0;
+    z-index: 1;
   }
 
   .scrollable > * {
