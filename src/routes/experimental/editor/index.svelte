@@ -23,6 +23,7 @@
       ],
     },
   }
+  let updatedStory = story;
   let storyNode = 'start';
   let history = [];
   let consequences = [];
@@ -36,7 +37,7 @@
   };
 
   const updateStory = e => {
-    story = e.detail.story;
+    updatedStory = e.detail.story;
   }
 
   const loadStoryFile = () => {
@@ -164,7 +165,7 @@
     </h2>
     <Adventure
       {storyNode}
-      {story}
+      story={updatedStory}
       title="Self titled adventure: Number One"
       on:pageChange={updateOverview}
     />

@@ -6,26 +6,25 @@
   import Scrollable from 'src/components/Scrollable.svelte';
   import Button from 'src/components/Button.svelte';
   import { setAt, dropIdx } from 'src/lib/utilities';
-  import { clone, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
+  import { set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
   import { pathWrittable } from 'src/lib/path-writtable.js';
   const dispatch = createEventDispatcher();
 
-  export let story;
+  export let story = {};
   export let className ='';
   export let focusPath = '';
+  let inOrderStory = pathWrittable();
 
-  let inOrderStory = pathWrittable(
-    keys(story).map(key => ({
-      storyNode: key,
-      story: story[key],
-    }))
-  );
+  $: $inOrderStory = keys(story).map(key => ({
+    storyNode: key,
+    story: story[key],
+  }));
 
   $: dispatch('edit', { story: asStoryDict($inOrderStory) });
 
-  const asStoryDict = (storyArray) => storyArray.reduce((story, fragment) => ({
+  const asStoryDict = (storyArray = []) => storyArray.reduce((story, fragment) => ({
     ...story,
     [fragment.storyNode]: fragment.story,
   }), {});
