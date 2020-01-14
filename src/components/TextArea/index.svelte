@@ -1,6 +1,6 @@
 <script>
   import { round } from 'lodash';
-  import { afterUpdate } from "svelte";
+  import { onMount, afterUpdate } from "svelte";
 
   export let value = '';
   export let className = '';
@@ -9,18 +9,19 @@
 
   let self = {};
 
-  const resize = (e) => {
-    const offset = round(self.offsetHeight - self.clientHeight);
-    self.style.height = toNearestTen(self.scrollHeight - offset) + "px";
-  };
+  const resize = () => {
+    if(!autoSize) return;
 
-  const toNearestTen = number => round(number / 10) * 10;
+    self.style.height = 'auto';
+    self.style.height = self.scrollHeight + 'px';
+  }
 
   afterUpdate(resize)
 </script>
 
 <style>
   textarea {
+    box-sizing: border-box;
     overflow-y: hidden;
     resize: none;
     border: none;
@@ -32,15 +33,14 @@
 
 <textarea
   {value}
-  { ...(autoSize ?  {'data-autoresize': true } : {})}
   class={`text-area ${className}`}
+  rows={1}
   bind:this={self}
   on:focus
   on:keydown
   on:keyup
   on:change
-  on:input={e => resize(e)}
+  on:input={resize}
   on:input
   on:blur
-  rows={1}
 />
