@@ -24,12 +24,12 @@
 
   $: dispatch('edit', { story: asStoryDict($inOrderStory) });
 
+  const clearFocusPath = () => focusPath = '';
+
   const asStoryDict = (storyArray = []) => storyArray.reduce((story, fragment) => ({
     ...story,
     [fragment.storyNode]: fragment.story,
   }), {});
-
-  const clearFocusPath = () => focusPath = '';
 
   const onInput = (e, { prevValue, path, typeOfChange, storyIdx }) => {
     const value = e.target.value.trim();
@@ -80,11 +80,11 @@
       {
         storyNode: 'placeholder',
         story: {
-          text: [' '],
+          text: [''],
           decisions: [
             {
-              label: 'placeholder',
-              storyNode: 'placeholder',
+              label: '',
+              storyNode: '',
             }
           ]
         }

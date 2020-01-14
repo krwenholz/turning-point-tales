@@ -1,25 +1,17 @@
 <script>
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher, afterUpdate } from "svelte";
 
   export let value;
   export let className = '';
   export let autoSize = true;
   let self = {};
 
-  onMount(() => {
-    document.querySelectorAll('[data-autoresize]').forEach(element => {
-      element.style.height = (element.scrollHeight)+"px";
+  const resize = (e) => {
+    self.style.height = (self.scrollHeight)+"px";
+    const offset = self.offsetHeight - self.clientHeight;
+  };
 
-      const offset = element.offsetHeight - element.clientHeight;
-
-      document.addEventListener('input', event => {
-        event.target.style.height = 'auto';
-        event.target.style.height = event.target.scrollHeight + offset + 'px';
-      });
-
-      element.removeAttribute('data-autoresize');
-    });
-  });
+  afterUpdate(resize)
 
   export const focus = () => self.focus();
 </script>
@@ -44,6 +36,7 @@
   on:keydown
   on:keyup
   on:change
+  on:input={e => resize(e)}
   on:input
   on:blur
 />

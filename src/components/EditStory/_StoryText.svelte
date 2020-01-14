@@ -28,7 +28,6 @@
   }
 
   .story-text :global(.text-area) {
-    flex: 1;
     margin: 0 0 24px 0;
     padding: 16px;
     font-size: 14px;
@@ -44,7 +43,6 @@
     left: -1%;
     width: 26px;
   }
-
 </style>
 
 <div class='story-text'>

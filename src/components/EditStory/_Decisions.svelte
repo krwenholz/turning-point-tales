@@ -73,7 +73,7 @@
   .label-and-story-node :global(textarea) {
     min-height: 47px;
     width: 100%;
-    max-width: 300px;
+    max-width: 500px;
     padding: 7px 8px 0 8px;
     margin: 4px 0 8px 0;
     border: var(--input-border);
