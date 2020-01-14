@@ -1,3 +1,7 @@
+<script>
+  export let className = '';
+</script>
+
 <style>
   svg {
     fill: currentColor;
@@ -11,6 +15,7 @@
   viewBox="0 0 36 36"
   preserveAspectRatio="xMidYMid meet"
   on:click
+  class={className}
 >
   <title>trash-line</title>
   <path

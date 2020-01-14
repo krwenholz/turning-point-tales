@@ -3,11 +3,11 @@
 
   export let value;
   export let className = '';
+  export let autoSize = true;
   let self = {};
 
   onMount(() => {
     document.querySelectorAll('[data-autoresize]').forEach(element => {
-
       element.style.height = (element.scrollHeight)+"px";
 
       const offset = element.offsetHeight - element.clientHeight;
@@ -37,7 +37,7 @@
 
 <textarea
   {value}
-  data-autoresize
+  { ...(autoSize ?  {'data-autoresize': true } : {})}
   class={`text-area ${className}`}
   bind:this={self}
   on:focus

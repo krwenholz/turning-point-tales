@@ -17,8 +17,15 @@
 </script>
 
 <style>
+  .decision {
+    display: flex;
+  }
+
+  .decision :global(.delete-decision) {
+    margin-right: 32px;
+  }
+
   .decisions :global(.text-area) {
-    width: 100%;
     margin-bottom: 8px;
   }
 
@@ -26,19 +33,31 @@
     margin-bottom: 32px;
   }
 
+
+  .label-and-story-node {
+    flex: 1;
+  }
+
   .label,
   .story-node {
     display: flex;
     flex-flow: row;
     align-items: center;
+    position: relative;
   }
 
   header {
     display: flex;
+    margin-bottom: 24px;
+  }
+
+  header :global(button) {
+    margin-left: 16px;
   }
 
   span {
-    min-width: 15%;
+    width: 30%;
+    max-width: 130px;
     margin-bottom: 12px;
   }
 
@@ -46,8 +65,8 @@
     display: flex;
   }
 
-  .actions :global(svg) {
-    margin-right: 16px;
+  .label :global(svg) {
+    margin-left: 16px;
     width: 32px;
     height: 32px;
   }
@@ -68,54 +87,57 @@
   {#if decisions.length}
   {#each decisions as decision, idx}
     <div class='decision'>
-      <div class="label">
-        <span>
-          Label
-          <Trash on:click={() => onDeleteDecision([storyIdx, 'story', 'decisions', idx])}>
-            Delete
-          </Trash>
-        </span>
-        <Input
-          value={decision.label}
-          on:input={e => onInput(e, {
-            idx,
-            storyIdx,
-            storyNode,
-            typeOfChange: 'decisionLabel',
-            path: [storyIdx, 'story', 'decisions', idx, 'label'],
-            prevValue: decision.label,
-          })}
-          on:keydown={e => onKeydown(e, {
-            idx,
-            storyNode,
-            typeOfChange: 'decisionLabel',
-            path: [storyIdx, 'story', 'decisions', idx, 'label'],
-            prevValue: decision.label,
-          })}
-        />
-      </div>
-      <div class="story-node">
-        <span>StoryNode</span>
-        <Input
-          value={decision.storyNode}
-          on:input={e => onInput(e, {
-            idx,
-            storyIdx,
-            storyNode,
-            typeOfChange: 'decisionStoryNode',
-            path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
-            prevValue: decision.storyNode,
-          })}
-          on:keydown={e => onKeydown(e, {
-            idx,
-            storyIdx,
-            storyNode,
-            typeOfChange: 'decisionStoryNode',
-            path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
-            prevValue: decision.storyNode,
-          })}
-        />
-      </div>
+      <Trash className={'delete-decision'} on:click={() => onDeleteDecision([storyIdx, 'story', 'decisions', idx])}>
+        Delete
+      </Trash>
+      <section class='label-and-story-node'>
+        <div class="label">
+          <span> Label </span>
+          <TextArea
+            value={decision.label}
+            className={'special-input'}
+            autoSize={false}
+            on:input={e => onInput(e, {
+              idx,
+              storyIdx,
+              storyNode,
+              typeOfChange: 'decisionLabel',
+              path: [storyIdx, 'story', 'decisions', idx, 'label'],
+              prevValue: decision.label,
+            })}
+            on:keydown={e => onKeydown(e, {
+              idx,
+              storyNode,
+              typeOfChange: 'decisionLabel',
+              path: [storyIdx, 'story', 'decisions', idx, 'label'],
+              prevValue: decision.label,
+            })}
+          />
+        </div>
+        <div class="story-node">
+          <span>StoryNode</span>
+          <TextArea
+            value={decision.storyNode}
+            className={'special-input'}
+            on:input={e => onInput(e, {
+              idx,
+              storyIdx,
+              storyNode,
+              typeOfChange: 'decisionStoryNode',
+              path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
+              prevValue: decision.storyNode,
+            })}
+            on:keydown={e => onKeydown(e, {
+              idx,
+              storyIdx,
+              storyNode,
+              typeOfChange: 'decisionStoryNode',
+              path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
+              prevValue: decision.storyNode,
+            })}
+          />
+        </div>
+      </section>
     </div>
   {/each}
 {/if}

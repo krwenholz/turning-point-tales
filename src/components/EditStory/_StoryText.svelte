@@ -31,8 +31,18 @@
     position: relative;
     display: flex;
     align-items: center;
-    margin: 0 0 16px 0;
+    margin: 0 0 24px 0;
     padding: 0
+  }
+
+  p :global(.text-area) {
+    flex: 1;
+    font-size: 14px;
+    font-family: "IBM Plex Mono", "monospace";
+    padding: 16px;
+    border: var(--input-border);
+    box-shadow: inset 1px 1px 1px 0px lightgray;
+    border-radius: 8px;
   }
 
   .story-text :global(svg) {
@@ -42,16 +52,11 @@
     width: 26px;
   }
 
-  .story-text :global(.text-area) {
-    flex: 1;
-    padding-left: 24px;
-  }
 </style>
 
 <div class='story-text'>
   {#each text as paragraph, idx}
     <p>
-      <Minus />
       <TextArea
         value={paragraph}
         bind:this={nodes[[storyIdx, 'story', 'text', idx]]}

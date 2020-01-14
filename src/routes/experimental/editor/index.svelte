@@ -98,6 +98,7 @@
   .toolbox :global(.scrollable-adventure) {
     grid-area: adventure;
     width: 100%;
+    padding-bottom: 8px;
   }
   .toolbox :global(.scrollable-edit-story) {
     grid-area: edit-story;
