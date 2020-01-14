@@ -17,8 +17,8 @@
       text: ['Once upon a time'],
       decisions: [
         {
-          label: 'end',
-          storyNode: 'end',
+          label: 'start',
+          storyNode: 'start',
         }
       ],
     },
