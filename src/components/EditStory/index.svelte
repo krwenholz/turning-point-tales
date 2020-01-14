@@ -6,8 +6,7 @@
   import Scrollable from 'src/components/Scrollable.svelte';
   import Button from 'src/components/Button.svelte';
   import Checkbox from 'src/components/Checkbox';
-  import { setAt, dropIdx } from 'src/lib/utilities';
-  import { set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
+  import { omit, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
   import { pathWrittable } from 'src/lib/path-writtable.js';
@@ -93,7 +92,7 @@
     ];
   };
 
-  const onIsFinalNode = ({ checked, path }) => {
+  const setAsFinalNode = ({ checked, path }) => {
     if(checked) {
       inOrderStory.setAt(path, {
         ...get($inOrderStory, path),
@@ -102,13 +101,14 @@
       });
     } else {
       inOrderStory.setAt(path, {
-        ...get($inOrderStory, path),
+        ...omit(get($inOrderStory, path), ['final']),
         decisions: [
           {
             label: '',
             storyNode: '',
           }
         ],
+        final: false,
       });
     }
   }
@@ -167,7 +167,7 @@
         <Checkbox
           checked={$inOrderStory[storyIdx].story.final}
           className={'is-final-node'}
-          on:change={e => onIsFinalNode({
+          on:change={e => setAsFinalNode({
             checked: e.target.checked,
             path: [storyIdx, 'story']
           })}
@@ -182,6 +182,7 @@
           {clearFocusPath}
           {onAddNewDecision}
           {onDeleteDecision}
+          isFinalNode={$inOrderStory[storyIdx].story.final}
           decisions={$inOrderStory[storyIdx].story.decisions || []}
           storyNode={storyNode}
         />

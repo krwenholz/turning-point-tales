@@ -14,6 +14,7 @@
   export let onDeleteDecision = () => {};
   export let storyNode = '';
   export let decisions = [];
+  export let isFinalNode = false;
 </script>
 
 <style>
@@ -89,6 +90,7 @@
 </style>
 
 <section class="decisions">
+  {#if !isFinalNode}
   <header>
     Decisions
     <Button
@@ -100,6 +102,7 @@
       add new decision
     </Button>
   </header>
+  {/if}
   {#if decisions.length}
   {#each decisions as decision, idx}
     <div class='decision'>
