@@ -25,7 +25,7 @@
     overflow-y: hidden;
     resize: none;
     border: none;
-    padding: 8px 0 0 0;
+    padding: 12px;
     margin: 0;
     background-color: transparent;
   }

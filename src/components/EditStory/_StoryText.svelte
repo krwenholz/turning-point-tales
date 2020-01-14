@@ -29,7 +29,6 @@
 
   .story-text :global(textarea) {
     margin: 0 0 24px 0;
-    padding: 16px;
     font-size: 14px;
     font-family: "IBM Plex Mono", "monospace";
     line-height: 1.68;

@@ -5,6 +5,7 @@
   import TextArea from 'src/components/TextArea';
   import Scrollable from 'src/components/Scrollable.svelte';
   import Button from 'src/components/Button.svelte';
+  import Checkbox from 'src/components/Checkbox';
   import { setAt, dropIdx } from 'src/lib/utilities';
   import { set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
@@ -90,6 +91,26 @@
         }
       }
     ];
+  };
+
+  const onIsFinalNode = ({ checked, path }) => {
+    if(checked) {
+      inOrderStory.setAt(path, {
+        ...get($inOrderStory, path),
+        decisions: [],
+        final: true,
+      });
+    } else {
+      inOrderStory.setAt(path, {
+        ...get($inOrderStory, path),
+        decisions: [
+          {
+            label: '',
+            storyNode: '',
+          }
+        ],
+      });
+    }
   }
 
   const onDeleteDecision = (path) => inOrderStory.dropAt(path);
@@ -103,6 +124,10 @@
   .edit-story .story-fragment :global(.label),
   .edit-story .story-fragment :global(.input) {
     margin: 0;
+  }
+
+  .edit-story :global(.is-final-node) {
+    margin-bottom: 16px;
   }
 
   .action-panel {
@@ -139,6 +164,16 @@
           text={$inOrderStory[storyIdx].story.text || []}
           storyNode={storyNode}
         />
+        <Checkbox
+          checked={$inOrderStory[storyIdx].story.final}
+          className={'is-final-node'}
+          on:change={e => onIsFinalNode({
+            checked: e.target.checked,
+            path: [storyIdx, 'story']
+          })}
+        >
+          <span>Is Final Node</span>
+        </Checkbox>
         <Decisions
           {storyIdx}
           {onInput}

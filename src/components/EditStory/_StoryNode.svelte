@@ -19,14 +19,13 @@
     margin-bottom: 16px;
   }
 
-  span,
-  .story-node :global(.text-area) {
-    margin-bottom: 16px;
-  }
-
   .story-node :global(svg) {
     fill: black;
     margin-left: 16px;
+  }
+
+  .story-node :global(svg:hover) {
+    cursor: pointer;
   }
 
   .story-node :global(.input),

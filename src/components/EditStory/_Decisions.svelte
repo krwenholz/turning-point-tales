@@ -17,9 +17,6 @@
 </script>
 
 <style>
-  .decision {
-    display: flex;
-  }
 
   .decision :global(.delete-decision) {
     margin-right: 32px;
@@ -31,6 +28,14 @@
 
   .decision:not(:last-of-type) {
     margin-bottom: 32px;
+  }
+
+  .decisions :global(svg:hover) {
+    cursor: pointer;
+  }
+
+  .decision {
+    display: flex;
   }
 
   .label-and-story-node {
