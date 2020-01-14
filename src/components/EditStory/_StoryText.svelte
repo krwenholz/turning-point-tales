@@ -27,19 +27,12 @@
     flex-flow: column;
   }
 
-  p {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin: 0 0 24px 0;
-    padding: 0
-  }
-
-  p :global(.text-area) {
+  .story-text :global(.text-area) {
     flex: 1;
+    margin: 0 0 24px 0;
+    padding: 16px;
     font-size: 14px;
     font-family: "IBM Plex Mono", "monospace";
-    padding: 16px;
     border: var(--input-border);
     box-shadow: inset 1px 1px 1px 0px lightgray;
     border-radius: 8px;
@@ -56,27 +49,25 @@
 
 <div class='story-text'>
   {#each text as paragraph, idx}
-    <p>
-      <TextArea
-        value={paragraph}
-        bind:this={nodes[[storyIdx, 'story', 'text', idx]]}
-        on:input={ e => onInput(e, {
-          idx,
-          storyIdx,
-          storyNode,
-          typeOfChange: 'storyText',
-          path: [storyIdx, 'story', 'text', idx],
-          prevValue: paragraph,
-        })}
-        on:keydown={ e => onKeydown(e, {
-          idx,
-          storyIdx,
-          storyNode,
-          typeOfChange: 'storyText',
-          path: [storyIdx, 'story', 'text', idx],
-          prevValue: paragraph,
-        })}
-      />
-    </p>
+    <TextArea
+      value={paragraph}
+      bind:this={nodes[[storyIdx, 'story', 'text', idx]]}
+      on:input={ e => onInput(e, {
+        idx,
+        storyIdx,
+        storyNode,
+        typeOfChange: 'storyText',
+        path: [storyIdx, 'story', 'text', idx],
+        prevValue: paragraph,
+      })}
+      on:keydown={ e => onKeydown(e, {
+        idx,
+        storyIdx,
+        storyNode,
+        typeOfChange: 'storyText',
+        path: [storyIdx, 'story', 'text', idx],
+        prevValue: paragraph,
+      })}
+    />
   {/each}
 </div>
