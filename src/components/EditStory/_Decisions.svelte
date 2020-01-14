@@ -33,7 +33,6 @@
     margin-bottom: 32px;
   }
 
-
   .label-and-story-node {
     flex: 1;
   }
@@ -70,6 +69,18 @@
     width: 32px;
     height: 32px;
   }
+
+  .label-and-story-node :global(textarea) {
+    min-height: 47px;
+    width: 100%;
+    max-width: 300px;
+    padding: 7px 8px 0 8px;
+    margin: 4px 0 8px 0;
+    border: var(--input-border);
+    border-radius: var(--root-border-radius);
+    color: currentColor;
+    font-size: var(--root-font-size-md);
+  }
 </style>
 
 <section class="decisions">
@@ -95,7 +106,6 @@
           <span> Label </span>
           <TextArea
             value={decision.label}
-            className={'special-input'}
             autoSize={false}
             on:input={e => onInput(e, {
               idx,
@@ -118,7 +128,6 @@
           <span>StoryNode</span>
           <TextArea
             value={decision.storyNode}
-            className={'special-input'}
             on:input={e => onInput(e, {
               idx,
               storyIdx,

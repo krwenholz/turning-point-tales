@@ -114,19 +114,6 @@
   .story-fragment {
     margin-bottom: 86px;
   }
-
-  .edit-story :global(.special-input) {
-    min-height: 35px;
-    height: 35px;
-    width: 100%;
-    max-width: 300px;
-    padding: 7px 8px 0 8px;
-    margin: 4px 0 8px 0;
-    border: var(--input-border);
-    border-radius: var(--root-border-radius);
-    color: currentColor;
-    font-size: var(--root-font-size-md);
-  }
 </style>
 
 <section class={`edit-story ${className}`}>
