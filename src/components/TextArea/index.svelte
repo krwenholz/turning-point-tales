@@ -1,19 +1,22 @@
 <script>
-  import { createEventDispatcher, afterUpdate } from "svelte";
+  import { round } from 'lodash';
+  import { afterUpdate } from "svelte";
 
-  export let value;
+  export let value = '';
   export let className = '';
   export let autoSize = true;
+  export const focus = () => self.focus();
+
   let self = {};
 
   const resize = (e) => {
-    self.style.height = (self.scrollHeight)+"px";
-    const offset = self.offsetHeight - self.clientHeight;
+    const offset = round(self.offsetHeight - self.clientHeight);
+    self.style.height = toNearestTen(self.scrollHeight - offset) + "px";
   };
 
-  afterUpdate(resize)
+  const toNearestTen = number => round(number / 10) * 10;
 
-  export const focus = () => self.focus();
+  afterUpdate(resize)
 </script>
 
 <style>
@@ -39,4 +42,5 @@
   on:input={e => resize(e)}
   on:input
   on:blur
+  rows={1}
 />
