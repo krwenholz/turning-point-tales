@@ -46,12 +46,15 @@
   };
 
   const onKeydown = (e, { prevValue, path, typeOfChange, idx, storyNode, storyIdx }) => {
-    if(e.key === 'Enter' && typeOfChange === 'storyText') {
+    const addedNewParagraphByHittingEnter = e.key === 'Enter' && typeOfChange === 'storyText'
+    const deletedParagraphByHittingBackspace = e.key === 'Backspace' && !prevValue && idx !== 0;
+
+    if(addedNewParagraphByHittingEnter) {
       inOrderStory.concatAt([storyIdx, 'story', 'text'], '');
       focusPath = [storyIdx, 'story', 'text', idx + 1];
       e.preventDefault();
     }
-    else if (e.key === 'Backspace' && !prevValue) {
+    else if (deletedParagraphByHittingBackspace) {
       inOrderStory.dropAt([storyIdx, 'story', 'text', idx]);
       focusPath = [storyIdx, 'story', 'text', idx - 1];
       e.preventDefault();
@@ -62,7 +65,7 @@
     const path = [e.detail.storyIdx];
     var answer = window.confirm(
       "Are you sure you want to delete this story fragment?\n\n" +
-      "This will delete all it's text and decisions."
+      "This will delete all its text and decisions."
     );
     if(answer) {
       inOrderStory.dropAt(path);
