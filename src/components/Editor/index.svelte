@@ -123,17 +123,6 @@
     border-bottom: 1px solid gray;
   }
 
-  .graph {
-    display: flex;
-    flex-flow: column;
-    width: 100%;
-    border: solid;
-  }
-
-  .error {
-    margin: auto;
-  }
-
   @media only screen and (min-width: 1150px) {
     .editor {
       flex-flow: row;

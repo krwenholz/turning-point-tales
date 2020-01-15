@@ -151,45 +151,45 @@
     </nav>
     <div slot='content'>
       {#each $inOrderStory as { storyNode, story }, storyIdx }
-      <div class='story-fragment'>
-        <StoryNode
-          {storyNode}
-          {storyIdx}
-          {onInput}
-          on:delete={deleteStoryNode}
-        />
-        <StoryText
-          {storyIdx}
-          {onInput}
-          {onKeydown}
-          {focusPath}
-          {clearFocusPath}
-          text={$inOrderStory[storyIdx].story.text || []}
-          storyNode={storyNode}
-        />
-        <Checkbox
-          checked={$inOrderStory[storyIdx].story.final}
-          className={'is-final-node'}
-          on:change={e => setAsFinalNode({
-            checked: e.target.checked,
-            path: [storyIdx, 'story']
-          })}
-        >
-          <span>Is Final Node</span>
-        </Checkbox>
-        <Decisions
-          {storyIdx}
-          {onInput}
-          {onKeydown}
-          {focusPath}
-          {clearFocusPath}
-          {onAddNewDecision}
-          {onDeleteDecision}
-          isFinalNode={$inOrderStory[storyIdx].story.final}
-          decisions={$inOrderStory[storyIdx].story.decisions || []}
-          storyNode={storyNode}
-        />
-      </div>
+        <div class='story-fragment'>
+          <StoryNode
+            {storyNode}
+            {storyIdx}
+            {onInput}
+            on:delete={deleteStoryNode}
+          />
+          <StoryText
+            {storyIdx}
+            {onInput}
+            {onKeydown}
+            {focusPath}
+            {clearFocusPath}
+            text={$inOrderStory[storyIdx].story.text || []}
+            storyNode={storyNode}
+          />
+          <Checkbox
+            checked={$inOrderStory[storyIdx].story.final}
+            className={'is-final-node'}
+            on:change={e => setAsFinalNode({
+              checked: e.target.checked,
+              path: [storyIdx, 'story']
+            })}
+          >
+            <span>No decisions available</span>
+          </Checkbox>
+          <Decisions
+            {storyIdx}
+            {onInput}
+            {onKeydown}
+            {focusPath}
+            {clearFocusPath}
+            {onAddNewDecision}
+            {onDeleteDecision}
+            isFinalNode={$inOrderStory[storyIdx].story.final}
+            decisions={$inOrderStory[storyIdx].story.decisions || []}
+            storyNode={storyNode}
+          />
+        </div>
       {/each}
     </div>
   </Scrollable>

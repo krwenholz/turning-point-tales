@@ -66,10 +66,6 @@
     margin-bottom: 12px;
   }
 
-  .actions {
-    display: flex;
-  }
-
   .label :global(svg) {
     margin-left: 16px;
     width: 32px;
