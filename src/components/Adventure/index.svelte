@@ -105,7 +105,7 @@
     enableExtraNavigation &&
     $store.hasInitialCompletion &&
     $store.storyNode === "start" &&
-    getStoryNodeAfterIntro(story, "start") !== "start";
+    story.start.decisions.length > 1;
 
   const showGoBackButton = () => {
     if (!enableExtraNavigation || $store.storyNode === "start") return false;

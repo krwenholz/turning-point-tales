@@ -86,8 +86,8 @@
           text: [''],
           decisions: [
             {
-              label: '',
-              storyNode: '',
+              label: 'start',
+              storyNode: 'start',
             }
           ]
         }
