@@ -1,8 +1,8 @@
 <script>
-  import TextArea from 'src/components/TextArea';
+  import TextArea from 'src/components/TextArea/index';
   import Plus from 'src/components/icons/Plus.svelte';
   import Button from 'src/components/Button.svelte';
-  import Input from 'src/components/Input';
+  import Input from 'src/components/Input/index';
   import Trash from 'src/components/icons/Trash.svelte';
 
   export let storyIdx;

@@ -2,10 +2,10 @@
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
   import StoryNode from './_StoryNode.svelte';
-  import TextArea from 'src/components/TextArea';
+  import TextArea from 'src/components/TextArea/index';
   import Scrollable from 'src/components/Scrollable.svelte';
   import Button from 'src/components/Button.svelte';
-  import Checkbox from 'src/components/Checkbox';
+  import Checkbox from 'src/components/Checkbox/index';
   import { omit, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';

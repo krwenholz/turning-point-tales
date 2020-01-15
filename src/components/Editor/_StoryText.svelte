@@ -1,5 +1,5 @@
 <script>
-  import TextArea from 'src/components/TextArea';
+  import TextArea from 'src/components/TextArea/index';
   import Minus from 'src/components/icons/Minus.svelte';
   import { createEventDispatcher, afterUpdate } from "svelte";
   import { get, toPath, join, cloneDeep } from 'lodash';

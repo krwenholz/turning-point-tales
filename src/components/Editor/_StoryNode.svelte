@@ -1,7 +1,7 @@
 <script>
   import Trash from 'src/components/icons/Trash';
   import EditText from 'src/components/icons/EditText.svelte';
-  import Input from 'src/components/Input';
+  import Input from 'src/components/Input/index';
   import { createEventDispatcher, afterUpdate } from "svelte";
 
   const dispatch = createEventDispatcher();
