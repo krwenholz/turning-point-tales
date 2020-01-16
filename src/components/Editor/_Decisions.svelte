@@ -57,10 +57,15 @@
   }
 
   header :global(button) {
-    margin-left: 16px;
+    margin-left: 8px;
   }
 
-  span {
+  header :global(svg) {
+    margin-right: 8px;
+  }
+
+  .label span,
+  .story-node span {
     width: 30%;
     max-width: 130px;
     margin-bottom: 12px;

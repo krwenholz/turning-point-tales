@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { pullAt, dropRight, drop, last, set as lodashSet, get } from 'lodash';
+import { isArray, pullAt, dropRight, drop, last, set as lodashSet, get } from 'lodash';
 
 export const pathWrittable = (initial) => {
   const { set, subscribe, update } = writable(initial);
@@ -13,6 +13,22 @@ export const pathWrittable = (initial) => {
         return prevState;
       });
     },
+    // assocAt(path, value) {
+    //   return update(prevState => {
+    //     if (isArray(get())) {
+    //       return [
+    //         ...take(obj, key),
+    //         item,
+    //         ...drop(obj, key + 1),
+    //       ];
+    //     }
+    //
+    //     return {
+    //       ...obj,
+    //       [key]: item,
+    //     }
+    //   });
+    // },
     getAt(path) {
       let prevState;
 
