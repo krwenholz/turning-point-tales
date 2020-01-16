@@ -13,22 +13,6 @@ export const pathWrittable = (initial) => {
         return prevState;
       });
     },
-    // assocAt(path, value) {
-    //   return update(prevState => {
-    //     if (isArray(get())) {
-    //       return [
-    //         ...take(obj, key),
-    //         item,
-    //         ...drop(obj, key + 1),
-    //       ];
-    //     }
-    //
-    //     return {
-    //       ...obj,
-    //       [key]: item,
-    //     }
-    //   });
-    // },
     getAt(path) {
       let prevState;
 
@@ -50,6 +34,9 @@ export const pathWrittable = (initial) => {
 
         return prevState;
       });
+    },
+    concat(value) {
+      return update(prevState => prevState.concat(value));
     },
     concatAt(path, value) {
       return update(prevState => {

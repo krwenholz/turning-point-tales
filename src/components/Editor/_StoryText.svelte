@@ -54,16 +54,14 @@
         idx,
         storyIdx,
         storyNode,
-        typeOfChange: 'storyText',
-        path: [storyIdx, 'story', 'text', idx],
+        changeLocation: 'storyText',
         prevValue: paragraph,
       })}
       on:keydown={ e => onKeydown(e, {
         idx,
         storyIdx,
         storyNode,
-        typeOfChange: 'storyText',
-        path: [storyIdx, 'story', 'text', idx],
+        changeLocation: 'storyText',
         prevValue: paragraph,
       })}
     />

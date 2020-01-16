@@ -6,7 +6,7 @@
   import Scrollable from 'src/components/Scrollable.svelte';
   import Button from 'src/components/Button.svelte';
   import Checkbox from 'src/components/Checkbox/index';
-  import { omit, set, keys, cloneDeep, isArray, isString, get, toPath } from 'lodash';
+  import { concat, omit, set, keys, isArray, get, } from 'lodash';
   import { writable } from 'svelte/store';
   import { createEventDispatcher } from 'svelte';
   import { pathWrittable } from 'src/lib/path-writtable.js';
@@ -31,22 +31,24 @@
     [fragment.storyNode]: fragment.story,
   }), {});
 
-  const onInput = (e, { prevValue, path, typeOfChange, storyIdx }) => {
+  const onInput = (e, { idx, prevValue, path, changeLocation, storyIdx }) => {
     const value = e.target.value.trim();
 
     if (prevValue === value) {
       return;
     }
-    else if (typeOfChange === 'storyNode') {
-      inOrderStory.setAt([storyIdx, 'storyNode'], value);
-    }
-    else {
-      inOrderStory.setAt(path, value)
-    }
+
+    const asPath = {
+      storyNode: [storyIdx, 'storyNode'],
+      storyText: [storyIdx, 'story', 'text', idx],
+      decisionLabel: [storyIdx, 'story', 'decisions', idx, 'label'],
+    };
+
+    inOrderStory.setAt(asPath[changeLocation], value);
   };
 
-  const onKeydown = (e, { prevValue, path, typeOfChange, idx, storyNode, storyIdx }) => {
-    const addedNewParagraphByHittingEnter = e.key === 'Enter' && typeOfChange === 'storyText'
+  const onKeydown = (e, { prevValue, changeLocation, idx, storyNode, storyIdx }) => {
+    const addedNewParagraphByHittingEnter = e.key === 'Enter' && changeLocation === 'storyText'
     const deletedParagraphByHittingBackspace = e.key === 'Backspace' && !prevValue && idx !== 0;
 
     if(addedNewParagraphByHittingEnter) {
@@ -61,14 +63,13 @@
     }
   };
 
-  const deleteStoryNode = (e) => {
-    const path = [e.detail.storyIdx];
+  const deleteStoryNode = (storyIdx) => {
     var answer = window.confirm(
       "Are you sure you want to delete this story fragment?\n\n" +
       "This will delete all its text and decisions."
     );
     if(answer) {
-      inOrderStory.dropAt(path);
+      inOrderStory.dropAt([storyIdx]);
     }
   }
 
@@ -77,23 +78,18 @@
     storyNode: 'start'
   });
 
-  const addNewStoryNode = (e) => {
-    $inOrderStory = [
-      ...$inOrderStory,
-      {
-        storyNode: 'placeholder',
-        story: {
-          text: [''],
-          decisions: [
-            {
-              label: 'start',
-              storyNode: 'start',
-            }
-          ]
+  const addNewStoryNode = () => inOrderStory.concat({
+    storyNode: 'placeholder',
+    story: {
+      text: [''],
+      decisions: [
+        {
+          label: 'start',
+          storyNode: 'start',
         }
-      }
-    ];
-  };
+      ]
+    }
+  });
 
   const setAsFinalNode = ({ checked, path }) => {
     if(checked) {
@@ -156,7 +152,7 @@
             {storyNode}
             {storyIdx}
             {onInput}
-            on:delete={deleteStoryNode}
+            on:delete={() => deleteStoryNode(storyIdx)}
           />
           <StoryText
             {storyIdx}
@@ -172,7 +168,7 @@
             className={'is-final-node'}
             on:change={e => setAsFinalNode({
               checked: e.target.checked,
-              path: [storyIdx, 'story']
+              storyIdx,
             })}
           >
             <span>No decisions available</span>

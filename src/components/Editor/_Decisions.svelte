@@ -120,15 +120,13 @@
               idx,
               storyIdx,
               storyNode,
-              typeOfChange: 'decisionLabel',
-              path: [storyIdx, 'story', 'decisions', idx, 'label'],
+              changeLocation: 'decisionLabel',
               prevValue: decision.label,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
               storyNode,
-              typeOfChange: 'decisionLabel',
-              path: [storyIdx, 'story', 'decisions', idx, 'label'],
+              changeLocation: 'decisionLabel',
               prevValue: decision.label,
             })}
           />
@@ -141,16 +139,14 @@
               idx,
               storyIdx,
               storyNode,
-              typeOfChange: 'decisionStoryNode',
-              path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
+              changeLocation: 'decisionStoryNode',
               prevValue: decision.storyNode,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
               storyIdx,
               storyNode,
-              typeOfChange: 'decisionStoryNode',
-              path: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
+              changeLocation: 'decisionStoryNode',
               prevValue: decision.storyNode,
             })}
           />

@@ -42,8 +42,8 @@
       value={storyNode}
       on:input={e => onInput(e, {
         storyIdx,
-        path: [storyNode],
-        typeOfChange: 'storyNode',
+        storyNode,
+        changeLocation: 'storyNode',
         prevValue: storyNode,
       })}
     />
