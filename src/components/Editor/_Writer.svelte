@@ -91,7 +91,9 @@
     }
   });
 
-  const setAsFinalNode = ({ checked, path }) => {
+  const setAsFinalNode = ({ checked, storyIdx}) => {
+    const path = [storyIdx, 'story'];
+
     if(checked) {
       inOrderStory.setAt(path, {
         ...get($inOrderStory, path),
@@ -103,8 +105,8 @@
         ...omit(get($inOrderStory, path), ['final']),
         decisions: [
           {
-            label: '',
-            storyNode: '',
+            label: 'placeholder',
+            storyNode: 'placeholder',
           }
         ],
         final: false,

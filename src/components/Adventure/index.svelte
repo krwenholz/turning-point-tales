@@ -11,7 +11,6 @@
   const dispatch = createEventDispatcher();
 
   export let className = "";
-  export let haveRemainingDecisions = true;
   export let story;
   export let storyNode;
   export let title = "";
@@ -32,8 +31,7 @@
 
   $: $store.storyNode = getStartingPoint();
   $: $store.hasInitialCompletion = checkInitialCompletion(visitations);
-  $: currentPage = story[$store.storyNode];
-  $: haveRemainingDecisions = !story[$store.storyNode].final;
+  $: currentPage = get(story, $store.storyNode, story.start);
   $: {
     recordUnlockSkipIntro();
     dispatch("pageChange", {
@@ -236,7 +234,7 @@
   {/if}
 
   <nav in:fade>
-    {#if haveRemainingDecisions}
+    {#if !currentPage.final}
       {#each filterAvailable(currentPage.decisions) as decision}
         <Button
           disabled="{decision.disabled}"
