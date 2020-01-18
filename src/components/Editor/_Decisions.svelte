@@ -107,7 +107,10 @@
   {#if decisions.length}
   {#each decisions as decision, idx}
     <div class='decision'>
-      <Trash className={'delete-decision'} on:click={() => onDeleteDecision([storyIdx, 'story', 'decisions', idx])}>
+      <Trash
+        className={'delete-decision'}
+        on:click={() => onDeleteDecision([storyIdx, 'story', 'decisions', idx])}
+      >
         Delete
       </Trash>
       <section class='label-and-story-node'>
@@ -115,6 +118,7 @@
           <span> Label </span>
           <TextArea
             value={decision.label}
+            placeholder="button text"
             autoSize={false}
             on:input={e => onInput(e, {
               idx,
@@ -135,6 +139,7 @@
           <span>StoryNode</span>
           <TextArea
             value={decision.storyNode}
+            placeholder="Name of story node"
             on:input={e => onInput(e, {
               idx,
               storyIdx,

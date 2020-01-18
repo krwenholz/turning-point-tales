@@ -5,6 +5,7 @@
   export let value = '';
   export let className = '';
   export let autoSize = true;
+  export let placeholder = '';
   export const focus = () => self.focus();
 
   let self = {};
@@ -33,6 +34,7 @@
 
 <textarea
   {value}
+  {placeholder}
   class={`text-area ${className}`}
   rows={1}
   bind:this={self}

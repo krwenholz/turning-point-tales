@@ -74,18 +74,18 @@
   }
 
   const onAddNewDecision = (path) => inOrderStory.concatAt(path, {
-    label: 'placeholder',
-    storyNode: 'start'
+    label: '',
+    storyNode: ''
   });
 
   const addNewStoryNode = () => inOrderStory.concat({
-    storyNode: 'placeholder',
+    storyNode: '',
     story: {
       text: [''],
       decisions: [
         {
-          label: 'start',
-          storyNode: 'start',
+          label: '',
+          storyNode: '',
         }
       ]
     }
@@ -105,8 +105,8 @@
         ...omit(get($inOrderStory, path), ['final']),
         decisions: [
           {
-            label: 'placeholder',
-            storyNode: 'placeholder',
+            label: '',
+            storyNode: '',
           }
         ],
         final: false,
@@ -145,7 +145,7 @@
 <section class={`edit-story ${className}`}>
   <Scrollable>
     <nav class='action-panel' slot='heading'>
-      <Button variation='small' on:click={addNewStoryNode}>add story node</Button>
+      <Button variation='small' on:click={addNewStoryNode}>+ story node</Button>
     </nav>
     <div slot='content'>
       {#each $inOrderStory as { storyNode, story }, storyIdx }

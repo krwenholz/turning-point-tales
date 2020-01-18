@@ -40,6 +40,7 @@
   {:else}
     <Input
       value={storyNode}
+      placeholder="Name of story node"
       on:input={e => onInput(e, {
         storyIdx,
         storyNode,

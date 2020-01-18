@@ -49,6 +49,7 @@
   {#each text as paragraph, idx}
     <TextArea
       value={paragraph}
+      placeholder="Once upon a time.."
       bind:this={nodes[[storyIdx, 'story', 'text', idx]]}
       on:input={ e => onInput(e, {
         idx,
