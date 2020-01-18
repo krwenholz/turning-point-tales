@@ -42,6 +42,23 @@
     transform: translateY(3px);
   }
 
+  #HOVER.button.button--link:hover {
+    box-shadow: none;
+  }
+
+  #HOVER.button:hover {
+    color: var(--root-color-accent);
+    background: var(--root-color-background);
+    box-shadow: 0px 0px 0px 2px currentColor;
+    cursor: pointer;
+  }
+
+  #HOVER.disabled:hover {
+    cursor: not-allowed;
+    color: var(--root-color-background);
+    background-color: gray;
+  }
+
   .button--secondary {
     border: 2px solid currentColor;
     min-width: auto;
@@ -60,21 +77,10 @@
     text-decoration: underline;
   }
 
-  #HOVER.button.button--link:hover {
-    box-shadow: none;
-  }
-
-  #HOVER.button:hover {
-    color: var(--root-color-accent);
-    background: var(--root-color-background);
-    box-shadow: 0px 0px 0px 2px currentColor;
-    cursor: pointer;
-  }
-
-  #HOVER.disabled:hover {
-    cursor: not-allowed;
-    color: var(--root-color-background);
-    background-color: gray;
+  .button--small {
+    min-height: auto;
+    padding: 4px 8px;
+    font-size: 13px;
   }
 
   button :global(svg) {

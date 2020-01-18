@@ -130,7 +130,7 @@
   }
 
   .action-panel {
-    padding: 8px 0 8px 0;
+    padding: 8px 0 8px 2px;
     border-bottom: 2px solid gray;
     display: flex;
   }
@@ -143,7 +143,7 @@
 <section class={`edit-story ${className}`}>
   <Scrollable>
     <nav class='action-panel' slot='heading'>
-      <button on:click={addNewStoryNode}>add story node</button>
+      <Button variation='small' on:click={addNewStoryNode}>add story node</Button>
     </nav>
     <div slot='content'>
       {#each $inOrderStory as { storyNode, story }, storyIdx }
