@@ -16,7 +16,6 @@
     self.style.height = 'auto';
     self.style.height = self.scrollHeight + 'px';
   }
-
   afterUpdate(resize)
 </script>
 

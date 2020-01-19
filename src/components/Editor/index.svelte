@@ -8,6 +8,7 @@
   import yaml from "js-yaml";
   import Scrollable from 'src/components/Scrollable.svelte';
   import WritingPane from './_WritingPane.svelte';
+  import Graph from './_graph';
   import { isValidStory } from 'src/components/Adventure/validation';
   import { copyToClipboard } from 'src/lib/copy-to-clipboard';
 
@@ -137,7 +138,11 @@
 
   <Overview {history} {consequences} />
 
-  <WritingPane className='scrollable-edit-story' {story} on:edit={updateStory} />
+  <WritingPane
+    {story}
+    className='scrollable-edit-story'
+    on:edit={updateStory}
+  />
 
   <Scrollable className='scrollable-adventure'>
     <h2 slot='heading'>
@@ -152,14 +157,14 @@
     />
   </Scrollable>
 </section>
-<!--<br>-->
-<!--<br>-->
+<br>
+<br>
 
-<!--<section class="graph">-->
-<!--  {#if storyIsValid}-->
-<!--    <h2>Preview</h2>-->
-<!--    <Graph {story} />-->
-<!--  {:else}-->
-<!--    <p class='error'> current story is invalid </p>-->
-<!--  {/if}-->
-<!--</section>-->
+<section class="graph">
+  {#if storyIsValid}
+    <h2>Preview</h2>
+    <Graph {story} />
+  {:else}
+    <p class='error'> current story is invalid </p>
+  {/if}
+</section>
