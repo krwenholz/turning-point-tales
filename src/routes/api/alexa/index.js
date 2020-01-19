@@ -1,110 +1,109 @@
-import { logger } from "src/logging";
+import * as Alexa from "ask-sdk-core";
+import CancelAndStopIntentHandler from "./intent_handlers/_cancel_and_stop";
+import ErrorHandler from "./_error_handler";
+import HelpIntentHandler from "./intent_handlers/_help";
+import LaunchRequestHandler from "./request_handlers/_launch";
+import ListStoriesIntentHandler from "./intent_handlers/_list_stories";
+import SessionEndedRequestHandler from "./request_handlers/_session_ended";
 import config from "config";
 import {
   SkillRequestSignatureVerifier,
   TimestampVerifier
 } from "ask-sdk-express-adapter";
-import * as Alexa from "ask-sdk-core";
+import { logger } from "src/logging";
 
-const LaunchRequestHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === "LaunchRequest";
-  },
-  handle(handlerInput) {
-    const speechText = "Welcome to the Alexa Skills Kit, you can say hello!";
+// https://developer.amazon.com/en-US/docs/alexa/custom-skills/delegate-dialog-to-alexa.html#combine-delegation-and-manual-control-to-handle-complex-dialogs
 
-    return handlerInput.responseBuilder
-      .speak(speechText)
-      .reprompt(speechText)
-      .withSimpleCard("Hello World", speechText)
-      .getResponse();
-  }
-};
-
-const HelloWorldIntentHandler = {
+const ChooseStoryHandler = {
   canHandle(handlerInput) {
     return (
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-      handlerInput.requestEnvelope.request.intent.name === "HelloWorldIntent"
+      handlerInput.requestEnvelope.request.intent.name === "ListStories"
     );
   },
   handle(handlerInput) {
-    const speechText = "Hello World!";
+    return pool.query(listAllQuery).then(results => {
+      const storyTitleChoices = map(results.rows, story => {
+        return {
+          id: `${story.id}`,
+          name: {
+            value: story.title,
+            synonyms: []
+          }
+        };
+      });
 
-    return handlerInput.responseBuilder
-      .speak(speechText)
-      .withSimpleCard("Hello World", speechText)
-      .getResponse();
+      const replaceEntityDirective = {
+        type: "Dialog.UpdateDynamicEntities",
+        updateBehavior: "REPLACE",
+        types: [
+          {
+            name: "STORY_TITLE_CHOICE",
+            values: storyTitleChoices
+          }
+        ]
+      };
+
+      const repeat = "Which tale is next?";
+      const speechText = "Let's get you adventuring. " + repeat;
+
+      return handlerInput.responseBuilder
+        .speak(speechText)
+        .reprompt(repeat)
+        .addDirective(replaceEntityDirective)
+        .withSimpleCard("Story choices", speechText)
+        .getResponse();
+    });
   }
 };
 
-const HelpIntentHandler = {
+const ChooseStoryDecisionHandler = {
   canHandle(handlerInput) {
     return (
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-      handlerInput.requestEnvelope.request.intent.name === "AMAZON.HelpIntent"
+      handlerInput.requestEnvelope.request.intent.name === "ListStories"
     );
   },
   handle(handlerInput) {
-    const speechText = "You can say hello to me!";
+    return pool.query(listAllQuery).then(results => {
+      const storyTitleChoices = map(results.rows, story => {
+        return {
+          id: `${story.id}`,
+          name: {
+            value: story.title,
+            synonyms: []
+          }
+        };
+      });
 
-    return handlerInput.responseBuilder
-      .speak(speechText)
-      .reprompt(speechText)
-      .withSimpleCard("Hello World", speechText)
-      .getResponse();
-  }
-};
+      const replaceEntityDirective = {
+        type: "Dialog.UpdateDynamicEntities",
+        updateBehavior: "REPLACE",
+        types: [
+          {
+            name: "STORY_TITLE_CHOICE",
+            values: storyTitleChoices
+          }
+        ]
+      };
 
-const CancelAndStopIntentHandler = {
-  canHandle(handlerInput) {
-    return (
-      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-      (handlerInput.requestEnvelope.request.intent.name ===
-        "AMAZON.CancelIntent" ||
-        handlerInput.requestEnvelope.request.intent.name ===
-          "AMAZON.StopIntent")
-    );
-  },
-  handle(handlerInput) {
-    const speechText = "Goodbye!";
+      const repeat = "Which tale is next?";
+      const speechText = "Let's get you adventuring. " + repeat;
 
-    return handlerInput.responseBuilder
-      .speak(speechText)
-      .withSimpleCard("Hello World", speechText)
-      .withShouldEndSession(true)
-      .getResponse();
-  }
-};
-
-const SessionEndedRequestHandler = {
-  canHandle(handlerInput) {
-    return handlerInput.requestEnvelope.request.type === "SessionEndedRequest";
-  },
-  handle(handlerInput) {
-    //any cleanup logic goes here
-    return handlerInput.responseBuilder.getResponse();
-  }
-};
-
-const ErrorHandler = {
-  canHandle() {
-    return true;
-  },
-  handle(handlerInput, error) {
-    console.log(`Error handled: ${error.message}`);
-
-    return handlerInput.responseBuilder
-      .speak("Sorry, I can't understand the command. Please say again.")
-      .reprompt("Sorry, I can't understand the command. Please say again.")
-      .getResponse();
+      return handlerInput.responseBuilder
+        .speak(speechText)
+        .reprompt(repeat)
+        .addDirective(replaceEntityDirective)
+        .withSimpleCard("Story choices", speechText)
+        .getResponse();
+    });
   }
 };
 
 const skill = Alexa.SkillBuilders.custom()
   .addRequestHandlers(
     LaunchRequestHandler,
-    HelloWorldIntentHandler,
+    ListStoriesIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler
