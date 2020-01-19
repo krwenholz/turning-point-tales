@@ -7,22 +7,13 @@
   import Overview from "src/components/Overview";
   import yaml from "js-yaml";
   import Scrollable from 'src/components/Scrollable.svelte';
-  import Writer from './_Writer.svelte';
+  import WritingPane from './_WritingPane.svelte';
   import { isValidStory } from 'src/components/Adventure/validation';
   import { copyToClipboard } from 'src/lib/copy-to-clipboard';
 
-  let story = {
-    start: {
-      text: ['Once upon a time'],
-      decisions: [
-        {
-          label: 'start',
-          storyNode: 'start',
-        }
-      ],
-    },
-  }
-  let updatedStory = story;
+  export let story;
+  export let onEdit = () => {};
+  let editedStory = story;
   let storyNode = 'start';
   let history = [];
   let consequences = [];
@@ -36,7 +27,8 @@
   };
 
   const updateStory = e => {
-    updatedStory = e.detail.story;
+    editedStory = e.detail.story;
+    onEdit(editedStory);
   }
 
   const loadStoryFile = () => {
@@ -145,7 +137,7 @@
 
   <Overview {history} {consequences} />
 
-  <Writer className='scrollable-edit-story' {story} on:edit={updateStory} />
+  <WritingPane className='scrollable-edit-story' {story} on:edit={updateStory} />
 
   <Scrollable className='scrollable-adventure'>
     <h2 slot='heading'>
@@ -154,7 +146,7 @@
     </h2>
     <Adventure
       {storyNode}
-      story={updatedStory}
+      story={editedStory}
       title="Self titled adventure: Number One"
       on:pageChange={updateOverview}
     />

@@ -17,9 +17,9 @@
   export let focusPath = '';
   let inOrderStory = pathWrittable();
 
-  $: $inOrderStory = keys(story).map(key => ({
-    storyNode: key,
-    story: story[key],
+  $: $inOrderStory = keys(story).map(storyNode => ({
+    storyNode,
+    story: story[storyNode],
   }));
 
   $: dispatch('edit', { story: asStoryDict($inOrderStory) });
@@ -173,7 +173,7 @@
               storyIdx,
             })}
           >
-            <span>No decisions available</span>
+            <span>Disable decisions</span>
           </Checkbox>
           <Decisions
             {storyIdx}

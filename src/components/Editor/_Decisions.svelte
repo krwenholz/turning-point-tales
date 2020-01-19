@@ -53,7 +53,7 @@
 
   header {
     display: flex;
-    margin-bottom: 24px;
+    margin: 24px 0 24px 0;
   }
 
   header :global(button) {
@@ -75,18 +75,6 @@
     margin-left: 16px;
     width: 32px;
     height: 32px;
-  }
-
-  .label-and-story-node :global(textarea) {
-    min-height: 47px;
-    width: 100%;
-    max-width: 500px;
-    padding: 7px 8px 0 8px;
-    margin: 4px 0 8px 0;
-    border: var(--input-border);
-    border-radius: var(--root-border-radius);
-    color: currentColor;
-    font-size: var(--root-font-size-md);
   }
 </style>
 
@@ -119,7 +107,6 @@
           <TextArea
             value={decision.label}
             placeholder="button text"
-            autoSize={false}
             on:input={e => onInput(e, {
               idx,
               storyIdx,
