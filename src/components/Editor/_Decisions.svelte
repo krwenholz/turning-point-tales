@@ -104,7 +104,7 @@
       <section class='label-and-story-node'>
         <div class="label">
           <span> Label </span>
-          <TextArea
+          <Input
             value={decision.label}
             placeholder="button text"
             on:input={e => onInput(e, {
@@ -124,7 +124,7 @@
         </div>
         <div class="story-node">
           <span>StoryNode</span>
-          <TextArea
+          <Input
             value={decision.storyNode}
             placeholder="Name of story node"
             on:input={e => onInput(e, {

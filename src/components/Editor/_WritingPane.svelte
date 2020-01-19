@@ -2,7 +2,6 @@
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
   import StoryNode from './_StoryNode.svelte';
-  import TextArea from 'src/components/TextArea/index';
   import Scrollable from 'src/components/Scrollable.svelte';
   import Button from 'src/components/Button.svelte';
   import Checkbox from 'src/components/Checkbox/index';
@@ -42,6 +41,7 @@
       storyNode: [storyIdx, 'storyNode'],
       storyText: [storyIdx, 'story', 'text', idx],
       decisionLabel: [storyIdx, 'story', 'decisions', idx, 'label'],
+      decisionStoryNode: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
     };
 
     inOrderStory.setAt(asPath[changeLocation], value);

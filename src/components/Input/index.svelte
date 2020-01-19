@@ -4,6 +4,7 @@
   export let value = "";
   export let className = "";
   export let type = "text";
+  export let pattern = '';
   export let name = Date.now(); // Same as below... wtf?
   export let id = Date.now(); // For some reason, if this doesnt have an id, autocomplete won't work...
   export let placeholder = "";
@@ -37,6 +38,8 @@
 <label>
   <slot />
   <input
+    {type}
+    {pattern}
     bind:this="{input}"
     class="input"
     class:disabled
