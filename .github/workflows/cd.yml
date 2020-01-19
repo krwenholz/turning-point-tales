@@ -53,13 +53,13 @@ jobs:
       - name: push
         uses: actions/heroku@master
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2019 }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2020 }}
         with:
           args: container:push -a our-first-big-thing web
       - name: release
         uses: actions/heroku@master
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2019 }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2020 }}
         with:
           args: container:release -a our-first-big-thing web
   reset-staging:
@@ -137,18 +137,18 @@ jobs:
       - name: login
         uses: actions/heroku@master
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2019 }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2020 }}
         with:
           args: container:login
       - name: push
         uses: actions/heroku@master
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2019 }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2020 }}
         with:
           args: container:push -a turning-point-tales web
       - name: release
         uses: actions/heroku@master
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2019 }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_AUTH_TOKEN_JANUARY_2020 }}
         with:
           args: container:release -a turning-point-tales web
