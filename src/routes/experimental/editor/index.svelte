@@ -1,7 +1,7 @@
 <script>
   import * as sapper from "@sapper/app";
   import { editorBackup } from 'src/lib/global-state-stores/browserStore/editor-backup.js'
-  import { writable } from 'svelte/store';
+  import { get, writable } from 'svelte/store';
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import Adventure from "src/components/Adventure/index";
   import Button from "src/components/Button.svelte";
@@ -13,9 +13,7 @@
   import { isValidStory } from 'src/components/Adventure/validation';
   import { copyToClipboard } from 'src/lib/copy-to-clipboard';
 
-  let backup = editorBackup();
-  let story = $backup;
-  let editedStory = story;
+  let story = get(editorBackup())
   let storyNode = 'start';
   let history = [];
   let consequences = [];
@@ -137,7 +135,7 @@
   <WritingPane
     {story}
     className='scrollable-edit-story'
-    on:edit={e => editedStory = e.detail.story}
+    on:edit={e => story = e.detail.story}
   />
 
   <Scrollable className='scrollable-adventure'>
@@ -147,7 +145,7 @@
     </h2>
     <Adventure
       {storyNode}
-      story={editedStory}
+      story={story}
       title="Self titled adventure: Number One"
       on:pageChange={updateOverview}
     />

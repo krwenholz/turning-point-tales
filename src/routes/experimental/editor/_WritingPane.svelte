@@ -21,8 +21,6 @@
     story: story[storyNode],
   }));
 
-  $: dispatch('edit', { story: asStoryDict($inOrderStory) });
-
   const clearFocusPath = () => focusPath = '';
 
   const asStoryDict = (storyArray = []) => storyArray.reduce((story, fragment) => ({
@@ -45,6 +43,8 @@
     };
 
     inOrderStory.setAt(asPath[changeLocation], value);
+
+    dispatch('edit', { story: asStoryDict($inOrderStory) });
   };
 
   const onKeydown = (e, { prevValue, changeLocation, idx, storyNode, storyIdx }) => {
@@ -61,6 +61,8 @@
       focusPath = [storyIdx, 'story', 'text', idx - 1];
       e.preventDefault();
     }
+
+    dispatch('edit', { story: asStoryDict($inOrderStory) });
   };
 
   const deleteStoryNode = (storyIdx) => {
