@@ -18,7 +18,7 @@ We have a script! Run
 
 CONNECTION_STRING='SOME_URL_FOR_A_DATABASE' npm run db:seed
 
-# Test
+# Testing
 
 docker run -it -v \$PWD:/cypress -w /cypress -e CYPRESS_BASE_URL=http://meine.krwenholz.com:3000 cypress/included:3.4.1 cypress open --browser chrome
 
