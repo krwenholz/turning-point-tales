@@ -151,12 +151,12 @@
       className="adventure"
       store="{mainAdventure(story)}"
       storyNode="{$page.query.storyNode}"
-      bind:haveRemainingDecisions
       on:pageChange="{({ detail }) => {
         recordVisit(detail);
         scrollToTop();
         setURL(detail.storyNode);
         badgePopup.newPage(detail.storyNode);
+        haveRemainingDecisions = !detail.final;
       }}"
     />
     <BadgePopup {badges} bind:this="{badgePopup}" />
