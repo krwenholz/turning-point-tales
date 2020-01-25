@@ -59,11 +59,6 @@
 
     window.URL.revokeObjectURL(url);
   };
-
-  const copyStoryToClipboard = async () => {
-    copyToClipboard(yaml.safeDump(story));
-    notifier.success('Story copied to clipboard', 1500);
-  }
 </script>
 
 <style>
@@ -127,7 +122,6 @@
   <section class='options'>
     <Button variation='link' on:click={loadStoryFile}>Load File</Button>
     <Button variation='link' on:click={saveStoryfile}>Download</Button>
-    <Button variation='link' on:click={copyStoryToClipboard}>Copy to Clipboard</Button>
   </section>
 
   <Overview {history} {consequences} />
