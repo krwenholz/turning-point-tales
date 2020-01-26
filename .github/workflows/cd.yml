@@ -13,7 +13,7 @@ on:
 
 jobs:
   jest:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -40,7 +40,7 @@ jobs:
       - run: npm install
       - run: npm run jest
   deploy-staging:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1
       - uses: actions/checkout@master
@@ -63,7 +63,7 @@ jobs:
         with:
           args: container:release -a our-first-big-thing web
   reset-staging:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
@@ -91,45 +91,22 @@ jobs:
       - name: Seed
         run: CONNECTION_STRING="${{secrets.STAGING_DATABASE_URL}}" npm run db:seed
   staging-integration-test:
-    runs-on: ubuntu-latest
-    # let's make sure our tests pass on Chrome browser
-    name: Cypress on Chrome
     needs: [reset-staging, deploy-staging]
+    runs-on: ubuntu-16.04
+    container: cypress/included:3.8.2
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: 11.6
-      - name: Cache node modules
-        uses: actions/cache@v1
+      - uses: actions/checkout@v1
+      - uses: cypress-io/github-action@v1
+        name: Cypress run
         with:
-          path: ~/node_modules # npm cache files are stored in `~/.npm` on Linux/macOS
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Cache cache
-        uses: actions/cache@v1
-        with:
-          path: ~/.cache # some cached files, cypress, are stored here
-          key: ${{ runner.os }}-cache-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-cache-${{ env.cache-name }}-
-            ${{ runner.os }}-cache-
-            ${{ runner.os }}-
-      - run: npm install
-      - name: Install latest Chrome
-        run: |
-          curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo dpkg -i google-chrome.deb
-          sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
-          rm google-chrome.deb
-      - name: Run Cypress
-        run: CYPRESS_BASE_URL=https://ourfirstbigthing.howhardwoulditbe.com npm run cy:run
+          browser: chrome
+        env:
+          CYPRESS_BASE_URL: https://ourfirstbigthing.howhardwoulditbe.com
   deploy-production:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     needs: [staging-integration-test]
     steps:
       - uses: actions/checkout@v1
