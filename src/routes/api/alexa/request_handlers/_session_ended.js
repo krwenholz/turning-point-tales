@@ -5,8 +5,15 @@ const SessionEndedRequestHandler = {
     return handlerInput.requestEnvelope.request.type === "SessionEndedRequest";
   },
   handle(handlerInput) {
+    const clearEntitiesDirective = {
+      type: "Dialog.UpdateDynamicEntities",
+      updateBehavior: "CLEAR"
+    };
+
     // TODO(kyle): cleanup logic goes here
-    return handlerInput.responseBuilder.getResponse();
+    return handlerInput.responseBuilder
+      .addDirective(clearEntitiesDirective)
+      .getResponse();
   }
 };
 
