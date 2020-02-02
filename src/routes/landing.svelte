@@ -4,6 +4,7 @@
   import { fade } from "../lib/Transition";
   import { goto } from "@sapper/app";
   import { join } from "lodash";
+  import { logger } from "src/lib/client/logger";
 
   let typer;
   let showWalkthrough = false;
@@ -139,13 +140,15 @@
       on:end="{() => (showNav = true)}"
       typingSpeed="{40}"
       jitter="{'60'}"
-      text="{[`Adventures you choose,`, `tales you get lost in.`]}" />
+      text="{[`Adventures you choose,`, `tales you get lost in.`]}"
+    />
   </h1>
 
   <img
     src="/landing.png"
     alt="A dog, a rock creature, and an astronaut cuddle up with a silly human
-    pretending to read" />
+    pretending to read"
+  />
 
   {#if showNav}
     <nav in:fade>

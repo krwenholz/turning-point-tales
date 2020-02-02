@@ -1,6 +1,6 @@
 <script context="module">
   export function preload({ params, query }) {
-    return this.fetch(`/story/${params.slug}.json`, {
+    return this.fetch(`story/${params.slug}.json`, {
       credentials: "include"
     })
       .then(response => {

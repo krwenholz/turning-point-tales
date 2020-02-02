@@ -12,7 +12,6 @@
   export let isSubscriber;
 
   $: releaseDate = new Date(generalRelease);
-  $: isReleased = releaseDate < new Date();
 
   let acheivedBadges = [];
   let undiscoveredBadgePercent = 0;
@@ -84,7 +83,7 @@
   <header>
     <h2>{title}</h2>
     <small>by {author}</small>
-    {#if !isReleased}
+    {#if !generalRelease}
       <small>Subscribers only</small>
       {#if !isSubscriber}
         <small>
@@ -119,7 +118,7 @@
     {/if}
   </div>
   <p>{preview}</p>
-  {#if isSubscriber || isReleased}
+  {#if isSubscriber || generalRelease}
     <Button on:click="{() => goto(`/story/${id}`)}">Continue...</Button>
   {/if}
 </article>

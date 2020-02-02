@@ -82,7 +82,7 @@ const middleware = [
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       name: "session-" + config.get("server.domain"),
       sameSite: "strict",
-      secure: config.get("server.enableHttps") || !config.get("dev")
+      secure: !config.get("dev") || config.get("server.enableHttps")
     }
   }),
   csrfProtection,

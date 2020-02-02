@@ -4,7 +4,6 @@ import * as Stories from "./_stories.js";
 
 export const get = async (req, res, next) => {
   const { slug } = req.params;
-  logger.info(req.params, "\n\nxxxxx\n\n");
 
   return Stories.select(slug)
     .then(results => {
