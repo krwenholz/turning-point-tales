@@ -1,5 +1,4 @@
-import { listAllQuery } from "src/routes/story/_stories";
-import { pool } from "src/lib/server/database.js";
+import * as Stories from "src/routes/story/_stories";
 import { map, join } from "lodash";
 import { logger } from "src/logging";
 
@@ -11,7 +10,7 @@ const ListStoriesIntentHandler = {
     );
   },
   handle(handlerInput) {
-    return pool.query(listAllQuery).then(results => {
+    return Stories.list().then(results => {
       const storyTitleChoices = map(results.rows, story => {
         return {
           id: `${story.id}`,
