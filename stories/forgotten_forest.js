@@ -2,7 +2,7 @@ const forgotten_forest = {
   title: "The Forgotten Forest",
   author: "Sean Wong-Westbrooke",
   tags: ["mystery", "horror"],
-  generalRelease: new Date("January 1, 2099, 00:00:00"),
+  generalRelease: false,
   badges: [
     {
       icon: "💀",

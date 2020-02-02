@@ -2,7 +2,7 @@ const wagons_and_dragons = {
   author: "Sean Wong-Westbrooke",
   title: "Wagons and Dragons: Caravan to the Capital",
   tags: ["fantasy", "fast-paced"],
-  generalRelease: new Date("January 1, 2099, 00:00:00"),
+  generalRelease: false,
   badges: [
     {
       icon: "🍻",

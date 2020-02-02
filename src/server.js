@@ -82,7 +82,7 @@ const middleware = [
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
       name: "session-" + config.get("server.domain"),
       sameSite: "strict",
-      secure: true
+      secure: config.get("server.enableHttps") || !config.get("dev")
     }
   }),
   csrfProtection,
@@ -132,7 +132,7 @@ const middleware = [
 
 app.use(...middleware);
 
-if (dev) {
+if (config.get("server.enableHttps")) {
   https
     .createServer(
       {
@@ -142,12 +142,16 @@ if (dev) {
       app
     )
     .listen(config.get("server.port"), err => {
-      logger.error(err);
+      if (err) logger.error(err, "error starting");
+      else
+        logger.info(
+          { port: config.get("server.port") },
+          "Https server started"
+        );
     });
 } else {
   app.listen(config.get("server.port"), err => {
-    if (err) {
-      logger.error(err);
-    }
+    if (err) logger.error(err, "error starting");
+    else logger.info({ port: config.get("server.port") }, "Server started");
   });
 }

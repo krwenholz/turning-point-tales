@@ -1,22 +1,20 @@
 import { logger } from "src/logging";
-import { pool } from "src/lib/server/database.js";
-import { listAllQuery, listPreviewQuery } from "src/routes/story/_stories";
+import * as Stories from "src/routes/story/_stories";
 
 export const get = (req, res) => {
   const context = req.query.context;
   let query;
   switch (context) {
     case "preview":
-      query = listPreviewQuery;
+      query = Stories.listPreview;
       break;
     default:
-      query = listAllQuery;
+      query = Stories.list;
   }
 
-  logger.info({ query, context }, "Fetching story data with query");
+  logger.info({ context }, "Fetching story data with query");
 
-  return pool
-    .query(query)
+  return query()
     .then(results => {
       const contents = JSON.stringify(results.rows);
 
