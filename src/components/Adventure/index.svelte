@@ -3,11 +3,13 @@
   import CrossOut from "../icons/CrossOut.svelte";
   import Undo from "src/components/icons/Undo.svelte";
   import ReplayOne from "src/components/icons/ReplayOne.svelte";
-  import { get, uniq, last, filter } from "lodash";
+  import { get, last, filter } from "lodash";
   import { fade } from "src/lib/Transition";
   import { safeWindow } from "src/lib/client/safe-window.js";
   import { writable } from "svelte/store";
   import { createEventDispatcher } from "svelte";
+  import * as History from "./history";
+
   const dispatch = createEventDispatcher();
 
   export let className = "";
@@ -42,62 +44,11 @@
     });
   }
 
-  const normalize = (decision = {}) => {
-    return {
-      consequences: [],
-      requires: [],
-      ...decision
-    };
-  };
-
-  const alreadyVisited = ({ storyNode } = {}) =>
-    $store.history.find(recorded => recorded.storyNode === storyNode);
-
-  const recordUnlockSkipIntro = () => {
-    if ($store.hasInitialCompletion) return;
-    $store.hasInitialCompletion = currentPage.final;
-  };
-
-  const rewindHistory = decision =>
-    ($store.history = $store.history.slice(
-      0,
-      $store.history.findIndex(
-        ({ storyNode }) => storyNode === decision.storyNode
-      ) + 1
-    ));
-
-  const setHistory = decision => {
-    if (alreadyVisited(decision)) {
-      rewindHistory(decision);
-    }
-
-    $store.history = [
-      ...(decision.storyNode === "start" ? [] : $store.history),
-      {
-        storyNode: decision.storyNode,
-        consequences: uniq([
-          ...(decision.consequences || []),
-          ...last($store.history).consequences
-        ])
-      }
-    ];
-  };
-
-  const goBack = () => {
-    const previousDecision = $store.history[$store.history.length - 2];
-    goToDecision(previousDecision);
-  };
-
-  const goToDecision = decision => {
-    setHistory(decision);
-    $store.storyNode = decision.storyNode;
-  };
-
   const showRestart = () => {
     if (!enableExtraNavigation || $store.storyNode === "start") return false;
 
     return true;
-  }
+  };
 
   const showSkipIntro = () =>
     enableExtraNavigation &&
@@ -118,6 +69,11 @@
       storyNode: getStoryNodeAfterIntro(story, $store.storyNode)
     });
 
+  const recordUnlockSkipIntro = () => {
+    if ($store.hasInitialCompletion) return;
+    $store.hasInitialCompletion = currentPage.final;
+  };
+
   const getStoryNodeAfterIntro = (story, storyNode) => {
     const page = story[storyNode];
 
@@ -135,19 +91,6 @@
     );
   };
 
-  const filterAvailable = decisions =>
-    decisions.map(normalize).map(decision => {
-      const availableDecision = decision.requires.every(prereq =>
-        last($store.history).consequences.includes(prereq)
-      );
-
-      return {
-        ...decision,
-        label: availableDecision ? decision.label : "?",
-        disabled: !availableDecision
-      };
-    });
-
   const getStartingPoint = () => {
     if (typeof storyNode === "undefined") {
       return $store.storyNode || "start";
@@ -162,6 +105,14 @@
         return value.final && visitations.indexOf(key) !== -1;
       }).length > 0
     );
+  };
+
+  const goToDecision = decision => {
+    $store = History.goToDecision(decision, $store);
+  };
+
+  const goBack = () => {
+    $store = History.goBack($store);
   };
 </script>
 
@@ -235,10 +186,11 @@
 
   <nav in:fade>
     {#if !currentPage.final}
-      {#each filterAvailable(currentPage.decisions) as decision}
+      {#each History.filterAvailable(currentPage.decisions, $store) as decision}
         <Button
           disabled="{decision.disabled}"
-          on:click="{() => goToDecision(decision)}">
+          on:click="{() => goToDecision(decision)}"
+        >
           {decision.label}
         </Button>
       {/each}
@@ -246,7 +198,8 @@
     {#if showRestart()}
       <Button
         variation="secondary"
-        on:click="{() => goToDecision({ storyNode: 'start' })}">
+        on:click="{() => goToDecision({ storyNode: 'start' })}"
+      >
         <span>restart</span>
         <Undo />
       </Button>
