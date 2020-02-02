@@ -14,6 +14,7 @@ module.exports = {
   },
   server: {
     domain: process.env.HOST,
+    enableHttps: process.env.ENABLE_HTTPS || false,
     port: process.env.PORT,
     database: {
       connectionString:

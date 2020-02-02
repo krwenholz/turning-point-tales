@@ -8,7 +8,7 @@ const csrf = csurf({
     key: "session-" + config.get("server.domain"),
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     sameSite: "lax",
-    secure: !config.get("dev")
+    secure: !config.get("dev") || config.get("server.enableHttps")
   }
 });
 
@@ -28,7 +28,7 @@ const exposeCsrfMiddleware = (req, res, next) => {
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
       name: "session-" + config.get("server.domain"),
       sameSite: "strict",
-      secure: !config.get("dev")
+      secure: !config.get("dev") || config.get("server.enableHttps")
     });
   }
   next();

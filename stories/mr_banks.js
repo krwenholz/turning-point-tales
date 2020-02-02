@@ -2,7 +2,7 @@ const mr_banks = {
   author: "Kristopher C. Paulsen",
   title: "Mr. Banks",
   tags: ["funny", "existential"],
-  generalRelease: new Date("January 1, 2019, 00:00:00"),
+  generalRelease: true,
   badges: [
     {
       node: "file_actual_weather_change",
