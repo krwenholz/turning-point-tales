@@ -322,4 +322,5 @@ const mr_banks = {
     }
   }
 };
+
 module.exports = mr_banks;
