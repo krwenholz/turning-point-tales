@@ -12,10 +12,9 @@ import {
   SkillRequestSignatureVerifier,
   TimestampVerifier
 } from "ask-sdk-express-adapter";
-import { listAllQuery } from "src/routes/story/_stories";
+import * as Stories from "src/routes/story/_stories";
 import { logger } from "src/logging";
-import { map, join } from "lodash";
-import { pool } from "src/lib/server/database.js";
+import { map, join, find } from "lodash";
 
 // https://developer.amazon.com/en-US/docs/alexa/custom-skills/delegate-dialog-to-alexa.html#combine-delegation-and-manual-control-to-handle-complex-dialogs
 
@@ -31,7 +30,7 @@ const StartedInProgressChooseStoryIntentHandler = {
     );
   },
   handle(handlerInput) {
-    return pool.query(listAllQuery).then(results => {
+    return Stories.list().then(results => {
       const storyTitleChoices = map(results.rows, story => {
         return {
           id: `${story.id}`,
@@ -65,9 +64,9 @@ const StartedInProgressChooseStoryIntentHandler = {
 
       return handlerInput.responseBuilder
         .speak(speechText)
+        .reprompt(repeat)
         .withSimpleCard("Story choices", speechText)
         .addDirective(updateStoryTitlesDirective)
-        .reprompt(repeat)
         .withShouldEndSession(false)
         .getResponse();
     });
@@ -76,6 +75,7 @@ const StartedInProgressChooseStoryIntentHandler = {
 
 const StoryTitleChoiceGivenChooseStoryIntentHandler = {
   canHandle(handlerInput) {
+    // TODO(kyle): If this handler doesn't match we should elicit the slot, .addElicitSlotDirective("STORY_DECISION_CHOICE")
     return (
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
       handlerInput.requestEnvelope.request.intent.name === "ChooseStory" &&
@@ -83,32 +83,79 @@ const StoryTitleChoiceGivenChooseStoryIntentHandler = {
     );
   },
   handle(handlerInput) {
-    const updateChoicesDirective = {
-      type: "Dialog.UpdateDynamicEntities",
-      updateBehavior: "REPLACE",
-      types: [
-        {
-          name: "STORY_DECISION_CHOICE",
-          values: [
-            {
-              id: "1",
-              name: {
-                value: "foo",
-                synonyms: []
-              }
-            }
-          ]
-        }
-      ]
-    };
+    const storyId = find(
+      Alexa.getSlot(handlerInput.requestEnvelope, "STORY_TITLE_CHOICE")[
+        "resolutions"
+      ]["resolutionsPerAuthority"],
+      resolution => {
+        return resolution["status"]["code"] === "ER_SUCCESS_MATCH";
+      }
+    )["values"][0]["value"]["id"];
 
+    const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+    sessionAttributes.storyId = storyId;
+    handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+
+    return Stories.select(storyId).then(results => {
+      const story = results.rows[0];
+      const storyDecisionChoices = map(
+        story["content"]["start"]["decisions"],
+        decision => {
+          return {
+            id: decision["storyNode"],
+            name: {
+              value: asSpeakable(decision["label"]),
+              synonyms: []
+            }
+          };
+        }
+      );
+
+      const updateStoryTitlesDirective = {
+        type: "Dialog.UpdateDynamicEntities",
+        updateBehavior: "REPLACE",
+        types: [
+          {
+            name: "STORY_DECISION_CHOICE",
+            values: storyDecisionChoices
+          }
+        ]
+      };
+
+      const decisionList = join(
+        map(
+          story["content"]["start"]["decisions"],
+          decision => decision["label"]
+        ),
+        ", "
+      );
+
+      return handlerInput.responseBuilder
+        .speak(
+          "Cool now we can start a story TODO " + asSpeakable(story["title"])
+        )
+        .reprompt(
+          "Would you like a light, medium, medium-dark, or dark roast? TODO"
+        )
+        .withSimpleCard("Options TODO", decisionList)
+        .addDirective(updateStoryTitlesDirective)
+        .withShouldEndSession(false)
+        .getResponse();
+    });
+  }
+};
+
+const DecisionGivenChooseStoryDecisionIntentHandler = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "ChooseStoryDecision"
+    );
+  },
+  handle(handlerInput) {
+    logger.info("choose story decision", JSON.stringify(handlerInput));
     return handlerInput.responseBuilder
-      .speak("Cool now we can start a story TODO")
-      .reprompt(
-        "Would you like a light, medium, medium-dark, or dark roast? TODO"
-      )
-      .withSimpleCard("Options TODO", "TODO")
-      .addDirective(updateChoicesDirective)
+      .speak("choose story decision")
       .getResponse();
   }
 };
@@ -117,7 +164,7 @@ const ChooseStoryDecisionIntentHandler = {
   canHandle(handlerInput) {
     return (
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-      handlerInput.requestEnvelope.request.intent.name === "ChooseStory"
+      handlerInput.requestEnvelope.request.intent.name === "ChooseStoryDecision"
     );
   },
   handle(handlerInput) {
