@@ -12,7 +12,7 @@ const clickGoToBriefingButton = () => {
 describe("brand new visitor", () => {
   beforeEach(skipTypedInto);
 
-  it("redirects new vistors (who do not visit the briefing) back to landing page upon susequent vivists", () => {
+  it("redirects new visitors (who do not visit the briefing) back to landing page upon subsequent visits", () => {
     cy.url().should("match", /\//);
 
     cy.contains("Adventures you choose,")
