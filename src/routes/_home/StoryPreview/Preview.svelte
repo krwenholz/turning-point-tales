@@ -1,6 +1,8 @@
 <script>
   import Button from "src/components/Button.svelte";
   import { goto } from "@sapper/app";
+  import { stores } from "@sapper/app";
+  const { session } = stores();
 
   export let id;
   export let author;
@@ -85,7 +87,7 @@
     <small>by {author}</small>
     {#if !generalRelease}
       <small>Subscribers only</small>
-      {#if !isSubscriber}
+      {#if $session.user && !isSubscriber}
         <small>
           <a href="/user/profile?tab=adventurer">
             Become a full adventurer now to unlock access.
