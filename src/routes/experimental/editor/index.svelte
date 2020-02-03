@@ -3,6 +3,7 @@
   import { editorBackup } from 'src/lib/global-state-stores/browserStore/editor-backup.js'
   import { get, writable } from 'svelte/store';
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
+  import {debounce} from 'lodash';
   import Adventure from "src/components/Adventure/index";
   import Button from "src/components/Button.svelte";
   import Overview from "src/components/Overview/index";
@@ -19,6 +20,8 @@
   let consequences = [];
 
   $: storyIsValid = process.browser && isValidStory(story);
+
+  const updateStory = debounce(e => story = e.detail.story, 500);
 
   const updateOverview = e => {
     storyNode = e.detail.storyNode;
@@ -129,7 +132,7 @@
   <WritingPane
     {story}
     className='scrollable-edit-story'
-    on:edit={e => story = e.detail.story}
+    on:edit={updateStory}
   />
 
   <Scrollable className='scrollable-adventure'>
@@ -148,11 +151,11 @@
 <br>
 <br>
 
-<section class="graph">
-  {#if storyIsValid}
-    <h2>Preview</h2>
-    <Graph {story} />
-  {:else}
-    <p class='error'> current story is invalid </p>
-  {/if}
-</section>
+<!--<section class="graph">-->
+<!--  {#if storyIsValid}-->
+<!--    <h2>Preview</h2>-->
+<!--    <Graph {story} />-->
+<!--  {:else}-->
+<!--    <p class='error'> current story is invalid </p>-->
+<!--  {/if}-->
+<!--</section>-->
