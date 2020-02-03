@@ -154,7 +154,8 @@
       type="password"
       on:input="{e => (password = e.target.value)}"
       placeholder="Password"
-      required />
+      required
+    />
 
     <label for="confirmPassword">Confirm Your Password</label>
     <Input
