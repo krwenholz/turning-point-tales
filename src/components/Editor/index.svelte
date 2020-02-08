@@ -14,16 +14,21 @@
   import { isValidStory } from 'src/components/Adventure/validation';
   import { copyToClipboard } from 'src/lib/copy-to-clipboard';
 
-  let story = get(editorBackup())
+  export let story = {}
+  export let onEdit = () => {};
   let storyNode = 'start';
   let history = [];
   let consequences = [];
 
   $: storyIsValid = process.browser && isValidStory(story);
 
-  const updateStory = debounce(e => story = e.detail.story, 500);
+  const updateStory = debounce(e => {
+    story = e.detail.story;
+    onEdit(story);
+  }, 500);
 
   const updateOverview = e => {
+    debugger;
     storyNode = e.detail.storyNode;
     history = e.detail.history;
     consequences = e.detail.consequences;
@@ -114,10 +119,6 @@
     }
   }
 </style>
-
-<svelte:head>
-  <title>Editor</title>
-</svelte:head>
 
 <NotificationDisplay themes={{ success: 'green'}} />
 

@@ -1,9 +1,19 @@
 <script>
   import { stores } from "@sapper/app";
+  import Editor from 'src/components/Editor';
 
-  const { session } = stores();
-
-  console.log($session);
+  const story = {
+    start: {
+      text: ["what"],
+      decisions: [
+        {
+          storyNode: 'placeholder',
+          label: 'storyNode'
+        }
+      ]
+    }
+  }
 </script>
 
-<button on:click={() => alert($session.user.id)}>clickme</button>
+
+<Editor {story} />
