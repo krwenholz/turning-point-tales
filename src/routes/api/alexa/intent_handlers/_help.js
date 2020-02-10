@@ -1,4 +1,3 @@
-// TODO(kyle): this is really stupid and needs help
 const HelpIntentHandler = {
   canHandle(handlerInput) {
     return (
@@ -7,12 +6,13 @@ const HelpIntentHandler = {
     );
   },
   handle(handlerInput) {
-    const speechText = "You can say hello to me!";
+    const speechText =
+      "You can list stories, start a story with start story name, make a decision in a story with go followed by the choice, go back in a story by saying go back, or restart a story by saying restart story.";
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .withSimpleCard("Hello World", speechText)
+      .withSimpleCard(speechText)
       .getResponse();
   }
 };
