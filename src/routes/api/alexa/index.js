@@ -4,22 +4,31 @@ import ErrorHandler from "./_error_handler";
 import HelpIntentHandler from "./intent_handlers/_help";
 import LaunchRequestHandler from "./request_handlers/_launch";
 import ListStoriesIntentHandler from "./intent_handlers/_list_stories";
-//import ChooseStoryIntentHandler from "./intent_handlers/_choose_story";
-//import ChooseStoryDecisionIntentHandler from "./intent_handlers/_choose_story_decision";
 import SessionEndedRequestHandler from "./request_handlers/_session_ended";
 import config from "config";
+import * as Stories from "src/routes/story/_stories";
+import * as History from "src/components/Adventure/history";
 import {
   SkillRequestSignatureVerifier,
   TimestampVerifier
 } from "ask-sdk-express-adapter";
-import * as Stories from "src/routes/story/_stories";
 import { logger } from "src/logging";
 import { map, join, find } from "lodash";
 
-// https://developer.amazon.com/en-US/docs/alexa/custom-skills/delegate-dialog-to-alexa.html#combine-delegation-and-manual-control-to-handle-complex-dialogs
-
 const asSpeakable = string => {
-  return string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").toLowerCase();
+  return Alexa.escapeXmlCharacters(string.toLowerCase());
+};
+
+const asConfirmable = string => {
+  return string.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+};
+
+const speechPauseParagraph = () => {
+  return ' <break strength="x-strong"/>';
+};
+
+const speechPauseList = () => {
+  return ' <break strength="medium"/>';
 };
 
 const StartedInProgressChooseStoryIntentHandler = {
@@ -31,12 +40,15 @@ const StartedInProgressChooseStoryIntentHandler = {
   },
   handle(handlerInput) {
     return Stories.list().then(results => {
+      // TODO(kyle): filter by subscriber status (session attribute?)
       const storyTitleChoices = map(results.rows, story => {
         return {
           id: `${story.id}`,
           name: {
-            value: asSpeakable(story.title),
-            synonyms: [asSpeakable(`${story.title} by ${story.author}`)]
+            value: asConfirmable(asSpeakable(story.title)),
+            synonyms: [
+              asConfirmable(asSpeakable(`${story.title} by ${story.author}`))
+            ]
           }
         };
       });
@@ -52,20 +64,20 @@ const StartedInProgressChooseStoryIntentHandler = {
         ]
       };
 
-      const storyList = join(
-        map(results.rows, story => `${story.title} by ${story.author}`),
-        ", "
+      const storyList = map(
+        results.rows,
+        story => `${story.title} by ${story.author}`
       );
 
       const repeat = "Which tale is next?";
       const speechText =
         "Choose a story by saying start followed by the title. You can choose " +
-        storyList;
+        join(storyList, speechPauseList());
 
       return handlerInput.responseBuilder
         .speak(speechText)
         .reprompt(repeat)
-        .withSimpleCard("Story choices", speechText)
+        .withSimpleCard("Story choices", join(storyList, ", "))
         .addDirective(updateStoryTitlesDirective)
         .withShouldEndSession(false)
         .getResponse();
@@ -73,9 +85,60 @@ const StartedInProgressChooseStoryIntentHandler = {
   }
 };
 
+const storyDecisionChoices = decisions => {
+  return map(decisions, decision => {
+    return {
+      id: decision["storyNode"],
+      name: {
+        value: asConfirmable(asSpeakable(decision["label"])),
+        synonyms: []
+      }
+    };
+  });
+};
+
+const updateStoryDecisionChoicesDirective = choices => {
+  return {
+    type: "Dialog.UpdateDynamicEntities",
+    updateBehavior: "REPLACE",
+    types: [
+      {
+        name: "STORY_DECISION_CHOICE",
+        values: choices
+      }
+    ]
+  };
+};
+
+const asSpeakableStoryText = (story, storyNode, decisionPrompt) => {
+  const justText = join(story["content"][storyNode]["text"], " ");
+  return asSpeakable(justText) + speechPauseList() + decisionPrompt;
+};
+
+const asSpeakableDecisions = decisions => {
+  return (
+    "Your choices are " +
+    speechPauseParagraph() +
+    join(
+      map(decisions, decision => asSpeakable(decision["label"])),
+      " or " + speechPauseList()
+    )
+  );
+};
+
+const findConfirmedSlotValue = (requestEnvelope, key) => {
+  return find(
+    Alexa.getSlot(requestEnvelope, key)["resolutions"][
+      "resolutionsPerAuthority"
+    ],
+    resolution => {
+      return resolution["status"]["code"] === "ER_SUCCESS_MATCH";
+    }
+  )["values"][0]["value"]["id"];
+};
+
 const StoryTitleChoiceGivenChooseStoryIntentHandler = {
   canHandle(handlerInput) {
-    // TODO(kyle): If this handler doesn't match we should elicit the slot, .addElicitSlotDirective("STORY_DECISION_CHOICE")
     return (
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
       handlerInput.requestEnvelope.request.intent.name === "ChooseStory" &&
@@ -83,62 +146,48 @@ const StoryTitleChoiceGivenChooseStoryIntentHandler = {
     );
   },
   handle(handlerInput) {
-    const storyId = find(
-      Alexa.getSlot(handlerInput.requestEnvelope, "STORY_TITLE_CHOICE")[
-        "resolutions"
-      ]["resolutionsPerAuthority"],
-      resolution => {
-        return resolution["status"]["code"] === "ER_SUCCESS_MATCH";
-      }
-    )["values"][0]["value"]["id"];
+    const storyId = findConfirmedSlotValue(
+      handlerInput.requestEnvelope,
+      "STORY_TITLE_CHOICE"
+    );
 
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
     sessionAttributes.storyId = storyId;
+    const storyNode = "start";
+    const store = {
+      storyNode: storyNode,
+      history: [
+        {
+          consequences: [],
+          requires: [],
+          storyNode: storyNode
+        }
+      ]
+    };
+    sessionAttributes.store = store;
     handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
 
     return Stories.select(storyId).then(results => {
       const story = results.rows[0];
-      const storyDecisionChoices = map(
-        story["content"]["start"]["decisions"],
-        decision => {
-          return {
-            id: decision["storyNode"],
-            name: {
-              value: asSpeakable(decision["label"]),
-              synonyms: []
-            }
-          };
-        }
+      const decisions = History.filterAvailable(
+        story["content"][storyNode]["decisions"],
+        store
       );
 
-      const updateStoryTitlesDirective = {
-        type: "Dialog.UpdateDynamicEntities",
-        updateBehavior: "REPLACE",
-        types: [
-          {
-            name: "STORY_DECISION_CHOICE",
-            values: storyDecisionChoices
-          }
-        ]
-      };
-
-      const decisionList = join(
-        map(
-          story["content"]["start"]["decisions"],
-          decision => decision["label"]
-        ),
-        ", "
-      );
+      const decisionPrompt = asSpeakableDecisions(decisions);
 
       return handlerInput.responseBuilder
         .speak(
-          "Cool now we can start a story TODO " + asSpeakable(story["title"])
+          "Starting " +
+            story.title +
+            speechPauseParagraph() +
+            asSpeakableStoryText(story, storyNode, decisionPrompt)
         )
-        .reprompt(
-          "Would you like a light, medium, medium-dark, or dark roast? TODO"
+        .reprompt(decisionPrompt)
+        .withSimpleCard(decisionPrompt)
+        .addDirective(
+          updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
         )
-        .withSimpleCard("Options TODO", decisionList)
-        .addDirective(updateStoryTitlesDirective)
         .withShouldEndSession(false)
         .getResponse();
     });
@@ -149,16 +198,50 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
   canHandle(handlerInput) {
     return (
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-      handlerInput.requestEnvelope.request.intent.name === "ChooseStoryDecision"
+      handlerInput.requestEnvelope.request.intent.name ===
+        "ChooseStoryDecision" &&
+      handlerInput.requestEnvelope.request.intent.slots.STORY_DECISION_CHOICE
+        .value
     );
   },
   handle(handlerInput) {
-    logger.info("choose story decision", JSON.stringify(handlerInput));
-    return handlerInput.responseBuilder
-      .speak("choose story decision")
-      .getResponse();
+    const decision = findConfirmedSlotValue(
+      handlerInput.requestEnvelope,
+      "STORY_DECISION_CHOICE"
+    );
+    const storyNode = decision;
+
+    const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+    const storyId = sessionAttributes.storyId;
+    sessionAttributes.store = History.goToDecision(
+      decision,
+      sessionAttributes.store
+    );
+    handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+
+    return Stories.select(storyId).then(results => {
+      const story = results.rows[0];
+      const decisions = History.filterAvailable(
+        story["content"][storyNode]["decisions"],
+        sessionAttributes.store
+      );
+
+      const decisionPrompt = asSpeakableDecisions(decisions);
+
+      return handlerInput.responseBuilder
+        .speak(asSpeakableStoryText(story, storyNode, decisionPrompt))
+        .reprompt(decisionPrompt)
+        .withSimpleCard(decisionPrompt)
+        .addDirective(
+          updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
+        )
+        .withShouldEndSession(false)
+        .getResponse();
+    });
   }
 };
+
+// TODO(kyle): Add new intents for the other navigation options
 
 const ChooseStoryDecisionIntentHandler = {
   canHandle(handlerInput) {
@@ -168,6 +251,7 @@ const ChooseStoryDecisionIntentHandler = {
     );
   },
   handle(handlerInput) {
+    // TODO(kyle): this is a reprompt
     logger.info("choose story decision", JSON.stringify(handlerInput));
     return handlerInput.responseBuilder
       .speak("choose story decision")
@@ -181,6 +265,7 @@ const skill = Alexa.SkillBuilders.custom()
     LaunchRequestHandler,
     StoryTitleChoiceGivenChooseStoryIntentHandler,
     StartedInProgressChooseStoryIntentHandler,
+    DecisionGivenChooseStoryDecisionIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler
