@@ -41,15 +41,14 @@
   <h2>This is for you</h2>
   <p>New stories come out every month, subscribers get first pick!</p>
 
-  <h2>Great stories are just waiting to be found</h2>
-  <p>Out stories are original, written by new auhtors we pay, and stamped with the "We really enjoyed this guarantee. The tooling and platform is meant to be enjoyed by everyone</p>
+  <h2>Great stories are just waiting to be found.</h2>
+  <p>Our stories are original, written by new authors we pay, and stamped with the "We really enjoyed this guarantee". The tooling and platform is meant to be enjoyed by everyone.</p>
 
   <h2>Focus on the journey</h2>
   <p> When you finish a story, you’ll get a badge to remember the experience. Some stories take a while, so we save your place as you read (per device). </p>
 
   <h2>Every choice matters</h2>
   <p> Stories are deep, often twenty minute, experiences. A few choices lead to swift ends. When they do, it’s an end worth reading. But don’t panic! We let you go back after every decision. </p>
-
   <nav in:fade>
     <Button on:click="{() => sapper.goto('/')}">
       Start reading
