@@ -5,6 +5,7 @@
   import { userSubscribed } from "src/lib/client/user";
   import { logger } from "src/lib/client/logger";
   import { stores } from "@sapper/app";
+  import { visited } from "src/lib/global-state-stores/browserStore/visited";
 
   const { page, session } = stores();
 
@@ -13,6 +14,8 @@
   let visitations = new Set([]);
 
   onMount(() => {
+    if(!$session.user) return;
+
     fetch("/story/visits")
       .then(response => {
         if (response.ok) return response.json();

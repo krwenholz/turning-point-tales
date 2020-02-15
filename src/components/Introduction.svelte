@@ -1,4 +1,7 @@
 <script>
+  import { stores } from "@sapper/app";
+  const { session } = stores();
+
   export let isSubscriber;
 </script>
 
@@ -77,8 +80,16 @@
     <img
       src="/landing.png"
       alt="A dog, a rock creature, and an astronaut cuddle up with a silly human
-      pretending to read" />
-    {#if !isSubscriber}
+      pretending to read"
+    />
+
+    {#if !$session.user}
+      <p class="enticement">
+        Looks like you don't have an account yet. Want to earn badges, and learn about
+        upcoming adventures? Try
+        <a href="/user/new">creating an account.</a>
+      </p>
+    {:else if !isSubscriber}
       <p class="enticement">
         Looks like you aren't subscribed yet. That's keeping you from the
         freshest content, exclusive previews, and more. You can fix this by
@@ -92,7 +103,7 @@
       </p>
     {/if}
     <p class="explainer">
-      This is a home page. Here, you'll find stories and badges earned, with
+      This is your adventuring hub. Here, you'll find stories and badges earned, with
       some sense for how many are left. At the top you'll see links to access
       settings (subscription preferences, etc.) or log out.
     </p>
