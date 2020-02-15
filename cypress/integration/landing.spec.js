@@ -4,29 +4,40 @@ const skipTypedInto = () => {
     .click();
 }
 
-describe("unauthenticated redirects", () => {
+const clickGoToBriefingButton = () => {
+  cy.contains('Start your pre-adventure briefing')
+    .click();
+}
+
+describe("brand new visitor", () => {
   beforeEach(skipTypedInto);
 
-  it("redirects to landing", () => {
+  it("redirects new visitors (who do not visit the briefing) back to landing page upon subsequent visits", () => {
     cy.url().should("match", /\//);
 
     cy.contains("Adventures you choose,")
-      .contains("tales you get lost in")
+    .contains("tales you get lost in")
+
+    cy.visit('/')
+
+    cy.contains("Adventures you choose,")
+    .contains("tales you get lost in")
   });
 
-  it("allows direct navigation to the landing page", () => {
-    cy.url().should("match", /\//);
+  it("redirects new visitors to story home-page (after completing briefing) on subsequent visists", () => {
+    clickGoToBriefingButton();
 
-    cy.contains("Adventures you choose,", { timeout: 5000 })
-    .contains("tales you get lost in", { timeout: 5000 })
+    cy.contains('Start reading').click();
+
+    cy.contains('Where will your next tale take you?')
+      .visit('/')
+      .contains('Where will your next tale take you?');
   });
 
-  it("redirects to landing when visiting auth-only content", () => {
-    cy.visit("/story/1")
-      .url().should("match", /\//);
+  it("vists the pre-adventure briefing, and continues on to signup", () => {
+    clickGoToBriefingButton();
 
-    cy.contains("Adventures you choose,", { timeout: 5000 })
-      .contains("tales you get lost in", { timeout: 5000 })
+    cy.url().should("match", /\/briefing/);
   });
 });
 
@@ -44,53 +55,7 @@ describe("authenticated", () => {
   it("should be able to access auth-only pages", () => {
     cy.logIn();
 
-    cy.contains("Continue...")
-      .click();
-
     cy.url()
-      .should("match", /\/story\/[a-z0-9-]+\?storyNode=start/);
+      .should("match", /\//);
   });
 });
-
-describe("learn more", () => {
-  beforeEach(skipTypedInto);
-
-  it("provides details on landing", () => {
-    cy.url().should("match", /\//);
-
-    cy.contains("Adventures you choose,", { timeout: 5000 })
-      .contains("tales you get lost in", { timeout: 5000 });
-
-    cy.get('button')
-      .contains("A day aboard an intergalactic");
-
-    cy.get("button")
-      .contains("Create an account")
-
-    cy.contains('Learn more about the site').click()
-
-    cy.contains("This is for you.");
-
-    cy.contains("We are glad you came.");
-  });
-});
-
-describe('navigation buttons', () => {
-  beforeEach(skipTypedInto);
-
-  it("visits the 'create an account' page", () => {
-    cy.get("button")
-    .contains("Create an account")
-    .click()
-    .url()
-    .should("match", /\/user\/new/);
-  });
-
-  it("visits teaser story", () => {
-      cy.get('button')
-      .contains("A day aboard an intergalactic starship")
-      .click()
-      .url()
-      .should("match", /\/teaser-story/);
-  });
-})

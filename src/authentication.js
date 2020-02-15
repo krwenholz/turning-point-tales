@@ -60,7 +60,6 @@ const allowedBaseRoutes = [
   "/service-worker.js",
   "/stories",
   "/story.json",
-  "/teaser-story",
   "/tos",
   "/tutorial",
   "/user/new"
@@ -74,7 +73,8 @@ const allowedPrefixes = [
   "/error",
   "/experimental",
   "/user/create",
-  "/user/login"
+  "/user/login",
+  "/story"
 ];
 
 const noAuthRoute = req => {
