@@ -1,23 +1,13 @@
 <style>
   details {
     width: 100%;
-    border: 1px solid #aaa;
-    padding: 0.5em 0.5em 0;
-  }
-
-  section details:first-of-type {
-    border-radius: var(--root-border-radius) var(--root-border-radius) 0 0;
-  }
-
-  section details:last-of-type {
-    border-radius: 0 0 var(--root-border-radius) var(--root-border-radius);
+    margin-bottom: 24px;
   }
 
   summary {
     font-weight: bold;
-    margin: -0.5em -0.5em 0;
-    padding: 0.5em;
-    cursor: pointer;
+    margin: 0 0 8px 0;
+    border: none;
   }
 </style>
 
@@ -30,7 +20,7 @@
 
   <details>
     <summary>What kind of content is this?</summary>
-    Tales. Choice oriented tales. We're working with creators interested in
+    Choice oriented tales. We're working with creators interested in
     producing science fiction, fantasy, murder mystery, and even geographic
     noir. As long as their tale allows the reader to enjoy in the agency of
     creation, we're interested in publishing.
@@ -54,18 +44,24 @@
   </details>
 
   <details>
-    <summary>Why do you require accounts?</summary>
-    Creating an account grants you access to our adventures. We use
-    your email and name, which we only share for things like payments, to
-    personalize the experience and send you exciting updates. In lieu of sharing
-    your data and browsing with a third party, we handcraft some interesting
-    offers or let you skip those entirely with a paid subscription.
+    <summary>What benefits do account recieve?</summary>
+    Accounts can earn badges, learn about upcoming adventures in the form of newsletters,
+    and help us share information with new creators on where and how their stories are being enjoyed.
+  </details>
+
+  <details>
+    <summary>How is my privacy and information protected?</summary>
+    When creating an account, we keep your name and email private. We only share it for services like payments,
+    personalizing your reading experience and to send you exciting updates about new stories and authors.
+    In lieu of sharing your data and browsing with a third party, we handcraft stories, and are supported
+    by readers choosing a paid subscription.
+    For more information, review our <a href="/privacy">privacy policy</a>.
   </details>
 
   <details>
     <summary>How do I cancel a subscription?</summary>
     We hate to see you go. If there's anything we can do to convince you to
-    stay, please hit us up at
+    stay, please reach out at
     <a href="mailto:support@turningpointtales.com">
       support@turningpointtales.com.
     </a>
@@ -75,10 +71,12 @@
   </details>
 
   <details>
-    <summary>What is this H2WIB?</summary>
+    <summary>What is H2WIB?</summary>
     We're a business with ambitions to have other businesses, so we made a
     parent company to take care of all the baby businesses! We called it "How
     Hard Would It Be LLC". You can learn a little more
     <a href="http://h2wib.com">here.</a>
   </details>
 </section>
+
+
