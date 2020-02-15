@@ -14,21 +14,20 @@
   import { isValidStory } from 'src/components/Adventure/validation';
   import { copyToClipboard } from 'src/lib/copy-to-clipboard';
 
-  export let story = {}
   export let onEdit = () => {};
+  export let story = {}
   let storyNode = 'start';
   let history = [];
   let consequences = [];
 
   $: storyIsValid = process.browser && isValidStory(story);
 
-  const updateStory = debounce(e => {
-    story = e.detail.story;
-    onEdit(story);
+  const updateStory = debounce(editedStory => {
+    story = editedStory;
+    onEdit(editedStory);
   }, 500);
 
   const updateOverview = e => {
-    debugger;
     storyNode = e.detail.storyNode;
     history = e.detail.history;
     consequences = e.detail.consequences;
@@ -133,7 +132,7 @@
   <WritingPane
     {story}
     className='scrollable-edit-story'
-    on:edit={updateStory}
+    onEdit={updateStory}
   />
 
   <Scrollable className='scrollable-adventure'>

@@ -7,13 +7,12 @@
   import Checkbox from 'src/components/Checkbox/index';
   import { concat, omit, set, keys, isArray, get, } from 'lodash';
   import { writable } from 'svelte/store';
-  import { createEventDispatcher } from 'svelte';
   import { pathWrittable } from 'src/lib/path-writtable.js';
-  const dispatch = createEventDispatcher();
 
   export let story = {};
   export let className ='';
   export let focusPath = '';
+  export let onEdit = () => {};
   let inOrderStory = pathWrittable();
 
   $: $inOrderStory = keys(story).map(storyNode => ({
@@ -44,7 +43,7 @@
 
     inOrderStory.setAt(asPath[changeLocation], value);
 
-    dispatch('edit', { story: asStoryDict($inOrderStory) });
+    onEdit(asStoryDict($inOrderStory));
   };
 
   const onKeydown = (e, { prevValue, changeLocation, idx, storyNode, storyIdx }) => {
@@ -62,7 +61,7 @@
       e.preventDefault();
     }
 
-    dispatch('edit', { story: asStoryDict($inOrderStory) });
+    onEdit(asStoryDict($inOrderStory));
   };
 
   const deleteStoryNode = (storyIdx) => {
