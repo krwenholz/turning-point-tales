@@ -1,0 +1,148 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "turning point test",
+      "intents": [{
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": [
+            "help",
+            "tell me what I can do",
+            "list my options"
+          ]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "ChooseStory",
+          "slots": [{
+            "name": "STORY_TITLE_CHOICE",
+            "type": "STORY_TITLE_CHOICE"
+          }],
+          "samples": [
+            "list stories",
+            "start an adventure",
+            "I want to choose a story",
+            "list my stories",
+            "start {STORY_TITLE_CHOICE}",
+            "I want to read {STORY_TITLE_CHOICE}"
+          ]
+        },
+        {
+          "name": "ChooseStoryDecision",
+          "slots": [{
+            "name": "STORY_DECISION_CHOICE",
+            "type": "STORY_DECISION_CHOICE"
+          }],
+          "samples": [
+            "let's {STORY_DECISION_CHOICE}",
+            "I will {STORY_DECISION_CHOICE}",
+            "go to {STORY_DECISION_CHOICE}",
+            "go {STORY_DECISION_CHOICE}",
+            "choose {STORY_DECISION_CHOICE}",
+            "I choose to {STORY_DECISION_CHOICE}",
+            "I want to {STORY_DECISION_CHOICE}"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "RestartStory",
+          "slots": [],
+          "samples": [
+            "xbox off",
+            "start over",
+            "restart story"
+          ]
+        },
+        {
+          "name": "GoBack",
+          "slots": [],
+          "samples": [
+            "revert",
+            "undo that choice",
+            "go back a choice",
+            "go back"
+          ]
+        }
+      ],
+      "types": [{
+          "name": "STORY_DECISION_CHOICE",
+          "values": [{
+            "name": {
+              "value": "TMP"
+            }
+          }]
+        },
+        {
+          "name": "STORY_TITLE_CHOICE",
+          "values": [{
+            "name": {
+              "value": "TMP"
+            }
+          }]
+        }
+      ]
+    },
+    "dialog": {
+      "intents": [{
+          "name": "ChooseStoryDecision",
+          "delegationStrategy": "SKILL_RESPONSE",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [{
+            "name": "STORY_DECISION_CHOICE",
+            "type": "STORY_DECISION_CHOICE",
+            "confirmationRequired": false,
+            "elicitationRequired": false,
+            "prompts": {},
+            "validations": [{
+              "type": "hasEntityResolutionMatch",
+              "prompt": "Slot.Validation.82225949676.471637827039.1350283487901"
+            }]
+          }]
+        },
+        {
+          "name": "ChooseStory",
+          "delegationStrategy": "SKILL_RESPONSE",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [{
+            "name": "STORY_TITLE_CHOICE",
+            "type": "STORY_TITLE_CHOICE",
+            "confirmationRequired": false,
+            "elicitationRequired": false,
+            "prompts": {},
+            "validations": [{
+              "type": "hasEntityResolutionMatch",
+              "prompt": "Slot.Validation.1397500178417.598816641141.622152244767"
+            }]
+          }]
+        }
+      ],
+      "delegationStrategy": "ALWAYS"
+    },
+    "prompts": [{
+        "id": "Slot.Validation.82225949676.471637827039.1350283487901",
+        "variations": [{
+          "type": "PlainText",
+          "value": "What will you do?"
+        }]
+      },
+      {
+        "id": "Slot.Validation.1397500178417.598816641141.622152244767",
+        "variations": [{
+          "type": "PlainText",
+          "value": "Which tale do you want to start?"
+        }]
+      }
+    ]
+  }
+}

@@ -137,6 +137,56 @@ const findConfirmedSlotValue = (requestEnvelope, key) => {
   )["values"][0]["value"]["id"];
 };
 
+const startFreshStory = (storyId, handlerInput) => {
+  const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+  sessionAttributes.storyId = storyId;
+  const storyNode = "start";
+  const store = {
+    storyNode: storyNode,
+    history: [
+      {
+        consequences: [],
+        requires: [],
+        storyNode: storyNode
+      }
+    ]
+  };
+  sessionAttributes.store = store;
+  handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+
+  return Stories.select(storyId).then(results => {
+    const story = results.rows[0];
+    const decisions = History.filterAvailable(
+      story["content"][storyNode]["decisions"],
+      store
+    );
+
+    if (decisions) {
+      const decisionPrompt = asSpeakableDecisions(decisions);
+    } else {
+      const decisionPrompt =
+        "The End. To start another story say " +
+        speechPauseList() +
+        "list stories.";
+    }
+
+    return handlerInput.responseBuilder
+      .speak(
+        "Starting " +
+          story.title +
+          speechPauseParagraph() +
+          asSpeakableStoryText(story, storyNode, decisionPrompt)
+      )
+      .reprompt(decisionPrompt)
+      .withSimpleCard(decisionPrompt)
+      .addDirective(
+        updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
+      )
+      .withShouldEndSession(false)
+      .getResponse();
+  });
+};
+
 const StoryTitleChoiceGivenChooseStoryIntentHandler = {
   canHandle(handlerInput) {
     return (
@@ -151,52 +201,14 @@ const StoryTitleChoiceGivenChooseStoryIntentHandler = {
       "STORY_TITLE_CHOICE"
     );
 
-    const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-    sessionAttributes.storyId = storyId;
-    const storyNode = "start";
-    const store = {
-      storyNode: storyNode,
-      history: [
-        {
-          consequences: [],
-          requires: [],
-          storyNode: storyNode
-        }
-      ]
-    };
-    sessionAttributes.store = store;
-    handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
-
-    return Stories.select(storyId).then(results => {
-      const story = results.rows[0];
-      const decisions = History.filterAvailable(
-        story["content"][storyNode]["decisions"],
-        store
-      );
-
-      const decisionPrompt = asSpeakableDecisions(decisions);
-
-      return handlerInput.responseBuilder
-        .speak(
-          "Starting " +
-            story.title +
-            speechPauseParagraph() +
-            asSpeakableStoryText(story, storyNode, decisionPrompt)
-        )
-        .reprompt(decisionPrompt)
-        .withSimpleCard(decisionPrompt)
-        .addDirective(
-          updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
-        )
-        .withShouldEndSession(false)
-        .getResponse();
-    });
+    return startFreshStory(storyId, handlerInput);
   }
 };
 
 const DecisionGivenChooseStoryDecisionIntentHandler = {
   canHandle(handlerInput) {
     return (
+      // TODO(kyle): Are there cases missing here?
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
       handlerInput.requestEnvelope.request.intent.name ===
         "ChooseStoryDecision" &&
@@ -242,20 +254,57 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
 };
 
 // TODO(kyle): Add new intents for the other navigation options
-
-const ChooseStoryDecisionIntentHandler = {
+const GoBackIntentHandler = {
   canHandle(handlerInput) {
     return (
+      // TODO(kyle): Are there cases missing here?
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-      handlerInput.requestEnvelope.request.intent.name === "ChooseStoryDecision"
+      handlerInput.requestEnvelope.request.intent.name === "GoBack"
     );
   },
   handle(handlerInput) {
-    // TODO(kyle): this is a reprompt
-    logger.info("choose story decision", JSON.stringify(handlerInput));
-    return handlerInput.responseBuilder
-      .speak("choose story decision")
-      .getResponse();
+    const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+    const storyId = sessionAttributes.storyId;
+    sessionAttributes.store = History.goBack(decision, sessionAttributes.store);
+    handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+
+    const storyNode = sessionAttributes.store.storyNode;
+
+    return Stories.select(storyId).then(results => {
+      const story = results.rows[0];
+      const decisions = History.filterAvailable(
+        story["content"][storyNode]["decisions"],
+        sessionAttributes.store
+      );
+
+      const decisionPrompt = asSpeakableDecisions(decisions);
+
+      return handlerInput.responseBuilder
+        .speak(asSpeakableStoryText(story, storyNode, decisionPrompt))
+        .reprompt(decisionPrompt)
+        .withSimpleCard(decisionPrompt)
+        .addDirective(
+          updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
+        )
+        .withShouldEndSession(false)
+        .getResponse();
+    });
+  }
+};
+
+const RestartStoryIntentHandler = {
+  canHandle(handlerInput) {
+    return (
+      // TODO(kyle): Are there cases missing here?
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      handlerInput.requestEnvelope.request.intent.name === "RestartStory"
+    );
+  },
+  handle(handlerInput) {
+    const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+    const storyId = sessionAttributes.storyId;
+
+    return startFreshStory(storyId, handlerInput);
   }
 };
 
