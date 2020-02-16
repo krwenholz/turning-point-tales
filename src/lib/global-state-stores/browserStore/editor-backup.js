@@ -7,8 +7,8 @@ const initialState = {
     text: ['Once upon a time'],
     decisions: [
       {
-        label: 'back to start',
-        storyNode: 'start',
+        label: 'go to woods',
+        storyNode: 'woods',
       }
     ],
   },

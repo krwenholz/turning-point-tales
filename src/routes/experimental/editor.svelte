@@ -11,7 +11,7 @@
 
 <Editor
   story={$story}
-  onEdit={updatedStory => $story = updatedStory}
+  onEdit={editedStory => $story = editedStory}
 />
 
 <!--<section class="graph">-->
