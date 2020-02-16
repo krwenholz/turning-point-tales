@@ -101,7 +101,7 @@ const playing_detective = {
     }
   ],
   preview:
-    "It was a beautiful summer’s day, 70 degrees, with scattered clouds and the occasional cool breeze. It had been that way every moment, of every day, for the last 5 years, except for the pre-scheduled rain burst from exactly 12:01 to 1:35.",
+    "The smell of a cigarette’s smoke, the tick-tock of a mounted clock, and complete darkness are the first things that welcome your consciousness.... Where are you? Who are you?",
   content: {
     start: {
       text: [
