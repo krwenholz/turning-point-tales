@@ -1,31 +1,48 @@
 <script>
   import * as sapper from "@sapper/app";
-  import { editorBackup } from 'src/lib/global-state-stores/browserStore/editor-backup.js'
-  import { get, writable } from 'svelte/store';
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
-  import {debounce} from 'lodash';
   import Adventure from "src/components/Adventure/index";
-  import Button from "src/components/Button.svelte";
   import Overview from "src/components/Overview/index";
   import yaml from "js-yaml";
   import Scrollable from 'src/components/Scrollable.svelte';
   import WritingPane from './_WritingPane.svelte';
   import Graph from './_graph/index';
   import { isValidStory } from 'src/components/Adventure/validation';
-  import { copyToClipboard } from 'src/lib/copy-to-clipboard';
+  import Select from 'svelte-select';
+  import StoryText from './_StoryText.svelte';
+  import Decisions from './_Decisions.svelte';
+  import StoryNode from './_StoryNode.svelte';
+  import Button from 'src/components/Button.svelte';
+  import Checkbox from 'src/components/Checkbox/index';
+  import { last, debounce, keys, findIndex, concat, omit, isArray, get } from 'lodash';
+  import { pathWrittable } from 'src/lib/path-writtable.js';
 
-  export let onEdit = () => {};
   export let story = {}
-  let storyNode = 'start';
+  export let storyNode = 'start';
+  export let className ='';
+  export let focusPath = '';
+  export let mode = 'edit';
+  export let onEdit = () => {};
   let history = [];
   let consequences = [];
+  let inOrderStory = pathWrittable(keys(story).map(storyNode => ({
+    storyNode,
+    story: story[storyNode],
+  })));
 
   $: storyIsValid = process.browser && isValidStory(story);
 
-  const updateStory = debounce(editedStory => {
+  $: items = $inOrderStory.map(({ storyNode }) => ({
+    value: storyNode,
+    label: storyNode,
+  }));
+
+  $: storyIdx = findIndex($inOrderStory, { storyNode });
+
+  const updateStory = editedStory => {
     story = editedStory;
     onEdit(editedStory);
-  }, 500);
+  };
 
   const updateOverview = e => {
     storyNode = e.detail.storyNode;
@@ -66,23 +83,119 @@
 
     window.URL.revokeObjectURL(url);
   };
+
+  const clearFocusPath = () => focusPath = '';
+
+  const asStoryDict = (storyArray = []) => storyArray.reduce((story, fragment) => ({
+    ...story,
+    [fragment.storyNode]: fragment.story,
+  }), {});
+
+  const onInput = (e, { idx, prevValue, location, storyId }) => {
+    let value = e.target.value;
+
+    if (prevValue === value) return;
+
+    const path = {
+      storyNode: [storyIdx, 'storyNode'],
+      storyText: [storyIdx, 'story', 'text', idx],
+      decisionLabel: [storyIdx, 'story', 'decisions', idx, 'label'],
+      decisionStoryNode: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
+    }[location];
+
+    inOrderStory.setAt(path, value);
+
+    if(location === 'storyNode') {
+      storyNode = e.target.value;
+    }
+
+    onEdit(asStoryDict($inOrderStory));
+  };
+
+  const onKeydown = (e, { prevValue, location, idx, storyNode, storyIdx }) => {
+    const addedNewParagraphByHittingEnter = e.key === 'Enter' && location === 'storyText'
+    const deletedParagraphByHittingBackspace = e.key === 'Backspace' && !prevValue && idx !== 0;
+    const invalidStoryNodeCharacter = e.key.match(/[-'\s"]/) && location === 'storyNode';
+
+    if(invalidStoryNodeCharacter) {
+      e.preventDefault();
+      return false;
+    }
+
+    if(addedNewParagraphByHittingEnter) {
+      inOrderStory.concatAt([storyIdx, 'story', 'text'], '');
+      focusPath = [storyIdx, 'story', 'text', idx + 1];
+      e.preventDefault();
+    }
+    else if (deletedParagraphByHittingBackspace) {
+      inOrderStory.dropAt([storyIdx, 'story', 'text', idx]);
+      focusPath = [storyIdx, 'story', 'text', idx - 1];
+      e.preventDefault();
+    }
+
+    onEdit(asStoryDict($inOrderStory));
+  };
+
+  const deleteStoryNode = (storyIdx) => {
+    var answer = window.confirm(
+      "Are you sure you want to delete this story fragment?\n\n" +
+      "This will delete all its text and decisions."
+    );
+
+    if(!answer) return;
+
+    inOrderStory.dropAt([storyIdx]);
+    storyNode = last($inOrderStory).storyNode;
+  }
+
+  const onAddNewDecision = (path) => inOrderStory.concatAt(path, {
+    label: '',
+    storyNode: ''
+  });
+
+  const addNewStoryNode = () => {
+    inOrderStory.concat({
+      storyNode: 'temp',
+      story: {
+        text: [''],
+        decisions: [
+          {
+            label: '',
+            storyNode: '',
+          }
+        ]
+      }
+    });
+
+    storyNode = 'temp';
+  }
+
+  const setAsFinalNode = ({ checked, storyIdx}) => {
+    const path = [storyIdx, 'story'];
+
+    if(checked) {
+      inOrderStory.setAt(path, {
+        ...get($inOrderStory, path),
+        decisions: [],
+        final: true,
+      });
+    } else {
+      inOrderStory.setAt(path, {
+        ...omit(get($inOrderStory, path)),
+        decisions: [
+          {
+            label: '',
+            storyNode: '',
+          }
+        ],
+        final: false,
+      });
+    }
+  }
+  const onDeleteDecision = (path) => inOrderStory.dropAt(path);
 </script>
 
 <style>
-
-  .editor {
-    display: grid;
-    grid-gap: 48px;
-    margin-bottom: 32px;
-    grid-template-columns: auto 1fr 1fr;
-    grid-template-rows: minmax(150px, 15%) 1fr 1fr;
-    height: 85vh;
-    grid-template-areas:
-      "options    overview   adventure"
-      "edit-story edit-story adventure"
-      "edit-story edit-story adventure"
-  }
-
   .editor :global(.scrollable-adventure) {
     grid-area: adventure;
     width: 100%;
@@ -112,6 +225,19 @@
     border-bottom: 1px solid gray;
   }
 
+  nav {
+    display: flex;
+    margin-bottom: 24px;
+  }
+
+  nav :global(button) {
+    margin-right: 16px;
+  }
+
+  nav :global(.story-node-select) {
+    flex: 1;
+  }
+
   @media only screen and (min-width: 1150px) {
     .editor {
       flex-flow: row;
@@ -120,23 +246,38 @@
 </style>
 
 <NotificationDisplay themes={{ success: 'green'}} />
-
 <section class="editor">
-  <section class='options'>
-    <Button variation='link' on:click={loadStoryFile}>Load File</Button>
-    <Button variation='link' on:click={saveStoryfile}>Download</Button>
-  </section>
 
-  <Overview {history} {consequences} />
+  <nav>
+    <Button variation='small' on:click={addNewStoryNode}>+ story node</Button>
+    <Select
+      className='story-node-select'
+      {items}
+      on:select={e => storyNode = e.detail.value}
+      selectedValue={storyNode}
+    />
+  </nav>
 
-  <WritingPane
-    {story}
-    className='scrollable-edit-story'
-    onEdit={updateStory}
+  <StoryNode
+    {storyNode}
+    {storyIdx}
+    {onInput}
+    {onKeydown}
+    on:delete={() => deleteStoryNode(storyIdx)}
   />
 
-  <Scrollable className='scrollable-adventure'>
-    <h2 slot='heading'>
+  <StoryText
+    {storyIdx}
+    {onInput}
+    {onKeydown}
+    {focusPath}
+    {clearFocusPath}
+    text={$inOrderStory[storyIdx].story.text || []}
+    storyNode={storyNode}
+  />
+
+  {#if mode === 'preview'}
+    <h2>
       <i>Story Preview:</i>
       <span>{storyNode}</span>
     </h2>
@@ -146,10 +287,8 @@
       title="Self titled adventure: Number One"
       on:pageChange={updateOverview}
     />
-  </Scrollable>
+  {/if}
 </section>
-<br>
-<br>
 
 <!--<section class="graph">-->
 <!--  {#if storyIsValid}-->
@@ -159,3 +298,11 @@
 <!--    <p class='error'> current story is invalid </p>-->
 <!--  {/if}-->
 <!--</section>-->
+
+
+<!--  <section class='options'>-->
+<!--    <Button variation='link' on:click={loadStoryFile}>Load File</Button>-->
+<!--    <Button variation='link' on:click={saveStoryfile}>Download</Button>-->
+<!--  </section>-->
+<!--  <Overview {history} {consequences} />-->
+

@@ -1,6 +1,4 @@
 <script>
-  import { createEventDispatcher } from "svelte";
-
   export let value = "";
   export let className = "";
   export let type = "text";
@@ -8,9 +6,8 @@
   export let id = Date.now(); // For some reason, if this doesnt have an id, autocomplete won't work...
   export let placeholder = "";
   export let disabled = false;
-  let input;
-
-  const dispatch = createEventDispatcher();
+  export let onInput = () => {};
+  let self;
 
   export const setCustomValidity = (...props) =>
     input.setCustomValidity(...props);
@@ -37,15 +34,17 @@
 <label>
   <slot />
   <input
+    {...$$props}
     {type}
-    bind:this="{input}"
+    bind:this="{self}"
     class="input"
     class:disabled
     on:change
     on:click
     on:blur
     on:input
+    on:keypress
+    on:keydown
     autocomplete="on"
-    {...$$props}
   />
 </label>

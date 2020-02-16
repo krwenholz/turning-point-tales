@@ -151,12 +151,6 @@
     <div slot='content'>
       {#each $inOrderStory as { storyNode, story }, storyIdx }
         <div class='story-fragment'>
-          <StoryNode
-            {storyNode}
-            {storyIdx}
-            {onInput}
-            on:delete={() => deleteStoryNode(storyIdx)}
-          />
           <StoryText
             {storyIdx}
             {onInput}

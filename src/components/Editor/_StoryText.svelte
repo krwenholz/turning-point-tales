@@ -50,14 +50,14 @@
         idx,
         storyIdx,
         storyNode,
-        changeLocation: 'storyText',
+        location: 'storyText',
         prevValue: paragraph,
       })}
       on:keydown={ e => onKeydown(e, {
         idx,
         storyIdx,
         storyNode,
-        changeLocation: 'storyText',
+        location: 'storyText',
         prevValue: paragraph,
       })}
     />
