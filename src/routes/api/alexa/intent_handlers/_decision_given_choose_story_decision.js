@@ -4,6 +4,7 @@ import {
   asSpeakable,
   asSpeakableDecisions,
   asSpeakableStoryText,
+  storyDecisionChoices,
   updateStoryDecisionChoicesDirective,
   findConfirmedSlotValue
 } from "src/routes/api/alexa/alexa_utilities";
