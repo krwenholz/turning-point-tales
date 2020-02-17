@@ -2,6 +2,19 @@ import * as Alexa from "ask-sdk-core";
 import * as History from "src/components/Adventure/history";
 import * as Stories from "src/routes/story/_stories";
 import { map, join, find } from "lodash";
+import { logger } from "src/logging";
+
+const decisionLabels = [
+  "one",
+  "two",
+  "three",
+  "four",
+  "five",
+  "six",
+  "seven",
+  "eight",
+  "nine"
+];
 
 export const asSpeakable = string => {
   return Alexa.escapeXmlCharacters(string.toLowerCase());
@@ -20,12 +33,12 @@ export const speechPauseList = () => {
 };
 
 export const storyDecisionChoices = decisions => {
-  return map(decisions, decision => {
+  return map(decisions, (decision, index) => {
     return {
       id: decision["storyNode"],
       name: {
         value: asConfirmable(asSpeakable(decision["label"])),
-        synonyms: []
+        synonyms: ["option " + decisionLabels[index]]
       }
     };
   });
@@ -55,12 +68,20 @@ export const asSpeakableDecisions = decisions => {
     "Your choices are " +
     speechPauseParagraph() +
     join(
-      map(decisions, decision => asSpeakable(decision["label"])),
+      map(
+        decisions,
+        (decision, index) =>
+          "option " +
+          decisionLabels[index] +
+          " " +
+          asSpeakable(decision["label"])
+      ),
       " or " + speechPauseList()
     )
   );
 };
 
+// TODO(kyle): Need a smarter fallback when this fails
 export const findConfirmedSlotValue = (requestEnvelope, key) => {
   return find(
     Alexa.getSlot(requestEnvelope, key)["resolutions"][
@@ -114,7 +135,6 @@ export const startFreshStory = (storyId, handlerInput) => {
           asSpeakableStoryText(story, storyNode, decisionPrompt)
       )
       .reprompt(decisionPrompt)
-      .withSimpleCard(decisionPrompt)
       .addDirective(
         updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
       )
