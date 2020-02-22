@@ -9,5 +9,7 @@
 </script>
 
 {#if $selected.panel === panel}
-  <div class={className}><slot/></div>
+  <div class={className}>
+    <slot/>
+  </div>
 {/if}

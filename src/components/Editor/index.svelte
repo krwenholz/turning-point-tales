@@ -3,7 +3,6 @@
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import Adventure from "src/components/Adventure/index";
   import Overview from "src/components/Overview/index";
-  import yaml from "js-yaml";
   import WritingPane from './_WritingPane.svelte';
   import Graph from './_graph/index';
   import { isValidStory } from 'src/components/Adventure/validation';
@@ -16,13 +15,15 @@
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
   import { last, debounce, keys, findIndex, concat, omit, isArray, get } from 'lodash';
   import { pathWrittable } from 'src/lib/path-writtable.js';
+  import { saveFile, loadFile } from 'src/lib/load-and-save-files.js';
+  import { safeWindow } from 'src/lib/client/safe-window.js';
 
   export let story = {}
   export let storyNode = 'start';
   export let className ='';
   export let focusPath = '';
-  export let mode = 'edit';
   export let onEdit = () => {};
+  let selectWrapperRef = null;
   let history = [];
   let consequences = [];
   let inOrderStory = pathWrittable(keys(story).map(storyNode => ({
@@ -50,41 +51,14 @@
     consequences = e.detail.consequences;
   };
 
-  const loadStoryFile = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.click();
-
-    input.onchange = (onChangeEvent) => {
-      const reader = new FileReader();
-
-      reader.onload = (onLoadEvent) => {
-        try {
-          story = yaml.safeLoad(onLoadEvent.target.result);
-          notifier.success('Story loaded successfully', 1500);
-        } catch(error) {
-          notifier.error('Story copied to clipboard', 1500);
-          console.error(errr);
-        }
-      }
-
-      reader.readAsText(onChangeEvent.target.files[0]);
-    }
-  }
-
-  const saveStoryfile = () => {
-    const storyBlob = new Blob([yaml.safeDump(story)], {type : 'text/plain'});
-    const url = URL.createObjectURL(storyBlob);
-
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = 'edited-story.yaml';
-    a.click();
-
-    window.URL.revokeObjectURL(url);
-  };
-
   const clearFocusPath = () => focusPath = '';
+
+  const loadStoryFile = () => loadFile(data => {
+      $inOrderStory = data;
+      notifier.success("Story loaded", 1500);
+  });
+
+  const saveStoryFile = () => saveFile($inOrderStory);
 
   const asStoryDict = (storyArray = []) => storyArray.reduce((story, fragment) => ({
     ...story,
@@ -92,9 +66,7 @@
   }), {});
 
   const onInput = (e, { idx, prevValue, location, storyId }) => {
-    let value = e.target.value;
-
-    if (prevValue === value) return;
+    if (prevValue === e.target.value) return;
 
     const path = {
       storyNode: [storyIdx, 'storyNode'],
@@ -103,7 +75,7 @@
       decisionStoryNode: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
     }[location];
 
-    inOrderStory.setAt(path, value);
+    inOrderStory.setAt(path, e.target.value);
 
     if(location === 'storyNode') {
       storyNode = e.target.value;
@@ -114,10 +86,12 @@
 
   const onKeydown = (e, { prevValue, location, idx, storyNode, storyIdx }) => {
     const addedNewParagraphByHittingEnter = e.key === 'Enter' && location === 'storyText'
-    const deletedParagraphByHittingBackspace = e.key === 'Backspace' && !prevValue && idx !== 0;
-    const invalidStoryNodeCharacter = e.key.match(/[-'\s"]/) && location === 'storyNode';
 
-    if(invalidStoryNodeCharacter) {
+    const deletedParagraphByHittingBackspace = e.key === 'Backspace' && !prevValue && idx !== 0;
+
+    const invalidKeystroke = e.key.match(/[-'\s"]/) && location.match(/decisionStoryNode|storyNode/);
+
+    if(invalidKeystroke) {
       e.preventDefault();
       return false;
     }
@@ -192,14 +166,23 @@
       });
     }
   }
+
   const onDeleteDecision = (path) => inOrderStory.dropAt(path);
+
+  safeWindow().document.addEventListener("keydown", (event) => {
+  //TODO: These can be added to component itself, instead of globally (being lazy)
+    if(event.ctrlKey && event.key === "p") {
+      selectWrapperRef.querySelector('input').focus();
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    if(event.key === 'Escape') {
+      safeWindow().document.body.click();
+    }
+  });
 </script>
 
 <style>
-  .editor :global(.overview) {
-    grid-area: overview;
-  }
-
   .editor :global(.tabs) {
     display: flex;
     margin-bottom: 24px;
@@ -209,9 +192,15 @@
     margin-bottom: 24px;
   }
 
-  .editor :global(.edit-actions nav) {
+  .editor nav {
     display: flex;
+    justify-content: flex-start;
     margin-bottom: 32px;
+  }
+
+  .editor .select-wrapper {
+    /* without this, <Select> hides all text when text is typed in the input */
+    min-width: 130px;
   }
 
   .editor :global(.edit-actions button) {
@@ -241,14 +230,15 @@
 
     <TabPanel className='edit-actions'>
       <nav>
-        <Select
-          {items}
-          className='story-node-select'
-          on:select={e => storyNode = e.detail.value}
-          isClearable={false}
-          selectedValue={storyNode}
-        />
-
+        <div class='select-wrapper' bind:this={selectWrapperRef}>
+          <Select
+            {items}
+            className='story-node-select'
+            on:select={e => storyNode = e.detail.value}
+            isClearable={false}
+            selectedValue={storyNode}
+          />
+        </div>
         <Button
           variation='small'
           on:click={addNewStoryNode}
@@ -262,6 +252,12 @@
         >
           Load from File
         </Button>
+        <Button
+          variation='small'
+          on:click={saveStoryFile}
+        >
+          Download
+        </Button>
       </nav>
 
       <StoryNode
@@ -269,7 +265,7 @@
         {storyIdx}
         {onInput}
         {onKeydown}
-        on:delete={() => deleteStoryNode(storyIdx)}
+        onDelete={() => deleteStoryNode(storyIdx)}
       />
 
       <Decisions
@@ -297,14 +293,7 @@
     </TabPanel>
 
     <TabPanel className='preview'>
-      <h2>
-        <i>Story Preview:</i>
-        <span>{storyNode}</span>
-      </h2>
-      <Adventure
-        story={story}
-        storyNode="start"
-      />
+      <Adventure story={story} storyNode="start" />
     </TabPanel>
 
     <TabPanel className='overview'>

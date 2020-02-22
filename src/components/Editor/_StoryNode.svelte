@@ -7,6 +7,7 @@
   export let storyNode = '';
   export let onInput = () => {};
   export let onKeydown = () => {};
+  export let onDelete = () => {};
 </script>
 
 <style>
@@ -50,7 +51,7 @@
         prevValue: storyNode,
       })}
     />
-    <Trash on:click={() => dispatch('delete', { storyIdx })}>
+    <Trash on:click={onDelete}>
       Delete
     </Trash>
   {/if}

@@ -18,6 +18,10 @@
 </script>
 
 <style>
+  .decision {
+    display: flex;
+    margin-bottom: 48px;
+  }
 
   .decision :global(.delete-decision) {
     margin-right: 32px;
@@ -33,10 +37,6 @@
 
   .decisions :global(svg:hover) {
     cursor: pointer;
-  }
-
-  .decision {
-    display: flex;
   }
 
   .label-and-story-node {
@@ -111,13 +111,14 @@
               idx,
               storyIdx,
               storyNode,
-              changeLocation: 'decisionLabel',
+              location: 'decisionLabel',
               prevValue: decision.label,
             })}
+
             on:keydown={e => onKeydown(e, {
               idx,
               storyNode,
-              changeLocation: 'decisionLabel',
+              location: 'decisionLabel',
               prevValue: decision.label,
             })}
           />
@@ -131,14 +132,14 @@
               idx,
               storyIdx,
               storyNode,
-              changeLocation: 'decisionStoryNode',
+              location: 'decisionStoryNode',
               prevValue: decision.storyNode,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
               storyIdx,
               storyNode,
-              changeLocation: 'decisionStoryNode',
+              location: 'decisionStoryNode',
               prevValue: decision.storyNode,
             })}
           />
