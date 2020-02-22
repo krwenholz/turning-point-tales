@@ -34,9 +34,7 @@
 </style>
 
 <div class='story-node'>
-  {#if storyNode === 'start'}
-    <span class='story-node'>{storyNode}</span>
-  {:else}
+  {#if storyNode !== 'start'}
     <Input
       value={storyNode}
       placeholder="Name of story node"
