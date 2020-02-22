@@ -4,6 +4,7 @@
   import Button from 'src/components/Button.svelte';
   import Input from 'src/components/Input/index';
   import Trash from 'src/components/icons/Trash.svelte';
+  import Checkbox from 'src/components/Checkbox';
 
   export let storyIdx;
   export let focusPath = '';
@@ -12,6 +13,7 @@
   export let onInput = () => {};
   export let onAddNewDecision = () => {};
   export let onDeleteDecision = () => {};
+  export let onSetAsFinalNode = () => {};
   export let storyNode = '';
   export let decisions = [];
   export let isFinalNode = false;
@@ -76,22 +78,54 @@
     width: 32px;
     height: 32px;
   }
+
+  nav {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+  }
+
+  label {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .form-group {
+    display: inline-flex;
+  }
+
+  .form-group label {
+    display: inline-flex;
+    margin-left: 16px;
+  }
 </style>
 
 <section class="decisions">
-  {#if !isFinalNode}
-  <header>
-    Decisions
-    <Button
-      size='small'
-      variation='link'
-      on:click={() => onAddNewDecision([storyIdx, 'story', 'decisions' ])}
-    >
-      <Plus/>
-      add new decision
-    </Button>
-  </header>
+  <nav>
+    <div class='form-group'>
+      <Checkbox
+        id="disable-decisions"
+        on:click={e => onSetAsFinalNode({ checked: e.target.checked, storyIdx })}
+      />
+      <label for="disable-decisions">
+        Disable Decisions (make this a dead-end)
+      </label>
+    </div>
+    {#if !isFinalNode}
+    <header>
+      Decisions
+      <Button
+        size='small'
+        variation='link'
+        on:click={() => onAddNewDecision([storyIdx, 'story', 'decisions' ])}
+      >
+        <Plus/>
+        add new decision
+      </Button>
+    </header>
   {/if}
+
+  </nav>
   {#if decisions.length}
   {#each decisions as decision, idx}
     <div class='decision'>
