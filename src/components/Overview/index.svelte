@@ -2,10 +2,13 @@
   import { slide } from "src/lib/Transition";
   import Scrollable from "src/components/Scrollable.svelte";
   import { map } from 'lodash';
+  import { onDestroy } from 'svelte';
+
 
   export let className = "";
   export let consequences = [];
   export let history = [{ storyNode: "start" }];
+
   $: history = map(history, 'storyNode');
 </script>
 
@@ -50,7 +53,7 @@
     <h3 slot='heading'>History</h3>
     <ol reversed slot='content'>
       {#each history.slice().reverse() as record}
-        <li transition:slide class="detail">{record}</li>
+        <li class="detail">{record}</li>
       {/each}
     </ol>
   </Scrollable>
@@ -59,7 +62,7 @@
     <h3 slot='heading'>Consequences</h3>
     <ul slot='content'>
       {#each consequences as consequence}
-        <li transition:slide class="detail">* {consequence}</li>
+        <li class="detail">* {consequence}</li>
       {/each}
     </ul>
   </Scrollable>
