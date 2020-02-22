@@ -31,7 +31,7 @@
     border-radius: 8px;
     padding: 12px;
     margin: 0;
-    background-color: transparent;
+    background-color: white;
   }
 </style>
 
