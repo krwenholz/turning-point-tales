@@ -1,19 +1,6 @@
 <script>
-  import { stores } from "@sapper/app";
-  import Editor from 'src/components/Editor';
-
-  const story = {
-    start: {
-      text: ["what"],
-      decisions: [
-        {
-          storyNode: 'placeholder',
-          label: 'storyNode'
-        }
-      ]
-    }
-  }
+  import Checkbox from 'src/components/Checkbox';
 </script>
 
+<Checkbox id="disable-decisions" />
 
-<Editor {story} />

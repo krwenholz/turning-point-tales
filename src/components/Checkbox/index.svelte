@@ -57,7 +57,7 @@
   }
 </style>
 
-<div class={`checkbox ${className}`} >
+<label class={`checkbox ${className}`} >
   <input
     {id}
     {checked}
@@ -69,4 +69,4 @@
   <div class="box" />
   <div class="mark" />
   <slot />
-</div>
+</label>
