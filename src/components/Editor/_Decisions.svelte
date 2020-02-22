@@ -20,9 +20,10 @@
 </script>
 
 <style>
+  .decisions { margin-bottom: 48px; }
+
   .decision {
     display: flex;
-    margin-bottom: 48px;
   }
 
   .decision :global(.delete-decision) {
@@ -97,21 +98,10 @@
   }
 </style>
 <section class="decisions">
-  <nav>
-    <div class='form-group'>
-      <Checkbox
-        id="disable-decisions"
-        on:click={e => onSetAsFinalNode({ checked: e.target.checked, storyIdx })}
-      />
-      <label for="disable-decisions">
-        Disable Decisions (make this a dead-end)
-      </label>
-    </div>
-    {#if !isFinalNode}
+  {#if !isFinalNode}
     <header>
       Decisions
       <Button
-        size='small'
         variation='link'
         on:click={() => onAddNewDecision([storyIdx, 'story', 'decisions' ])}
       >
@@ -120,8 +110,6 @@
       </Button>
     </header>
   {/if}
-
-  </nav>
   {#if decisions.length}
   {#each decisions as decision, idx}
     <div class='decision'>
@@ -177,5 +165,14 @@
       </section>
     </div>
   {/each}
-{/if}
+  {/if}
+  <div class='form-group'>
+    <Checkbox
+      id="disable-decisions"
+      on:click={e => onSetAsFinalNode({ checked: e.target.checked, storyIdx })}
+    />
+    <label for="disable-decisions">
+      Disable Decisions (make this a dead-end)
+    </label>
+  </div>
 </section>
