@@ -85,11 +85,6 @@
     justify-content: center;
   }
 
-  label {
-    display: inline-flex;
-    align-items: center;
-  }
-
   .form-group {
     display: inline-flex;
   }
@@ -97,9 +92,10 @@
   .form-group label {
     display: inline-flex;
     margin-left: 16px;
+    display: inline-flex;
+    align-items: center;
   }
 </style>
-
 <section class="decisions">
   <nav>
     <div class='form-group'>
