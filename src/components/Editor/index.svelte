@@ -226,6 +226,7 @@
       <Tab name="edit">Edit</Tab>
       <Tab name="preview">Preview</Tab>
       <Tab name="overview">Overview</Tab>
+      <Tab name="graph">Graph</Tab>
     </TabList>
 
     <TabPanel className='edit-actions'>
@@ -303,22 +304,14 @@
       />
     </TabPanel>
 
+    <TabPanel>
+      {#if storyIsValid}
+        <h2>Preview</h2>
+        <Graph {story} />
+      {:else}
+        <p class='error'> current story is invalid </p>
+      {/if}
+    </TabPanel>
   </Tabs>
 </section>
-
-<!--<section class="graph">-->
-<!--  {#if storyIsValid}-->
-<!--    <h2>Preview</h2>-->
-<!--    <Graph {story} />-->
-<!--  {:else}-->
-<!--    <p class='error'> current story is invalid </p>-->
-<!--  {/if}-->
-<!--</section>-->
-
-
-<!--  <section class='options'>-->
-<!--    <Button variation='link' on:click={loadStoryFile}>Load File</Button>-->
-<!--    <Button variation='link' on:click={saveStoryfile}>Download</Button>-->
-<!--  </section>-->
-<!--  <Overview {history} {consequences} />-->
 
