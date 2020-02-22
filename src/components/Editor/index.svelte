@@ -53,8 +53,8 @@
   const clearFocusPath = () => focusPath = '';
 
   const loadStoryFile = () => loadFile(data => {
-      story = data;
-      notifier.success("Story loaded", 1500);
+    story = data;
+    notifier.success("Story loaded", 1500);
   });
 
   const saveStoryFile = () => saveFile(story);
@@ -84,7 +84,7 @@
   };
 
   const onKeydown = (e, { prevValue, location, idx, storyNode, storyIdx }) => {
-    const addedNewParagraphByHittingEnter = e.key === 'Enter' && location === 'storyText'
+    const addedNewParagraphByHittingEnter = e.key === 'Enter' && location === 'storyText';
 
     const deletedParagraphByHittingBackspace = e.key === 'Backspace' && !prevValue && idx !== 0;
 
@@ -247,13 +247,13 @@
         </Button>
 
         <Button
-          variation='small'
+          variation='secondary'
           on:click={loadStoryFile}
         >
           Load from File
         </Button>
         <Button
-          variation='small'
+          variation='secondary'
           on:click={saveStoryFile}
         >
           Download

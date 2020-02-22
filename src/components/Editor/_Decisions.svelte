@@ -110,6 +110,7 @@
       </Button>
     </header>
   {/if}
+
   {#if decisions.length}
   {#each decisions as decision, idx}
     <div class='decision'>
@@ -166,6 +167,8 @@
     </div>
   {/each}
   {/if}
+
+  {#if storyNode !== 'start'}
   <div class='form-group'>
     <Checkbox
       id="disable-decisions"
@@ -175,4 +178,5 @@
       Disable Decisions (make this a dead-end)
     </label>
   </div>
+  {/if}
 </section>
