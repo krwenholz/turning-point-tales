@@ -3,7 +3,6 @@
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import Adventure from "src/components/Adventure/index";
   import Overview from "src/components/Overview/index";
-  import WritingPane from './_WritingPane.svelte';
   import Graph from './_graph/index';
   import { isValidStory } from 'src/components/Adventure/validation';
   import Select from 'svelte-select';
@@ -144,7 +143,7 @@
     storyNode = 'temp';
   }
 
-  const setAsFinalNode = ({ checked, storyIdx}) => {
+  const onSetAsFinalNode = ({ checked, storyIdx}) => {
     const path = [storyIdx, 'story'];
 
     if(checked) {
@@ -278,6 +277,7 @@
         {onAddNewDecision}
         {onDeleteDecision}
         {storyNode}
+        {onSetAsFinalNode}
         isFinalNode={$inOrderStory[storyIdx].story.final}
         decisions={$inOrderStory[storyIdx].story.decisions}
       />
