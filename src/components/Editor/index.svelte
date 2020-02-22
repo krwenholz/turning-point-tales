@@ -4,7 +4,6 @@
   import Adventure from "src/components/Adventure/index";
   import Overview from "src/components/Overview/index";
   import yaml from "js-yaml";
-  import Scrollable from 'src/components/Scrollable.svelte';
   import WritingPane from './_WritingPane.svelte';
   import Graph from './_graph/index';
   import { isValidStory } from 'src/components/Adventure/validation';
@@ -197,29 +196,8 @@
 </script>
 
 <style>
-  .editor :global(.scrollable-adventure) {
-    grid-area: adventure;
-    width: 100%;
-    padding-bottom: 8px;
-  }
-  .editor :global(.scrollable-edit-story) {
-    grid-area: edit-story;
-    max-height: 100%;
-  }
   .editor :global(.overview) {
     grid-area: overview;
-  }
-  .editor .options {
-    grid-area: options;
-    display: flex;
-    flex-flow: column;
-  }
-  .options :global(.button) {
-    margin-bottom: 8px;
-  }
-
-  .options :global(.button) {
-    margin-right: 20px;
   }
 
   .editor :global(.tabs) {
@@ -227,13 +205,17 @@
     margin-bottom: 24px;
   }
 
-  .editor :global(.edit-panel nav) {
-    display: flex;
+  .editor :global(.tablist) {
     margin-bottom: 24px;
   }
 
-  .editor :global(.edit-panel button) {
-    margin-right: 24px;
+  .editor :global(.edit-actions nav) {
+    display: flex;
+    margin-bottom: 32px;
+  }
+
+  .editor :global(.edit-actions button) {
+    margin-left: 24px;
   }
 
   h2 {
@@ -251,20 +233,37 @@
 
 <section class="editor">
   <Tabs>
-    <TabList className='tablist'>
+    <TabList className='tablist' justification="center">
       <Tab name="edit">Edit</Tab>
+      <Tab name="preview">Preview</Tab>
+      <Tab name="overview">Overview</Tab>
     </TabList>
 
-    <TabPanel className='edit-panel'>
+    <TabPanel className='edit-actions'>
       <nav>
-        <Button variation='small' on:click={addNewStoryNode}>+ story node</Button>
         <Select
-          className='story-node-select'
           {items}
+          className='story-node-select'
           on:select={e => storyNode = e.detail.value}
+          isClearable={false}
           selectedValue={storyNode}
         />
+
+        <Button
+          variation='small'
+          on:click={addNewStoryNode}
+        >
+          + story node
+        </Button>
+
+        <Button
+          variation='small'
+          on:click={loadStoryFile}
+        >
+          Load from File
+        </Button>
       </nav>
+
       <StoryNode
         {storyNode}
         {storyIdx}
@@ -273,29 +272,48 @@
         on:delete={() => deleteStoryNode(storyIdx)}
       />
 
+      <Decisions
+        {storyIdx}
+        {focusPath}
+        {clearFocusPath}
+        {onKeydown}
+        {onInput}
+        {onAddNewDecision}
+        {onDeleteDecision}
+        {storyNode}
+        isFinalNode={$inOrderStory[storyIdx].story.final}
+        decisions={$inOrderStory[storyIdx].story.decisions}
+      />
+
       <StoryText
+        text={$inOrderStory[storyIdx].story.text || []}
+        storyNode={storyNode}
         {storyIdx}
         {onInput}
         {onKeydown}
         {focusPath}
         {clearFocusPath}
-        text={$inOrderStory[storyIdx].story.text || []}
-        storyNode={storyNode}
       />
-
-      {#if mode === 'preview'}
-        <h2>
-          <i>Story Preview:</i>
-          <span>{storyNode}</span>
-        </h2>
-        <Adventure
-          {storyNode}
-          story={story}
-          title="Self titled adventure: Number One"
-          on:pageChange={updateOverview}
-        />
-      {/if}
     </TabPanel>
+
+    <TabPanel className='preview'>
+      <h2>
+        <i>Story Preview:</i>
+        <span>{storyNode}</span>
+      </h2>
+      <Adventure
+        story={story}
+        storyNode="start"
+      />
+    </TabPanel>
+
+    <TabPanel className='overview'>
+      <Overview
+        story={story}
+        storyNode="start"
+      />
+    </TabPanel>
+
   </Tabs>
 </section>
 
