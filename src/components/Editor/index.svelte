@@ -14,6 +14,7 @@
   import StoryNode from './_StoryNode.svelte';
   import Button from 'src/components/Button.svelte';
   import Checkbox from 'src/components/Checkbox/index';
+  import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
   import { last, debounce, keys, findIndex, concat, omit, isArray, get } from 'lodash';
   import { pathWrittable } from 'src/lib/path-writtable.js';
 
@@ -221,21 +222,22 @@
     margin-right: 20px;
   }
 
-  h2 {
-    border-bottom: 1px solid gray;
-  }
-
-  nav {
+  .editor :global(.tabs) {
     display: flex;
     margin-bottom: 24px;
   }
 
-  nav :global(button) {
-    margin-right: 16px;
+  .editor :global(.edit-panel nav) {
+    display: flex;
+    margin-bottom: 24px;
   }
 
-  nav :global(.story-node-select) {
-    flex: 1;
+  .editor :global(.edit-panel button) {
+    margin-right: 24px;
+  }
+
+  h2 {
+    border-bottom: 1px solid gray;
   }
 
   @media only screen and (min-width: 1150px) {
@@ -246,48 +248,55 @@
 </style>
 
 <NotificationDisplay themes={{ success: 'green'}} />
+
 <section class="editor">
+  <Tabs>
+    <TabList className='tablist'>
+      <Tab name="edit">Edit</Tab>
+    </TabList>
 
-  <nav>
-    <Button variation='small' on:click={addNewStoryNode}>+ story node</Button>
-    <Select
-      className='story-node-select'
-      {items}
-      on:select={e => storyNode = e.detail.value}
-      selectedValue={storyNode}
-    />
-  </nav>
+    <TabPanel className='edit-panel'>
+      <nav>
+        <Button variation='small' on:click={addNewStoryNode}>+ story node</Button>
+        <Select
+          className='story-node-select'
+          {items}
+          on:select={e => storyNode = e.detail.value}
+          selectedValue={storyNode}
+        />
+      </nav>
+      <StoryNode
+        {storyNode}
+        {storyIdx}
+        {onInput}
+        {onKeydown}
+        on:delete={() => deleteStoryNode(storyIdx)}
+      />
 
-  <StoryNode
-    {storyNode}
-    {storyIdx}
-    {onInput}
-    {onKeydown}
-    on:delete={() => deleteStoryNode(storyIdx)}
-  />
+      <StoryText
+        {storyIdx}
+        {onInput}
+        {onKeydown}
+        {focusPath}
+        {clearFocusPath}
+        text={$inOrderStory[storyIdx].story.text || []}
+        storyNode={storyNode}
+      />
 
-  <StoryText
-    {storyIdx}
-    {onInput}
-    {onKeydown}
-    {focusPath}
-    {clearFocusPath}
-    text={$inOrderStory[storyIdx].story.text || []}
-    storyNode={storyNode}
-  />
-
-  {#if mode === 'preview'}
-    <h2>
-      <i>Story Preview:</i>
-      <span>{storyNode}</span>
-    </h2>
-    <Adventure
-      {storyNode}
-      story={story}
-      title="Self titled adventure: Number One"
-      on:pageChange={updateOverview}
-    />
-  {/if}
+      {#if mode === 'preview'}
+        <h2>
+          <i>Story Preview:</i>
+          <span>{storyNode}</span>
+        </h2>
+        <Adventure
+          {storyNode}
+          story={story}
+          title="Self titled adventure: Number One"
+          on:pageChange={updateOverview}
+        />
+      {/if}
+    </TabPanel>
+  </Tabs>
 </section>
 
 <!--<section class="graph">-->
