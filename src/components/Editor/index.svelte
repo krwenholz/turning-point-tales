@@ -54,11 +54,11 @@
   const clearFocusPath = () => focusPath = '';
 
   const loadStoryFile = () => loadFile(data => {
-      $inOrderStory = data;
+      story = data;
       notifier.success("Story loaded", 1500);
   });
 
-  const saveStoryFile = () => saveFile($inOrderStory);
+  const saveStoryFile = () => saveFile(story);
 
   const asStoryDict = (storyArray = []) => storyArray.reduce((story, fragment) => ({
     ...story,
