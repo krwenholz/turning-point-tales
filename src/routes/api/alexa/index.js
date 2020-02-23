@@ -45,7 +45,7 @@ export const post = (req, res, next) => {
       res.end();
     })
     .catch(err => {
-      logger.error(error, "Error processing Alexa request");
+      logger.error(err, "Error processing Alexa request");
       res.status(500);
     });
 };
