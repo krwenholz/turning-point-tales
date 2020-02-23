@@ -126,15 +126,7 @@ export const startFreshStory = (storyId, handlerInput) => {
       store
     );
 
-    let decisionPrompt;
-    if (decisions) {
-      decisionPrompt = asSpeakableDecisions(decisions);
-    } else {
-      decisionPrompt =
-        "The End. To start another story say " +
-        speechPauseList() +
-        "list stories.";
-    }
+    const decisionPrompt = asSpeakableDecisions(decisions);
 
     return handlerInput.responseBuilder
       .speak(

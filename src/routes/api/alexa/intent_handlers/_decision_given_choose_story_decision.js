@@ -44,7 +44,15 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
         sessionAttributes.store
       );
 
-      const decisionPrompt = asSpeakableDecisions(decisions);
+      let decisionPrompt;
+      if (decisions) {
+        decisionPrompt = asSpeakableDecisions(decisions);
+      } else {
+        decisionPrompt =
+          "The End. To start another story say " +
+          speechPauseList() +
+          "list stories.";
+      }
 
       return handlerInput.responseBuilder
         .speak(asSpeakableStoryText(story, storyNode, decisionPrompt))
