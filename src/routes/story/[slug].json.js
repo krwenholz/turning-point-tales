@@ -3,7 +3,7 @@ import { pool } from "src/lib/server/database.js";
 import * as Stories from "./_stories.js";
 
 export const get = async (req, res, next) => {
-  return Stories.select(req.params)
+  return Stories.select(req.params.slug)
     .then(results => {
       if (results.rows[0]) {
         res.writeHead(200, {
