@@ -1,8 +1,9 @@
 import * as Alexa from "ask-sdk-core";
 import * as History from "src/components/Adventure/history";
 import * as Stories from "src/routes/story/_stories";
-import { map, join, find } from "lodash";
+import StartedInProgressChooseStoryIntentHandler from "./intent_handlers/_started_in_progress_choose_story";
 import { logger } from "src/logging";
+import { map, join, find } from "lodash";
 
 const decisionLabels = [
   "one",
@@ -107,11 +108,19 @@ export const startFreshStory = (storyId, handlerInput) => {
       }
     ]
   };
+  // TODO(kyle): make it a real subscription
+  const subscriptionEnd =
+    sessionAttributes.subscriptionEnd || new Date("1990-07-13");
   sessionAttributes.store = store;
   handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
 
   return Stories.select(storyId).then(results => {
     const story = results.rows[0];
+
+    if (!story["generalRelease"] && subscriptionEnd < new Date()) {
+      return StartedInProgressChooseStoryIntentHandler.handle(handlerInput);
+    }
+
     const decisions = History.filterAvailable(
       story["content"][storyNode]["decisions"],
       store
