@@ -18,7 +18,6 @@ const StoryTitleChoiceGivenChooseStoryIntentHandler = {
       "STORY_TITLE_CHOICE"
     );
 
-    console.info("xxxx");
     return startFreshStory(storyId, handlerInput);
   }
 };

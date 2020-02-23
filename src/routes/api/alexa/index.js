@@ -5,7 +5,6 @@ import ErrorHandler from "./_error_handler";
 import GoBackIntentHandler from "./intent_handlers/_go_back";
 import HelpIntentHandler from "./intent_handlers/_help";
 import LaunchRequestHandler from "./request_handlers/_launch";
-import ListStoriesIntentHandler from "./intent_handlers/_list_stories";
 import RestartStoryIntentHandler from "./intent_handlers/_restart_story";
 import SessionEndedRequestHandler from "./request_handlers/_session_ended";
 import StartedInProgressChooseStoryIntentHandler from "./intent_handlers/_started_in_progress_choose_story";

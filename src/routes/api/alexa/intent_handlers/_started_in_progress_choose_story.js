@@ -3,9 +3,10 @@ import {
   asConfirmable,
   asSpeakable
 } from "src/routes/api/alexa/alexa_utilities";
-import { map, join } from "lodash";
+import { filter, join, map } from "lodash";
 import * as Stories from "src/routes/story/_stories";
 import * as History from "src/components/Adventure/history";
+import { logger } from "src/logging";
 
 const StartedInProgressChooseStoryIntentHandler = {
   canHandle(handlerInput) {
@@ -15,19 +16,28 @@ const StartedInProgressChooseStoryIntentHandler = {
     );
   },
   handle(handlerInput) {
+    const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+    // TODO(kyle): make it a real subscription
+    const subscribed =
+      (sessionAttributes.subscriptionEnd || new Date("1990-07-13")) >
+      new Date();
+
     return Stories.list().then(results => {
-      // TODO(kyle): filter by subscriber status (session attribute?)
-      const storyTitleChoices = map(results.rows, story => {
-        return {
-          id: `${story.id}`,
-          name: {
-            value: asConfirmable(asSpeakable(story.title)),
-            synonyms: [
-              asConfirmable(asSpeakable(`${story.title} by ${story.author}`))
-            ]
-          }
-        };
-      });
+      const storyTitleChoices = map(
+        filter(results.rows, story => subscribed || story.general_release),
+        story => {
+          logger.info(subscribed, story.general_release, story.title, "xxx");
+          return {
+            id: `${story.id}`,
+            name: {
+              value: asConfirmable(asSpeakable(story.title)),
+              synonyms: [
+                asConfirmable(asSpeakable(`${story.title} by ${story.author}`))
+              ]
+            }
+          };
+        }
+      );
 
       const updateStoryTitlesDirective = {
         type: "Dialog.UpdateDynamicEntities",
@@ -41,7 +51,7 @@ const StartedInProgressChooseStoryIntentHandler = {
       };
 
       const storyList = map(
-        results.rows,
+        filter(results.rows, story => subscribed || story.general_release),
         story => `${story.title} by ${story.author}`
       );
 
