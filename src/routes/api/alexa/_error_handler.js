@@ -6,7 +6,7 @@ const ErrorHandler = {
   },
   handle(handlerInput, error) {
     // TODO(kyle): This is stupid and needs help
-    console.log(`Error handled: ${error.message}`);
+    logger.info(error, "Alexa error handled");
 
     return handlerInput.responseBuilder
       .speak("Sorry, I can't understand the command. Please say again.")
