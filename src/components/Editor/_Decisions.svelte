@@ -6,7 +6,7 @@
   import Trash from 'src/components/icons/Trash.svelte';
   import Checkbox from 'src/components/Checkbox';
 
-  export let storyIdx;
+  export let storyIdx = null;
   export let focusPath = '';
   export let clearFocusPath = () => {};
   export let onKeydown = () => {};
