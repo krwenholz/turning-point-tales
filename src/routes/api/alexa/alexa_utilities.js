@@ -1,9 +1,8 @@
 import * as Alexa from "ask-sdk-core";
 import * as History from "src/components/Adventure/history";
 import * as Stories from "src/routes/story/_stories";
-import StartedInProgressChooseStoryIntentHandler from "./intent_handlers/_started_in_progress_choose_story";
 import { logger } from "src/logging";
-import { map, join, find } from "lodash";
+import { map, join, filter, find } from "lodash";
 
 const decisionLabels = [
   "one",
@@ -94,6 +93,78 @@ export const findConfirmedSlotValue = (requestEnvelope, key) => {
   )["values"][0]["value"]["id"];
 };
 
+export const createHandler = handlerBase => {
+  return {
+    canHandle(handlerInput) {
+      return handlerBase.canHandle(handlerInput);
+    },
+    handle(handlerInput) {
+      logger.info(
+        {
+          requestType: handlerInput.requestEnvelope.request.type,
+          requestName: handlerInput.requestEnvelope.request.intent.name,
+          handlerName: handlerBase.name
+        },
+        "Handling Alexa request"
+      );
+      return handlerBase.handle(handlerInput);
+    }
+  };
+};
+
+export const listStoriesForAlexa = handlerInput => {
+  const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+  // TODO(kyle): make it a real subscription
+  const subscribed =
+    (sessionAttributes.subscriptionEnd || new Date("1990-07-13")) > new Date();
+
+  return Stories.list().then(results => {
+    const storyTitleChoices = map(
+      filter(results.rows, story => subscribed || story.general_release),
+      story => {
+        return {
+          id: `${story.id}`,
+          name: {
+            value: asConfirmable(asSpeakable(story.title)),
+            synonyms: [
+              asConfirmable(asSpeakable(`${story.title} by ${story.author}`))
+            ]
+          }
+        };
+      }
+    );
+
+    const updateStoryTitlesDirective = {
+      type: "Dialog.UpdateDynamicEntities",
+      updateBehavior: "REPLACE",
+      types: [
+        {
+          name: "STORY_TITLE_CHOICE",
+          values: storyTitleChoices
+        }
+      ]
+    };
+
+    const storyList = map(
+      filter(results.rows, story => subscribed || story.general_release),
+      story => `${story.title} by ${story.author}`
+    );
+
+    const repeat = "Which tale is next?";
+    const speechText =
+      "Choose a story by saying start followed by the title. You can choose " +
+      join(storyList, speechPauseList());
+
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(repeat)
+      .withSimpleCard("Story choices", join(storyList, ", "))
+      .addDirective(updateStoryTitlesDirective)
+      .withShouldEndSession(false)
+      .getResponse();
+  });
+};
+
 export const startFreshStory = (storyId, handlerInput) => {
   const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
   sessionAttributes.storyId = storyId;
@@ -117,8 +188,12 @@ export const startFreshStory = (storyId, handlerInput) => {
   return Stories.select(storyId).then(results => {
     const story = results.rows[0];
 
-    if (!story["generalRelease"] && subscriptionEnd < new Date()) {
-      return StartedInProgressChooseStoryIntentHandler.handle(handlerInput);
+    if (!story["general_release"] && subscriptionEnd < new Date()) {
+      logger.info(
+        { release: story["general_release"], sub: subscriptionEnd },
+        "checking xxx"
+      );
+      return listStoriesForAlexa(handlerInput);
     }
 
     const decisions = History.filterAvailable(

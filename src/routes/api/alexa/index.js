@@ -32,7 +32,6 @@ const skill = Alexa.SkillBuilders.custom()
   .create();
 
 export const post = (req, res, next) => {
-  logger.info(req.body, "Alexa request received");
   return new SkillRequestSignatureVerifier()
     .verify(req.rawBody, req.headers)
     .then(() => {
