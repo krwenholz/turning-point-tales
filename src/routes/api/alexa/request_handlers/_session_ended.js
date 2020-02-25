@@ -1,6 +1,8 @@
 import { logger } from "src/logging";
+import { createHandler } from "src/routes/api/alexa/alexa_utilities";
 
-const SessionEndedRequestHandler = {
+const SessionEndedRequestHandler = createHandler({
+  name: "SessionEndedRequestHandler",
   canHandle(handlerInput) {
     return handlerInput.requestEnvelope.request.type === "SessionEndedRequest";
   },
@@ -15,6 +17,6 @@ const SessionEndedRequestHandler = {
       .addDirective(clearEntitiesDirective)
       .getResponse();
   }
-};
+});
 
 export default SessionEndedRequestHandler;
