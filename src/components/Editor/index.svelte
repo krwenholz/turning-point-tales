@@ -53,7 +53,14 @@
   const clearFocusPath = () => focusPath = '';
 
   const loadStoryFile = () => loadFile(data => {
+    // why do I need this??????
     story = data;
+
+    $inOrderStory = keys(data).map(storyNode => ({
+      storyNode,
+      story: story[storyNode],
+    }));
+
     notifier.success("Story loaded", 1500);
   });
 
