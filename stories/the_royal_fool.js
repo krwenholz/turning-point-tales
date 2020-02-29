@@ -1,5 +1,5 @@
 const the_royal_fool = {
-  title: "Wagons ANd Dragons - Side Quests - The Royal Fool",
+  title: "Wagons and Dragons - Side Quests - The Royal Fool",
   author: "Sean Wong-Westbrooke",
   tags: ["humor", "adventure"],
   generalRelease: false,
