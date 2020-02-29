@@ -4,7 +4,58 @@ const heroes_and_monsters = {
   author: "Sean Wong-Westbrooke",
   tags: ["fantasy", "adventure"],
   generalRelease: false,
-  badges: [],
+  badges: [
+    {
+      icon: "😈 ",
+      text: "Well that ended on a sour note",
+      node: "assault"
+    },
+    {
+      icon: "💀",
+      text: "Not just mostly dead, but all dead",
+      node: "funeral"
+    },
+    {
+      icon: "😱",
+      text: "A terrible way to end a nap",
+      node: "awake_captured"
+    },
+    {
+      icon: "👩",
+      text: "Never forget!",
+      node: "willow_sacrifice"
+    },
+    {
+      icon: "⚔",
+      text: "This will be a great ice-breaker story",
+      node: "tunnel_willow"
+    },
+    {
+      icon: "🛥",
+      text: "You're on a boat",
+      node: "willow_boat"
+    },
+    {
+      icon: "🙏",
+      text: "Someday...",
+      node: "willow_protect"
+    },
+    {
+      icon: "🏘",
+      text: "You'll be back, and in greater numbers",
+      node: "tunnel"
+    },
+    {
+      icon: "⛵",
+      text: "Atleast you have a boat",
+      node: "tunnel"
+    },
+    {
+      icon: "⚔ ",
+      text: "All good things in time",
+      node: "leave_quietly"
+    },
+  ],
   preview: "Their camp is sparse, a necessity for avoiding the winter raiders. The humans come when the snow is heavy and the food is scarce, even though the cold does little to orcs, hunger hampers all. The strongest warrior of the clan, Garo, has left his tent after only a few hours of restless sleep filled with memories of bloody snow. The full-grown orc stands tall in his furs and looks over the nomadic camp.",
   content: {
     "start": {
