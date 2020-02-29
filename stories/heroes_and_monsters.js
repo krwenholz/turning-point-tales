@@ -1,6 +1,6 @@
 
 const heroes_and_monsters = {
-  title: "Heroes and Monsters",
+  title: "Wagons and Dragons - Side Quests - Heroes and Monsters",
   author: "Sean Wong-Westbrooke",
   tags: ["fantasy", "adventure"],
   generalRelease: false,

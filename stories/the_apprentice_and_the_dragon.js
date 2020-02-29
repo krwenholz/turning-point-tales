@@ -1,6 +1,6 @@
 
 const the_apprentice_and_the_dragon = {
-  title: "The Apprentice and the Dragon",
+  title: "Wagons and Dragons - Side Quests - The Apprentice and the Dragon",
   author: "Sean Wong-Westbrooke",
   tags: ["humor", "adventure"],
   generalRelease: false,
