@@ -3,7 +3,63 @@ const the_royal_fool = {
   author: "Sean Wong-Westbrooke",
   tags: ["humor", "adventure"],
   generalRelease: false,
-  badges: [],
+  badges: [
+    {
+      icon: "😅 ",
+      text: "Back to business...",
+      node: "ordered_west"
+    },
+    {
+      icon: "🏃",
+      text: "Every fool for himself",
+      node: "save_yourself"
+    },
+    {
+      icon: "🎣",
+      text: "Come and get me",
+      node: "bait"
+    },
+    {
+      icon: "🛡",
+      text: "Every fool has his day",
+      node: "push"
+    },
+    {
+      icon: "😆",
+      text: "The first step is admitting it",
+      node: "years_later_support",
+    },
+    {
+      icon: "⏳",
+      text: "Guess it wasn't the right time",
+      node: "refuse_support",
+    },
+    {
+      icon: "🔅",
+      text: "Now this is the good life",
+      node: "comfort_king",
+    },
+    {
+      icon: "👟",
+      text: "I'm outta here",
+      node: "pity",
+    },
+    {
+      icon: "📚",
+      text: "Maybe they'll write a story about you!",
+      node: "to_dungeons",
+    },
+    {
+      icon: "👻",
+      text: "It could have been worse",
+      node: "carriage",
+    },
+    {
+      icon: "👸",
+      text: "You've got her back",
+      node: "leave_with_queen",
+    }
+  ],
   preview: "Twenty-seven. Twenty-seven gold pieces my dad sold me for. One stinking harvest worth, we had three good years in a row and he still sold me. Lousy fart is probably getting fat off my share of the food…",
   content: {
     "start": {
