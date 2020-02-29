@@ -4,7 +4,53 @@ const the_apprentice_and_the_dragon = {
   author: "Sean Wong-Westbrooke",
   tags: ["humor", "adventure"],
   generalRelease: false,
-  badges: [],
+  badges: [
+    {
+      icon: "🥊",
+      text: "Fighting is always the answer",
+      node: "attack"
+    },
+    {
+      icon: "🏳",
+      text: "Let it go, let it go!",
+      node: "move_on"
+    },
+    {
+      icon: "💭",
+      text: "Wishful thinking",
+      node: "solo_apprentice"
+    },
+    {
+      icon: "👟",
+      text: "Bravely run away",
+      node: "run_away"
+    },
+    {
+      icon: "🐉",
+      text: "The ending you really wanted",
+      node: "dragonriders"
+    },
+    {
+      icon: "🐉",
+      text: "A dragon is all you need",
+      node: "two_days_later"
+    },
+    {
+      icon: "👬",
+      text: "Friends come in all shapes and sizes",
+      node: "steal_wagon"
+    },
+    {
+      icon: "💤",
+      text: "It all worked out",
+      node: "hide"
+    },
+    {
+      icon: "📗",
+      text: "Have your cake and eat it too.",
+      node: "apprentice"
+    },
+  ],
   preview: "Twenty-seven. Twenty-seven gold pieces my dad sold me for. One stinking harvest worth, we had three good years in a row and he still sold me. Lousy fart is probably getting fat off my share of the food…",
   content: {
     "start": {
