@@ -1,6 +1,8 @@
 import { logger } from "src/logging";
+import { createHandler } from "src/routes/api/alexa/alexa_utilities";
 
-const ErrorHandler = {
+const ErrorHandler = createHandler({
+  name: "ErrorHandler",
   canHandle() {
     return true;
   },
@@ -13,6 +15,6 @@ const ErrorHandler = {
       .reprompt("Sorry, I can't understand the command. Please say again.")
       .getResponse();
   }
-};
+});
 
 export default ErrorHandler;
