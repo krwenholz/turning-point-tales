@@ -15,6 +15,9 @@ import {
 } from "ask-sdk-express-adapter";
 import { logger } from "src/logging";
 
+// TODO(kyle): https://developer.amazon.com/en-US/docs/alexa/account-linking/steps-to-implement-account-linking.html
+// https://github.com/jaredhanson/oauth2orize
+
 // BEWARE: Order matters; they're handlers.
 const skill = Alexa.SkillBuilders.custom()
   .addRequestHandlers(
@@ -32,6 +35,7 @@ const skill = Alexa.SkillBuilders.custom()
   .create();
 
 export const post = (req, res, next) => {
+  // TODO(kyle): auth https://github.com/jaredhanson/oauth2orize#implement-api-endpoints
   return new SkillRequestSignatureVerifier()
     .verify(req.rawBody, req.headers)
     .then(() => {

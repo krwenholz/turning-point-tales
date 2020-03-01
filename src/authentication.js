@@ -1,9 +1,10 @@
-import { logger } from "src/logging";
 import config from "config";
 import passport from "passport";
 import securePassword from "secure-password";
+import passportLocal from "passport-local";
+import { tokenStrategy } from "src/routes/oauth/_index";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
-import { Strategy as LocalStrategy } from "passport-local";
+import { logger } from "src/logging";
 
 const passwordHasher = securePassword();
 
@@ -42,7 +43,7 @@ const compare = (userPassword, hash) => {
     });
 };
 
-const allowedBaseRoutes = [
+const noAuthRoutes = [
   "/",
   "/about",
   "/api/password-reset",
@@ -55,6 +56,7 @@ const allowedBaseRoutes = [
   "/example-story",
   "/faq",
   "/index",
+  "/oauth/token",
   "/password-reset",
   "/privacy",
   "/service-worker.js",
@@ -65,7 +67,7 @@ const allowedBaseRoutes = [
   "/user/new"
 ];
 
-const allowedPrefixes = [
+const noAuthPrefixes = [
   "/?",
   "/api/user/login",
   "/api/user/new",
@@ -78,10 +80,10 @@ const allowedPrefixes = [
   "/story"
 ];
 
-const noAuthRoute = req => {
+const requiresAuth = req => {
   return (
-    allowedBaseRoutes.includes(req.path) ||
-    allowedPrefixes.some(prefix => req.path.startsWith(prefix))
+    noAuthRoutes.includes(req.path) ||
+    noAuthPrefixes.some(prefix => req.path.startsWith(prefix))
   );
 };
 
@@ -91,14 +93,14 @@ const noAuthRoute = req => {
  */
 const protectNonDefaultRoutes = (req, res, next) => {
   if (req.isAuthenticated()) next();
-  else if (noAuthRoute(req)) next();
+  else if (requiresAuth(req)) next();
   else {
     logger.info({ url: req.url }, "Unauthenticated access found on url");
 
     if (req.path.endsWith(".js") || req.path.endsWith(".json")) {
       res.writeHead(401);
     } else {
-      res.redirect("/");
+      return login.ensureLoggedIn()(req, res, next);
     }
     res.end();
     return;
@@ -130,11 +132,11 @@ passport.deserializeUser(async (id, cb) => {
 /**
  * All the nasty details of initializing Passport with our user store.
  */
-const initPassport = () => {
+export const initPassport = () => {
   logger.info("Initializing passport");
 
   passport.use(
-    new LocalStrategy(
+    new passportLocal.Strategy(
       {
         usernameField: "email"
       },
@@ -156,7 +158,9 @@ const initPassport = () => {
     )
   );
 
+  passport.use(tokenStrategy);
+
   passport.authenticationMiddleware = () => protectNonDefaultRoutes;
 };
 
-export { initPassport };
+export { passport };

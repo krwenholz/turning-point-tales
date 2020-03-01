@@ -1,7 +1,7 @@
 import {
   createHandler,
   listStoriesForAlexa
-} from "src/routes/api/alexa/alexa_utilities";
+} from "src/routes/api/alexa/_utilities";
 import { logger } from "src/logging";
 
 const StartedInProgressChooseStoryIntentHandler = createHandler({

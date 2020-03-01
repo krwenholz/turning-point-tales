@@ -15,7 +15,8 @@ const post = (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return findUserSafeDetails(user.id).then(user => res.redirect("/"));
+      const redirect = req.session.returnTo || "/";
+      return findUserSafeDetails(user.id).then(user => res.redirect(redirect));
     });
   })(req, res, next);
 };

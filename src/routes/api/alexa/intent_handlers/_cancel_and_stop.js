@@ -1,4 +1,4 @@
-import { createHandler } from "src/routes/api/alexa/alexa_utilities";
+import { createHandler } from "src/routes/api/alexa/_utilities";
 
 const CancelAndStopIntentHandler = createHandler({
   name: "CancelAndStopIntentHandler",

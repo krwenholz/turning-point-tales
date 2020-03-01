@@ -30,6 +30,10 @@ module.exports = {
     subscriptionId: process.env.STRIPE_SUBSCRIPTION_PLAN_ID || "",
     webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || ""
   },
+  alexa: {
+    client_id: process.env.ALEXA_CLIENT_ID || "",
+    secret: process.env.ALEXA_SECRET || ""
+  },
   aws: {
     default: {},
     production: {}
