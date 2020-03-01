@@ -2,7 +2,7 @@ import * as Stories from "src/routes/story/_stories";
 import {
   startFreshStory,
   createHandler
-} from "src/routes/api/alexa/alexa_utilities";
+} from "src/routes/api/alexa/_utilities";
 
 const RestartStoryIntentHandler = createHandler({
   name: "RestartStoryIntentHandler",

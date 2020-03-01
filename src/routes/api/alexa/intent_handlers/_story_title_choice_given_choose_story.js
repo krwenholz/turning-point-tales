@@ -2,7 +2,7 @@ import {
   startFreshStory,
   findConfirmedSlotValue,
   createHandler
-} from "src/routes/api/alexa/alexa_utilities";
+} from "src/routes/api/alexa/_utilities";
 import * as Stories from "src/routes/story/_stories.js";
 
 const StoryTitleChoiceGivenChooseStoryIntentHandler = createHandler({
