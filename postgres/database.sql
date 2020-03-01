@@ -59,14 +59,6 @@ CREATE TABLE IF NOT EXISTS subscriptions(
   modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE OR REPLACE FUNCTION update_modified_column()
-RETURNS TRIGGER AS $$
-BEGIN
-NEW.modified = now();
-RETURN NEW;
-END;
-$$ language 'plpgsql';
-
 --Users, ends up managed by connect - pg - simple
 CREATE TABLE "user_sessions"(
   "sid"
@@ -80,3 +72,28 @@ WITH(OIDS = FALSE);
 ALTER TABLE "user_sessions"
 ADD CONSTRAINT "session_pkey"
 PRIMARY KEY("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+CREATE TABLE IF NOT EXISTS oauth_authorization_codes(
+  code TEXT PRIMARY KEY,
+  client_id TEXT NOT NULL,
+  redirect_uri TEXT NOT NULL,
+  user_id uuid REFERENCES users(id) UNIQUE,
+  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS oauth_access_tokens(
+  token TEXT PRIMARY KEY,
+  client_id TEXT NOT NULL,
+  user_id uuid REFERENCES users(id) UNIQUE,
+  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE OR REPLACE FUNCTION update_modified_column()
+RETURNS TRIGGER AS $$
+BEGIN
+NEW.modified = now();
+RETURN NEW;
+END;
+$$ language 'plpgsql';

@@ -5,7 +5,7 @@ import {
   asSpeakableStoryText,
   storyDecisionChoices,
   updateStoryDecisionChoicesDirective
-} from "src/routes/api/alexa/alexa_utilities";
+} from "src/routes/api/alexa/_utilities";
 
 const GoBackIntentHandler = {
   canHandle(handlerInput) {

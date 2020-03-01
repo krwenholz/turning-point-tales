@@ -7,7 +7,7 @@ import {
   storyDecisionChoices,
   updateStoryDecisionChoicesDirective,
   findConfirmedSlotValue
-} from "src/routes/api/alexa/alexa_utilities";
+} from "src/routes/api/alexa/_utilities";
 import * as Stories from "src/routes/story/_stories";
 import * as History from "src/components/Adventure/history";
 
