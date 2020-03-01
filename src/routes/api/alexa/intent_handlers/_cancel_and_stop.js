@@ -1,4 +1,7 @@
-const CancelAndStopIntentHandler = {
+import { createHandler } from "src/routes/api/alexa/alexa_utilities";
+
+const CancelAndStopIntentHandler = createHandler({
+  name: "CancelAndStopIntentHandler",
   canHandle(handlerInput) {
     return (
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
@@ -17,6 +20,6 @@ const CancelAndStopIntentHandler = {
       .withShouldEndSession(true)
       .getResponse();
   }
-};
+});
 
 export default CancelAndStopIntentHandler;
