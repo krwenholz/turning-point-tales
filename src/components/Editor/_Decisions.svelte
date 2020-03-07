@@ -47,7 +47,8 @@
 
   .label,
   .story-node,
-  .consequences {
+  .consequences,
+  .requires {
     display: flex;
     flex-flow: row;
     align-items: center;
@@ -69,7 +70,8 @@
 
   .label span,
   .story-node span,
-  .consequences span {
+  .consequences span,
+  .requires span {
     width: 30%;
     max-width: 130px;
     margin-bottom: 12px;
@@ -79,12 +81,6 @@
     margin-left: 16px;
     width: 32px;
     height: 32px;
-  }
-
-  nav {
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
   }
 
   .form-group {
@@ -122,8 +118,8 @@
       >
         Delete
       </Trash>
-      <section class='label-story-node-consequences'>
-        <div class="label">
+      <ul class='label-story-node-consequences'>
+        <li class="label">
           <span> Label </span>
           <Input
             value={decision.label}
@@ -142,9 +138,9 @@
               prevValue: decision.label,
             })}
           />
-        </div>
+        </li>
 
-        <div class="story-node">
+        <li class="story-node">
           <span>StoryNode</span>
           <Input
             value={decision.storyNode}
@@ -162,9 +158,9 @@
               prevValue: decision.storyNode,
             })}
           />
-        </div>
+        </li>
 
-        <div class='consequences'>
+        <li class='consequences'>
           <span>Consequences (optional)</span>
           <Input
             value={decision.consequences || ''}
@@ -182,9 +178,9 @@
               prevValue: decision.consequences,
             })}
           />
-        </div>
+        </li>
 
-        <div class='consequences'>
+        <li class='requires'>
           <span>Requires (optional)</span>
           <Input
             value={decision.requires || ''}
@@ -202,9 +198,8 @@
               prevValue: decision.requires,
             })}
           />
-        </div>
-
-      </section>
+        </li>
+      </ul>
     </div>
   {/each}
   {/if}

@@ -28,6 +28,8 @@
   let history = [];
   let consequences = [];
 
+  $: console.log(story);
+
   $: storyIsValid = process.browser && isValidStory(story);
 
   $: items = keys(story).map(key => ({
@@ -235,6 +237,10 @@
     margin-left: 24px;
   }
 
+  .editor :global(.preview) {
+    display: flex;
+  }
+
   h2 {
     border-bottom: 1px solid gray;
   }
@@ -253,7 +259,6 @@
     <TabList className='tablist' justification="center">
       <Tab name="edit">Edit</Tab>
       <Tab name="preview">Preview</Tab>
-      <Tab name="overview">Overview</Tab>
       <Tab name="graph">Graph</Tab>
     </TabList>
 
@@ -288,7 +293,7 @@
         >
           Download
         </Button>
-      </nav>
+     </nav>
 
       <StoryNode
         {storyNode}
@@ -321,13 +326,16 @@
     </TabPanel>
 
     <TabPanel className='preview'>
-      <Adventure story={story} storyNode="start" />
-    </TabPanel>
-
-    <TabPanel className='overview'>
       <Overview
         story={story}
+        history={history}
+        consequences={consequences}
+        storyNode={storyNode}
+      />
+      <Adventure
+        story={story}
         storyNode="start"
+        on:pageChange={updateOverview}
       />
     </TabPanel>
 
