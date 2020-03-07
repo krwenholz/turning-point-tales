@@ -6,7 +6,6 @@
   import Trash from 'src/components/icons/Trash.svelte';
   import Checkbox from 'src/components/Checkbox';
 
-  export let storyIdx = null;
   export let focusPath = '';
   export let clearFocusPath = () => {};
   export let onKeydown = () => {};
@@ -103,7 +102,7 @@
       Decisions
       <Button
         variation='link'
-        on:click={() => onAddNewDecision([storyIdx, 'story', 'decisions' ])}
+        on:click={() => onAddNewDecision([storyNode, 'decisions'])}
       >
         <Plus/>
         add new decision
@@ -116,7 +115,7 @@
     <div class='decision'>
       <Trash
         className={'delete-decision'}
-        on:click={() => onDeleteDecision([storyIdx, 'story', 'decisions', idx])}
+        on:click={() => onDeleteDecision([storyNode, 'decisions'],  idx)}
       >
         Delete
       </Trash>
@@ -128,7 +127,6 @@
             placeholder="button text"
             on:input={e => onInput(e, {
               idx,
-              storyIdx,
               storyNode,
               location: 'decisionLabel',
               prevValue: decision.label,
@@ -149,14 +147,12 @@
             placeholder="Name of story node"
             on:input={e => onInput(e, {
               idx,
-              storyIdx,
               storyNode,
               location: 'decisionStoryNode',
               prevValue: decision.storyNode,
             })}
             on:keydown={e => onKeydown(e, {
               idx,
-              storyIdx,
               storyNode,
               location: 'decisionStoryNode',
               prevValue: decision.storyNode,
@@ -172,7 +168,7 @@
   <div class='form-group'>
     <Checkbox
       id="disable-decisions"
-      on:click={e => onSetAsFinalNode({ checked: e.target.checked, storyIdx })}
+      on:click={e => onSetAsFinalNode({ checked: e.target.checked, storyNode })}
     />
     <label for="disable-decisions">
       Disable Decisions (make this a dead-end)
