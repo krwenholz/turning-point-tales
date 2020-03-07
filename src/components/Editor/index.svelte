@@ -12,8 +12,9 @@
   import Button from 'src/components/Button.svelte';
   import Checkbox from 'src/components/Checkbox/index';
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
-  import { last, debounce, keys, findIndex, concat, omit, isArray, get } from 'lodash';
-  import { pathWrittable } from 'src/lib/path-writtable.js';
+  import { dropRight, debounce, keys, findIndex, concat, omit, get } from 'lodash';
+  import { assoc, update } from 'lodash/fp';
+  import { renameKey } from 'src/lib/utilities.js'
   import { saveFile, loadFile } from 'src/lib/load-and-save-files.js';
   import { safeWindow } from 'src/lib/client/safe-window.js';
 
@@ -22,22 +23,20 @@
   export let className ='';
   export let focusPath = '';
   export let onEdit = () => {};
+
   let selectWrapperRef = null;
   let history = [];
   let consequences = [];
-  let inOrderStory = pathWrittable(keys(story).map(storyNode => ({
-    storyNode,
-    story: story[storyNode],
-  })));
 
   $: storyIsValid = process.browser && isValidStory(story);
 
-  $: items = $inOrderStory.map(({ storyNode }) => ({
-    value: storyNode,
-    label: storyNode,
+  $: items = keys(story).map(key => ({
+    value: key,
+    label: key,
   }));
 
-  $: storyIdx = findIndex($inOrderStory, { storyNode });
+  $: console.log(story);
+
 
   const updateStory = editedStory => {
     story = editedStory;
@@ -53,10 +52,7 @@
   const clearFocusPath = () => focusPath = '';
 
   const loadStoryFile = () => loadFile(data => {
-    // why do I need this??????
-    story = data;
-
-    $inOrderStory = keys(data).map(storyNode => ({
+    story = keys(data).map(storyNode => ({
       storyNode,
       story: story[storyNode],
     }));
@@ -75,22 +71,23 @@
     if (prevValue === e.target.value) return;
 
     const path = {
-      storyNode: [storyIdx, 'storyNode'],
-      storyText: [storyIdx, 'story', 'text', idx],
-      decisionLabel: [storyIdx, 'story', 'decisions', idx, 'label'],
-      decisionStoryNode: [storyIdx, 'story', 'decisions', idx, 'storyNode'],
+      storyNode: [storyNode],
+      storyText: [storyNode, 'text', idx],
+      decisionLabel: [storyNode, 'decisions', idx, 'label'],
+      decisionStoryNode: [storyNode, 'decisions', idx, 'storyNode'],
     }[location];
 
-    inOrderStory.setAt(path, e.target.value);
-
     if(location === 'storyNode') {
+      story = renameKey(story, storyNode, e.target.value);
       storyNode = e.target.value;
+    } else {
+      story = assoc(path, e.target.value, story);
     }
 
-    onEdit(asStoryDict($inOrderStory));
+    onEdit(story);
   };
 
-  const onKeydown = (e, { prevValue, location, idx, storyNode, storyIdx }) => {
+  const onKeydown = (e, { prevValue, location, idx, storyNode }) => {
     const addedNewParagraphByHittingEnter = e.key === 'Enter' && location === 'storyText';
 
     const deletedParagraphByHittingBackspace = e.key === 'Backspace' && !prevValue && idx !== 0;
@@ -103,20 +100,26 @@
     }
 
     if(addedNewParagraphByHittingEnter) {
-      inOrderStory.concatAt([storyIdx, 'story', 'text'], '');
-      focusPath = [storyIdx, 'story', 'text', idx + 1];
+      story = assoc([storyNode, 'text', idx + 1], '', story);
+      focusPath = [storyNode, 'text', idx + 1];
       e.preventDefault();
     }
     else if (deletedParagraphByHittingBackspace) {
-      inOrderStory.dropAt([storyIdx, 'story', 'text', idx]);
-      focusPath = [storyIdx, 'story', 'text', idx - 1];
+      story = update(
+        [storyNode, 'text'],
+        dropRight,
+        story
+      );
+
+      focusPath = [storyNode, 'text', idx - 1];
+
       e.preventDefault();
     }
 
-    onEdit(asStoryDict($inOrderStory));
+    onEdit(story);
   };
 
-  const deleteStoryNode = (storyIdx) => {
+  const deleteStoryNode = (storyNodeToDelete) => {
     var answer = window.confirm(
       "Are you sure you want to delete this story fragment?\n\n" +
       "This will delete all its text and decisions."
@@ -124,19 +127,26 @@
 
     if(!answer) return;
 
-    inOrderStory.dropAt([storyIdx]);
-    storyNode = last($inOrderStory).storyNode;
+    story = omit(story, [storyNodeToDelete]);
+
+    storyNode = 'start';
   }
 
-  const onAddNewDecision = (path) => inOrderStory.concatAt(path, {
-    label: '',
-    storyNode: ''
-  });
+  const onAddNewDecision = (path) => {
+    story = assoc(
+      path,
+      {
+        label: '',
+        storyNode: ''
+      },
+      story
+    );
+  }
 
   const addNewStoryNode = () => {
-    inOrderStory.concat({
-      storyNode: 'temp',
-      story: {
+    story = assoc(
+    'temp',
+      {
         text: [''],
         decisions: [
           {
@@ -144,32 +154,40 @@
             storyNode: '',
           }
         ]
-      }
-    });
+      },
+      story
+    );
 
-    storyNode = 'temp';
+    storyNode = 'temp'
   }
 
-  const onSetAsFinalNode = ({ checked, storyIdx}) => {
-    const path = [storyIdx, 'story'];
+  const onSetAsFinalNode = ({ checked, storyNode }) => {
+    const path = [storyNode];
 
     if(checked) {
-      inOrderStory.setAt(path, {
-        ...get($inOrderStory, path),
-        decisions: [],
-        final: true,
-      });
+      story = update(
+        path,
+        fragment => ({
+          ...fragment,
+          decisions: [],
+          final: true,
+        })
+      );
     } else {
-      inOrderStory.setAt(path, {
-        ...omit(get($inOrderStory, path)),
-        decisions: [
-          {
-            label: '',
-            storyNode: '',
-          }
-        ],
-        final: false,
-      });
+      story = update(
+        path,
+        fragment => ({
+          ...fragment,
+          final: false,
+          decisions: [
+            {
+              label: '',
+              storyNode: '',
+            }
+          ],
+        }),
+        story,
+      );
     }
   }
 
@@ -259,6 +277,7 @@
         >
           Load from File
         </Button>
+
         <Button
           variation='secondary'
           on:click={saveStoryFile}
@@ -269,30 +288,27 @@
 
       <StoryNode
         {storyNode}
-        {storyIdx}
         {onInput}
         {onKeydown}
-        onDelete={() => deleteStoryNode(storyIdx)}
+        onDelete={() => deleteStoryNode(storyNode)}
       />
 
-      <Decisions
-        {storyIdx}
-        {focusPath}
-        {clearFocusPath}
-        {onKeydown}
-        {onInput}
-        {onAddNewDecision}
-        {onDeleteDecision}
-        {storyNode}
-        {onSetAsFinalNode}
-        isFinalNode={$inOrderStory[storyIdx].story.final}
-        decisions={$inOrderStory[storyIdx].story.decisions}
-      />
+      <!--<Decisions-->
+        <!--{focusPath}-->
+        <!--{clearFocusPath}-->
+        <!--{onKeydown}-->
+        <!--{onInput}-->
+        <!--{onAddNewDecision}-->
+        <!--{onDeleteDecision}-->
+        <!--{storyNode}-->
+        <!--{onSetAsFinalNode}-->
+        <!--isFinalNode={story[storyNode].final}-->
+        <!--decisions={story[storyNode].decisions}-->
+      <!--/>-->
 
       <StoryText
-        text={$inOrderStory[storyIdx].story.text || []}
+        text={story[storyNode].text || []}
         storyNode={storyNode}
-        {storyIdx}
         {onInput}
         {onKeydown}
         {focusPath}

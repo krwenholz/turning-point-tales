@@ -3,7 +3,6 @@
   import EditText from 'src/components/icons/EditText.svelte';
   import Input from 'src/components/Input/index';
 
-  export let storyIdx;
   export let storyNode = '';
   export let onInput = () => {};
   export let onKeydown = () => {};
@@ -39,12 +38,10 @@
       value={storyNode}
       placeholder="Name of story node"
       on:keydown={e => onKeydown(e, {
-        storyIdx,
         location: 'storyNode',
         prevValue: storyNode,
       })}
       on:input={e => onInput(e, {
-        storyIdx,
         location: 'storyNode',
         prevValue: storyNode,
       })}
