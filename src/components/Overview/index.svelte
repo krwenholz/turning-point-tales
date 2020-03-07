@@ -1,9 +1,8 @@
 <script>
   import { slide } from "src/lib/Transition";
-  import Scrollable from "src/components/Scrollable.svelte";
   import { map } from 'lodash';
   import { onDestroy } from 'svelte';
-
+  import Scrollable from "src/components/Scrollable.svelte";
 
   export let className = "";
   export let consequences = [];
@@ -14,11 +13,8 @@
 
 <style>
   .overview {
-    background: white;
-    display: grid;
-    grid-gap: 24px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "history consequences";
+    display: flex;
+    flex-flow: column;
   }
 
   :global(.history) { grid-area: history; }
