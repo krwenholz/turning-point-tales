@@ -35,8 +35,6 @@
     label: key,
   }));
 
-  $: console.log(story);
-
   const updateStory = editedStory => {
     story = editedStory;
     onEdit(editedStory);
@@ -69,11 +67,15 @@
       storyText: [storyNode, 'text', idx],
       decisionLabel: [storyNode, 'decisions', idx, 'label'],
       decisionStoryNode: [storyNode, 'decisions', idx, 'storyNode'],
+      decisionConsequences: [storyNode, 'decisions', idx, 'consequences'],
+      decisionRequires: [storyNode, 'decisions', idx, 'requires'],
     }[location];
 
     if(location === 'storyNode') {
       story = renameKey(story, storyNode, e.target.value);
       storyNode = e.target.value;
+    } else if (location.match(/decisionConsequences|decisionRequires/)) {
+      story = assoc(path, e.target.value.split(/,\s|,|\s/g), story);
     } else {
       story = assoc(path, e.target.value, story);
     }
@@ -162,17 +164,18 @@
     if(checked) {
       story = update(
         path,
-        fragment => ({
-          ...fragment,
+        prev => ({
+          ...prev,
           decisions: [],
           final: true,
-        })
+        }),
+        story
       );
     } else {
       story = update(
         path,
-        fragment => ({
-          ...fragment,
+        prev => ({
+          ...prev,
           final: false,
           decisions: [
             {
@@ -181,7 +184,7 @@
             }
           ],
         }),
-        story,
+        story
       );
     }
   }

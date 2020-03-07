@@ -13,7 +13,6 @@
   export let nodes = {};
 
   afterUpdate(() => {
-    debugger;
     if(nodes[focusPath.join()]) {
       nodes[focusPath.join()].focus();
       clearFocusPath();

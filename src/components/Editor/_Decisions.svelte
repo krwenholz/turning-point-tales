@@ -6,7 +6,7 @@
   import Trash from 'src/components/icons/Trash.svelte';
   import Checkbox from 'src/components/Checkbox';
 
-  export let focusPath = '';
+  export let focusPath = []
   export let clearFocusPath = () => {};
   export let onKeydown = () => {};
   export let onInput = () => {};
@@ -41,12 +41,13 @@
     cursor: pointer;
   }
 
-  .label-and-story-node {
+  .label-story-node-consequences {
     flex: 1;
   }
 
   .label,
-  .story-node {
+  .story-node,
+  .consequences {
     display: flex;
     flex-flow: row;
     align-items: center;
@@ -67,7 +68,8 @@
   }
 
   .label span,
-  .story-node span {
+  .story-node span,
+  .consequences span {
     width: 30%;
     max-width: 130px;
     margin-bottom: 12px;
@@ -96,6 +98,7 @@
     align-items: center;
   }
 </style>
+
 <section class="decisions">
   {#if !isFinalNode}
     <header>
@@ -119,7 +122,7 @@
       >
         Delete
       </Trash>
-      <section class='label-and-story-node'>
+      <section class='label-story-node-consequences'>
         <div class="label">
           <span> Label </span>
           <Input
@@ -140,6 +143,7 @@
             })}
           />
         </div>
+
         <div class="story-node">
           <span>StoryNode</span>
           <Input
@@ -159,6 +163,47 @@
             })}
           />
         </div>
+
+        <div class='consequences'>
+          <span>Consequences (optional)</span>
+          <Input
+            value={decision.consequences || ''}
+            placeholder="example: tired, angry"
+            on:input={e => onInput(e, {
+              idx,
+              storyNode,
+              location: 'decisionConsequences',
+              prevValue: decision.consequences,
+            })}
+            on:keydown={e => onKeydown(e, {
+              idx,
+              storyNode,
+              location: 'decisionConsequences',
+              prevValue: decision.consequences,
+            })}
+          />
+        </div>
+
+        <div class='consequences'>
+          <span>Requires (optional)</span>
+          <Input
+            value={decision.requires || ''}
+            placeholder="example: tired"
+            on:input={e => onInput(e, {
+              idx,
+              storyNode,
+              location: 'decisionRequires',
+              prevValue: decision.requires,
+            })}
+            on:keydown={e => onKeydown(e, {
+              idx,
+              storyNode,
+              location: 'decisionRequires',
+              prevValue: decision.requires,
+            })}
+          />
+        </div>
+
       </section>
     </div>
   {/each}
