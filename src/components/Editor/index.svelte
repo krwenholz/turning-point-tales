@@ -14,14 +14,14 @@
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
   import { dropRight, debounce, keys, findIndex, concat, omit, get } from 'lodash';
   import { assoc, update } from 'lodash/fp';
-  import { renameKey } from 'src/lib/utilities.js'
+  import { renameKey, dropIdx } from 'src/lib/utilities.js'
   import { saveFile, loadFile } from 'src/lib/load-and-save-files.js';
   import { safeWindow } from 'src/lib/client/safe-window.js';
 
   export let story = {}
   export let storyNode = 'start';
   export let className ='';
-  export let focusPath = '';
+  export let focusPath = []
   export let onEdit = () => {};
 
   let selectWrapperRef = null;
@@ -37,7 +37,6 @@
 
   $: console.log(story);
 
-
   const updateStory = editedStory => {
     story = editedStory;
     onEdit(editedStory);
@@ -49,7 +48,7 @@
     consequences = e.detail.consequences;
   };
 
-  const clearFocusPath = () => focusPath = '';
+  const clearFocusPath = () => focusPath = [];
 
   const loadStoryFile = () => loadFile(data => {
     story = keys(data).map(storyNode => ({
@@ -61,11 +60,6 @@
   });
 
   const saveStoryFile = () => saveFile(story);
-
-  const asStoryDict = (storyArray = []) => storyArray.reduce((story, fragment) => ({
-    ...story,
-    [fragment.storyNode]: fragment.story,
-  }), {});
 
   const onInput = (e, { idx, prevValue, location, storyId }) => {
     if (prevValue === e.target.value) return;
@@ -133,14 +127,15 @@
   }
 
   const onAddNewDecision = (path) => {
-    story = assoc(
-      path,
+    story = update(path, decisions => [
+      ...decisions,
       {
         label: '',
-        storyNode: ''
-      },
+        storyNode: '',
+      }
+    ],
       story
-    );
+    )
   }
 
   const addNewStoryNode = () => {
@@ -191,7 +186,13 @@
     }
   }
 
-  const onDeleteDecision = (path) => inOrderStory.dropAt(path);
+  const onDeleteDecision = (path, idx) => {
+    story = update(
+      path,
+      decisions => dropIdx(decisions, idx),
+      story
+    );
+  }
 
   safeWindow().document.addEventListener("keydown", (event) => {
   //TODO: These can be added to component itself, instead of globally (being lazy)
@@ -293,18 +294,18 @@
         onDelete={() => deleteStoryNode(storyNode)}
       />
 
-      <!--<Decisions-->
-        <!--{focusPath}-->
-        <!--{clearFocusPath}-->
-        <!--{onKeydown}-->
-        <!--{onInput}-->
-        <!--{onAddNewDecision}-->
-        <!--{onDeleteDecision}-->
-        <!--{storyNode}-->
-        <!--{onSetAsFinalNode}-->
-        <!--isFinalNode={story[storyNode].final}-->
-        <!--decisions={story[storyNode].decisions}-->
-      <!--/>-->
+      <Decisions
+        {focusPath}
+        {clearFocusPath}
+        {onKeydown}
+        {onInput}
+        {onAddNewDecision}
+        {onDeleteDecision}
+        {storyNode}
+        {onSetAsFinalNode}
+        isFinalNode={story[storyNode].final}
+        decisions={story[storyNode].decisions}
+      />
 
       <StoryText
         text={story[storyNode].text || []}

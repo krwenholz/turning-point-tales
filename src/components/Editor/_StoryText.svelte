@@ -6,15 +6,16 @@
 
   export let storyNode = '';
   export let text = [];
-  export let focusPath = '';
+  export let focusPath = [];
   export let clearFocusPath = () => {};
   export let onKeydown = () => {};
   export let onInput = () => {};
   export let nodes = {};
 
   afterUpdate(() => {
-    if(nodes[focusPath]) {
-      nodes[focusPath].focus();
+    debugger;
+    if(nodes[focusPath.join()]) {
+      nodes[focusPath.join()].focus();
       clearFocusPath();
     }
   });
