@@ -163,7 +163,7 @@
         <li class='consequences'>
           <span>Consequences (optional)</span>
           <Input
-            value={decision.consequences || ''}
+            value={decision.consequences}
             placeholder="example: tired, angry"
             on:input={e => onInput(e, {
               idx,
@@ -183,7 +183,7 @@
         <li class='requires'>
           <span>Requires (optional)</span>
           <Input
-            value={decision.requires || ''}
+            value={decision.requires}
             placeholder="example: tired"
             on:input={e => onInput(e, {
               idx,
