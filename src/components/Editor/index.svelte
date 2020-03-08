@@ -51,10 +51,7 @@
   const clearFocusPath = () => focusPath = [];
 
   const loadStoryFile = () => loadFile(data => {
-    story = keys(data).map(storyNode => ({
-      storyNode,
-      story: story[storyNode],
-    }));
+    story = data;
 
     notifier.success("Story loaded", 1500);
   });
