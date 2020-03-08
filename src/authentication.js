@@ -69,6 +69,7 @@ const allowedPrefixes = [
   "/?",
   "/api/user/login",
   "/api/user/new",
+  "/api/alexa",
   "/client",
   "/error",
   "/experimental",
