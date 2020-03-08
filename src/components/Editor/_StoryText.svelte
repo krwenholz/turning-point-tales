@@ -11,12 +11,20 @@
   export let onKeydown = () => {};
   export let onInput = () => {};
   export let nodes = {};
+  let self = {};
 
   afterUpdate(() => {
-    if(nodes[focusPath.join()]) {
-      nodes[focusPath.join()].focus();
-      clearFocusPath();
+    const path = focusPath.join();
+
+    if(path && !nodes[path]) {
+      // for some reason, first child never gets added to focus-list...
+      self.children[0].focus();
     }
+    else if(nodes[path]) {
+      nodes[path].focus();
+    }
+
+    clearFocusPath();
   });
 </script>
 
@@ -39,7 +47,7 @@
   }
 </style>
 
-<div class='story-text'>
+<div class='story-text' bind:this={self}>
   {#each text as paragraph, idx}
     <TextArea
       value={paragraph}
