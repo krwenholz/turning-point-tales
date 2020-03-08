@@ -25,6 +25,8 @@ const fakeWindow = {
     replaceState: () => '',
   },
   document: {
+    querySelector: () => {},
+    addEventListener: () => {},
     activeElement: {
       blur: () => {},
     }

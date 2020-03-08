@@ -59,6 +59,7 @@
 
 <label class={`checkbox ${className}`} >
   <input
+    {id}
     {checked}
     on:change
     on:input

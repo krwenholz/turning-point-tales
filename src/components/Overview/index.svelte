@@ -1,21 +1,20 @@
 <script>
   import { slide } from "src/lib/Transition";
-  import Scrollable from "src/components/Scrollable.svelte";
   import { map } from 'lodash';
+  import { onDestroy } from 'svelte';
+  import Scrollable from "src/components/Scrollable.svelte";
 
   export let className = "";
   export let consequences = [];
   export let history = [{ storyNode: "start" }];
+
   $: history = map(history, 'storyNode');
 </script>
 
 <style>
   .overview {
-    background: white;
-    display: grid;
-    grid-gap: 24px;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "history consequences";
+    display: flex;
+    flex-flow: column;
   }
 
   :global(.history) { grid-area: history; }
@@ -50,7 +49,7 @@
     <h3 slot='heading'>History</h3>
     <ol reversed slot='content'>
       {#each history.slice().reverse() as record}
-        <li transition:slide class="detail">{record}</li>
+        <li class="detail">{record}</li>
       {/each}
     </ol>
   </Scrollable>
@@ -59,7 +58,7 @@
     <h3 slot='heading'>Consequences</h3>
     <ul slot='content'>
       {#each consequences as consequence}
-        <li transition:slide class="detail">* {consequence}</li>
+        <li class="detail">* {consequence}</li>
       {/each}
     </ul>
   </Scrollable>

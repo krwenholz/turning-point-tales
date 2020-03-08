@@ -2,13 +2,11 @@
   import Trash from 'src/components/icons/Trash';
   import EditText from 'src/components/icons/EditText.svelte';
   import Input from 'src/components/Input/index';
-  import { createEventDispatcher, afterUpdate } from "svelte";
 
-  const dispatch = createEventDispatcher();
-
-  export let storyIdx;
   export let storyNode = '';
   export let onInput = () => {};
+  export let onKeydown = () => {};
+  export let onDelete = () => {};
 </script>
 
 <style>
@@ -35,20 +33,20 @@
 </style>
 
 <div class='story-node'>
-  {#if storyNode === 'start'}
-    <span class='story-node'>{storyNode}</span>
-  {:else}
+  {#if storyNode !== 'start'}
     <Input
       value={storyNode}
       placeholder="Name of story node"
+      on:keydown={e => onKeydown(e, {
+        location: 'storyNode',
+        prevValue: storyNode,
+      })}
       on:input={e => onInput(e, {
-        storyIdx,
-        storyNode,
-        changeLocation: 'storyNode',
+        location: 'storyNode',
         prevValue: storyNode,
       })}
     />
-    <Trash on:click={() => dispatch('delete', { storyIdx })}>
+    <Trash on:click={onDelete}>
       Delete
     </Trash>
   {/if}

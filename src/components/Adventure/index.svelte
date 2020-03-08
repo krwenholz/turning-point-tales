@@ -5,7 +5,6 @@
   import ReplayOne from "src/components/icons/ReplayOne.svelte";
   import { get, last, filter } from "lodash";
   import { fade } from "src/lib/Transition";
-  import { safeWindow } from "src/lib/client/safe-window.js";
   import { writable } from "svelte/store";
   import { createEventDispatcher } from "svelte";
   import * as History from "./history";
