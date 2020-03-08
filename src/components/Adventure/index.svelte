@@ -17,7 +17,6 @@
   export let title = "";
   export let visitations = [];
   export let enableExtraNavigation = true;
-  export let goto = () => {};
   export let store = writable({
     storyNode: storyNode,
     hasInitialCompletion: false,
