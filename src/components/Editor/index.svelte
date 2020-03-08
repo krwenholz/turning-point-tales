@@ -1,19 +1,19 @@
 <script>
   import * as sapper from "@sapper/app";
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
+  import Select from 'svelte-select';
+  import { dropRight, debounce, keys, findIndex, concat, omit, get } from 'lodash';
+  import { assoc, update } from 'lodash/fp';
   import Adventure from "src/components/Adventure/index";
   import Overview from "src/components/Overview/index";
   import Graph from './_graph/index';
   import { isValidStory } from 'src/components/Adventure/validation';
-  import Select from 'svelte-select';
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
   import StoryNode from './_StoryNode.svelte';
   import Button from 'src/components/Button.svelte';
   import Checkbox from 'src/components/Checkbox/index';
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
-  import { dropRight, debounce, keys, findIndex, concat, omit, get } from 'lodash';
-  import { assoc, update } from 'lodash/fp';
   import { renameKey, dropIdx } from 'src/lib/utilities.js'
   import { saveFile, loadFile } from 'src/lib/load-and-save-files.js';
   import { safeWindow } from 'src/lib/client/safe-window.js';
@@ -65,7 +65,6 @@
     if (prevValue === e.target.value) return;
 
     const path = {
-      storyNode: [storyNode],
       storyText: [storyNode, 'text', idx],
       decisionLabel: [storyNode, 'decisions', idx, 'label'],
       decisionStoryNode: [storyNode, 'decisions', idx, 'storyNode'],
@@ -311,12 +310,12 @@
         {onDeleteDecision}
         {storyNode}
         {onSetAsFinalNode}
-        isFinalNode={story[storyNode].final}
-        decisions={story[storyNode].decisions}
+        isFinalNode={get(story, [storyNode, 'final'])}
+        decisions={get(story, [storyNode, 'decisions'])}
       />
 
       <StoryText
-        text={story[storyNode].text || []}
+        text={get(story, [storyNode, 'text'])}
         storyNode={storyNode}
         {onInput}
         {onKeydown}
