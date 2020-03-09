@@ -27,11 +27,3 @@ module "project" {
 output "logdrain_url" {
   value = module.project.logdrain_url
 }
-
-output "elasticsearch_url" {
-  value = module.project.elasticsearch_url
-}
-
-output "kibana" {
-  value = module.project.kibana
-}
