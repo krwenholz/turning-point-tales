@@ -1,10 +1,12 @@
 import config from "config";
 import passport from "passport";
-import securePassword from "secure-password";
 import passportLocal from "passport-local";
-import { tokenStrategy } from "src/routes/oauth/_index";
+import securePassword from "secure-password";
+import { BasicStrategy } from "passport-http";
+import { ensureLoggedIn } from "connect-ensure-login";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
 import { logger } from "src/logging";
+import { tokenStrategy } from "./oauth";
 
 const passwordHasher = securePassword();
 
@@ -100,7 +102,7 @@ const protectNonDefaultRoutes = (req, res, next) => {
     if (req.path.endsWith(".js") || req.path.endsWith(".json")) {
       res.writeHead(401);
     } else {
-      return login.ensureLoggedIn()(req, res, next);
+      return ensureLoggedIn("/user/login")(req, res, next);
     }
     res.end();
     return;
@@ -159,6 +161,19 @@ export const initPassport = () => {
   );
 
   passport.use(tokenStrategy);
+
+  // We only do this for Alexa OAUTH.
+  passport.use(
+    new BasicStrategy(function(userId, secret, done) {
+      if (userId != config.get("alexa.clientId")) {
+        return done(err);
+      }
+      if (userId != config.get("alexa.secret")) {
+        return done(null, false);
+      }
+      return done(null, { alexaClientId: userId });
+    })
+  );
 
   passport.authenticationMiddleware = () => protectNonDefaultRoutes;
 };

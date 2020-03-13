@@ -10,10 +10,11 @@ const ErrorHandler = createHandler({
     // TODO(kyle): This is stupid and needs help
     logger.info(error, "Alexa error handled");
 
-    return handlerInput.responseBuilder
-      .speak("Sorry, I can't understand the command. Please say again.")
-      .reprompt("Sorry, I can't understand the command. Please say again.")
-      .getResponse();
+    return Promise.resolve(
+      handlerInput.responseBuilder
+        .speak("Sorry, I can't understand the command. Please say again.")
+        .reprompt("Sorry, I can't understand the command. Please say again.")
+    );
   }
 });
 

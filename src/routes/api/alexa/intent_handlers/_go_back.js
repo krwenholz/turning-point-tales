@@ -10,7 +10,6 @@ import {
 const GoBackIntentHandler = {
   canHandle(handlerInput) {
     return (
-      // TODO(kyle): Are there cases missing here?
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
       handlerInput.requestEnvelope.request.intent.name === "GoBack"
     );
@@ -39,8 +38,7 @@ const GoBackIntentHandler = {
         .addDirective(
           updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
         )
-        .withShouldEndSession(false)
-        .getResponse();
+        .withShouldEndSession(false);
     });
   }
 };

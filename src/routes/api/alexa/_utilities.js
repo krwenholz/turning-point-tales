@@ -62,7 +62,6 @@ export const asSpeakableStoryText = (story, storyNode, decisionPrompt) => {
   return asSpeakable(justText) + speechPauseList() + decisionPrompt;
 };
 
-// TODO(kyle): Add short option forms and voice text
 export const asSpeakableDecisions = decisions => {
   return (
     "Your choices are " +
@@ -93,34 +92,42 @@ export const findConfirmedSlotValue = (requestEnvelope, key) => {
   )["values"][0]["value"]["id"];
 };
 
-export const createHandler = handlerBase => {
+export const createHandler = base => {
   return {
     canHandle(handlerInput) {
-      return handlerBase.canHandle(handlerInput);
+      return base.canHandle(handlerInput);
     },
     handle(handlerInput) {
       logger.info(
         {
           requestType: handlerInput.requestEnvelope.request.type,
-          requestName: handlerInput.requestEnvelope.request.intent.name,
-          handlerName: handlerBase.name
+          requestIntentName: handlerInput.requestEnvelope.request.intent.name,
+          handlerName: base.name
         },
         "Handling Alexa request"
       );
-      return handlerBase.handle(handlerInput);
+
+      return base.handle(handlerInput).then(responseBuilder => {
+        const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+        if (sessionAttributes.isAuthenticated !== false) {
+          responseBuilder.withLinkAccountCard();
+        }
+
+        responseBuilder.getResponse();
+      });
     }
   };
 };
 
 export const listStoriesForAlexa = handlerInput => {
   const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-  // TODO(kyle): make it a real subscription
-  const subscribed =
-    (sessionAttributes.subscriptionEnd || new Date("1990-07-13")) > new Date();
 
   return Stories.list().then(results => {
     const storyTitleChoices = map(
-      filter(results.rows, story => subscribed || story.general_release),
+      filter(
+        results.rows,
+        story => sessionAttribute.isSubscribed || story.general_release
+      ),
       story => {
         return {
           id: `${story.id}`,
@@ -146,7 +153,10 @@ export const listStoriesForAlexa = handlerInput => {
     };
 
     const storyList = map(
-      filter(results.rows, story => subscribed || story.general_release),
+      filter(
+        results.rows,
+        story => sessionAttributes.isSubscribed || story.general_release
+      ),
       story => `${story.title} by ${story.author}`
     );
 
@@ -160,8 +170,7 @@ export const listStoriesForAlexa = handlerInput => {
       .reprompt(repeat)
       .withSimpleCard("Story choices", join(storyList, ", "))
       .addDirective(updateStoryTitlesDirective)
-      .withShouldEndSession(false)
-      .getResponse();
+      .withShouldEndSession(false);
   });
 };
 
@@ -214,7 +223,6 @@ export const startFreshStory = (storyId, handlerInput) => {
       .addDirective(
         updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
       )
-      .withShouldEndSession(false)
-      .getResponse();
+      .withShouldEndSession(false);
   });
 };

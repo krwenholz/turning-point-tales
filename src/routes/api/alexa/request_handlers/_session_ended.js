@@ -12,10 +12,7 @@ const SessionEndedRequestHandler = createHandler({
       updateBehavior: "CLEAR"
     };
 
-    // TODO(kyle): cleanup logic goes here
-    return handlerInput.responseBuilder
-      .addDirective(clearEntitiesDirective)
-      .getResponse();
+    return handlerInput.responseBuilder.addDirective(clearEntitiesDirective);
   }
 });
 
