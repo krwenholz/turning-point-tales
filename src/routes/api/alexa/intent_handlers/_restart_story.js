@@ -8,7 +8,6 @@ const RestartStoryIntentHandler = createHandler({
   name: "RestartStoryIntentHandler",
   canHandle(handlerInput) {
     return (
-      // TODO(kyle): Are there cases missing here?
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
       handlerInput.requestEnvelope.request.intent.name === "RestartStory"
     );

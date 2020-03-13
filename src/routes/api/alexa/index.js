@@ -18,6 +18,48 @@ import { logger } from "src/logging";
 // TODO(kyle): https://developer.amazon.com/en-US/docs/alexa/account-linking/steps-to-implement-account-linking.html
 // https://github.com/jaredhanson/oauth2orize
 
+const GetLinkedInfoInterceptor = {
+  async process(handlerInput) {
+    if (
+      handlerInput.requestEnvelope.session.new &&
+      handlerInput.requestEnvelope.session.user.accessToken
+    ) {
+      // This is a new session and we have an access token,
+      // so get the user details from Cognito and persist in session attributes
+      const userData = await getUserData(
+        handlerInput.requestEnvelope.session.user.accessToken
+      );
+      // console.log('GetLinkedInfoInterceptor: getUserData: ', userData);
+      if (userData.Username !== undefined) {
+        const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+        sessionAttributes.firstName = getAttribute(
+          userData.UserAttributes,
+          "given_name"
+        );
+        sessionAttributes.surname = getAttribute(
+          userData.UserAttributes,
+          "family_name"
+        );
+        sessionAttributes.emailAddress = getAttribute(
+          userData.UserAttributes,
+          "email"
+        );
+        sessionAttributes.phoneNumber = getAttribute(
+          userData.UserAttributes,
+          "phone_number"
+        );
+        sessionAttributes.streetAddress = getAttribute(
+          userData.UserAttributes,
+          "address"
+        );
+        handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+      } else {
+        console.log("GetLinkedInfoInterceptor: No user data was found.");
+      }
+    }
+  }
+};
+
 // BEWARE: Order matters; they're handlers.
 const skill = Alexa.SkillBuilders.custom()
   .addRequestHandlers(
@@ -31,11 +73,11 @@ const skill = Alexa.SkillBuilders.custom()
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler
   )
+  .addRequestInterceptors(GetLinkedInfoInterceptor)
   .addErrorHandlers(ErrorHandler)
   .create();
 
 export const post = (req, res, next) => {
-  // TODO(kyle): auth https://github.com/jaredhanson/oauth2orize#implement-api-endpoints
   return new SkillRequestSignatureVerifier()
     .verify(req.rawBody, req.headers)
     .then(() => {

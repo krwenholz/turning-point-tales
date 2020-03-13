@@ -14,11 +14,12 @@ const CancelAndStopIntentHandler = createHandler({
   handle(handlerInput) {
     const speechText = "Goodbye!";
 
-    return handlerInput.responseBuilder
-      .speak(speechText)
-      .withSimpleCard("Hello World", speechText)
-      .withShouldEndSession(true)
-      .getResponse();
+    return Promise.resolve(
+      handlerInput.responseBuilder
+        .speak(speechText)
+        .withSimpleCard("Hello World", speechText)
+        .withShouldEndSession(true)
+    );
   }
 });
 
