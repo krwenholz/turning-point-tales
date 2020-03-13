@@ -10,7 +10,7 @@ import { pool } from "src/lib/server/database.js";
 import { join, times } from "lodash";
 
 export const post = (req, res, next) => {
-  return passport.authenticate(["basic", "oauth2-client-password"], {
+  return passport.authenticate(["basic"], {
     session: false
   })(req, res, (req, res) =>
     server.token()(req, res, (req, res, () => server.errorHandler()(req, res)))

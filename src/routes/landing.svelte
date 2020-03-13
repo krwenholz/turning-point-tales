@@ -4,7 +4,7 @@
   import { fade } from "../lib/Transition";
   import { goto } from "@sapper/app";
   import { visited } from "src/lib/global-state-stores/browserStore/visited";
-  import { onDestroy } from 'svelte';
+  import { onDestroy } from "svelte";
   import { join } from "lodash";
   import { logger } from "src/lib/client/logger";
 
@@ -13,7 +13,7 @@
   let showNav = false;
 
   onDestroy(() => {
-    $visited.pages = [...$visited.pages, 'landing'];
+    $visited.pages = [...$visited.pages, "landing"];
   });
 </script>
 
@@ -26,14 +26,6 @@
     justify-content: space-evenly;
     align-items: baseline;
     align-self: center;
-  }
-
-  .walkthrough {
-    display: flex;
-    width: 100%;
-    flex-flow: column;
-    justify-content: center;
-    text-align: left;
   }
 
   h1 {
@@ -59,10 +51,6 @@
     flex-flow: column;
     align-items: center;
     margin: 0 auto 0 auto;
-  }
-
-  .lead {
-    font-weight: bold;
   }
 
   :global(.button) {

@@ -31,7 +31,7 @@ module.exports = {
     webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || ""
   },
   alexa: {
-    client_id: process.env.ALEXA_CLIENT_ID || "",
+    clientId: process.env.ALEXA_CLIENT_ID || "",
     secret: process.env.ALEXA_SECRET || ""
   },
   aws: {

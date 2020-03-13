@@ -14,7 +14,6 @@ import * as History from "src/components/Adventure/history";
 const DecisionGivenChooseStoryDecisionIntentHandler = {
   canHandle(handlerInput) {
     return (
-      // TODO(kyle): Are there cases missing here?
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
       handlerInput.requestEnvelope.request.intent.name ===
         "ChooseStoryDecision" &&
@@ -61,8 +60,7 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
         .addDirective(
           updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
         )
-        .withShouldEndSession(false)
-        .getResponse();
+        .withShouldEndSession(false);
     });
   }
 };
