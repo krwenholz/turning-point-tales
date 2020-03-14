@@ -92,54 +92,35 @@ export const findConfirmedSlotValue = (requestEnvelope, key) => {
   )["values"][0]["value"]["id"];
 };
 
-export const createHandler = base => {
-  return {
-    canHandle(handlerInput) {
-      return base.canHandle(handlerInput);
-    },
-    handle(handlerInput) {
-      logger.info(
-        {
-          requestType: handlerInput.requestEnvelope.request.type,
-          requestIntentName: handlerInput.requestEnvelope.request.intent.name,
-          handlerName: base.name
-        },
-        "Handling Alexa request"
-      );
+export const speechWithSubscriptionPrompt = (speechText, isSubscribed) => {
+  if (isSubscribed) return speechText;
 
-      return base.handle(handlerInput).then(responseBuilder => {
-        const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-        if (sessionAttributes.isAuthenticated !== false) {
-          responseBuilder.withLinkAccountCard();
-        }
-
-        responseBuilder.getResponse();
-      });
-    }
-  };
+  return (
+    speechText +
+    speechPauseList() +
+    "You can see more stories by linking your subscriber account."
+  );
 };
 
 export const listStoriesForAlexa = handlerInput => {
   const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
 
   return Stories.list().then(results => {
-    const storyTitleChoices = map(
-      filter(
-        results.rows,
-        story => sessionAttribute.isSubscribed || story.general_release
-      ),
-      story => {
-        return {
-          id: `${story.id}`,
-          name: {
-            value: asConfirmable(asSpeakable(story.title)),
-            synonyms: [
-              asConfirmable(asSpeakable(`${story.title} by ${story.author}`))
-            ]
-          }
-        };
-      }
+    const stories = filter(
+      results.rows,
+      story => sessionAttributes.isSubscribed || story.general_release
     );
+    const storyTitleChoices = map(stories, story => {
+      return {
+        id: `${story.id}`,
+        name: {
+          value: asConfirmable(asSpeakable(story.title)),
+          synonyms: [
+            asConfirmable(asSpeakable(`${story.title} by ${story.author}`))
+          ]
+        }
+      };
+    });
 
     const updateStoryTitlesDirective = {
       type: "Dialog.UpdateDynamicEntities",
@@ -153,24 +134,28 @@ export const listStoriesForAlexa = handlerInput => {
     };
 
     const storyList = map(
-      filter(
-        results.rows,
-        story => sessionAttributes.isSubscribed || story.general_release
-      ),
+      stories,
       story => `${story.title} by ${story.author}`
     );
 
     const repeat = "Which tale is next?";
-    const speechText =
+    const speechText = speechWithSubscriptionPrompt(
       "Choose a story by saying start followed by the title. You can choose " +
-      join(storyList, speechPauseList());
+        join(storyList, speechPauseList()),
+      sessionAttributes.isSubscribed
+    );
 
-    return handlerInput.responseBuilder
+    const response = handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(repeat)
       .withSimpleCard("Story choices", join(storyList, ", "))
       .addDirective(updateStoryTitlesDirective)
       .withShouldEndSession(false);
+
+    if (!sessionAttributes.isSubscribed) {
+      return response.withLinkAccountCard().getResponse();
+    }
+    return response.getResponse();
   });
 };
 
@@ -223,6 +208,7 @@ export const startFreshStory = (storyId, handlerInput) => {
       .addDirective(
         updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
       )
-      .withShouldEndSession(false);
+      .withShouldEndSession(false)
+      .getResponse();
   });
 };

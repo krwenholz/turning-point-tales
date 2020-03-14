@@ -1,10 +1,7 @@
-import {
-  createHandler,
-  listStoriesForAlexa
-} from "src/routes/api/alexa/_utilities";
+import { listStoriesForAlexa } from "src/routes/api/alexa/_utilities";
 import { logger } from "src/logging";
 
-const StartedInProgressChooseStoryIntentHandler = createHandler({
+const StartedInProgressChooseStoryIntentHandler = {
   name: "StartedInProgressChooseStoryIntentHandler",
   canHandle(handlerInput) {
     return (
@@ -15,6 +12,6 @@ const StartedInProgressChooseStoryIntentHandler = createHandler({
   handle(handlerInput) {
     return listStoriesForAlexa(handlerInput);
   }
-});
+};
 
 export default StartedInProgressChooseStoryIntentHandler;

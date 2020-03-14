@@ -8,12 +8,11 @@ const LaunchRequestHandler = {
     const speechText =
       "Welcome to Turning Point Tales. You can list tales or choose your next adventure.";
 
-    return Promise.resolve(
-      handlerInput.responseBuilder
-        .speak(speechText)
-        .reprompt(speechText)
-        .withSimpleCard("Turning Point Tales", speechText)
-    );
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .reprompt(speechText)
+      .withSimpleCard("Turning Point Tales", speechText)
+      .getResponse();
   }
 };
 
