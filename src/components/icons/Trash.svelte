@@ -1,5 +1,5 @@
 <script>
-  export let className = '';
+  export let className = "";
 </script>
 
 <style>
@@ -15,7 +15,7 @@
   viewBox="0 0 36 36"
   preserveAspectRatio="xMidYMid meet"
   on:click
-  class={className}
+  class="{className}"
 >
   <title>trash-line</title>
   <path

@@ -1,7 +1,7 @@
 <script>
   import { createEventDispatcher } from "svelte";
 
-  export let className = '';
+  export let className = "";
   export let disabled = false;
   export let type = "button";
   export let variation = "button";
@@ -19,7 +19,7 @@
   const toggleActiveOnEnter = ({ keyCode }) => {
     if (keyCode !== 13) return;
     active = true;
-  }
+  };
 </script>
 
 <style>
@@ -111,12 +111,13 @@
   class="{`button button--${variation} ${className}`}"
   {type}
   {disabled}
-  on:keyup={() => (active = false)}
-  on:keydown={toggleActiveOnEnter}
+  on:keyup="{() => (active = false)}"
+  on:keydown="{toggleActiveOnEnter}"
   class:active
-  id={isHover()}
+  id="{isHover()}"
   on:click
-  class:disabled>
+  class:disabled
+>
   {#if isSubmitting}
     <span>...Submitting</span>
   {:else}

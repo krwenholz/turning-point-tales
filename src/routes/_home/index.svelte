@@ -14,7 +14,7 @@
   let visitations = new Set([]);
 
   onMount(() => {
-    if(!$session.user) return;
+    if (!$session.user) return;
 
     fetch("/story/visits")
       .then(response => {

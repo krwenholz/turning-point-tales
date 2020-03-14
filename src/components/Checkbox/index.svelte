@@ -57,16 +57,9 @@
   }
 </style>
 
-<label class={`checkbox ${className}`} >
-  <input
-    {id}
-    {checked}
-    on:change
-    on:input
-    on:click
-    type="checkbox"
-  />
-  <div class="box" />
-  <div class="mark" />
+<label class="{`checkbox ${className}`}">
+  <input {id} {checked} on:change on:input on:click type="checkbox" />
+  <div class="box"></div>
+  <div class="mark"></div>
   <slot />
 </label>

@@ -61,7 +61,9 @@
     margin: 8px 0 8px 0;
   }
 
-  a { text-align: left; }
+  a {
+    text-align: left;
+  }
 
   h3 {
     margin-bottom: 32px;
@@ -79,11 +81,13 @@
     <Input
       type="password"
       on:input="{e => (password = e.target.value)}"
-      placeholder="fake-password-here" />
+      placeholder="fake-password-here"
+    />
     <Button
       on:click="{handleSetNewPassword}"
       disabled="{!password.length}"
-      isSubmitting="{$submission.isPending}">
+      isSubmitting="{$submission.isPending}"
+    >
       Submit
     </Button>
   {:else}
@@ -95,12 +99,14 @@
     <Input
       type="email"
       on:input="{e => (email = e.target.value)}"
-      placeholder="email@example.com" />
+      placeholder="email@example.com"
+    />
     <span class="error-msg">{errorMsg}</span>
     <Button
       on:click="{handleSendResetEmail}"
       disabled="{!email.length}"
-      isSubmitting="{$submission.isPending}">
+      isSubmitting="{$submission.isPending}"
+    >
       Submit
     </Button>
   {/if}

@@ -44,6 +44,7 @@
   bind:this="{self}"
   class:fadeInBorder
   class="{story.start && selectedIdx === 0 ? '' : 'blur'}"
-  use:scrollIntoView="{selectedIdx}">
+  use:scrollIntoView="{selectedIdx}"
+>
   {yaml.safeDump(story)}
 </pre>

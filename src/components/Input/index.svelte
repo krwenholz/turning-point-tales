@@ -11,7 +11,6 @@
 
   export const setCustomValidity = (...props) =>
     self.setCustomValidity(...props);
-
 </script>
 
 <style>
@@ -37,7 +36,7 @@
   <input
     {...$$props}
     {type}
-    bind:this={self}
+    bind:this="{self}"
     class="input"
     class:disabled
     on:change

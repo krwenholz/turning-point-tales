@@ -6,7 +6,7 @@
   import { Customer } from "./Stripe";
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
   import { sample } from "lodash";
-  import { safeWindow } from 'src/lib/client/safe-window';
+  import { safeWindow } from "src/lib/client/safe-window";
   import { stores } from "@sapper/app";
   const { page, session } = stores();
 
@@ -22,16 +22,16 @@
     "Reader of the map",
     "Herald of the fallen",
     "The breaker of chains",
-    "The one who knocks",
+    "The one who knocks"
   ];
 
-  const updateUrl = (e) => {
+  const updateUrl = e => {
     safeWindow().history.replaceState(
       "",
       "",
       `${safeWindow().location.pathname}?tab=${e.detail.chosenTab}`
     );
-  }
+  };
 </script>
 
 <style>
@@ -75,7 +75,6 @@
   <title>Your profile</title>
 </svelte:head>
 
-
 <section class="profile">
   <header>
     <aside>
@@ -84,11 +83,8 @@
     </aside>
   </header>
 
-  <Tabs
-    on:tabSwitch={updateUrl}
-    selectedTab={$page.query.tab}
-  >
-    <TabList on:tabSelected={updateUrl}>
+  <Tabs on:tabSwitch="{updateUrl}" selectedTab="{$page.query.tab}">
+    <TabList on:tabSelected="{updateUrl}">
       <Tab name="adventurer">Adventurer</Tab>
       <Tab name="settings">Settings</Tab>
     </TabList>

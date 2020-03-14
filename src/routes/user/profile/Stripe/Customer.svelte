@@ -202,7 +202,8 @@
   <Button
     on:click="{charge}"
     disabled="{paymentFormDisabled}"
-    isSubmitting="{charging}">
+    isSubmitting="{charging}"
+  >
     {#if $session.user.stripeCustomerId}
       Continue adventuring for $4 a month
     {:else}Adventure further for $4 a month{/if}

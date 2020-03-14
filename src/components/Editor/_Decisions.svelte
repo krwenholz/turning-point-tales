@@ -1,25 +1,27 @@
 <script>
-  import TextArea from 'src/components/TextArea/index';
-  import Plus from 'src/components/icons/Plus.svelte';
-  import Button from 'src/components/Button.svelte';
-  import Input from 'src/components/Input/index';
-  import Trash from 'src/components/icons/Trash.svelte';
-  import Checkbox from 'src/components/Checkbox';
+  import TextArea from "src/components/TextArea/index";
+  import Plus from "src/components/icons/Plus.svelte";
+  import Button from "src/components/Button.svelte";
+  import Input from "src/components/Input/index";
+  import Trash from "src/components/icons/Trash.svelte";
+  import Checkbox from "src/components/Checkbox";
 
-  export let focusPath = []
+  export let focusPath = [];
   export let clearFocusPath = () => {};
   export let onKeydown = () => {};
   export let onInput = () => {};
   export let onAddNewDecision = () => {};
   export let onDeleteDecision = () => {};
   export let onSetAsFinalNode = () => {};
-  export let storyNode = '';
+  export let storyNode = "";
   export let decisions = [];
   export let isFinalNode = false;
 </script>
 
 <style>
-  .decisions { margin-bottom: 48px; }
+  .decisions {
+    margin-bottom: 48px;
+  }
 
   .decision {
     display: flex;
@@ -100,119 +102,121 @@
     <header>
       Decisions
       <Button
-        variation='link'
-        on:click={() => onAddNewDecision([storyNode, 'decisions'])}
+        variation="link"
+        on:click="{() => onAddNewDecision([storyNode, 'decisions'])}"
       >
-        <Plus/>
+        <Plus />
         add new decision
       </Button>
     </header>
   {/if}
 
   {#if decisions.length}
-  {#each decisions as decision, idx}
-    <div class='decision'>
-      <Trash
-        className={'delete-decision'}
-        on:click={() => onDeleteDecision([storyNode, 'decisions'],  idx)}
-      >
-        Delete
-      </Trash>
-      <ul class='label-story-node-consequences'>
-        <li class="label">
-          <span> Label </span>
-          <Input
-            value={decision.label}
-            placeholder="button text"
-            on:input={e => onInput(e, {
-              idx,
-              storyNode,
-              location: 'decisionLabel',
-              prevValue: decision.label,
-            })}
+    {#each decisions as decision, idx}
+      <div class="decision">
+        <Trash
+          className="{'delete-decision'}"
+          on:click="{() => onDeleteDecision([storyNode, 'decisions'], idx)}"
+        >
+          Delete
+        </Trash>
+        <ul class="label-story-node-consequences">
+          <li class="label">
+            <span>Label</span>
+            <Input
+              value="{decision.label}"
+              placeholder="button text"
+              on:input="{e => onInput(e, {
+                  idx,
+                  storyNode,
+                  location: 'decisionLabel',
+                  prevValue: decision.label
+                })}"
+              on:keydown="{e => onKeydown(e, {
+                  idx,
+                  storyNode,
+                  location: 'decisionLabel',
+                  prevValue: decision.label
+                })}"
+            />
+          </li>
 
-            on:keydown={e => onKeydown(e, {
-              idx,
-              storyNode,
-              location: 'decisionLabel',
-              prevValue: decision.label,
-            })}
-          />
-        </li>
+          <li class="story-node">
+            <span>StoryNode</span>
+            <Input
+              value="{decision.storyNode}"
+              placeholder="Name of story node"
+              on:input="{e => onInput(e, {
+                  idx,
+                  storyNode,
+                  location: 'decisionStoryNode',
+                  prevValue: decision.storyNode
+                })}"
+              on:keydown="{e => onKeydown(e, {
+                  idx,
+                  storyNode,
+                  location: 'decisionStoryNode',
+                  prevValue: decision.storyNode
+                })}"
+            />
+          </li>
 
-        <li class="story-node">
-          <span>StoryNode</span>
-          <Input
-            value={decision.storyNode}
-            placeholder="Name of story node"
-            on:input={e => onInput(e, {
-              idx,
-              storyNode,
-              location: 'decisionStoryNode',
-              prevValue: decision.storyNode,
-            })}
-            on:keydown={e => onKeydown(e, {
-              idx,
-              storyNode,
-              location: 'decisionStoryNode',
-              prevValue: decision.storyNode,
-            })}
-          />
-        </li>
+          <li class="consequences">
+            <span>Consequences (optional)</span>
+            <Input
+              value="{decision.consequences || ''}"
+              placeholder="example: tired, angry"
+              on:input="{e => onInput(e, {
+                  idx,
+                  storyNode,
+                  location: 'decisionConsequences',
+                  prevValue: decision.consequences
+                })}"
+              on:keydown="{e => onKeydown(e, {
+                  idx,
+                  storyNode,
+                  location: 'decisionConsequences',
+                  prevValue: decision.consequences
+                })}"
+            />
+          </li>
 
-        <li class='consequences'>
-          <span>Consequences (optional)</span>
-          <Input
-            value={decision.consequences || ''}
-            placeholder="example: tired, angry"
-            on:input={e => onInput(e, {
-              idx,
-              storyNode,
-              location: 'decisionConsequences',
-              prevValue: decision.consequences,
-            })}
-            on:keydown={e => onKeydown(e, {
-              idx,
-              storyNode,
-              location: 'decisionConsequences',
-              prevValue: decision.consequences,
-            })}
-          />
-        </li>
-
-        <li class='requires'>
-          <span>Requires (optional)</span>
-          <Input
-            value={decision.requires || ''}
-            placeholder="example: tired"
-            on:input={e => onInput(e, {
-              idx,
-              storyNode,
-              location: 'decisionRequires',
-              prevValue: decision.requires,
-            })}
-            on:keydown={e => onKeydown(e, {
-              idx,
-              storyNode,
-              location: 'decisionRequires',
-              prevValue: decision.requires,
-            })}
-          />
-        </li>
-      </ul>
-    </div>
-  {/each}
+          <li class="requires">
+            <span>Requires (optional)</span>
+            <Input
+              value="{decision.requires || ''}"
+              placeholder="example: tired"
+              on:input="{e => onInput(e, {
+                  idx,
+                  storyNode,
+                  location: 'decisionRequires',
+                  prevValue: decision.requires
+                })}"
+              on:keydown="{e => onKeydown(e, {
+                  idx,
+                  storyNode,
+                  location: 'decisionRequires',
+                  prevValue: decision.requires
+                })}"
+            />
+          </li>
+        </ul>
+      </div>
+    {/each}
   {/if}
 
   {#if storyNode !== 'start'}
-  <div class='form-group'>
-    <Checkbox
-      id="disable-decisions"
-      on:click={e => onSetAsFinalNode({ checked: e.target.checked, storyNode })}
-    />
-    <label for="disable-decisions">
-      Disable Decisions (make this a dead-end)
-    </label>
-  </div>
+    <div class="form-group">
+      <Checkbox
+        id="disable-decisions"
+        on:click="{e => onSetAsFinalNode({
+            checked: e.target.checked,
+            storyNode
+          })}"
+      />
+      <label for="disable-decisions">
+        Disable Decisions (make this a dead-end)
+      </label>
+    </div>
   {/if}
 </section>
