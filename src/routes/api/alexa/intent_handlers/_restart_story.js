@@ -1,10 +1,9 @@
 import * as Stories from "src/routes/story/_stories";
 import {
-  startFreshStory,
-  createHandler
+  startFreshStory
 } from "src/routes/api/alexa/_utilities";
 
-const RestartStoryIntentHandler = createHandler({
+const RestartStoryIntentHandler = {
   name: "RestartStoryIntentHandler",
   canHandle(handlerInput) {
     return (
@@ -18,6 +17,6 @@ const RestartStoryIntentHandler = createHandler({
 
     return startFreshStory(storyId, handlerInput);
   }
-});
+};
 
 export default RestartStoryIntentHandler;

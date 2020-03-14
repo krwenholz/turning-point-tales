@@ -60,7 +60,8 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
         .addDirective(
           updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
         )
-        .withShouldEndSession(false);
+        .withShouldEndSession(false)
+        .getResponse();
     });
   }
 };

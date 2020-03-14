@@ -32,7 +32,8 @@ module.exports = {
   },
   alexa: {
     clientId: process.env.ALEXA_CLIENT_ID || "",
-    secret: process.env.ALEXA_SECRET || ""
+    secret: process.env.ALEXA_SECRET || "",
+    redirectUris: (process.env.ALEXA_REDIRECT_URIS || "").split(",")
   },
   aws: {
     default: {},
