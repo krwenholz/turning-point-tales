@@ -1,21 +1,21 @@
-export const loadFile = (callback) => {
-  const input = document.createElement('input');
-  input.type = 'file';
+export const loadFile = callback => {
+  const input = document.createElement("input");
+  input.type = "file";
   input.click();
 
-  input.onchange = (onChangeEvent) => {
+  input.onchange = onChangeEvent => {
     const reader = new FileReader();
 
-    reader.onload = (onLoadEvent) => {
+    reader.onload = onLoadEvent => {
       callback(onLoadEvent.target.result);
-    }
+    };
 
     reader.readAsText(onChangeEvent.target.files[0]);
-  }
-}
+  };
+};
 
 export const saveFile = (fileName, data) => {
-  const storyBlob = new Blob([data], {type : 'text/plain'});
+  const storyBlob = new Blob([data], { type: "text/plain" });
   const url = URL.createObjectURL(storyBlob);
 
   const a = document.createElement("a");
@@ -25,4 +25,3 @@ export const saveFile = (fileName, data) => {
 
   window.URL.revokeObjectURL(url);
 };
-

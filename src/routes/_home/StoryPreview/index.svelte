@@ -24,6 +24,7 @@
       {preview}
       {tags}
       generalRelease="{general_release}"
-      {isSubscriber} />
+      {isSubscriber}
+    />
   {/each}
 </section>

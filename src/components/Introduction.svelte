@@ -85,8 +85,8 @@
 
     {#if !$session.user}
       <p class="enticement">
-        Looks like you don't have an account yet. Want to earn badges, and learn about
-        upcoming adventures? Try
+        Looks like you don't have an account yet. Want to earn badges, and learn
+        about upcoming adventures? Try
         <a href="/user/new">creating an account.</a>
       </p>
     {:else if !isSubscriber}
@@ -103,9 +103,9 @@
       </p>
     {/if}
     <p class="explainer">
-      This is your adventuring hub. Here, you'll find stories and badges earned, with
-      some sense for how many are left. At the top you'll see links to access
-      settings (subscription preferences, etc.) or log out.
+      This is your adventuring hub. Here, you'll find stories and badges earned,
+      with some sense for how many are left. At the top you'll see links to
+      access settings (subscription preferences, etc.) or log out.
     </p>
   </div>
 

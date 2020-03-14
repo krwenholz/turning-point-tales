@@ -88,7 +88,7 @@
   <title>User Creation</title>
 </svelte:head>
 
-<section class='user-new'>
+<section class="user-new">
   {#if $page.query.error === 'unknown'}
     <article class="errors">
       <p>
@@ -106,10 +106,10 @@
 
     <p>
       Creating an account grants you access to the entire library of adventures.
-      We use your email and name, which we only share for things like payments, to
-      personalize the experience and send you exciting updates. In lieu of sharing
-      your data and browsing with a third party, we handcraft some interesting ads
-      or let you skip those entirely with a paid subscription.
+      We use your email and name, which we only share for things like payments,
+      to personalize the experience and send you exciting updates. In lieu of
+      sharing your data and browsing with a third party, we handcraft some
+      interesting ads or let you skip those entirely with a paid subscription.
     </p>
 
     <p>
@@ -130,7 +130,8 @@
       type="text"
       on:input="{e => (firstName = e.target.value)}"
       placeholder="First Name"
-      required />
+      required
+    />
 
     <label for="firstName">Last Name</label>
     <Input
@@ -138,7 +139,8 @@
       type="text"
       on:input="{e => (lastName = e.target.value)}"
       placeholder="Last Name"
-      required />
+      required
+    />
 
     <label for="email">Email</label>
     <Input
@@ -146,7 +148,8 @@
       type="email"
       on:input="{e => (email = e.target.value)}"
       placeholder="Email"
-      required />
+      required
+    />
 
     <label for="password">Password</label>
     <Input
@@ -164,14 +167,16 @@
       type="password"
       on:input="{e => (confirmPassword = e.target.value)}"
       placeholder="Confirm Your Password"
-      required />
+      required
+    />
 
     <div class="form-group">
       <Input
         type="checkbox"
         id="tos_and_privacy"
         name="tos_and_privacy"
-        required />
+        required
+      />
       <label for="tos_and_privacy">
         I agree to the
         <a href="/tos">Terms of Service</a>

@@ -52,7 +52,8 @@
   <section
     in:fade="{{ duration: 1000 }}"
     out:fade="{{ duration: 2000 }}"
-    on:click="{() => (earnedBadge = null)}">
+    on:click="{() => (earnedBadge = null)}"
+  >
     <p>
       Badge earned:
       <span>{earnedBadge.icon}</span>

@@ -1,10 +1,10 @@
 <script>
-  import { get } from 'lodash';
-  export let heading = '';
-  export let className = '';
+  import { get } from "lodash";
+  export let heading = "";
+  export let className = "";
 
-  const hasHeadingSlot = Boolean(get($$props.$$slots, 'heading'));
-  const hasContentSlot = Boolean(get($$props.$$slots, 'content'));
+  const hasHeadingSlot = Boolean(get($$props.$$slots, "heading"));
+  const hasContentSlot = Boolean(get($$props.$$slots, "content"));
 </script>
 
 <style>
@@ -34,17 +34,17 @@
   }
 </style>
 
-<section class={`scrollable ${className}`}>
+<section class="{`scrollable ${className}`}">
   {#if hasHeadingSlot}
     <header>
-      <slot name='heading'/>
+      <slot name="heading" />
     </header>
   {/if}
-  <div class='content'>
-  {#if hasContentSlot}
-    <slot name='content'/>
-  {:else}
-    <slot />
-  {/if}
+  <div class="content">
+    {#if hasContentSlot}
+      <slot name="content" />
+    {:else}
+      <slot />
+    {/if}
   </div>
 </section>

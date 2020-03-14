@@ -29,6 +29,7 @@
       {story}
       parent="{self}"
       scrollTo="{() => self.offsetTop}"
-      selectedIdx="{indexedStory.findIndex(story => story[storyNode])}" />
+      selectedIdx="{indexedStory.findIndex(story => story[storyNode])}"
+    />
   {/each}
 </div>

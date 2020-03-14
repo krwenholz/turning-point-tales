@@ -1,15 +1,15 @@
 <script>
-  import { getContext } from 'svelte';
-  import { TABS } from './_Tabs.svelte';
+  import { getContext } from "svelte";
+  import { TABS } from "./_Tabs.svelte";
   const { register, selected } = getContext(TABS);
   const panel = {};
   register({ panel });
 
-  export let className = '';
+  export let className = "";
 </script>
 
 {#if $selected.panel === panel}
-  <div class={className}>
-    <slot/>
+  <div class="{className}">
+    <slot />
   </div>
 {/if}

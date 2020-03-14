@@ -28,6 +28,7 @@
   on:submit="{e => {
     e.preventDefault();
     dispatch('submit');
-  }}">
+  }}"
+>
   <slot />
 </form>
