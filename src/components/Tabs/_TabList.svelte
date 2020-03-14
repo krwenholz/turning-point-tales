@@ -1,6 +1,6 @@
 <script>
-  export let className = 'tab-list'
-  export let justification = 'left';
+  export let className = "tab-list";
+  export let justification = "left";
 </script>
 
 <style>
@@ -13,6 +13,6 @@
   }
 </style>
 
-<div class={`tab-list ${className} justify-content-${justification}`}>
+<div class="{`tab-list ${className} justify-content-${justification}`}">
   <slot />
 </div>

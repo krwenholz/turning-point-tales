@@ -20,10 +20,10 @@
 
   <details>
     <summary>What kind of content is this?</summary>
-    Choice oriented tales. We're working with creators interested in
-    producing science fiction, fantasy, murder mystery, and even geographic
-    noir. As long as their tale allows the reader to enjoy in the agency of
-    creation, we're interested in publishing.
+    Choice oriented tales. We're working with creators interested in producing
+    science fiction, fantasy, murder mystery, and even geographic noir. As long
+    as their tale allows the reader to enjoy in the agency of creation, we're
+    interested in publishing.
   </details>
 
   <details>
@@ -39,23 +39,27 @@
   <details>
     <summary>When is the next story coming?</summary>
     Subscribers should expect a new story every month. At some point, we may
-    release the story for non-subscribers. In between releases,
-    subscribers should expect emails with teasers, creator interviews, and more.
+    release the story for non-subscribers. In between releases, subscribers
+    should expect emails with teasers, creator interviews, and more.
   </details>
 
   <details>
     <summary>What benefits do account recieve?</summary>
-    Accounts can earn badges, learn about upcoming adventures in the form of newsletters,
-    and help us share information with new creators on where and how their stories are being enjoyed.
+    Accounts can earn badges, learn about upcoming adventures in the form of
+    newsletters, and help us share information with new creators on where and
+    how their stories are being enjoyed.
   </details>
 
   <details>
     <summary>How is my privacy and information protected?</summary>
-    When creating an account, we keep your name and email private. We only share it for services like payments,
-    personalizing your reading experience and to send you exciting updates about new stories and authors.
-    In lieu of sharing your data and browsing with a third party, we handcraft stories, and are supported
-    by readers choosing a paid subscription.
-    For more information, review our <a href="/privacy">privacy policy</a>.
+    When creating an account, we keep your name and email private. We only share
+    it for services like payments, personalizing your reading experience and to
+    send you exciting updates about new stories and authors. In lieu of sharing
+    your data and browsing with a third party, we handcraft stories, and are
+    supported by readers choosing a paid subscription. For more information,
+    review our
+    <a href="/privacy">privacy policy</a>
+    .
   </details>
 
   <details>
@@ -78,5 +82,3 @@
     <a href="http://h2wib.com">here.</a>
   </details>
 </section>
-
-

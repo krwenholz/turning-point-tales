@@ -1,8 +1,8 @@
 <script>
-  import TextArea from 'src/components/TextArea/index';
+  import TextArea from "src/components/TextArea/index";
   import { createEventDispatcher, afterUpdate } from "svelte";
 
-  export let storyNode = '';
+  export let storyNode = "";
   export let text = [];
   export let focusPath = [];
   export let clearFocusPath = () => {};
@@ -33,20 +33,20 @@
   }
 </style>
 
-<div class='story-text' bind:this={self}>
+<div class="story-text" bind:this="{self}">
   <TextArea
-    value={text.join("\n\n")}
+    value="{text.join('\n\n')}"
     placeholder="Once upon a time.."
-    bind:this={self}
-    on:input={ e => onInput(e, {
-      storyNode,
-      location: 'storyText',
-      prevValue: text,
-    })}
-    on:keydown={ e => onKeydown(e, {
-      storyNode,
-      location: 'storyText',
-      prevValue: text,
-    })}
+    bind:this="{self}"
+    on:input="{e => onInput(e, {
+        storyNode,
+        location: 'storyText',
+        prevValue: text
+      })}"
+    on:keydown="{e => onKeydown(e, {
+        storyNode,
+        location: 'storyText',
+        prevValue: text
+      })}"
   />
 </div>

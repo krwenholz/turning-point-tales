@@ -23,7 +23,9 @@
     margin: auto;
     max-width: 1600px;
     padding-left: var(--root-wrapper-padding);
-    padding-right: calc(var(--root-wrapper-padding) + 6px); /* account for right scrollbar */
+    padding-right: calc(
+      var(--root-wrapper-padding) + 6px
+    ); /* account for right scrollbar */
   }
 
   main {

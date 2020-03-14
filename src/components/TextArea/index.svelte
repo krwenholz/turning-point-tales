@@ -1,22 +1,22 @@
 <script>
-  import { round } from 'lodash';
+  import { round } from "lodash";
   import { onMount, afterUpdate } from "svelte";
 
-  export let value = '';
-  export let className = '';
+  export let value = "";
+  export let className = "";
   export let autoSize = true;
-  export let placeholder = '';
+  export let placeholder = "";
   export const focus = () => self.focus();
 
   let self = {};
 
   const resize = () => {
-    if(!autoSize) return;
+    if (!autoSize) return;
 
-    self.style.height = 'auto';
-    self.style.height = self.scrollHeight + 'px';
-  }
-  afterUpdate(resize)
+    self.style.height = "auto";
+    self.style.height = self.scrollHeight + "px";
+  };
+  afterUpdate(resize);
 </script>
 
 <style>
@@ -38,14 +38,14 @@
 <textarea
   {value}
   {placeholder}
-  class={`text-area ${className}`}
-  rows={1}
-  bind:this={self}
+  class="{`text-area ${className}`}"
+  rows="{1}"
+  bind:this="{self}"
   on:focus
   on:keydown
   on:keyup
   on:change
-  on:input={resize}
+  on:input="{resize}"
   on:input
   on:blur
-/>
+></textarea>

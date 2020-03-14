@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import { logger } from "src/lib/client/logger";
   import { stores } from "@sapper/app";
-  import { get } from 'svelte/store';
+  import { get } from "svelte/store";
   import { visited } from "src/lib/global-state-stores/browserStore/visited";
   const { page, session } = stores();
 

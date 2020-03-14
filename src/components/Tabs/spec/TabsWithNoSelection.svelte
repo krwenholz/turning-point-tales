@@ -8,11 +8,7 @@
     <Tab name="second">second</Tab>
   </TabList>
 
-  <TabPanel>
-    First Panel Content
-  </TabPanel>
+  <TabPanel>First Panel Content</TabPanel>
 
-  <TabPanel>
-    Second Panel Content
-  </TabPanel>
+  <TabPanel>Second Panel Content</TabPanel>
 </Tabs>
