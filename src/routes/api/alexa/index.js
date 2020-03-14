@@ -17,16 +17,28 @@ import { logger } from "src/logging";
 
 // TODO(kyle): https://developer.amazon.com/en-US/docs/alexa/account-linking/steps-to-implement-account-linking.html
 // https://github.com/jaredhanson/oauth2orize
+// https://github.com/alexa/skill-sample-nodejs-zero-to-hero/
 
 const GetLinkedInfoInterceptor = {
-  async process(handlerInput) {
+  process(handlerInput) {
+    logger.info(
+      handlerInput.requestEnvelope.session,
+      "GetLinkedInfoInterceptor"
+    );
     if (
       handlerInput.requestEnvelope.session.new &&
       handlerInput.requestEnvelope.session.user.accessToken
     ) {
+      /**
+      return base.handle(handlerInput).then(responseBuilder => {
+        const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+        if (sessionAttributes.isAuthenticated !== false) {
+          responseBuilder.withLinkAccountCard();
+        }
+ **/
       // This is a new session and we have an access token,
       // so get the user details from Cognito and persist in session attributes
-      const userData = await getUserData(
+      const userData = getUserData(
         handlerInput.requestEnvelope.session.user.accessToken
       );
       // console.log('GetLinkedInfoInterceptor: getUserData: ', userData);
@@ -36,27 +48,23 @@ const GetLinkedInfoInterceptor = {
           userData.UserAttributes,
           "given_name"
         );
-        sessionAttributes.surname = getAttribute(
-          userData.UserAttributes,
-          "family_name"
-        );
-        sessionAttributes.emailAddress = getAttribute(
-          userData.UserAttributes,
-          "email"
-        );
-        sessionAttributes.phoneNumber = getAttribute(
-          userData.UserAttributes,
-          "phone_number"
-        );
-        sessionAttributes.streetAddress = getAttribute(
-          userData.UserAttributes,
-          "address"
-        );
         handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
       } else {
-        console.log("GetLinkedInfoInterceptor: No user data was found.");
+        logger.info("GetLinkedInfoInterceptor: No user data was found.");
       }
     }
+  }
+};
+
+const LogRequestInterceptor = {
+  process(handlerInput, response) {
+    logger.info(handlerInput.requestEnvelope, "Handling Alexa request");
+  }
+};
+
+const LogResponseInterceptor = {
+  process(handlerInput, response) {
+    logger.info(response, "Alexa response");
   }
 };
 
@@ -73,7 +81,8 @@ const skill = Alexa.SkillBuilders.custom()
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler
   )
-  .addRequestInterceptors(GetLinkedInfoInterceptor)
+  .addRequestInterceptors(LogRequestInterceptor, GetLinkedInfoInterceptor)
+  .addResponseInterceptors(LogResponseInterceptor)
   .addErrorHandlers(ErrorHandler)
   .create();
 

@@ -1,6 +1,4 @@
-import { createHandler } from "src/routes/api/alexa/_utilities";
-
-const CancelAndStopIntentHandler = createHandler({
+const CancelAndStopIntentHandler = {
   name: "CancelAndStopIntentHandler",
   canHandle(handlerInput) {
     return (
@@ -14,13 +12,12 @@ const CancelAndStopIntentHandler = createHandler({
   handle(handlerInput) {
     const speechText = "Goodbye!";
 
-    return Promise.resolve(
-      handlerInput.responseBuilder
-        .speak(speechText)
-        .withSimpleCard("Hello World", speechText)
-        .withShouldEndSession(true)
-    );
+    return handlerInput.responseBuilder
+      .speak(speechText)
+      .withSimpleCard("Hello World", speechText)
+      .withShouldEndSession(true)
+      .getResponse();
   }
-});
+};
 
 export default CancelAndStopIntentHandler;

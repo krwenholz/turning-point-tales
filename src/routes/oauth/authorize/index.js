@@ -7,7 +7,7 @@ import { passport } from "src/authentication";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
 import { logger } from "src/logging";
 import { pool } from "src/lib/server/database.js";
-import { join, times } from "lodash";
+import { join, times, includes } from "lodash";
 
 const findAccessTokenByUserIdAndClientId = async (userId, clientId, done) => {
   try {
@@ -35,11 +35,12 @@ const findAccessTokenByUserIdAndClientId = async (userId, clientId, done) => {
 export const get = (req, res, next) => {
   return server.authorization(
     (clientId, redirectUri, done) => {
-      // WARNING: For security purposes, it is highly advisable to check that
-      //          redirectUri provided by the client matches one registered with
-      //          the server. For simplicity, this example does not. You have
-      //          been warned.
-      // TODO(kyle): verify the client is who they say with some lookup and auth?
+      if (
+        !includes(config.get("alexa.redirectUris"), redirectUri) &&
+        clientId !== conifg.get("alexa.clientId")
+      ) {
+        return done(null);
+      }
       return done(null, { clientId, isTrusted: true }, redirectUri);
     },
     (client, user, done) => {
@@ -61,10 +62,8 @@ export const get = (req, res, next) => {
       );
     }
   )(req, res, (req, res) => {
-    return response.render("dialog", {
-      transactionId: request.oauth2.transactionID,
-      user: request.user,
-      client: request.oauth2.client
-    });
+    return res.redirect(
+      `/oauth/dialog?transactionId=${request.oauth2.transactionID}`
+    );
   });
 };
