@@ -17,7 +17,7 @@ const GoBackIntentHandler = {
   handle(handlerInput) {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
     const storyId = sessionAttributes.storyId;
-    sessionAttributes.store = History.goBack(decision, sessionAttributes.store);
+    sessionAttributes.store = History.goBack(sessionAttributes.store);
     handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
 
     const storyNode = sessionAttributes.store.storyNode;
