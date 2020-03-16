@@ -3,11 +3,12 @@ import oauth2orize from "oauth2orize";
 import passportHttpBearer from "passport-http-bearer";
 import securePassword from "secure-password";
 import uuidv4 from "uuid/v4";
-import { passport } from "src/authentication";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
-import { logger } from "src/logging";
-import { pool } from "src/lib/server/database.js";
 import { join, times, includes } from "lodash";
+import { logger } from "src/logging";
+import { passport } from "src/authentication";
+import { pool } from "src/lib/server/database.js";
+import { server } from "src/authentication/oauth";
 
 const findAccessTokenByUserIdAndClientId = async (userId, clientId, done) => {
   try {
@@ -32,8 +33,8 @@ const findAccessTokenByUserIdAndClientId = async (userId, clientId, done) => {
   }
 };
 
-export const get = (req, res, next) => {
-  return server.authorization(
+export const get = (req, res) => {
+  return server.authorize(
     (clientId, redirectUri, done) => {
       if (
         !includes(config.get("alexa.redirectUris"), redirectUri) &&
@@ -44,26 +45,13 @@ export const get = (req, res, next) => {
       return done(null, { clientId, isTrusted: true }, redirectUri);
     },
     (client, user, done) => {
-      // Check if grant request qualifies for immediate approval
-
-      // Auto-approve
-      if (client.isTrusted) return done(null, true);
-
-      findAccessTokenByUserIdAndClientId(
-        user.id,
-        client.clientId,
-        (error, token) => {
-          // Auto-approve
-          if (token) return done(null, true);
-
-          // Otherwise ask user
-          return done(null, false);
-        }
-      );
+      // We don't do immediate approval, so always prompt user for it
+      return done(null, false);
     }
-  )(req, res, (req, res) => {
+  )(req, res, () => {
+    logger.info(req, "ddd");
     return res.redirect(
-      `/oauth/dialog?transactionId=${request.oauth2.transactionID}`
+      `/oauth/authorize/dialog?transactionId=${req.oauth2.transactionID}`
     );
   });
 };

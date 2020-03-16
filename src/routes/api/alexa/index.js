@@ -18,6 +18,7 @@ import { logger } from "src/logging";
 // TODO(kyle): https://developer.amazon.com/en-US/docs/alexa/account-linking/steps-to-implement-account-linking.html
 // https://github.com/jaredhanson/oauth2orize
 // https://github.com/alexa/skill-sample-nodejs-zero-to-hero/
+// https://github.com/awais786327/oauth2orize-examples/blob/master/routes/oauth2.js
 
 const GetLinkedInfoInterceptor = {
   process(handlerInput) {

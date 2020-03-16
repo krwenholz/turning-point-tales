@@ -13,23 +13,44 @@
 </script>
 
 <style>
+  section {
+    align-items: center;
+  }
 
+  nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
 </style>
 
-<h1>Hi {$session.user.firstName}!</h1>
-<p>Amazon Alexa is requesting access to your account.</p>
-<p>Do you approve?</p>
+<section class="text">
+  <h1>Hi {$session.user.firstName}!</h1>
+  <p>Amazon Alexa is requesting access to your account.</p>
+  <p>Do you approve?</p>
 
-<form action="/oauth/authorize/decision" method="post">
-  <input
-    name="transaction_id"
-    type="hidden"
-    value="{$page.query.transactionId}"
-  />
-  <div>
-    <input type="submit" value="Allow" id="allow" />
-    <input type="submit" value="Deny" name="cancel" id="deny" />
-  </div>
-  <Button type="submit">Allow</Button>
-  <Button type="submit">Deny</Button>
-</form>
+  <nav>
+    <form action="/oauth/authorize/decision" method="post">
+      <input type="hidden" name="_csrf" value="{csrf}" />
+      <input
+        name="transaction_id"
+        type="hidden"
+        value="{$page.query.transactionId}"
+      />
+      <input name="allow" id="allow" type="hidden" />
+      <Button type="submit">Allow</Button>
+    </form>
+
+    <form action="/oauth/authorize/decision" method="post">
+      <input type="hidden" name="_csrf" value="{csrf}" />
+      <input
+        name="transaction_id"
+        type="hidden"
+        value="{$page.query.transactionId}"
+      />
+      <input name="deny" id="deny" type="hidden" />
+      <Button type="submit">Deny</Button>
+    </form>
+  </nav>
+</section>
