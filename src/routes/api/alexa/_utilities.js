@@ -98,7 +98,7 @@ export const speechWithSubscriptionPrompt = (speechText, isSubscribed) => {
   return (
     speechText +
     speechPauseList() +
-    "You can see more stories by linking your subscriber account."
+    "Access more stories by linking a subscriber account with the card in your Alexa app."
   );
 };
 

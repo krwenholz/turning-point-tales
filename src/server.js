@@ -55,7 +55,7 @@ const middleware = [
       if (req.path.includes("api")) req.rawBody = buf;
     }
   }),
-  requestLoggingMiddleware(),
+  requestLoggingMiddleware,
   requireHttps,
   requireRoot,
   compression({

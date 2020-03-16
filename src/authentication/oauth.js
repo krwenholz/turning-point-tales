@@ -36,17 +36,18 @@ const findAuthorizationCode = async (code, done) => {
   }
 };
 
-const saveAuthorizationCode = async ({
+const saveAuthorizationCode = async (
   code,
   clientId,
   redirectUri,
-  userId
-}) => {
+  userId,
+  done
+) => {
   try {
     await pool.query(
       `
       INSERT INTO
-        oauth_authorization_codes
+        oauth_authorization_codes (code, client_id, redirect_uri, user_id, created, modified)
       VALUES ($1, $2, $3, $4, NOW(), NOW())
     `,
       [code, clientId, redirectUri, userId]
@@ -108,14 +109,22 @@ const saveAccessToken = async (token, userId, clientId, done) => {
 server.grant(
   oauth2orize.grant.code((client, redirectUri, user, ares, done) => {
     const code = uuidv4(16);
-    saveAuthorizationCode(code, client.id, redirectUri, user.id, error => {
-      if (error) return done(error);
-      return done(null, code);
-    });
+    saveAuthorizationCode(
+      code,
+      client.clientId,
+      redirectUri,
+      user.id,
+      error => {
+        if (error) return done(error);
+        return done(null, code);
+      }
+    );
   })
 );
 
-server.serializeClient((client, done) => done(null, client.id));
+server.serializeClient((client, done) => {
+  done(null, client.clientId);
+});
 
 server.deserializeClient(async (id, done) => {
   try {
@@ -140,7 +149,7 @@ server.exchange(
       saveAccessToken(token, authCode.userId, authCode.clientId, error => {
         if (error) return done(error);
         // Add custom params, e.g. the username
-        let params = {};
+        let params = { expires_in: 60 * 60 * 24 * 365 };
         // Call `done(err, accessToken, [refreshToken], [params])` to issue an access token
         return done(null, token, null, params);
       });
