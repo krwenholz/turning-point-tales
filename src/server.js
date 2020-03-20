@@ -17,6 +17,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { csrfProtection, exposeCsrfMiddleware } from "src/lib/server/csrf";
 import { exposeStripeKeyMiddleware } from "src/lib/server/stripe";
 import { passport, initPassport } from "src/authentication";
+import * as oauth from "src/authentication/oauth";
 import { logger, requestLoggingMiddleware } from "./logging";
 import { pool } from "src/lib/server/database.js";
 import { requireHttps } from "src/lib/server/require_https";
@@ -120,16 +121,33 @@ const middleware = [
     }
   }),
   passport.initialize(),
-  passport.session(),
+  passport.session()
+];
+
+app.use(...middleware);
+
+app.get("/oauth/authorize", oauth.authorize);
+
+app.post("/oauth/authorize/decision", oauth.server.decision());
+
+app.get(
+  "/oauth/token",
+  passport.authenticate(["basic"], {
+    session: false
+  }),
+  oauth.server.token(),
+  oauth.server.errorHandler()
+);
+
+app.use(
+  "/",
   passport.authenticationMiddleware(),
   sapper.middleware({
     session: req => ({
       user: req.user
     })
   })
-];
-
-app.use(...middleware);
+);
 
 if (config.get("server.enableHttps")) {
   https
