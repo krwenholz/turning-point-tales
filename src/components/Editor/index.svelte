@@ -15,12 +15,12 @@
   import { renameKey, dropIdx } from 'src/lib/utilities.js'
   import { saveFile, loadFile } from 'src/lib/load-and-save-files.js';
   import { safeWindow } from 'src/lib/client/safe-window.js';
-  import { PARAGRAPH_DELIMITER } from './_constants.js';
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
   import StoryNode from './_StoryNode.svelte';
   import Feedback from './_Feedback.svelte';
   import { toMessage } from './_syntax-error.js';
+  import placeholderStory from './_placeholder-story.js';
 
   export let story = {}
   export let storyNode = 'start';
@@ -66,6 +66,8 @@
           message: toMessage(error, data)
         }
       ];
+
+      story = placeholderStory;
     }
   });
 
@@ -88,7 +90,7 @@
     } else if (location.match(/decisionConsequences|decisionRequires/)) {
       story = assoc(path, e.target.value.split(/,\s|,|\s/g), story);
     } else {
-      story = assoc(path, e.target.value.split(PARAGRAPH_DELIMITER), story);
+      story = assoc(path, e.target.value.split("\n\n"), story);
     }
 
     onEdit(story);
@@ -188,7 +190,7 @@
   }
 
   safeWindow().document.addEventListener("keydown", (event) => {
-  //TODO: These can be added to component itself, instead of globally (being lazy)
+  // TODO: These can be added to component itself, instead of globally (being lazy)
     if(event.ctrlKey && event.key === "p") {
       selectWrapperRef.querySelector('input').focus();
       event.stopPropagation();

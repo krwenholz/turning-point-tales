@@ -1,9 +1,6 @@
 <script>
   import TextArea from 'src/components/TextArea/index';
-  import Minus from 'src/components/icons/Minus.svelte';
-  import { PARAGRAPH_DELIMITER } from './_constants.js';
   import { createEventDispatcher, afterUpdate } from "svelte";
-  import { get, toPath, join, cloneDeep } from 'lodash';
 
   export let storyNode = '';
   export let text = [];
@@ -41,7 +38,7 @@
 
 <div class='story-text' bind:this={self}>
   <TextArea
-    value={text.join(PARAGRAPH_DELIMITER)}
+    value={text.join("\n\n")}
     placeholder="Once upon a time.."
     bind:this={self}
     on:input={ e => onInput(e, {

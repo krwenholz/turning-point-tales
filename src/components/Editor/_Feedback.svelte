@@ -19,6 +19,8 @@
   {/if}
 
   {#each errors as error}
-  <pre class='error'>{error.message}</pre>
+  <pre class='error' on:click={() => errors = []}>
+    {error.message}
+  </pre>
   {/each}
 </div>
