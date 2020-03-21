@@ -7,5 +7,6 @@ export default {
         storyNode: '',
       }
     ],
+    final: false,
   }
 }

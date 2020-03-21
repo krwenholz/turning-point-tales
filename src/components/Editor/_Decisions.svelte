@@ -19,7 +19,9 @@
 </script>
 
 <style>
-  .decisions { margin-bottom: 48px; }
+  .decisions {
+    margin-right: 32px;
+  }
 
   .decision {
     display: flex;
@@ -57,7 +59,7 @@
 
   header {
     display: flex;
-    margin: 24px 0 24px 0;
+    margin-bottom: 24px;
   }
 
   header :global(button) {
