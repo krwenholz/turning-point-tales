@@ -209,6 +209,7 @@
   {#if storyNode !== 'start'}
   <div class='form-group'>
     <Checkbox
+      checked={isFinalNode}
       id="disable-decisions"
       on:click={e => onSetAsFinalNode({ checked: e.target.checked, storyNode })}
     />
