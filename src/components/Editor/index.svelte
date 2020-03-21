@@ -3,20 +3,24 @@
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
   import Select from 'svelte-select';
   import { dropRight, debounce, keys, findIndex, concat, omit, get } from 'lodash';
+  import yaml from "js-yaml";
   import { assoc, update } from 'lodash/fp';
   import Adventure from "src/components/Adventure/index";
   import Overview from "src/components/Overview/index";
   import Graph from './_graph/index';
   import { isValidStory } from 'src/components/Adventure/validation';
-  import StoryText from './_StoryText.svelte';
-  import Decisions from './_Decisions.svelte';
-  import StoryNode from './_StoryNode.svelte';
   import Button from 'src/components/Button.svelte';
   import Checkbox from 'src/components/Checkbox/index';
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
   import { renameKey, dropIdx } from 'src/lib/utilities.js'
   import { saveFile, loadFile } from 'src/lib/load-and-save-files.js';
   import { safeWindow } from 'src/lib/client/safe-window.js';
+  import StoryText from './_StoryText.svelte';
+  import Decisions from './_Decisions.svelte';
+  import StoryNode from './_StoryNode.svelte';
+  import Feedback from './_Feedback.svelte';
+  import { toMessage } from './_syntax-error.js';
+  import placeholderStory from './_placeholder-story.js';
 
   export let story = {}
   export let storyNode = 'start';
@@ -27,8 +31,7 @@
   let selectWrapperRef = null;
   let history = [];
   let consequences = [];
-
-  $: console.log(story);
+  let errors = [];
 
   $: storyIsValid = process.browser && isValidStory(story);
 
@@ -50,19 +53,31 @@
 
   const clearFocusPath = () => focusPath = [];
 
-  const loadStoryFile = () => loadFile(data => {
-    story = data;
+  const clearFeedback = () => errors = [];
 
-    notifier.success("Story loaded", 1500);
+  const loadStoryFile = () => loadFile(data => {
+    try {
+      story = yaml.load(data)
+      notifier.success("Story loaded", 1500);
+      clearFeedback();
+    } catch(error){
+      errors = [
+        {
+          message: toMessage(error, data)
+        }
+      ];
+
+      story = placeholderStory;
+    }
   });
 
-  const saveStoryFile = () => saveFile(story);
+  const saveStoryFile = () => saveFile('edited-story.yaml', yaml.safeDump(story));
 
   const onInput = (e, { idx, prevValue, location, storyId }) => {
     if (prevValue === e.target.value) return;
 
     const path = {
-      storyText: [storyNode, 'text', idx],
+      storyText: [storyNode, 'text'],
       decisionLabel: [storyNode, 'decisions', idx, 'label'],
       decisionStoryNode: [storyNode, 'decisions', idx, 'storyNode'],
       decisionConsequences: [storyNode, 'decisions', idx, 'consequences'],
@@ -75,39 +90,18 @@
     } else if (location.match(/decisionConsequences|decisionRequires/)) {
       story = assoc(path, e.target.value.split(/,\s|,|\s/g), story);
     } else {
-      story = assoc(path, e.target.value, story);
+      story = assoc(path, e.target.value.split("\n\n"), story);
     }
 
     onEdit(story);
   };
 
   const onKeydown = (e, { prevValue, location, idx, storyNode }) => {
-    const addedNewParagraphByHittingEnter = e.key === 'Enter' && location === 'storyText';
-
-    const deletedParagraphByHittingBackspace = e.key === 'Backspace' && !prevValue && idx !== 0;
-
     const invalidKeystroke = e.key.match(/[-'\s"]/) && location.match(/decisionStoryNode|storyNode/);
 
     if(invalidKeystroke) {
       e.preventDefault();
       return false;
-    }
-
-    if(addedNewParagraphByHittingEnter) {
-      story = assoc([storyNode, 'text', idx + 1], '', story);
-      focusPath = [storyNode, 'text', idx + 1];
-      e.preventDefault();
-    }
-    else if (deletedParagraphByHittingBackspace) {
-      story = update(
-        [storyNode, 'text'],
-        dropRight,
-        story
-      );
-
-      focusPath = [storyNode, 'text', idx - 1];
-
-      e.preventDefault();
     }
 
     onEdit(story);
@@ -196,7 +190,7 @@
   }
 
   safeWindow().document.addEventListener("keydown", (event) => {
-  //TODO: These can be added to component itself, instead of globally (being lazy)
+  // TODO: These can be added to component itself, instead of globally (being lazy)
     if(event.ctrlKey && event.key === "p") {
       selectWrapperRef.querySelector('input').focus();
       event.stopPropagation();
@@ -218,17 +212,6 @@
     margin-bottom: 24px;
   }
 
-  .editor nav {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 32px;
-  }
-
-  .editor .select-wrapper {
-    /* without this, <Select> hides all text when text is typed in the input */
-    min-width: 130px;
-  }
-
   .editor :global(.edit-actions button) {
     margin-left: 24px;
   }
@@ -237,7 +220,23 @@
     display: flex;
   }
 
-  h2 {
+  nav {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 32px;
+  }
+
+  .select-wrapper {
+    /* without this, <Select> hides all text when text is typed in the input */
+    min-width: 130px;
+  }
+
+
+  .decisions-and-feedback {
+    display: flex;
+  }
+
+  .preview-text {
     border-bottom: 1px solid gray;
   }
 
@@ -298,27 +297,32 @@
         onDelete={() => deleteStoryNode(storyNode)}
       />
 
-      <Decisions
-        {focusPath}
-        {clearFocusPath}
-        {onKeydown}
-        {onInput}
-        {onAddNewDecision}
-        {onDeleteDecision}
-        {storyNode}
-        {onSetAsFinalNode}
-        isFinalNode={get(story, [storyNode, 'final'])}
-        decisions={get(story, [storyNode, 'decisions'])}
-      />
+      <div class="decisions-and-feedback">
+        <Decisions
+          {focusPath}
+          {clearFocusPath}
+          {onKeydown}
+          {onInput}
+          {onAddNewDecision}
+          {onDeleteDecision}
+          {storyNode}
+          {onSetAsFinalNode}
+          isFinalNode={get(story, [storyNode, 'final'])}
+          decisions={get(story, [storyNode, 'decisions'])}
+        />
 
-      <StoryText
-        text={get(story, [storyNode, 'text'])}
-        storyNode={storyNode}
-        {onInput}
-        {onKeydown}
-        {focusPath}
-        {clearFocusPath}
-      />
+        {#if errors.length}
+          <Feedback {errors} />
+        {:else}
+          <StoryText
+            text={get(story, [storyNode, 'text'])}
+            storyNode={storyNode}
+            {onInput}
+            {onKeydown}
+            {focusPath}
+            {clearFocusPath}
+          />
+        {/if}
     </TabPanel>
 
     <TabPanel className='preview'>
@@ -337,7 +341,7 @@
 
     <TabPanel>
       {#if storyIsValid}
-        <h2>Preview</h2>
+        <h2 class="preview-text">Preview</h2>
         <Graph {story} />
       {:else}
         <p class='error'> current story is invalid </p>

@@ -1,8 +1,6 @@
 <script>
   import TextArea from 'src/components/TextArea/index';
-  import Minus from 'src/components/icons/Minus.svelte';
   import { createEventDispatcher, afterUpdate } from "svelte";
-  import { get, toPath, join, cloneDeep } from 'lodash';
 
   export let storyNode = '';
   export let text = [];
@@ -11,20 +9,11 @@
   export let onKeydown = () => {};
   export let onInput = () => {};
   export let nodes = {};
+
   let self = {};
 
   afterUpdate(() => {
-    const path = focusPath.join();
-
-    if(path && !nodes[path]) {
-      // for some reason, first child never gets added to focus-list...
-      self.children[0].focus();
-    }
-    else if(nodes[path]) {
-      nodes[path].focus();
-    }
-
-    clearFocusPath();
+    self.focus();
   });
 </script>
 
@@ -32,6 +21,7 @@
   .story-text {
     display: flex;
     flex-flow: column;
+    flex: 1;
   }
 
   .story-text :global(textarea) {
@@ -48,23 +38,19 @@
 </style>
 
 <div class='story-text' bind:this={self}>
-  {#each text as paragraph, idx}
-    <TextArea
-      value={paragraph}
-      placeholder="Once upon a time.."
-      bind:this={nodes[[storyNode, 'text', idx]]}
-      on:input={ e => onInput(e, {
-        idx,
-        storyNode,
-        location: 'storyText',
-        prevValue: paragraph,
-      })}
-      on:keydown={ e => onKeydown(e, {
-        idx,
-        storyNode,
-        location: 'storyText',
-        prevValue: paragraph,
-      })}
-    />
-  {/each}
+  <TextArea
+    value={text.join("\n\n")}
+    placeholder="Once upon a time.."
+    bind:this={self}
+    on:input={ e => onInput(e, {
+      storyNode,
+      location: 'storyText',
+      prevValue: text,
+    })}
+    on:keydown={ e => onKeydown(e, {
+      storyNode,
+      location: 'storyText',
+      prevValue: text,
+    })}
+  />
 </div>

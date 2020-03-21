@@ -19,7 +19,9 @@
 </script>
 
 <style>
-  .decisions { margin-bottom: 48px; }
+  .decisions {
+    margin-right: 32px;
+  }
 
   .decision {
     display: flex;
@@ -57,7 +59,7 @@
 
   header {
     display: flex;
-    margin: 24px 0 24px 0;
+    margin-bottom: 24px;
   }
 
   header :global(button) {
@@ -74,7 +76,7 @@
   .requires span {
     width: 30%;
     max-width: 130px;
-    margin-bottom: 12px;
+    margin: 0 24px 12px 0;
   }
 
   .label :global(svg) {
