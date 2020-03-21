@@ -15,10 +15,12 @@
   import { renameKey, dropIdx } from 'src/lib/utilities.js'
   import { saveFile, loadFile } from 'src/lib/load-and-save-files.js';
   import { safeWindow } from 'src/lib/client/safe-window.js';
+  import { PARAGRAPH_DELIMITER } from './_constants.js';
   import StoryText from './_StoryText.svelte';
   import Decisions from './_Decisions.svelte';
   import StoryNode from './_StoryNode.svelte';
   import Feedback from './_Feedback.svelte';
+  import { toMessage } from './_syntax-error.js';
 
   export let story = {}
   export let storyNode = 'start';
@@ -51,14 +53,17 @@
 
   const clearFocusPath = () => focusPath = [];
 
+  const clearFeedback = () => errors = [];
+
   const loadStoryFile = () => loadFile(data => {
     try {
       story = yaml.load(data)
       notifier.success("Story loaded", 1500);
+      clearFeedback();
     } catch(error){
       errors = [
         {
-          message: error.message,
+          message: toMessage(error, data)
         }
       ];
     }
@@ -70,7 +75,7 @@
     if (prevValue === e.target.value) return;
 
     const path = {
-      storyText: [storyNode, 'text', idx],
+      storyText: [storyNode, 'text'],
       decisionLabel: [storyNode, 'decisions', idx, 'label'],
       decisionStoryNode: [storyNode, 'decisions', idx, 'storyNode'],
       decisionConsequences: [storyNode, 'decisions', idx, 'consequences'],
@@ -83,39 +88,18 @@
     } else if (location.match(/decisionConsequences|decisionRequires/)) {
       story = assoc(path, e.target.value.split(/,\s|,|\s/g), story);
     } else {
-      story = assoc(path, e.target.value, story);
+      story = assoc(path, e.target.value.split(PARAGRAPH_DELIMITER), story);
     }
 
     onEdit(story);
   };
 
   const onKeydown = (e, { prevValue, location, idx, storyNode }) => {
-    const addedNewParagraphByHittingEnter = e.key === 'Enter' && location === 'storyText';
-
-    const deletedParagraphByHittingBackspace = e.key === 'Backspace' && !prevValue && idx !== 0;
-
     const invalidKeystroke = e.key.match(/[-'\s"]/) && location.match(/decisionStoryNode|storyNode/);
 
     if(invalidKeystroke) {
       e.preventDefault();
       return false;
-    }
-
-    if(addedNewParagraphByHittingEnter) {
-      story = assoc([storyNode, 'text', idx + 1], '', story);
-      focusPath = [storyNode, 'text', idx + 1];
-      e.preventDefault();
-    }
-    else if (deletedParagraphByHittingBackspace) {
-      story = update(
-        [storyNode, 'text'],
-        dropRight,
-        story
-      );
-
-      focusPath = [storyNode, 'text', idx - 1];
-
-      e.preventDefault();
     }
 
     onEdit(story);
