@@ -308,7 +308,7 @@
           {storyNode}
           {onSetAsFinalNode}
           isFinalNode={get(story, [storyNode, 'final'])}
-          decisions={get(story, [storyNode, 'decisions'])}
+          decisions={get(story, [storyNode, 'decisions'], [])}
         />
 
         {#if errors.length}
