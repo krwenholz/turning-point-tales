@@ -18,9 +18,7 @@
     <b>Feedback</b>
   {/if}
 
-  <ul>
-    {#each errors as error}
-    <li class='error'>- {error.message}</li>
-    {/each}
-  </ul>
+  {#each errors as error}
+  <pre class='error'>{error.message}</pre>
+  {/each}
 </div>
