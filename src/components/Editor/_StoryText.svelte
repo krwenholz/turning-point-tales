@@ -21,6 +21,7 @@
   .story-text {
     display: flex;
     flex-flow: column;
+    flex: 1;
   }
 
   .story-text :global(textarea) {

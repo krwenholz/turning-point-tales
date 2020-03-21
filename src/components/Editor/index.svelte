@@ -212,17 +212,6 @@
     margin-bottom: 24px;
   }
 
-  .editor nav {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 32px;
-  }
-
-  .editor .select-wrapper {
-    /* without this, <Select> hides all text when text is typed in the input */
-    min-width: 130px;
-  }
-
   .editor :global(.edit-actions button) {
     margin-left: 24px;
   }
@@ -231,11 +220,23 @@
     display: flex;
   }
 
-  .editor .decisions-and-feedback {
+  nav {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 32px;
+  }
+
+  .select-wrapper {
+    /* without this, <Select> hides all text when text is typed in the input */
+    min-width: 130px;
+  }
+
+
+  .decisions-and-feedback {
     display: flex;
   }
 
-  h2 {
+  .preview-text {
     border-bottom: 1px solid gray;
   }
 
@@ -310,18 +311,18 @@
           decisions={get(story, [storyNode, 'decisions'])}
         />
 
-        <Feedback {errors} />
-      </div>
-
-
-      <StoryText
-        text={get(story, [storyNode, 'text'])}
-        storyNode={storyNode}
-        {onInput}
-        {onKeydown}
-        {focusPath}
-        {clearFocusPath}
-      />
+        {#if errors.length}
+          <Feedback {errors} />
+        {:else}
+          <StoryText
+            text={get(story, [storyNode, 'text'])}
+            storyNode={storyNode}
+            {onInput}
+            {onKeydown}
+            {focusPath}
+            {clearFocusPath}
+          />
+        {/if}
     </TabPanel>
 
     <TabPanel className='preview'>
@@ -340,7 +341,7 @@
 
     <TabPanel>
       {#if storyIsValid}
-        <h2>Preview</h2>
+        <h2 class="preview-text">Preview</h2>
         <Graph {story} />
       {:else}
         <p class='error'> current story is invalid </p>

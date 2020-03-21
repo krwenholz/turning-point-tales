@@ -8,7 +8,6 @@
     flex-flow: column;
     align-items: center;
     flex: 1;
-    padding-top: 24px;
   }
 </style>
 
