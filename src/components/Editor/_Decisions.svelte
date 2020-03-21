@@ -74,7 +74,7 @@
   .requires span {
     width: 30%;
     max-width: 130px;
-    margin-bottom: 12px;
+    margin: 0 24px 12px 0;
   }
 
   .label :global(svg) {
