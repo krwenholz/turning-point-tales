@@ -89,6 +89,8 @@
       storyNode = e.target.value;
     } else if (location.match(/decisionConsequences|decisionRequires/)) {
       story = assoc(path, e.target.value.split(/,\s|,|\s/g), story);
+    } else if (location.match(/decisionLabel|decisionStoryNode/)){
+      story = assoc(path, e.target.value, story);
     } else {
       story = assoc(path, e.target.value.split("\n\n"), story);
     }
