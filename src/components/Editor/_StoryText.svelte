@@ -11,10 +11,6 @@
   export let nodes = {};
 
   let self = {};
-
-  afterUpdate(() => {
-    self.focus();
-  });
 </script>
 
 <style>
