@@ -1,4 +1,4 @@
-import { listStoriesForAlexa } from "src/routes/api/alexa/_utilities";
+import { listStoriesForAlexa } from "src/alexa/_utilities";
 import { logger } from "src/logging";
 
 const StartedInProgressChooseStoryIntentHandler = {

@@ -49,7 +49,7 @@
         type="hidden"
         value="{$page.query.transactionId}"
       />
-      <input name="deny" id="deny" type="hidden" />
+      <input name="cancel" id="cancel" type="hidden" />
       <Button type="submit">Deny</Button>
     </form>
   </nav>

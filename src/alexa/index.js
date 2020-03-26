@@ -87,7 +87,7 @@ const skill = Alexa.SkillBuilders.custom()
   .addErrorHandlers(ErrorHandler)
   .create();
 
-export const post = (req, res, next) => {
+const post = (req, res, next) => {
   return new SkillRequestSignatureVerifier()
     .verify(req.rawBody, req.headers)
     .then(() => {
@@ -104,3 +104,5 @@ export const post = (req, res, next) => {
       res.status(500);
     });
 };
+
+export default post;

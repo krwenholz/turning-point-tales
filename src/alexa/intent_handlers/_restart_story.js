@@ -1,7 +1,5 @@
 import * as Stories from "src/routes/story/_stories";
-import {
-  startFreshStory
-} from "src/routes/api/alexa/_utilities";
+import { startFreshStory } from "src/alexa/_utilities";
 
 const RestartStoryIntentHandler = {
   name: "RestartStoryIntentHandler",

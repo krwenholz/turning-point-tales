@@ -7,7 +7,7 @@ import {
   storyDecisionChoices,
   updateStoryDecisionChoicesDirective,
   findConfirmedSlotValue
-} from "src/routes/api/alexa/_utilities";
+} from "src/alexa/_utilities";
 import * as Stories from "src/routes/story/_stories";
 import * as History from "src/components/Adventure/history";
 
@@ -30,6 +30,7 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
 
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
     const storyId = sessionAttributes.storyId;
+    // TODO(kyle): record visitation
     sessionAttributes.store = History.goToDecision(
       decision,
       sessionAttributes.store

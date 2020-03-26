@@ -15,8 +15,11 @@ const post = (req, res, next) => {
       if (err) {
         return next(err);
       }
+      logger.info(
+        { returnTo: req.session.returnTo, userId: user.id },
+        "User logged in succesfully"
+      );
       const redirect = req.session.returnTo || "/";
-      logger.info({ redirect, userId: user.id }, "User logged in succesfully");
       return findUserSafeDetails(user.id).then(user => res.redirect(redirect));
     });
   })(req, res, next);

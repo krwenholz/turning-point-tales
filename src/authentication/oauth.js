@@ -5,10 +5,11 @@ import securePassword from "secure-password";
 import uuidv4 from "uuid/v4";
 import { passport } from "src/authentication";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
-import { logger } from "src/logging";
+import { logger, logResponse } from "src/logging";
 import { pool } from "src/lib/server/database.js";
-import { join, times } from "lodash";
+import { join, times, includes } from "lodash";
 
+// TODO(kyle): create a route for users to delete tokens
 const tokenHasher = securePassword();
 
 export const server = oauth2orize.createServer();
@@ -17,6 +18,10 @@ const findAuthorizationCode = async (code, done) => {
   try {
     const results = await pool.query(
       `
+    DELETE *
+    FROM oauth_authorization_codes
+    WHERE created < CURRENT_DATE - INTERVAL '30 minutes';
+
     SELECT
         client_id AS clientId,
         redirect_uri AS redirectUri,
@@ -24,7 +29,7 @@ const findAuthorizationCode = async (code, done) => {
     FROM
         oauth_authorization_codes
     WHERE
-        code = $1
+        code = $1;
     `,
       [code]
     );
@@ -67,6 +72,10 @@ const findAccessToken = async (token, done) => {
   try {
     const results = await pool.query(
       `
+    DELETE *
+    FROM oauth_access_tokens
+    WHERE created < CURRENT_DATE - INTERVAL '1 year';
+
     SELECT
         client_id AS clientId,
         user_id AS userId
@@ -123,19 +132,15 @@ server.grant(
 );
 
 server.serializeClient((client, done) => {
+  logger.info(client, "Serializing oauth client");
   done(null, client.clientId);
 });
 
-server.deserializeClient(async (id, done) => {
-  try {
-    const details = await findUserSafeDetails(id);
-
-    if (!details) return done(null, false);
-
-    return done(null, details);
-  } catch (error) {
-    return done(error);
-  }
+server.deserializeClient((clientId, done) => {
+  logger.info({ clientId }, "Deserializing oauth client");
+  // We only have one client right now, so this is pretty dumb
+  if (clientId !== config.get("alexa.clientId")) return done(null, false);
+  return done(null, { clientId, isTrusted: true });
 });
 
 server.exchange(
@@ -221,6 +226,7 @@ const findAccessTokenByUserIdAndClientId = async (userId, clientId, done) => {
 };
 
 export const authorize = [
+  logResponse,
   server.authorize(
     (clientId, redirectUri, done) => {
       if (
