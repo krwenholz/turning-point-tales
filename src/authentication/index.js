@@ -2,6 +2,7 @@ import config from "config";
 import passport from "passport";
 import passportLocal from "passport-local";
 import securePassword from "secure-password";
+import { Strategy as AnonymousStrategy } from "passport-anonymous";
 import { BasicStrategy } from "passport-http";
 import { ensureLoggedIn } from "connect-ensure-login";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
@@ -45,6 +46,9 @@ const compare = (userPassword, hash) => {
     });
 };
 
+// TODO(kyle): Should be able to configure actual routes that don't need auth or
+// such using a real express setup in server.js, now that we know how Sapper works.
+// Kind of. Probably need one "optional" auth middleware wrapping usual passport.authenticate
 const noAuthRoutes = [
   "/",
   "/about",
@@ -73,7 +77,6 @@ const noAuthPrefixes = [
   "/?",
   "/api/user/login",
   "/api/user/new",
-  "/api/alexa",
   "/client",
   "/error",
   "/experimental",
@@ -82,10 +85,10 @@ const noAuthPrefixes = [
   "/story"
 ];
 
-const requiresAuth = req => {
+const routeRequiresAuth = req => {
   return (
-    noAuthRoutes.includes(req.path) ||
-    noAuthPrefixes.some(prefix => req.path.startsWith(prefix))
+    !noAuthRoutes.includes(req.path) &&
+    !noAuthPrefixes.some(prefix => req.path.startsWith(prefix))
   );
 };
 
@@ -93,20 +96,30 @@ const requiresAuth = req => {
  * Protects our routes based on some rules.
  * You get a redirect for bad HTML requests and a 401 for API-esque JS or JSON requests.
  */
-const protectNonDefaultRoutes = (req, res, next) => {
-  if (req.isAuthenticated()) next();
-  else if (requiresAuth(req)) next();
-  else {
-    logger.info({ url: req.url }, "Unauthenticated access found on url");
-
-    if (req.path.endsWith(".js") || req.path.endsWith(".json")) {
-      res.writeHead(401);
-    } else {
-      return ensureLoggedIn("/user/login")(req, res, next);
+const authenticateNonDefaultRoutes = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (user) {
+      return req.logIn(user, function(err) {
+        if (err) {
+          return next(err);
+        }
+        next();
+      });
     }
-    res.end();
-    return;
-  }
+
+    if (routeRequiresAuth(req)) {
+      if (req.path.endsWith(".js") || req.path.endsWith(".json")) {
+        res.writeHead(401);
+      } else {
+        return ensureLoggedIn("/user/login")(req, res, next);
+      }
+      res.end();
+      return;
+    }
+
+    // No user and no auth required
+    next();
+  })(req, res, next);
 };
 
 /**
@@ -162,6 +175,8 @@ export const initPassport = () => {
 
   passport.use(tokenStrategy);
 
+  passport.use(new AnonymousStrategy());
+
   // We only do this for Alexa OAUTH.
   passport.use(
     new BasicStrategy(function(userId, secret, done) {
@@ -175,7 +190,7 @@ export const initPassport = () => {
     })
   );
 
-  passport.authenticationMiddleware = () => protectNonDefaultRoutes;
+  passport.authenticateNonDefaultRoutes = () => authenticateNonDefaultRoutes;
 };
 
 export { passport };

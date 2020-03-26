@@ -1,7 +1,4 @@
-import {
-  startFreshStory,
-  findConfirmedSlotValue
-} from "src/routes/api/alexa/_utilities";
+import { startFreshStory, findConfirmedSlotValue } from "src/alexa/_utilities";
 import * as Stories from "src/routes/story/_stories.js";
 
 const StoryTitleChoiceGivenChooseStoryIntentHandler = {

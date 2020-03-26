@@ -1,4 +1,4 @@
-import { speechWithSubscriptionPrompt } from "src/routes/api/alexa/_utilities";
+import { speechWithSubscriptionPrompt } from "src/alexa/_utilities";
 
 const HelpIntentHandler = {
   canHandle(handlerInput) {

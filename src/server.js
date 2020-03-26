@@ -1,12 +1,14 @@
+import * as oauth from "src/authentication/oauth";
 import * as sapper from "@sapper/server";
+import alexaPost from "src/alexa";
 import bodyParser from "body-parser";
 import compression from "compression";
 import config from "config";
 import cookieParser from "cookie-parser";
 import express from "express";
+import fs from "fs";
 import helmet from "helmet";
 import https from "https";
-import fs from "fs";
 import pgSession from "connect-pg-simple";
 import securePassword from "secure-password";
 import session from "express-session";
@@ -16,9 +18,8 @@ import { Store } from "svelte/store";
 import { Strategy as LocalStrategy } from "passport-local";
 import { csrfProtection, exposeCsrfMiddleware } from "src/lib/server/csrf";
 import { exposeStripeKeyMiddleware } from "src/lib/server/stripe";
+import { logger, logResponse, requestLoggingMiddleware } from "./logging";
 import { passport, initPassport } from "src/authentication";
-import * as oauth from "src/authentication/oauth";
-import { logger, requestLoggingMiddleware } from "./logging";
 import { pool } from "src/lib/server/database.js";
 import { requireHttps } from "src/lib/server/require_https";
 import { requireRoot } from "src/lib/server/require_root";
@@ -52,8 +53,7 @@ const middleware = [
   bodyParser.json({
     verify: (req, res, buf) => {
       // Sometimes (e.g. Stripe hook routes) we'll want the raw body. So we'll save it.
-      // TODO(kyle): Properly done we would split our express routes up a bit.
-      if (req.path.includes("api")) req.rawBody = buf;
+      req.rawBody = buf;
     }
   }),
   requestLoggingMiddleware,
@@ -85,9 +85,6 @@ const middleware = [
       secure: !config.get("dev") || config.get("server.enableHttps")
     }
   }),
-  csrfProtection,
-  exposeCsrfMiddleware,
-  exposeStripeKeyMiddleware,
   nonce,
   helmet.contentSecurityPolicy({
     reportOnly: false,
@@ -128,20 +125,29 @@ app.use(...middleware);
 
 app.get("/oauth/authorize", oauth.authorize);
 
-app.post("/oauth/authorize/decision", oauth.server.decision());
+app.post("/oauth/authorize/decision", logResponse, oauth.server.decision());
 
-app.get(
+app.post(
   "/oauth/token",
-  passport.authenticate(["basic"], {
+  passport.authenticate(["basic", "oauth2-client-password"], {
     session: false
   }),
   oauth.server.token(),
   oauth.server.errorHandler()
 );
 
+app.post(
+  "/alexa",
+  passport.authenticate(["bearer", "anonymous"], { session: false }),
+  alexaPost
+);
+
 app.use(
   "/",
-  passport.authenticationMiddleware(),
+  csrfProtection,
+  exposeCsrfMiddleware,
+  exposeStripeKeyMiddleware,
+  passport.authenticateNonDefaultRoutes(),
   sapper.middleware({
     session: req => ({
       user: req.user
