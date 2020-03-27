@@ -1,5 +1,5 @@
 <script>
-  import Button from "src/components/Button.svelte";
+  import ButtonLink from "src/components/ButtonLink.svelte";
   import { goto } from "@sapper/app";
   import { stores } from "@sapper/app";
   const { session } = stores();
@@ -121,6 +121,6 @@
   </div>
   <p>{preview}</p>
   {#if isSubscriber || generalRelease}
-    <Button on:click="{() => goto(`/story/${id}`)}">Continue...</Button>
+    <ButtonLink href="/story/{id}">Continue...</ButtonLink>
   {/if}
 </article>

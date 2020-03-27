@@ -24,7 +24,7 @@
 </style>
 
 <svelte:head>
-  <title>About</title>
+  <title>About - Turning Point Tales</title>
 </svelte:head>
 
 <div class="text">

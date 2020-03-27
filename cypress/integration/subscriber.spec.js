@@ -10,7 +10,7 @@ describe("Subscriber", () => {
       "not.exist"
     );
     cy.get(".story-previews")
-      .find("button")
+      .find("a")
       .should("have.length", 7);
   });
 });

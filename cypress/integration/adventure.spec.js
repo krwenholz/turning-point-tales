@@ -70,7 +70,7 @@ describe("Adventure", () => {
   it("allows user to visit another story", () => {
     cy.visit("/")
       .get(".story-previews")
-      .find("button")
+      .find("a")
       .last()
       .click();
 

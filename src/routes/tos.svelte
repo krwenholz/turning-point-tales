@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>Terms of Service</title>
+  <title>Terms of Service - Turning Point Tales</title>
 </svelte:head>
 
 <section class="text">
