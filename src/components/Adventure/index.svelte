@@ -42,25 +42,21 @@
     });
   }
 
-  const showRestart = () => {
-    if (!enableExtraNavigation || $store.storyNode === "start") return false;
-
-    return true;
-  };
-
-  const showSkipIntro = () =>
+  $: showRestart = enableExtraNavigation && $store.storyNode !== "start";
+  $: showSkipIntro =
     enableExtraNavigation &&
     $store.hasInitialCompletion &&
     $store.storyNode === "start" &&
     story.start.decisions.length > 1;
 
-  const showGoBackButton = () => {
-    if (!enableExtraNavigation || $store.storyNode === "start") return false;
-
+  let showGoBackButton = false;
+  $: if (!enableExtraNavigation || $store.storyNode === "start") {
+    showGoBackButton = false;
+  } else {
     const previousDecision = $store.history[$store.history.length - 2];
 
-    return get(previousDecision, "storyNode") !== $store.storyNode;
-  };
+    showGoBackButton = get(previousDecision, "storyNode") !== $store.storyNode;
+  }
 
   const skipIntro = () =>
     goToDecision({
@@ -193,7 +189,7 @@
         </Button>
       {/each}
     {/if}
-    {#if showRestart()}
+    {#if showRestart}
       <Button
         variation="secondary"
         on:click="{() => goToDecision({ storyNode: 'start' })}"
@@ -202,13 +198,13 @@
         <Undo />
       </Button>
     {/if}
-    {#if showSkipIntro()}
+    {#if showSkipIntro}
       <Button variation="secondary" on:click="{skipIntro}">
         <span>Skip intro</span>
         <Undo />
       </Button>
     {/if}
-    {#if showGoBackButton()}
+    {#if showGoBackButton}
       <Button variation="secondary" on:click="{goBack}">
         <span>go back</span>
         <ReplayOne />
