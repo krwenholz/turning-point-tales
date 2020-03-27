@@ -1,6 +1,6 @@
 <script>
   import { fade } from "../lib/Transition";
-  import Button from "../components/Button.svelte";
+  import ButtonLink from "src/components/ButtonLink.svelte";
   import * as sapper from "@sapper/app";
 </script>
 
@@ -24,6 +24,11 @@
     margin: 48px auto 0 auto;
   }
 
+  :global(a.button) {
+    margin-bottom: 24px;
+    width: 100%;
+  }
+
   @media only screen and (min-width: 701px) {
     nav {
       width: 70%;
@@ -32,7 +37,12 @@
 </style>
 
 <svelte:head>
-  <title>pre-adventure briefing</title>
+  <title>Pre-Adventure Briefing - Turning Point Tales</title>
+  <meta
+    name="description"
+    content="ABCs. You or me? So many questions. Let's learn about adventuring
+    with Turning Point Tales."
+  />
 </svelte:head>
 
 <section class="briefing">
@@ -59,11 +69,9 @@
     you go back after every decision.
   </p>
   <nav in:fade>
-    <Button on:click="{() => sapper.goto('/')}">Start reading</Button>
+    <ButtonLink href="/home">Start reading</ButtonLink>
 
-    <Button variation="secondary" on:click="{() => sapper.goto('/user/new')}">
-      Sign up
-    </Button>
+    <ButtonLink variation="secondary" href="/user/new">Sign up</ButtonLink>
   </nav>
 
 </section>

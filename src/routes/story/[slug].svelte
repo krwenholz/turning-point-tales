@@ -146,7 +146,11 @@
 </style>
 
 <svelte:head>
-  <title>{title}</title>
+  <title>{title} by {story['author']} - Turning Point Tales</title>
+  <meta
+    name="description"
+    content="Dive into an tale by {story['author']}. {story['preview']}"
+  />
 </svelte:head>
 
 {#if (process.browser && isSubscribed) || generalRelease}

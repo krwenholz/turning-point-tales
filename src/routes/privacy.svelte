@@ -1,5 +1,5 @@
 <svelte:head>
-  <title>Privacy</title>
+  <title>Privacy - Turning Point Tales</title>
 </svelte:head>
 
 <section class="text">

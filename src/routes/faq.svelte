@@ -12,7 +12,7 @@
 </style>
 
 <svelte:head>
-  <title>Frequently Asked Questions</title>
+  <title>Frequently Asked Questions - Turning Point Tales</title>
 </svelte:head>
 
 <section class="text">

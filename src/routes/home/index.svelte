@@ -58,6 +58,15 @@
   }
 </script>
 
+<svelte:head>
+  <title>Turning Point Tales</title>
+  <meta
+    name="description"
+    content="You are presented with your first choice. Which tale will you
+    choose?"
+  />
+</svelte:head>
+
 {#if $page.query.user === 'new'}
   <p>
     Congratulations on creating your new user! We hope you enjoy the adventure.

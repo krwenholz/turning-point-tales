@@ -8,7 +8,7 @@ describe("NonSubscriber", () => {
       "exist"
     );
     cy.get(".story-previews")
-      .find("button")
+      .find("a.button")
       .should("have.length", 1);
   });
 });

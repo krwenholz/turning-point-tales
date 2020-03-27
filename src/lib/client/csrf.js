@@ -1,5 +1,5 @@
 const fetchCsrf = () => {
-  return document.cookie
+  return (document.cookie || "")
     .split(";")
     .filter(item => {
       return item.trim().indexOf("XSRF-TOKEN=") == 0;
