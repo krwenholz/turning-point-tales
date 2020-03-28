@@ -6,7 +6,7 @@ describe("Adventure", () => {
   });
 
   it('defaults to "start" for storyNode if not provided, and no local storage', () => {
-    cy.url().should("match", /\/story\/[a-z0-9-]+$/);
+    cy.url().should("match", /\/story\/mr-banks-[a-z0-9-]+$/);
     cy.get("section.adventure p").should(
       "contain",
       "It was a beautiful summer"
@@ -19,7 +19,7 @@ describe("Adventure", () => {
         .url()
         .should(
           "match",
-          /\/story\/[a-z0-9-]+\?storyNode=file_a_formal_complaint/
+          /\/story\/mr-banks-[a-z0-9-]+\?storyNode=file_a_formal_complaint/
         );
     });
   });
@@ -33,7 +33,7 @@ describe("Adventure", () => {
         .url()
         .should(
           "match",
-          /\/story\/[a-z0-9-]+\?storyNode=file_a_formal_complaint/
+          /\/story\/mr-banks-[a-z0-9-]+\?storyNode=file_a_formal_complaint/
         );
     });
   });
@@ -47,7 +47,7 @@ describe("Adventure", () => {
         .contains("Continue...")
         .click()
         .url()
-        .should("match", /\/story\/[a-z0-9-]+\?storyNode=start/);
+        .should("match", /\/story\/mr-banks-[a-z0-9-]+\?storyNode=start/);
     });
   });
 
@@ -68,7 +68,7 @@ describe("Adventure", () => {
         .go("back")
         .go("back")
         .url()
-        .should("not.match", /\/story\/[a-z0-9-]+\?storyNode=start/);
+        .should("not.match", /\/story\/mr-banks-[a-z0-9-]+\?storyNode=start/);
     });
   });
 
@@ -79,6 +79,6 @@ describe("Adventure", () => {
       .last()
       .click();
 
-    cy.url().should("match", /\/story\/[a-z0-9-]+/);
+    cy.url().should("match", /\/story\/wagons-and-dragons-[a-z0-9-]+/);
   });
 });

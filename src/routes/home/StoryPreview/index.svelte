@@ -1,6 +1,7 @@
 <script>
   import Preview from "./Preview.svelte";
   import { goto } from "@sapper/app";
+  import { slug } from "src/lib/slugs";
 
   export let stories = [];
   export let isSubscriber;
@@ -17,7 +18,7 @@
 <section class="story-previews">
   {#each stories as { id, author, title, badges, preview, tags, general_release }}
     <Preview
-      {id}
+      id="{slug(title, id)}"
       {author}
       {title}
       {badges}

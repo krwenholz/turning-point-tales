@@ -1,9 +1,10 @@
+import * as Stories from "./_stories.js";
+import { idFromSlug } from "src/lib/slugs";
 import { logger } from "src/logging";
 import { pool } from "src/lib/server/database.js";
-import * as Stories from "./_stories.js";
 
 export const get = async (req, res, next) => {
-  return Stories.select(req.params.slug)
+  return Stories.select(idFromSlug(req.params.slug))
     .then(results => {
       if (results.rows[0]) {
         res.writeHead(200, {
