@@ -16,6 +16,7 @@
       .then(story => {
         return {
           story: story.content,
+          author: story.author,
           title: story.title,
           badges: story.badges,
           generalRelease: story.general_release
@@ -42,6 +43,7 @@
   import { safeWindow } from "src/lib/client/safe-window";
 
   export let story;
+  export let author;
   export let title;
   export let badges;
   export let generalRelease;
@@ -147,7 +149,7 @@
 </style>
 
 <svelte:head>
-  <title>{title} by {story['author']} - Turning Point Tales</title>
+  <title>{title} by {author} - Turning Point Tales</title>
   <meta
     name="description"
     content="Dive into an tale by {story['author']}. {story['preview']}"

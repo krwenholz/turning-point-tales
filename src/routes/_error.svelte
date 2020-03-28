@@ -20,7 +20,7 @@
 </style>
 
 <svelte:head>
-  <title>{status}</title>
+  <title>{status} - Turning Point Tales</title>
 </svelte:head>
 
 {#if status === 404}
