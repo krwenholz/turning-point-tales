@@ -1,6 +1,7 @@
 <script context="module">
+  import { idFromSlug } from "src/lib/slugs";
   export function preload({ params, query }) {
-    return this.fetch(`story/${params.slug}.json`, {
+    return this.fetch(`story/${idFromSlug(params.slug)}.json`, {
       credentials: "include"
     })
       .then(response => {
@@ -75,7 +76,7 @@
         "XSRF-TOKEN": csrf
       },
       body: JSON.stringify({
-        storyId: $page.params.slug,
+        storyId: idFromSlug($page.params.slug),
         nodeName: detail.storyNode,
         previousNodeName: previousNodeName
       })
@@ -112,7 +113,7 @@
       })
       .then(recordedVisitations => {
         for (let visitation of recordedVisitations) {
-          if (visitation.story_id === $page.params.slug) {
+          if (visitation.story_id === idFromSlug($page.params.slug)) {
             visitations.push(visitation.node_name);
             visitations = visitations;
           }
