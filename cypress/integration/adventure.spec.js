@@ -1,11 +1,16 @@
 describe("Adventure", () => {
   beforeEach(() => {
     cy.logIn();
+    cy.visit("/home");
     cy.contains("Continue...").click();
   });
 
   it('defaults to "start" for storyNode if not provided, and no local storage', () => {
-    cy.url().should("match", /\/story\/[a-z0-9-]+\?storyNode=start/);
+    cy.url().should("match", /\/story\/[a-z0-9-]+$/);
+    cy.get("section.adventure p").should(
+      "contain",
+      "It was a beautiful summer"
+    );
   });
 
   it("begins at specific story node when given in query", () => {
@@ -22,7 +27,7 @@ describe("Adventure", () => {
   it("saves last storyNode from visited story", () => {
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=file_a_formal_complaint")
-        .visit("/")
+        .visit("/home")
         .contains("Continue...")
         .click()
         .url()
@@ -36,9 +41,9 @@ describe("Adventure", () => {
   it("does not save last storyNode if local storage cleared", () => {
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=file_a_formal_complaint")
-        .visit("/")
+        .visit("/home")
         .clearLocalStorage()
-        .visit("/")
+        .visit("/home")
         .contains("Continue...")
         .click()
         .url()
@@ -68,7 +73,7 @@ describe("Adventure", () => {
   });
 
   it("allows user to visit another story", () => {
-    cy.visit("/")
+    cy.visit("/home")
       .get(".story-previews")
       .find("a")
       .last()
