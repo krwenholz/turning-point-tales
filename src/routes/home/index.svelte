@@ -1,9 +1,28 @@
+<script context="module">
+  import { logger } from "src/lib/client/logger";
+  export function preload({ params, query }) {
+    return this.fetch("story.json?context=preview", {
+      credentials: "include"
+    })
+      .then(response => {
+        if (response.ok) return response.json();
+        throw Error("Failed to fetch stories");
+      })
+      .then(response => {
+        return { stories: response };
+      })
+      .catch(err => {
+        logger.error({ error: err }, "Failed to fetch stories");
+        this.error(500, err);
+      });
+  }
+</script>
+
 <script>
   import Introduction from "src/components/Introduction.svelte";
   import StoryPreview from "./StoryPreview";
   import { onMount } from "svelte";
   import { userSubscribed } from "src/lib/client/user";
-  import { logger } from "src/lib/client/logger";
   import { stores } from "@sapper/app";
   import { visited } from "src/lib/global-state-stores/browserStore/visited";
 
@@ -29,20 +48,6 @@
       })
       .catch(err => {
         logger.error(err, "Failed to fetch history");
-      });
-  });
-
-  onMount(() => {
-    fetch("story.json?context=preview")
-      .then(response => {
-        if (response.ok) return response.json();
-        throw Error("Failed to fetch stories");
-      })
-      .then(response => {
-        stories = response;
-      })
-      .catch(err => {
-        logger.error(err, "Failed to fetch stories");
       });
   });
 
