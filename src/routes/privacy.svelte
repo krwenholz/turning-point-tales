@@ -1,5 +1,10 @@
 <svelte:head>
   <title>Privacy - Turning Point Tales</title>
+  <meta
+    name="description"
+    content="We really value your privacy. Here's a description of just how
+    much."
+  />
 </svelte:head>
 
 <section class="text">

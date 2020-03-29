@@ -41,6 +41,14 @@
   }
 </style>
 
+<svelte:head>
+  <title>Login - Turning Point Tales</title>
+  <meta
+    name="description"
+    content="Let's get you logged in and adventuring with Turning Point Tales."
+  />
+</svelte:head>
+
 {#if $page.query.error === 'unknown'}
   <section class="errors text">
     <p>
