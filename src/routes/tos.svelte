@@ -1,5 +1,9 @@
 <svelte:head>
   <title>Terms of Service - Turning Point Tales</title>
+  <meta
+    name="description"
+    content="Terms of Service for Turning Point Tales."
+  />
 </svelte:head>
 
 <section class="text">

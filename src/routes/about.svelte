@@ -25,6 +25,11 @@
 
 <svelte:head>
   <title>About - Turning Point Tales</title>
+  <meta
+    name="description"
+    content="This isn't an autobiography, just a few words about who we are:
+    Cody, KC, and Kyle."
+  />
 </svelte:head>
 
 <div class="text">

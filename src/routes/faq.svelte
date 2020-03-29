@@ -13,6 +13,10 @@
 
 <svelte:head>
   <title>Frequently Asked Questions - Turning Point Tales</title>
+  <meta
+    name="description"
+    content="You have questions? So do we! This page even has answers."
+  />
 </svelte:head>
 
 <section class="text">

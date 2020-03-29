@@ -35,3 +35,9 @@ heroku container:release web
 ```
 ./traffic_graphs.sh
 ```
+
+# Sitemap
+
+```
+npm run sitemap-generator --last-mod --filepath static/sitemap.xml turningpointtales.com
+```
