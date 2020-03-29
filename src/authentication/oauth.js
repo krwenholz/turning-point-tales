@@ -137,7 +137,6 @@ server.serializeClient((client, done) => {
 });
 
 server.deserializeClient((clientId, done) => {
-  logger.info({ clientId }, "Deserializing oauth client");
   // We only have one client right now, so this is pretty dumb
   if (clientId !== config.get("alexa.clientId")) return done(null, false);
   return done(null, { clientId, isTrusted: true });
@@ -226,7 +225,6 @@ const findAccessTokenByUserIdAndClientId = async (userId, clientId, done) => {
 };
 
 export const authorize = [
-  logResponse,
   server.authorize(
     (clientId, redirectUri, done) => {
       if (
