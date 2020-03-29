@@ -1,47 +1,37 @@
 <script>
-  import * as sapper from "@sapper/app";
-  import { NotificationDisplay, notifier } from "@beyonk/svelte-notifications";
-  import Select from "svelte-select";
-  import {
-    dropRight,
-    debounce,
-    keys,
-    findIndex,
-    concat,
-    omit,
-    get
-  } from "lodash";
+  import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
+  import Select from 'svelte-select';
+  import { keys, omit, get } from 'lodash';
   import yaml from "js-yaml";
   import { assoc, update } from "lodash/fp";
   import Adventure from "src/components/Adventure/index";
   import Overview from "src/components/Overview/index";
-  import Graph from "./_graph/index";
-  import { isValidStory } from "src/components/Adventure/validation";
-  import Button from "src/components/Button.svelte";
-  import Checkbox from "src/components/Checkbox/index";
+  import Graph from './_graph/index';
+  import { isValidStory } from 'src/components/Adventure/validation';
+  import Button from 'src/components/Button.svelte';
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
-  import { renameKey, dropIdx } from "src/lib/utilities.js";
-  import { saveFile, loadFile } from "src/lib/load-and-save-files.js";
-  import { safeWindow } from "src/lib/client/safe-window.js";
-  import StoryText from "./_StoryText.svelte";
-  import Decisions from "./_Decisions.svelte";
-  import StoryNode from "./_StoryNode.svelte";
-  import Feedback from "./_Feedback.svelte";
-  import { toMessage } from "./_syntax-error.js";
-  import placeholderStory from "./_placeholder-story.js";
+  import { renameKey, dropIdx } from 'src/lib/utilities.js'
+  import { saveFile, loadFile } from 'src/lib/load-and-save-files.js';
+  import { safeWindow } from 'src/lib/client/safe-window.js';
+  import WritingPane from './_WritingPane.svelte';
+  import Decisions from './_Decisions.svelte';
+  import StoryNode from './_StoryNode.svelte';
+  import { toSyntaxErrorMessage, getCorrections } from './_Corrections/_formatting.js';
 
   export let story = {};
-  export let storyNode = "start";
-  export let className = "";
-  export let focusPath = [];
+  export let storyNode = 'start';
+  export let className ='';
   export let onEdit = () => {};
 
   let selectWrapperRef = null;
   let history = [];
   let consequences = [];
-  let errors = [];
+  let syntaxError = '';
+  let corrections = [];
 
   $: storyIsValid = process.browser && isValidStory(story);
+
+  $: corrections = getCorrections(story);
 
   $: items = keys(story).map(key => ({
     value: key,
@@ -59,29 +49,17 @@
     consequences = e.detail.consequences;
   };
 
-  const clearFocusPath = () => (focusPath = []);
+  const loadStoryFile = () => loadFile(data => {
+    try {
+      story = yaml.load(data);
+      notifier.success("Story loaded", 1500);
+      syntaxError = '';
+    } catch(error){
+      syntaxError = toSyntaxErrorMessage(error, data);
+    }
+  });
 
-  const clearFeedback = () => (errors = []);
-
-  const loadStoryFile = () =>
-    loadFile(data => {
-      try {
-        story = yaml.load(data);
-        notifier.success("Story loaded", 1500);
-        clearFeedback();
-      } catch (error) {
-        errors = [
-          {
-            message: toMessage(error, data)
-          }
-        ];
-
-        story = placeholderStory;
-      }
-    });
-
-  const saveStoryFile = () =>
-    saveFile("edited-story.yaml", yaml.safeDump(story));
+  const saveStoryFile = () => saveFile({ fileName: 'edited-story', text: yaml.safeDump(story) });
 
   const onInput = (e, { idx, prevValue, location, storyId }) => {
     if (prevValue === e.target.value) return;
@@ -108,9 +86,8 @@
     onEdit(story);
   };
 
-  const onKeydown = (e, { prevValue, location, idx, storyNode }) => {
-    const invalidKeystroke =
-      e.key.match(/[-'\s"]/) && location.match(/decisionStoryNode|storyNode/);
+  const onKeydown = (e, { location }) => {
+    const invalidKeystroke = e.key.match(/[-'\s"]/) && location.match(/decisionStoryNode|storyNode/);
 
     if (invalidKeystroke) {
       e.preventDefault();
@@ -120,8 +97,8 @@
     onEdit(story);
   };
 
-  const deleteStoryNode = storyNodeToDelete => {
-    var answer = window.confirm(
+  const deleteStoryNode = (storyNodeToDelete) => {
+    const answer = window.confirm(
       "Are you sure you want to delete this story fragment?\n\n" +
         "This will delete all its text and decisions."
     );
@@ -130,7 +107,7 @@
 
     story = omit(story, [storyNodeToDelete]);
 
-    storyNode = "start";
+    storyNode = 'start';
   };
 
   const onAddNewDecision = path => {
@@ -144,7 +121,7 @@
         }
       ],
       story
-    );
+    )
   };
 
   const addNewStoryNode = () => {
@@ -162,7 +139,7 @@
       story
     );
 
-    storyNode = "temp";
+    storyNode = 'temp'
   };
 
   const onSetAsFinalNode = ({ checked, storyNode }) => {
@@ -197,7 +174,11 @@
   };
 
   const onDeleteDecision = (path, idx) => {
-    story = update(path, decisions => dropIdx(decisions, idx), story);
+    story = update(
+      path,
+      decisions => dropIdx(decisions, idx),
+      story
+    );
   };
 
   safeWindow().document.addEventListener("keydown", event => {
@@ -209,6 +190,9 @@
     }
     if (event.key === "Escape") {
       safeWindow().document.body.click();
+    }
+    if(event.ctrlKey && event.key === 's') {
+      saveFile({ fileName: 'edited-story', text: story });
     }
   });
 </script>
@@ -278,15 +262,16 @@
             selectedValue="{storyNode}"
           />
         </div>
-        <Button variation="small" on:click="{addNewStoryNode}">
+
+        <Button variation='small' on:click={addNewStoryNode} >
           + story node
         </Button>
 
-        <Button variation="secondary" on:click="{loadStoryFile}">
+        <Button variation='secondary' on:click={loadStoryFile} >
           Load from File
         </Button>
 
-        <Button variation="secondary" on:click="{saveStoryFile}">
+        <Button variation='secondary' on:click={saveStoryFile} >
           Download
         </Button>
       </nav>
@@ -300,8 +285,6 @@
 
       <div class="decisions-and-feedback">
         <Decisions
-          {focusPath}
-          {clearFocusPath}
           {onKeydown}
           {onInput}
           {onAddNewDecision}
@@ -312,16 +295,17 @@
           decisions="{get(story, [storyNode, 'decisions'])}"
         />
 
-        {#if errors.length}
-          <Feedback {errors} />
+        {#if syntaxError}
+          <pre class='error'>
+            {syntaxError}
+          </pre>
         {:else}
-          <StoryText
-            text="{get(story, [storyNode, 'text'])}"
-            {storyNode}
+          <WritingPane
+            text={get(story, [storyNode, 'text'])}
+            storyNode={storyNode}
             {onInput}
             {onKeydown}
-            {focusPath}
-            {clearFocusPath}
+            {corrections}
           />
         {/if}
       </div>

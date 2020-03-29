@@ -14,8 +14,8 @@ export const loadFile = callback => {
   };
 };
 
-export const saveFile = (fileName, data) => {
-  const storyBlob = new Blob([data], { type: "text/plain" });
+export const saveFile = ({ fileName, text }) => {
+  const storyBlob = new Blob([text], { type: 'text/plain' });
   const url = URL.createObjectURL(storyBlob);
 
   const a = document.createElement("a");

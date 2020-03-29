@@ -55,6 +55,7 @@
     flex-flow: row;
     align-items: center;
     position: relative;
+    margin-top: 24px;
   }
 
   header {
@@ -206,17 +207,15 @@
   {/if}
 
   {#if storyNode !== 'start'}
-    <div class="form-group">
-      <Checkbox
-        id="disable-decisions"
-        on:click="{e => onSetAsFinalNode({
-            checked: e.target.checked,
-            storyNode
-          })}"
-      />
-      <label for="disable-decisions">
-        Disable Decisions (make this a dead-end)
-      </label>
-    </div>
+  <div class='form-group'>
+    <Checkbox
+      checked={isFinalNode}
+      id="disable-decisions"
+      on:click={e => onSetAsFinalNode({ checked: e.target.checked, storyNode })}
+    />
+    <label for="disable-decisions">
+      Disable Decisions (make this a dead-end)
+    </label>
+  </div>
   {/if}
 </section>

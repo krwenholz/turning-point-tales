@@ -58,6 +58,8 @@
   .user-new {
     max-width: 720px;
     margin: auto;
+    --spacing: 16px;
+    --spacing-large: 32px;
   }
 
   p {
@@ -66,21 +68,33 @@
     padding-bottom: 0;
   }
 
-  :global(.checkbox) {
-    margin: 0 8px 16px 0;
+  :global(input[type="checkbox"]) {
+    margin-right: 16px;
+  }
+
+  label {
+    display: flex;
+    flex-flow: column;
+    margin-top: var(--spacing)
+  }
+
+  label :global(input) {
+    margin-top: 8px;
   }
 
   .form-group {
     display: flex;
     align-items: center;
+    margin-top: var(--spacing);
   }
 
-  .form-group :global(.input) {
-    margin-bottom: 0;
+  .form-group label {
+    display: inline-block;
+    margin-top: 0;
   }
 
-  :global(.form-group input[type="checkbox"]) {
-    margin-right: 16px;
+  :global(.button) {
+    margin-top: var(--spacing-large);
   }
 </style>
 
@@ -124,51 +138,61 @@
       <br />
     {/if}
 
-    <label for="firstName">First Name</label>
-    <Input
-      id="firstName"
-      type="text"
-      on:input="{e => (firstName = e.target.value)}"
-      placeholder="First Name"
-      required
-    />
+    <label>
+      First Name
+      <Input
+        id="firstName"
+        type="text"
+        on:input="{e => (firstName = e.target.value)}"
+        placeholder="First Name"
+        required
+      />
+    </label>
 
-    <label for="firstName">Last Name</label>
-    <Input
-      id="lastName"
-      type="text"
-      on:input="{e => (lastName = e.target.value)}"
-      placeholder="Last Name"
-      required
-    />
+    <label>
+      Last Name
+      <Input
+        id="lastName"
+        type="text"
+        on:input="{e => (lastName = e.target.value)}"
+        placeholder="Last Name"
+        required
+      />
+    </label>
 
-    <label for="email">Email</label>
-    <Input
-      id="email"
-      type="email"
-      on:input="{e => (email = e.target.value)}"
-      placeholder="Email"
-      required
-    />
+    <label>
+      Email
+      <Input
+        id="email"
+        type="email"
+        on:input="{e => (email = e.target.value)}"
+        placeholder="Email"
+        required
+      />
+    </label>
 
-    <label for="password">Password</label>
-    <Input
-      id="password"
-      type="password"
-      on:input="{e => (password = e.target.value)}"
-      placeholder="Password"
-      required
-    />
+    <label>
+      Password
+      <Input
+        id="password"
+        type="password"
+        on:input="{e => (password = e.target.value)}"
+        placeholder="Password"
+        required
+      />
+    </label>
 
-    <label for="confirmPassword">Confirm Your Password</label>
-    <Input
-      bind:this="{confirmPasswordElement}"
-      id="confirmPassword"
-      type="password"
-      on:input="{e => (confirmPassword = e.target.value)}"
-      placeholder="Confirm Your Password"
-      required
-    />
+    <label>
+      Confirm Your Password
+      <Input
+        bind:this="{confirmPasswordElement}"
+        id="confirmPassword"
+        type="password"
+        on:input="{e => (confirmPassword = e.target.value)}"
+        placeholder="Confirm Your Password"
+        required
+      />
+    </label>
 
     <div class="form-group">
       <Input
@@ -179,9 +203,9 @@
       />
       <label for="tos_and_privacy">
         I agree to the
-        <a href="/tos">Terms of Service</a>
+        <a href="/tos">&nbsp;Terms of Service&nbsp;</a>
         and
-        <a href="/privacy">Privacy Policy.</a>
+        <a href="/privacy">&nbsp;Privacy Policy.</a>
       </label>
     </div>
 
