@@ -29,6 +29,16 @@
   .reset-text {
     margin-top: 16px;
   }
+
+  label {
+    display: flex;
+    flex-flow: column;
+    margin-top: 16px;
+  }
+
+  label :global(.input) {
+    margin-top: 16px;
+  }
 </style>
 
 {#if $page.query.error === 'unknown'}
@@ -51,21 +61,23 @@
   </p>
 
   <form action="/api/user/login" method="POST">
-
     <input type="hidden" name="_csrf" value="{csrf}" />
 
-    <Input type="email" id="email" name="email">
-      <span>email</span>
-    </Input>
+    <label>
+      email
+      <Input type="email" id="email" name="email" />
+    </label>
 
-    <Input type="password" id="password" name="password">
-      <span>Password</span>
-    </Input>
+    <label>
+      Password
+      <Input type="password" id="password" name="password" />
+    </label>
 
     <Button type="submit">Log in</Button>
-    <div class="reset-text">
+
+    <p class="reset-text">
       Forgot your password? Click
       <a data-cy="password-reset" href="/password-reset">here.</a>
-    </div>
+    </p>
   </form>
 </section>

@@ -22,7 +22,6 @@
 
   input {
     padding: 0 8px 0 8px;
-    margin: 4px 0 8px 0;
     border: var(--input-border);
     border-radius: var(--root-border-radius);
     min-height: 36px;
@@ -31,20 +30,17 @@
   }
 </style>
 
-<label>
-  <slot />
-  <input
-    {...$$props}
-    {type}
-    bind:this="{self}"
-    class="input"
-    class:disabled
-    on:change
-    on:click
-    on:blur
-    on:input
-    on:keypress
-    on:keydown
-    autocomplete="on"
-  />
-</label>
+<input
+  {...$$props}
+  {type}
+  bind:this={self}
+  class="input"
+  class:disabled
+  on:change
+  on:click
+  on:blur
+  on:input
+  on:keypress
+  on:keydown
+  autocomplete="on"
+/>

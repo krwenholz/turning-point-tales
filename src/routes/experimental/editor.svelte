@@ -5,6 +5,12 @@
   let story = editorBackup();
 </script>
 
+<style>
+  :global(html) {
+    overflow-y: scroll;
+  }
+</style>
+
 <svelte:head>
   <title>Editor</title>
 </svelte:head>

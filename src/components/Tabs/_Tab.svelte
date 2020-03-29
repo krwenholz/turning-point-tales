@@ -7,6 +7,9 @@
   import uuidv4 from "uuid/v4";
 
   export let name = uuidv4();
+  export let className = '';
+  export let disabled = false;
+
   register({ tab: name });
 </script>
 
@@ -20,11 +23,19 @@
     margin-right: 24px;
     cursor: pointer;
   }
+
+  .disabled {
+    cursor: not-allowed;
+  }
 </style>
 
 <h3
+  class={`tab ${className}`}
+  class:disabled
   class:selected="{$selected.tab === name}"
   on:click="{() => {
+    if(disabled) return;
+
     choose(name);
     dispatch('click');
   }}"
