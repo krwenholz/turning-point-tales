@@ -125,10 +125,11 @@ app.use(...middleware);
 
 app.get("/oauth/authorize", oauth.authorize);
 
-app.post("/oauth/authorize/decision", logResponse, oauth.server.decision());
+app.post("/oauth/authorize/decision", oauth.server.decision());
 
 app.post(
   "/oauth/token",
+  logResponse,
   passport.authenticate(["basic", "oauth2-client-password"], {
     session: false
   }),

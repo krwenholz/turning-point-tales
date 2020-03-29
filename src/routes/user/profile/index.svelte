@@ -72,7 +72,7 @@
 </style>
 
 <svelte:head>
-  <title>Your profile</title>
+  <title>Your profile - Turning Point Tales</title>
 </svelte:head>
 
 <section class="profile">
