@@ -94,6 +94,8 @@ const middleware = [
       scriptSrc: [
         "'self'",
         "https://js.stripe.com",
+        "https://edge.fullstory.com",
+        "https://www.fullstory.com",
         (req, res) => `'nonce-${res.locals.nonce}'`
       ],
       connectSrc: [
@@ -101,7 +103,8 @@ const middleware = [
         "https://api.stripe.com",
         "https://js.stripe.com",
         "https://fonts.googleapis.com",
-        "https://fonts.gstatic.com"
+        "https://fonts.gstatic.com",
+        "https://rs.fullstory.com"
       ].concat(additionalSrcs),
       frameSrc: ["js.stripe.com", "https://hooks.stripe.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
@@ -113,7 +116,10 @@ const middleware = [
         "https://fonts.googleapis.com",
         "https://hooks.stripe.com",
         "https://api.stripe.com",
-        "https://js.stripe.com"
+        "https://js.stripe.com",
+        "https://rs.fullstory.com",
+        "https://edge.fullstory.com",
+        "https://www.fullstory.com"
       ]
     }
   }),
