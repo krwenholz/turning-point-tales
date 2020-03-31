@@ -17,7 +17,8 @@ const csrfProtection = (req, res, next) => {
     "/api/payments/hooks",
     "/api/alexa",
     "/oauth/token",
-    "/oauth/authorize"
+    "/oauth/authorize",
+    "/csp_report"
   ];
   if (noCsrfRoutes.includes(req.path)) next();
   else csrf(req, res, next);

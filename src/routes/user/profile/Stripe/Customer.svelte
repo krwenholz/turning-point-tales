@@ -188,7 +188,7 @@
 {/if}
 
 {#if paymentNotYetProcessed}
-  <div class="card">
+  <div class="card fs-block">
     <label for="card-element">Credit or debit card</label>
     <div id="card-element">
       <!-- A Stripe Element will be inserted here. -->

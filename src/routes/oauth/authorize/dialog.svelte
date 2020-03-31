@@ -26,7 +26,7 @@
 </style>
 
 <section class="text">
-  <h1>Hi {$session.user.firstName}!</h1>
+  <h1 class="fs-block">Hi {$session.user.firstName}!</h1>
   <p>Amazon Alexa is requesting access to your account.</p>
   <p>Do you approve?</p>
 
