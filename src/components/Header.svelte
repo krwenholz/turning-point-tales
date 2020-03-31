@@ -1,8 +1,25 @@
 <script>
   import Logo from "./icons/Logo.html";
+  import { logger } from "src/lib/client/logger";
   import { stores } from "@sapper/app";
 
   const { session } = stores();
+
+  $: if (
+    $session.user &&
+    typeof window !== "undefined" &&
+    typeof FS !== "undefined"
+  ) {
+    logger.info({ user: $session.user }, "Establishing fullstory identity");
+    FS.identify($session.user.id, {
+      displayName: $session.user.firstName
+      // TODO: Add your own custom user variables here, details at
+      // https://help.fullstory.com/hc/en-us/articles/360020623294-FS-setUserVars-Recording-custom-user-data
+      //reviewsWritten_int: 14
+    });
+  }
+  /**
+   **/
 </script>
 
 <style>
@@ -118,7 +135,7 @@
     </a>
     {#if $session.user}
       <div class="user-block">
-        <span data-cy="user-name" class="user-name">
+        <span data-cy="user-name" class="user-name fs-block">
           {$session.user.firstName}
         </span>
         <hr />

@@ -16,7 +16,7 @@
     your adventures secret and safe.
   </p>
 
-  <p>Effective date: December 1, 2019</p>
+  <p>Effective date: March 30, 2019</p>
 
   <p>
     Thanks for entrusting How Hard Would It Be LLC with your stories, time, and
@@ -51,8 +51,8 @@
     If you're just browsing the website, we collect the same basic information
     that most websites collect. We use common internet technologies, such as
     cookies and web server logs. This is stuff we collect from everybody,
-    whether they have an account or not. Only account holders are subject to
-    cookies, and those just tell us you have an account.
+    whether they have an account or not. We use cookies to tell us you have an
+    account and power some analytics.
   </p>
 
   <p>
@@ -280,12 +280,12 @@
     We do share User Personal Information with a limited number of third party
     vendors who process it on our behalf to provide or improve our service, and
     who have agreed to privacy restrictions similar to our own Privacy Statement
-    by signing data protection agreements. Our vendors perform services such as
-    payment processing, customer support ticketing, network data transmission,
-    and other similar services. When we transfer your data to our vendors, we
-    remain responsible for it. While Turning Point Tales processes all User
-    Personal Information in the United States, our third party vendors may
-    process data outside of the United States or the European Union. If you
+    by providing data protection agreements. Our vendors perform services such
+    as payment processing, customer support ticketing, network data
+    transmission, and other similar services. When we transfer your data to our
+    vendors, we remain responsible for it. While Turning Point Tales processes
+    all User Personal Information in the United States, our third party vendors
+    may process data outside of the United States or the European Union. If you
     would like to know who our third party vendors are, please contact us at
     <a href="mailto:support@turningpointtales.com">
       support@turningpointtales.com
@@ -307,8 +307,8 @@
 
   <p>
     If you're already a Turning Point Tale user, you may access, update, alter,
-    or delete your basic user profile information by signing out and disabling
-    our access via Patreon or contacting us at
+    or delete your basic user profile information by deleting your account or
+    contacting us at
     <a href="mailto:support@turningpointtales.com">
       support@turningpointtales.com
     </a>

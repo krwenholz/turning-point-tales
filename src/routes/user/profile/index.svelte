@@ -78,7 +78,7 @@
 <section class="profile">
   <header>
     <aside>
-      <h2>{$session.user.firstName}</h2>
+      <h2 class="fs-block">{$session.user.firstName}</h2>
       <i>"{sample(catchyProfileSayings)}"</i>
     </aside>
   </header>
