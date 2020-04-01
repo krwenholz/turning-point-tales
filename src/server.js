@@ -104,7 +104,9 @@ const middleware = [
         "https://js.stripe.com",
         "https://fonts.googleapis.com",
         "https://fonts.gstatic.com",
-        "https://rs.fullstory.com"
+        "https://rs.fullstory.com",
+        "https://www.fullstory.com",
+        "https://edge.fullstory.com"
       ].concat(additionalSrcs),
       frameSrc: ["js.stripe.com", "https://hooks.stripe.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
