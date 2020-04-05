@@ -1,6 +1,5 @@
 <script>
   import { get } from "lodash";
-  export let heading = "";
   export let className = "";
 
   const hasHeadingSlot = Boolean(get($$props.$$slots, "heading"));

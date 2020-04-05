@@ -1,8 +1,15 @@
 <script>
   import { editorBackup } from "src/lib/global-state-stores/browserStore/editor-backup.js";
   import Editor from "src/components/Editor/index";
+  import { normalizeToPackagedStory } from "src/components/Editor/normalizeToPackagedStory.js";
 
-  let story = editorBackup();
+  let packagedStory = editorBackup();
+
+  const { story, title, author, badges, preview } = normalizeToPackagedStory($packagedStory);
+
+  const save = (editedPackagedStory) => {
+    $packagedStory = editedPackagedStory;
+  }
 </script>
 
 <style>
@@ -15,7 +22,14 @@
   <title>Editor</title>
 </svelte:head>
 
-<Editor story="{$story}" onEdit="{editedStory => ($story = editedStory)}" />
+<Editor
+  onEdit={save}
+  {story}
+  {title}
+  {author}
+  {badges}
+  {preview}
+/>
 
 <!--<section class="graph">-->
 <!--  {#if storyIsValid}-->

@@ -3,12 +3,11 @@
 </script>
 
 <script>
-  import { setContext, onDestroy, onMount } from "svelte";
+  import { setContext, onMount } from "svelte";
   import { writable } from "svelte/store";
   import { get, first, isEmpty, concat, without } from "lodash";
-  import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
 
+  export let onTabSwitch = () => {};
   export let selectedTab = "";
 
   let listOf = writable({
@@ -45,7 +44,7 @@
       let idx = $listOf.tabs.indexOf(chosenTab);
       $selected.panel = $listOf.panels[idx];
 
-      dispatch("tabSwitch", { chosenTab });
+      onTabSwitch(chosenTab);
     }
   });
 </script>
@@ -57,6 +56,6 @@
   }
 </style>
 
-<div class="tabs">
+<div class={`tabs`}>
   <slot />
 </div>

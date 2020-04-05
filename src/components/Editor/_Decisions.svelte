@@ -5,6 +5,9 @@
   import Input from "src/components/Input/index";
   import Trash from "src/components/icons/Trash.svelte";
   import Checkbox from "src/components/Checkbox";
+  import FuzzySelect from 'src/components/FuzzySelect';
+  import emojis from 'src/lib/emojis.json';
+  import { find } from 'lodash';
 
   export let focusPath = [];
   export let clearFocusPath = () => {};
@@ -16,11 +19,39 @@
   export let storyNode = "";
   export let decisions = [];
   export let isFinalNode = false;
+  export let badgeLookup = {};
+
+  let fuzzySelectRef = {};
+
+  $: emojiChoices = emojis.map(meta => ({
+    value: meta.emoji,
+    label: `${meta.emoji} ${meta.description}`,
+  }));
+
+  $: badge = badgeLookup[storyNode] || {};
+
+
+  const updateBadge = (e, { prevValue, storyNode, location }) => onInput(
+    {
+      target: {
+        value: e.detail.value
+      }
+    },
+    {
+      storyNode,
+      location,
+      prevValue,
+    }
+  );
 </script>
 
 <style>
   .decisions {
     margin-right: 32px;
+  }
+
+  .decisions :global(.text-area) {
+    margin-bottom: 8px;
   }
 
   .decision {
@@ -31,10 +62,6 @@
     margin-right: 32px;
   }
 
-  .decisions :global(.text-area) {
-    margin-bottom: 8px;
-  }
-
   .decision:not(:last-of-type) {
     margin-bottom: 32px;
   }
@@ -43,19 +70,8 @@
     cursor: pointer;
   }
 
-  .label-story-node-consequences {
-    flex: 1;
-  }
-
-  .label,
-  .story-node,
-  .consequences,
-  .requires {
-    display: flex;
-    flex-flow: row;
-    align-items: center;
-    position: relative;
-    margin-top: 24px;
+  ul {
+    width: 100%;
   }
 
   header {
@@ -71,15 +87,6 @@
     margin-right: 8px;
   }
 
-  .label span,
-  .story-node span,
-  .consequences span,
-  .requires span {
-    width: 30%;
-    max-width: 130px;
-    margin: 0 24px 12px 0;
-  }
-
   .label :global(svg) {
     margin-left: 16px;
     width: 32px;
@@ -87,21 +94,40 @@
   }
 
   .form-group {
-    display: inline-flex;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    position: relative;
+    margin-top: 24px;
   }
 
   .form-group label {
-    display: inline-flex;
+    display: flex;
     margin-left: 16px;
     display: inline-flex;
     align-items: center;
+    width: 30%;
+    max-width: 130px;
+    margin: 0 24px 12px 0;
+  }
+
+  .form-group :global(.input) {
+    width: 100%;
+  }
+
+  .set-final-node {
+    display: flex;
+    margin-top: 24px;
+  }
+
+  .set-final-node label {
+    margin-left: 24px;
   }
 </style>
 
 <section class="decisions">
   {#if !isFinalNode}
     <header>
-      Decisions
       <Button
         variation="link"
         on:click="{() => onAddNewDecision([storyNode, 'decisions'])}"
@@ -110,6 +136,43 @@
         add new decision
       </Button>
     </header>
+  {/if}
+
+  {#if isFinalNode}
+  <ul class='badges'>
+    <li class="form-group">
+      <label>Badge Text</label>
+      <Input
+        value="{badge.text}"
+        placeholder="You did the thign"
+        on:input="{e => onInput(e, {
+          storyNode,
+          location: 'badgeText',
+          prevValue: badge.text
+        })}"
+        on:keydown="{e => onKeydown(e, {
+          storyNode,
+          location: 'badgeText',
+          prevValue: badge.text
+        })}"
+      />
+    </li>
+    <li class='form-group'>
+      <label>Badge Icon</label>
+      <FuzzySelect
+        items={emojiChoices}
+        on:select={e => updateBadge(e, {
+          storyNode,
+          location: 'badgeIcon',
+          prevValue: badge.icon || '',
+        })}
+        bind:this={fuzzySelectRef}
+        className="badge-fuzzy-select"
+        isClearable="{false}"
+        selectedValue={badge.icon}
+      />
+    </li>
+  </ul>
   {/if}
 
   {#if decisions.length}
@@ -121,9 +184,9 @@
         >
           Delete
         </Trash>
-        <ul class="label-story-node-consequences">
-          <li class="label">
-            <span>Label</span>
+        <ul>
+          <li class="form-group">
+            <label>Label</label>
             <Input
               value="{decision.label}"
               placeholder="button text"
@@ -142,8 +205,8 @@
             />
           </li>
 
-          <li class="story-node">
-            <span>StoryNode</span>
+          <li class="form-group">
+            <label>StoryNode</label>
             <Input
               value="{decision.storyNode}"
               placeholder="Name of story node"
@@ -162,8 +225,8 @@
             />
           </li>
 
-          <li class="consequences">
-            <span>Consequences (optional)</span>
+          <li class="form-group">
+            <label>Consequences (optional)</label>
             <Input
               value="{decision.consequences || ''}"
               placeholder="example: tired, angry"
@@ -182,8 +245,8 @@
             />
           </li>
 
-          <li class="requires">
-            <span>Requires (optional)</span>
+          <li class="form-group">
+            <label>Requires (optional)</label>
             <Input
               value="{decision.requires || ''}"
               placeholder="example: tired"
@@ -207,7 +270,7 @@
   {/if}
 
   {#if storyNode !== 'start'}
-  <div class='form-group'>
+  <div class='set-final-node'>
     <Checkbox
       checked={isFinalNode}
       id="disable-decisions"

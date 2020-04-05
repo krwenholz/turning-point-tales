@@ -3,13 +3,14 @@
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
   import Feedback from './_Corrections/index.svelte';
   import Circle from 'src/components/icons/Circle.svelte';
+  import About from './_About.svelte';
 
   export let storyNode = '';
+  export let title = '';
+  export let author = '';
+  export let preview = '';
   export let text = [];
-  export let focusPath = [];
-  export let nodes = {};
   export let corrections = {};
-  export let clearFocusPath = () => {};
   export let onKeydown = () => {};
   export let onInput = () => {};
 
@@ -17,27 +18,27 @@
 </script>
 
 <style>
-  .story-text {
+  .writing-pane {
     display: flex;
     flex-flow: column;
     flex: 1;
   }
 
-  .story-text :global(textarea) {
+  .writing-pane :global(textarea) {
     margin: 0 0 24px 0;
     font-size: 14px;
     width: 100%;
   }
 
-  .story-text :global(.tab-list) {
+  .writing-pane :global(.tab-list) {
     margin-bottom: 16px;
   }
 
-  .story-text :global(.tab) {
+  .writing-pane :global(.tab) {
     position: relative;
   }
 
-  .story-text :global(svg) {
+  .writing-pane :global(svg) {
     position: absolute;
     left: 102%;
     color: var(--root-color-warning);
@@ -46,10 +47,11 @@
   }
 </style>
 
-<div class='story-text' bind:this={self}>
+<div class='writing-pane' bind:this={self}>
   <Tabs>
     <TabList justification="left">
       <Tab name="edit">Edit</Tab>
+      <Tab name="about">About</Tab>
       <Tab name="corrections" className='corrections' disabled={!corrections.length}>
         Corrections
         {#if corrections.length}
@@ -72,6 +74,15 @@
           location: 'storyText',
           prevValue: text,
         })}
+      />
+    </TabPanel>
+    <TabPanel className='about'>
+      <About
+        {onKeydown}
+        {onInput}
+        {author}
+        {title}
+        {preview}
       />
     </TabPanel>
     <TabPanel>

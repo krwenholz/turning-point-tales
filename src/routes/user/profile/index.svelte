@@ -25,11 +25,11 @@
     "The one who knocks"
   ];
 
-  const updateUrl = e => {
+  const updateUrl = chosenTab => {
     safeWindow().history.replaceState(
       "",
       "",
-      `${safeWindow().location.pathname}?tab=${e.detail.chosenTab}`
+      `${safeWindow().location.pathname}?tab=${chosenTab}`
     );
   };
 </script>
@@ -83,7 +83,7 @@
     </aside>
   </header>
 
-  <Tabs on:tabSwitch="{updateUrl}" selectedTab="{$page.query.tab}">
+  <Tabs onTabSwitch="{updateUrl}" selectedTab="{$page.query.tab}">
     <TabList on:tabSelected="{updateUrl}">
       <Tab name="adventurer">Adventurer</Tab>
       <Tab name="settings">Settings</Tab>

@@ -3,15 +3,18 @@ import { EDITOR_BACKUP } from './preDefinedKeys';
 import { safeWindow } from 'src/lib/client/safe-window';
 
 const initialState = {
-  start: {
-    text: ['Once upon a time'],
-    decisions: [
-      {
-        label: 'go to woods',
-        storyNode: 'woods',
-      }
-    ],
+  story: {
+    start: {
+      text: ['Once upon a time'],
+      decisions: [
+        {
+          label: 'go to woods',
+          storyNode: 'woods',
+        }
+      ],
+    },
   },
+  aboutStory: {}
 }
 
 export const editorBackup = () => browserStore(
