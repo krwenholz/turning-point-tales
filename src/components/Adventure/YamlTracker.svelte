@@ -7,7 +7,6 @@
   export let self = {};
   export let story = {};
   export let storyNode = "start";
-  export let selectedIdx;
 
   $: indexedStory = keys(story).map(key => ({
     [key]: story[key]

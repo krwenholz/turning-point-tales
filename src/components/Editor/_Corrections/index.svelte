@@ -10,13 +10,14 @@
   }
 
   pre {
+    padding-left: 16px;
     color: var(--root-color-error);
   }
 </style>
 
 <div class="corrections">
   {#each corrections as correction}
-  <h4>{correction.heading}</h4>
+  <h4>- {correction.heading}</h4>
   <pre>
     {correction.messages.join('\n\n')}
   </pre>

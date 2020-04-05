@@ -35,18 +35,18 @@
 
 <div class="story-text" bind:this="{self}">
   <TextArea
-    value="{text.join('\n\n')}"
+    value="{prev.join('\n\n')}"
     placeholder="Once upon a time.."
     bind:this="{self}"
     on:input="{e => onInput(e, {
-        storyNode,
-        location: 'storyText',
-        prevValue: text
-      })}"
+      storyNode,
+      location: 'storyText',
+      prevValue: text
+    })}"
     on:keydown="{e => onKeydown(e, {
-        storyNode,
-        location: 'storyText',
-        prevValue: text
-      })}"
+      storyNode,
+      location: 'storyText',
+      prevValue: text
+    })}"
   />
 </div>

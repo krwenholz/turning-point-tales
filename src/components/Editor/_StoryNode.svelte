@@ -19,7 +19,7 @@
 
   .story-node :global(svg) {
     fill: black;
-    margin-left: 16px;
+    margin-right: 16px;
   }
 
   .story-node :global(svg:hover) {
@@ -33,7 +33,25 @@
 </style>
 
 <div class="story-node">
+  {#if storyNode === 'start'}
+    <Input
+      value="{storyNode}"
+      placeholder="Name of story node"
+      disabled={true}
+      on:keydown="{e => onKeydown(e, {
+          location: 'storyNode',
+          prevValue: storyNode
+        })}"
+      on:input="{e => onInput(e, {
+          location: 'storyNode',
+          prevValue: storyNode
+        })}"
+    />
+  {/if}
   {#if storyNode !== 'start'}
+    <Trash on:click="{onDelete}">
+      Delete
+    </Trash>
     <Input
       value="{storyNode}"
       placeholder="Name of story node"
@@ -46,6 +64,5 @@
           prevValue: storyNode
         })}"
     />
-    <Trash on:click="{onDelete}">Delete</Trash>
   {/if}
 </div>

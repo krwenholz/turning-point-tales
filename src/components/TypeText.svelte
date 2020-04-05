@@ -9,7 +9,6 @@
   export let text = "";
   export let showTypingAnimation = true;
   export let typingSpeed = 0;
-  export let linebreakPause = 0;
   export let paragraphPause = 0;
 
   let interval = null;

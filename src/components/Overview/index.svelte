@@ -4,7 +4,6 @@
   import { onDestroy } from "svelte";
   import Scrollable from "src/components/Scrollable.svelte";
 
-  export let className = "";
   export let consequences = [];
   export let history = [{ storyNode: "start" }];
 

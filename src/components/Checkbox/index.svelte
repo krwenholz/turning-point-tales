@@ -7,7 +7,7 @@
 
 <style>
   .checkbox {
-    display: flex;
+    display: inline-block;
     position: relative;
     align-items: center;
     cursor: pointer;
@@ -27,7 +27,7 @@
   .box {
     min-height: 26px;
     min-width: 26px;
-    border: var(--input-border);
+    border: 1px solid var(--input-border-color);
     border-radius: var(--root-border-radius);
   }
 
