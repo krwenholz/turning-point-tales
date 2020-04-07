@@ -35,6 +35,7 @@ export const listPreview = () => {
       .select(
         _stories.id,
         _stories.author,
+        _stories.created,
         _stories.title,
         _stories.badges,
         _stories.preview,

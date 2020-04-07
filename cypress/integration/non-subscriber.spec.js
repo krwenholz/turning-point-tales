@@ -9,6 +9,6 @@ describe("NonSubscriber", () => {
     );
     cy.get(".story-previews")
       .find("a.button")
-      .should("have.length", 1);
+      .should("have.length", 2);
   });
 });
