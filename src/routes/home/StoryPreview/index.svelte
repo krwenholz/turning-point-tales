@@ -2,9 +2,18 @@
   import Preview from "./Preview.svelte";
   import { goto } from "@sapper/app";
   import { slug } from "src/lib/slugs";
+  import { sortBy, filter } from "lodash";
 
   export let stories = [];
   export let isSubscriber;
+
+  $: {
+    stories = sortBy(stories, story => story.created);
+    stories = filter(stories, story => story.general_release).concat(
+      filter(stories, story => !story.general_release)
+    );
+    console.log(stories);
+  }
 </script>
 
 <style>
