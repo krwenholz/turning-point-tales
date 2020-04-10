@@ -122,9 +122,6 @@
        author = e.target.value;
     } else if(location.match(/preview/)) {
        preview = e.target.value;
-    } else if (location === "storyNode") {
-      story = renameKey(story, storyNode, e.target.value);
-      storyNode = e.target.value;
     } else if (location.match(/decisionConsequences|decisionRequires/)) {
       story = assoc(path, e.target.value.split(/,\s|,|\s/g), story);
     } else if (location.match(/decisionLabel|decisionStoryNode/)) {
@@ -141,6 +138,19 @@
       badges: toBadgeArray(badgeLookup),
     });
   };
+
+  const onEditStoryNode = (e) => {
+    story = renameKey(story, storyNode, e.target.value);
+    storyNode = e.target.value;
+
+    onEdit({
+      story,
+      author,
+      title,
+      preview,
+      badges: toBadgeArray(badgeLookup),
+    });
+  }
 
   const onKeydown = (e, { location }) => {
     const invalidKeystroke = e.key.match(/[-'\s"]/) && location.match(/decisionStoryNode|storyNode/);
@@ -362,6 +372,7 @@
               {storyNode}
               {onInput}
               {onKeydown}
+              {onEditStoryNode}
               onDelete="{() => deleteStoryNode(storyNode)}"
             />
           </TabPanel>
