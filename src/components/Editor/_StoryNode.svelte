@@ -4,9 +4,17 @@
   import Input from "src/components/Input/index";
 
   export let storyNode = "";
-  export let onInput = () => {};
-  export let onKeydown = () => {};
   export let onDelete = () => {};
+  export let onEditStoryNode = () => {};
+
+  const onKeydown = e => {
+    const isInvalidKeystroke = e.key.match(/[-'\s"]/);
+
+    if (isInvalidKeystroke) {
+      e.preventDefault();
+      return false;
+    }
+  }
 </script>
 
 <style>
@@ -38,14 +46,6 @@
       value="{storyNode}"
       placeholder="Name of story node"
       disabled={true}
-      on:keydown="{e => onKeydown(e, {
-          location: 'storyNode',
-          prevValue: storyNode
-        })}"
-      on:input="{e => onInput(e, {
-          location: 'storyNode',
-          prevValue: storyNode
-        })}"
     />
   {/if}
   {#if storyNode !== 'start'}
@@ -55,14 +55,8 @@
     <Input
       value="{storyNode}"
       placeholder="Name of story node"
-      on:keydown="{e => onKeydown(e, {
-          location: 'storyNode',
-          prevValue: storyNode
-        })}"
-      on:input="{e => onInput(e, {
-          location: 'storyNode',
-          prevValue: storyNode
-        })}"
+      on:keydown={onKeydown}
+      onBlur={onEditStoryNode}
     />
   {/if}
 </div>

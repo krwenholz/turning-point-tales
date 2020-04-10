@@ -5,10 +5,12 @@
   export let id = Date.now(); // For some reason, if this doesnt have an id, autocomplete won't work...
   export let placeholder = "";
   export let disabled = false;
+  export let onBlur = () => {};
   let self;
 
   export const setCustomValidity = (...props) =>
     self.setCustomValidity(...props);
+
 </script>
 
 <style>
@@ -30,7 +32,7 @@
   class:disabled
   on:change
   on:click
-  on:blur
+  on:blur={e => onBlur(e)}
   on:input
   on:keypress
   on:keydown
