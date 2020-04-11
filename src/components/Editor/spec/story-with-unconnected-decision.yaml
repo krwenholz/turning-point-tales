@@ -1,0 +1,16 @@
+start:
+  text:
+    - |-
+      I am an example story.
+      Would you like to hear more?
+  decisions:
+    - label: 'yes, i''d love to'
+      storyNode: hear_more
+    - label: 'no, learning is dumb!'
+      storyNode: dont_hear_more
+hear_more:
+  text:
+    - 'Hey, you heard more!'
+  decisions:
+    - label: ''
+      storyNode: ''

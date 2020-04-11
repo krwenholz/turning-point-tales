@@ -4,8 +4,6 @@
 
   export let storyNode = "";
   export let text = [];
-  export let focusPath = [];
-  export let clearFocusPath = () => {};
   export let onKeydown = () => {};
   export let onInput = () => {};
   export let nodes = {};
