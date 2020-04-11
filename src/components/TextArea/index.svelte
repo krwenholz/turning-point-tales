@@ -1,6 +1,6 @@
 <script>
-  import { round } from "lodash";
-  import { onMount, afterUpdate } from "svelte";
+  import { afterUpdate } from "svelte";
+  import { safeWindow } from 'src/lib/client/safe-window.js';
 
   export let id = '';
   export let value = "";
@@ -11,13 +11,28 @@
 
   let self = {};
 
+  // Praise be to stack overflow,
+  // resize textarea but also avoid scroll-window jumping on resizing : D
   const resize = () => {
-    if (!autoSize) return;
+    const scrollLeft = window.pageXOffset ||
+      (document.documentElement || document.body.parentNode || document.body).scrollLeft;
+
+    const scrollTop  = window.pageYOffset ||
+      (document.documentElement || document.body.parentNode || document.body).scrollTop;
+
+    const prevHeight = self.style.height.slice(0, -2);
 
     self.style.height = "auto";
-    self.style.height = self.scrollHeight + "px";
+
+    const nextHeight = self.scrollHeight;
+
+    self.style.height = self.scrollHeight + 'px';
+
+    safeWindow().scrollTo(scrollLeft, scrollTop + (nextHeight - prevHeight));
   };
+
   afterUpdate(resize);
+
 </script>
 
 <style>

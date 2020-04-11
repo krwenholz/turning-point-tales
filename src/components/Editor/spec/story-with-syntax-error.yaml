@@ -1,0 +1,8 @@
+start:
+  text:
+    - Once upon a time
+    - 'Well shit, that''s a bit of a problem, don''t you think sir?'
+    - Okay...
+  decisions
+    -label: go to woods
+------storyNode: woods

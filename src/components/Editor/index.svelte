@@ -1,12 +1,11 @@
 <script>
   import { NotificationDisplay, notifier } from '@beyonk/svelte-notifications'
-  import FuzzySelect from 'src/components/FuzzySelect';
   import { keys, omit, get, reduce } from 'lodash';
   import yaml from "js-yaml";
   import { assoc, update } from "lodash/fp";
   import Adventure from "src/components/Adventure/index";
+  import FuzzySelect from 'src/components/FuzzySelect';
   import Overview from "src/components/Overview/index";
-  import Graph from './_graph/index';
   import { isValidStory } from 'src/components/Adventure/validation';
   import Button from 'src/components/Button.svelte';
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
@@ -16,6 +15,7 @@
   import WritingPane from './_WritingPane.svelte';
   import Decisions from './_Decisions.svelte';
   import StoryNode from './_StoryNode.svelte';
+  import Graph from './_graph/index';
   import { toSyntaxErrorMessage, getCorrections } from './_Corrections/_formatting.js';
   import { normalizeToPackagedStory } from './normalizeToPackagedStory.js';
 
@@ -411,7 +411,14 @@
 
     <TabPanel className="preview">
       <Overview {story} {history} {consequences} {storyNode} />
-      <Adventure {story} storyNode="start" on:pageChange="{updateOverview}" />
+      <Adventure
+        {story}
+        storyNode="start"
+        on:pageChange={e => {
+          updateOverview(e);
+          safeWindow().scrollTo(0, 0);
+        }}
+      />
     </TabPanel>
 
     <TabPanel>
