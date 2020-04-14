@@ -62,7 +62,6 @@ const noAuthRoutes = [
   "/csp_report",
   "/example-story",
   "/faq",
-  "/home",
   "/index",
   "/oauth/token",
   "/password-reset",

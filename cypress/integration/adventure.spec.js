@@ -1,7 +1,7 @@
 describe("Adventure", () => {
   beforeEach(() => {
     cy.logIn();
-    cy.visit("/home");
+    cy.visit("/");
     cy.contains("Continue...").click();
   });
 
@@ -27,7 +27,7 @@ describe("Adventure", () => {
   it("saves last storyNode from visited story", () => {
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=file_a_formal_complaint")
-        .visit("/home")
+        .visit("/")
         .contains("Continue...")
         .click()
         .url()
@@ -41,9 +41,9 @@ describe("Adventure", () => {
   it("does not save last storyNode if local storage cleared", () => {
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=file_a_formal_complaint")
-        .visit("/home")
+        .visit("/")
         .clearLocalStorage()
-        .visit("/home")
+        .visit("/")
         .contains("Continue...")
         .click()
         .url()
@@ -73,7 +73,7 @@ describe("Adventure", () => {
   });
 
   it("allows user to visit another story", () => {
-    cy.visit("/home")
+    cy.visit("/")
       .get(".story-previews")
       .find("a")
       .last()

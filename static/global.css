@@ -127,7 +127,9 @@ input[type="checkbox"] {
   margin: 0;
 }
 
-img { width: 100%; }
+img {
+  width: 100%;
+}
 
 /* UTILS */
 
@@ -155,4 +157,8 @@ section.text {
     margin-left: 25vw;
     margin-right: 25vw;
   }
+}
+
+hr {
+  width: 100%;
 }

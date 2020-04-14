@@ -129,7 +129,7 @@
 
 <header>
   <nav>
-    <a class="logo" href="/home">
+    <a class="logo" href="/">
       <Logo />
       <h1>Turning Point Tales</h1>
     </a>
