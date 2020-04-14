@@ -69,7 +69,7 @@
     you go back after every decision.
   </p>
   <nav in:fade>
-    <ButtonLink href="/home">Start reading</ButtonLink>
+    <ButtonLink href="/">Start reading</ButtonLink>
 
     <ButtonLink variation="secondary" href="/user/new">Sign up</ButtonLink>
   </nav>

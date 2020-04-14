@@ -96,32 +96,34 @@
         </small>
       {/if}
     {/if}
-    <small></small>
   </header>
   <div class="tags">
     {#each tags as tag}
       <span class="tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
     {/each}
   </div>
-  <div class="badges">
-    {#if badges.length}
-      <p>
-        Badges:
-        {#each badges as badge}
-          {#if badge.visited}
-            <span class="badge">{badge.icon}</span>
-          {/if}
-        {/each}
-        {#if undiscoveredBadgePercent > 0.5}
-          ... many more to discover.
-        {:else if undiscoveredBadgePercent > 0}
-          ... only a small number remaining.
-        {/if}
-      </p>
-    {/if}
-  </div>
   <p>{preview}</p>
   {#if isSubscriber || generalRelease}
     <ButtonLink href="/story/{id}">Continue...</ButtonLink>
+  {/if}
+  {#if $session.user}
+    <hr />
+    <div class="badges">
+      {#if badges.length}
+        <p>
+          Badges:
+          {#each badges as badge}
+            {#if badge.visited}
+              <span class="badge">{badge.icon}</span>
+            {/if}
+          {/each}
+          {#if undiscoveredBadgePercent > 0.5}
+            ... many more to discover.
+          {:else if undiscoveredBadgePercent > 0}
+            ... only a small number remaining.
+          {/if}
+        </p>
+      {/if}
+    </div>
   {/if}
 </article>

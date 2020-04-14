@@ -21,6 +21,9 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 400px));
     grid-gap: 32px;
+    max-width: 90%;
+    min-width: 320px;
+    margin: auto;
   }
 </style>
 
