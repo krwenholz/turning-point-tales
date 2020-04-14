@@ -1,3 +1,5 @@
+const stories = require('../../stories/index.js')
+
 describe("Subscriber", () => {
   beforeEach(() => {
     cy.logIn();
@@ -11,6 +13,6 @@ describe("Subscriber", () => {
     );
     cy.get(".story-previews")
       .find("a")
-      .should("have.length", 8);
+      .should("have.length", stories.length);
   });
 });

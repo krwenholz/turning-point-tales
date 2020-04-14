@@ -79,6 +79,6 @@ describe("Adventure", () => {
       .last()
       .click();
 
-    cy.url().should("match", /\/story\/wagons-dragons-[a-z0-9-]+/);
+    cy.url().should("match", /\/story\/wagons-dragons-side.*/);
   });
 });
