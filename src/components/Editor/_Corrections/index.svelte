@@ -1,5 +1,7 @@
 <script>
-  export let corrections = [];
+  export let corrections = { messages: [] };
+
+  console.log(corrections);
 </script>
 
 <style>
@@ -16,8 +18,8 @@
 </style>
 
 <div class="corrections">
-  {#each corrections as correction}
-  <h4>- {correction.heading}</h4>
+  {#each corrections.all as correction}
+  <h4>- {correction.description}</h4>
   <pre>
     {correction.messages.join('\n\n')}
   </pre>

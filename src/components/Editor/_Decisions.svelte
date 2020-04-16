@@ -9,8 +9,8 @@
   import emojis from 'src/lib/emojis.json';
   import { find } from 'lodash';
 
-  export let focusPath = [];
-  export let clearFocusPath = () => {};
+  export let decisionsWithInvalidLabels = [];
+  export let decisionsWithInvalidStoryNodes = [];
   export let onKeydown = () => {};
   export let onInput = () => {};
   export let onAddNewDecision = () => {};
@@ -29,7 +29,6 @@
   }));
 
   $: badge = badgeLookup[storyNode] || {};
-
 
   const updateBadge = (e, { prevValue, storyNode, location }) => onInput(
     {

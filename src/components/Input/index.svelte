@@ -1,4 +1,5 @@
 <script>
+  export let error = false;
   export let className = "";
   export let type = "text";
   export let name = Date.now(); // Same as below... wtf?
@@ -22,6 +23,10 @@
     color: currentColor;
     font-size: var(--root-font-size-md);
   }
+
+  .error {
+    border: 2px solid red;
+  }
 </style>
 
 <input
@@ -30,6 +35,7 @@
   bind:this={self}
   class="input"
   class:disabled
+  class:error
   on:change
   on:click
   on:blur={e => onBlur(e)}

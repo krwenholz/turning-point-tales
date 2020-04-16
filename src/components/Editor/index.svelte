@@ -16,7 +16,8 @@
   import Decisions from './_Decisions.svelte';
   import StoryNode from './_StoryNode.svelte';
   import Graph from './_graph/index';
-  import { toSyntaxErrorMessage, getCorrections } from './_Corrections/_formatting.js';
+  import Corrections from './_Corrections';
+  import { getSyntaxError } from './_get-syntax-error.js';
   import { normalizeToPackagedStory } from './normalizeToPackagedStory.js';
 
   export let storyNode = 'start';
@@ -40,9 +41,7 @@
     }
   }), {});
 
-  $: storyIsValid = process.browser && isValidStory(story);
-
-  $: corrections = process.browser && getCorrections(story) || [];
+  $: corrections = process.browser && new Corrections(story);
 
   $: items = keys(story).map(key => ({
     value: key,
@@ -80,7 +79,7 @@
       notifier.success("Story loaded", 1500);
       syntaxError = '';
     } catch(error){
-      syntaxError = toSyntaxErrorMessage(error, data);
+      syntaxError = getSyntaxError(error, data);
     }
   });
 
@@ -385,6 +384,12 @@
               {storyNode}
               {badgeLookup}
               {onSetAsFinalNode}
+              decisionsWithInvalidLabels={
+                corrections.decisionsHaveValidLabels.results
+              }
+              decisionsWithInvalidStoryNodes= {
+                corrections.decisionsHaveValidStoryNodes.results
+              }
               isFinalNode="{get(story, [storyNode, 'final'])}"
               decisions="{get(story, [storyNode, 'decisions'])}"
             />
@@ -422,7 +427,7 @@
     </TabPanel>
 
     <TabPanel>
-      {#if storyIsValid}
+      {#if corrections.storyIsValid}
         <h2 class="preview-text">Preview</h2>
         <Graph {story} />
       {:else}
