@@ -30,12 +30,3 @@
   {badges}
   {preview}
 />
-
-<!--<section class="graph">-->
-<!--  {#if storyIsValid}-->
-<!--    <h2>Preview</h2>-->
-<!--    <Graph {story} />-->
-<!--  {:else}-->
-<!--    <p class='error'> current story is invalid </p>-->
-<!--  {/if}-->
-<!--</section>-->

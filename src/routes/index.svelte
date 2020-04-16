@@ -70,12 +70,8 @@
 
 <style>
   .everything {
-  }
-
-  @media screen and (min-width: 600px) {
-  }
-
-  @media screen and (min-width: 1300px) {
+    max-width: 1000px;
+    margin: auto;
   }
 </style>
 
