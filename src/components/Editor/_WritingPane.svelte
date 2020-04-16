@@ -52,9 +52,9 @@
     <TabList justification="left">
       <Tab name="edit">Edit</Tab>
       <Tab name="about">About</Tab>
-      <Tab name="corrections" className='corrections' disabled={!corrections.length}>
+      <Tab name="corrections" className='corrections' disabled={corrections.storyIsValid}>
         Corrections
-        {#if corrections.length}
+        {#if !corrections.storyIsValid}
           <Circle/>
         {/if}
       </Tab>
