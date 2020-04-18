@@ -3,7 +3,6 @@ import passport from "passport";
 import passportLocal from "passport-local";
 import securePassword from "secure-password";
 import { BasicStrategy } from "passport-http";
-import { ClientPasswordStrategy } from "passport-oauth2-client-password";
 import { Strategy as AnonymousStrategy } from "passport-anonymous";
 import { ensureLoggedIn } from "connect-ensure-login";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
