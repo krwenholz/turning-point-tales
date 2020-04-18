@@ -4,7 +4,7 @@ import morgan from "morgan";
 
 export const logger = bunyan.createLogger({ name: "browser" });
 
-export const requestLoggingMiddleware = morgan(config.get("logging.format"));
+export const logRequest = morgan(config.get("logging.format"));
 
 export const logResponse = (req, res, next) => {
   logger.info("Will log response at end of request");
