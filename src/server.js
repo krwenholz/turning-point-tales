@@ -18,7 +18,12 @@ import { Store } from "svelte/store";
 import { Strategy as LocalStrategy } from "passport-local";
 import { csrfProtection, exposeCsrfMiddleware } from "src/lib/server/csrf";
 import { exposeStripeKeyMiddleware } from "src/lib/server/stripe";
-import { logger, logResponse, logRequest } from "./logging";
+import {
+  logger,
+  logResponse,
+  logRequest,
+  logRequestHeadersAndBody
+} from "./logging";
 import { passport, initPassport } from "src/authentication";
 import { pool } from "src/lib/server/database.js";
 import { requireHttps } from "src/lib/server/require_https";
@@ -138,6 +143,7 @@ app.post("/oauth/authorize/decision", logResponse, oauth.server.decision());
 app.post(
   "/oauth/token",
   logResponse,
+  logRequestHeadersAndBody,
   passport.authenticate(["basic"], {
     session: false
   }),
