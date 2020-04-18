@@ -6,8 +6,15 @@ export const logger = bunyan.createLogger({ name: "browser" });
 
 export const logRequest = morgan(config.get("logging.format"));
 
+export const logRequestHeadersAndBody = (req, res, next) => {
+  logger.info(
+    { body: req.body, headers: req.headers, url: req.url },
+    "Headers and body"
+  );
+};
+
 export const logResponse = (req, res, next) => {
-  logger.info("Will log response at end of request");
+  logger.info({ url: req.originalUrl }, "Will log response at end of request");
   const oldWrite = res.write;
   const oldEnd = res.end;
 
