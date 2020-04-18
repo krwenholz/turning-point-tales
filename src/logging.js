@@ -11,6 +11,7 @@ export const logRequestHeadersAndBody = (req, res, next) => {
     { body: req.body, headers: req.headers, url: req.url },
     "Headers and body"
   );
+  next();
 };
 
 export const logResponse = (req, res, next) => {
