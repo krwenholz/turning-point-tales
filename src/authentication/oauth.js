@@ -17,11 +17,14 @@ export const server = oauth2orize.createServer();
 const findAuthorizationCode = async (code, done) => {
   logger.info({ code }, "fetching auth code");
   try {
-    const results = await pool.query(
+    await pool.query(
       `
     DELETE FROM oauth_authorization_codes
     WHERE created < CURRENT_DATE - INTERVAL '30 minutes';
-
+      `
+    );
+    const { rows } = await pool.query(
+      `
     SELECT
         client_id AS clientId,
         redirect_uri AS redirectUri,
@@ -34,7 +37,7 @@ const findAuthorizationCode = async (code, done) => {
       [code]
     );
 
-    return done(null, results.rows[0]);
+    return done(null, rows[0]);
   } catch (err) {
     logger.error(err);
     return done(err);
@@ -71,11 +74,15 @@ const findAccessToken = async (token, done) => {
 
   logger.info({ token, hash }, "fetching access token");
   try {
-    const results = await pool.query(
+    await pool.query(
       `
     DELETE FROM oauth_access_tokens
     WHERE created < CURRENT_DATE - INTERVAL '1 year';
+      `
+    );
 
+    const { rows } = await pool.query(
+      `
     SELECT
         client_id AS clientId,
         user_id AS userId
@@ -87,7 +94,7 @@ const findAccessToken = async (token, done) => {
       [hash]
     );
 
-    return done(null, results.rows[0]);
+    return done(null, rows[0]);
   } catch (err) {
     logger.error(err);
     return done(err);
