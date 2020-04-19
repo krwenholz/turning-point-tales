@@ -181,24 +181,12 @@ export const initPassport = () => {
   // We only do this for Alexa OAUTH.
   passport.use(
     new BasicStrategy(function(userId, secret, done) {
-      logger.info(
-        {
-          userId,
-          secret,
-          alexa: {
-            id: config.get("alexa.clientId"),
-            secret: config.get("alexa.secret")
-          }
-        },
-        "new basic strategy attempted"
-      );
       if (userId != config.get("alexa.clientId")) {
         return done(err);
       }
       if (secret != config.get("alexa.secret")) {
         return done(null, false);
       }
-      logger.info("basic strategy succeeded");
       return done(null, { clientId: userId });
     })
   );
