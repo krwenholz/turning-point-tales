@@ -15,7 +15,7 @@ const tokenHasher = securePassword();
 export const server = oauth2orize.createServer();
 
 const findAuthorizationCode = async (code, done) => {
-  logger.info({ code }, "fetching auth code");
+  logger.info({ code }, "fetching auth code xxx");
   try {
     await pool.query(
       `
@@ -72,7 +72,7 @@ const saveAuthorizationCode = async (
 const findAccessToken = async (token, done) => {
   const hash = await tokenHasher.hash(Buffer.from(token));
 
-  logger.info({ token, hash }, "fetching access token");
+  logger.info({ token, hash }, "fetching access token xxx");
   try {
     await pool.query(
       `
@@ -152,6 +152,7 @@ server.deserializeClient((clientId, done) => {
 server.exchange(
   oauth2orize.exchange.code((client, code, redirectUri, done) => {
     findAuthorizationCode(code, (error, authCode) => {
+      logger.info({ error, authCode }, "looked up authorization code xxx");
       if (error) return done(error);
       if (client.id !== authCode.clientId) return done(null, false);
       if (redirectUri !== authCode.redirectUri) return done(null, false);
@@ -179,6 +180,7 @@ server.exchange(
 export const tokenStrategy = new passportHttpBearer.Strategy(
   (accessToken, done) => {
     findAccessToken(accessToken, (error, token) => {
+      logger.info({ error, accessToken, token }, "looked up access token xxx");
       if (error) return done(error);
       if (!token) return done(null, false);
       if (token.userId) {
@@ -209,6 +211,10 @@ export const tokenStrategy = new passportHttpBearer.Strategy(
 );
 
 const findAccessTokenByUserIdAndClientId = async (userId, clientId, done) => {
+  logger.info(
+    { userId, clientId },
+    "attempting access token by user and client id xxx"
+  );
   try {
     const results = await pool.query(
       `
