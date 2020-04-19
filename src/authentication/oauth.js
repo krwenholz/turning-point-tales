@@ -15,7 +15,6 @@ const tokenHasher = securePassword();
 export const server = oauth2orize.createServer();
 
 const findAuthorizationCode = async (code, done) => {
-  logger.info({ code }, "fetching auth code xxx");
   try {
     await pool.query(
       `
@@ -26,9 +25,9 @@ const findAuthorizationCode = async (code, done) => {
     const { rows } = await pool.query(
       `
     SELECT
-        client_id AS clientId,
-        redirect_uri AS redirectUri,
-        user_id AS userId
+        client_id AS client_id,
+        redirect_uri AS redirect_uri,
+        user_id AS user_id
     FROM
         oauth_authorization_codes
     WHERE
@@ -84,8 +83,8 @@ const findAccessToken = async (token, done) => {
     const { rows } = await pool.query(
       `
     SELECT
-        client_id AS clientId,
-        user_id AS userId
+        client_id AS client_id,
+        user_id AS user_id
     FROM
         oauth_access_tokens
     WHERE
@@ -151,14 +150,14 @@ server.deserializeClient((clientId, done) => {
 
 server.exchange(
   oauth2orize.exchange.code((client, code, redirectUri, done) => {
-    findAuthorizationCode(code, (error, authCode) => {
-      logger.info({ error, authCode }, "looked up authorization code xxx");
+    findAuthorizationCode(code, (error, authData) => {
+      logger.info({ error, authData }, "looked up authorization code xxx");
       if (error) return done(error);
-      if (client.id !== authCode.clientId) return done(null, false);
-      if (redirectUri !== authCode.redirectUri) return done(null, false);
+      if (client.id !== authData.client_id) return done(null, false);
+      if (redirectUri !== authData.redirect_uri) return done(null, false);
 
       const token = join(times(16, uuidv4), "");
-      saveAccessToken(token, authCode.userId, authCode.clientId, error => {
+      saveAccessToken(token, authData.user_id, authData.client_id, error => {
         if (error) return done(error);
         // Add custom params, e.g. the username
         let params = { expires_in: 60 * 60 * 24 * 365 };
@@ -179,12 +178,15 @@ server.exchange(
  */
 export const tokenStrategy = new passportHttpBearer.Strategy(
   (accessToken, done) => {
-    findAccessToken(accessToken, (error, token) => {
-      logger.info({ error, accessToken, token }, "looked up access token xxx");
+    findAccessToken(accessToken, (error, accessData) => {
+      logger.info(
+        { error, accessToken, accessData },
+        "looked up access token xxx"
+      );
       if (error) return done(error);
-      if (!token) return done(null, false);
-      if (token.userId) {
-        findUser(token.userId, (error, user) => {
+      if (!accessData) return done(null, false);
+      if (accessData.user_id) {
+        findUser(accessData.user_id, (error, user) => {
           if (error) return done(error);
           if (!user) return done(null, false);
           done(null, user, { scope: "*" });
@@ -219,8 +221,8 @@ const findAccessTokenByUserIdAndClientId = async (userId, clientId, done) => {
     const results = await pool.query(
       `
     SELECT
-        client_id AS clientId,
-        user_id AS userId
+        client_id AS client_id,
+        user_id AS user_id
     FROM
         oauth_access_tokens
     WHERE
