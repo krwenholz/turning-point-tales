@@ -15,11 +15,11 @@ const tokenHasher = securePassword();
 export const server = oauth2orize.createServer();
 
 const findAuthorizationCode = async (code, done) => {
+  logger.info({ code }, "fetching auth code");
   try {
     const results = await pool.query(
       `
-    DELETE *
-    FROM oauth_authorization_codes
+    DELETE FROM oauth_authorization_codes
     WHERE created < CURRENT_DATE - INTERVAL '30 minutes';
 
     SELECT
@@ -69,11 +69,11 @@ const saveAuthorizationCode = async (
 const findAccessToken = async (token, done) => {
   const hash = await tokenHasher.hash(Buffer.from(token));
 
+  logger.info({ token, hash }, "fetching access token");
   try {
     const results = await pool.query(
       `
-    DELETE *
-    FROM oauth_access_tokens
+    DELETE FROM oauth_access_tokens
     WHERE created < CURRENT_DATE - INTERVAL '1 year';
 
     SELECT
