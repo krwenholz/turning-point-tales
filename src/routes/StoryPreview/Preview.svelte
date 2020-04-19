@@ -56,6 +56,10 @@
     margin-bottom: 24px;
   }
 
+  hr {
+    width: 100%;
+  }
+
   .tags {
     display: flex;
     flex-flow: row wrap;
