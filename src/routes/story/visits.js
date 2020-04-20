@@ -59,7 +59,7 @@ const get = async (req, res) => {
  */
 const post = async (req, res) => {
   const visitation = {
-    userId: req.user.id,
+    userId: (req.user || {}).id,
     storyId: req.body.storyId,
     nodeName: req.body.nodeName,
     previousNode: req.body.previousNodeName
