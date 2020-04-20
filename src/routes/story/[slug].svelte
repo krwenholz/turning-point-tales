@@ -69,8 +69,6 @@
   const scrollToTop = () => safeWindow().scrollTo(0, 0);
 
   const recordVisit = detail => {
-    if (!$session.user) return;
-
     fetch("/story/visits", {
       method: "POST",
       headers: {
