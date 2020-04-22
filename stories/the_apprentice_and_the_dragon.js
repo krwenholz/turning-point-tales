@@ -55,8 +55,6 @@ const the_apprentice_and_the_dragon = {
   content: {
     start: {
       text: [
-        "Wagons & Dragons – Side Quests – The Apprentice and the Dragon",
-        "Written by Sean Wong-Westbrooke",
         "We begin deep in the bowels of a winding dungeon on the forested edge of the Dark Lands. At its heart is a spindly teen apprentice, training to be a powerful master of magic. A wizard! Or at least, that’s what he expected to become. Instead, he finds himself cleaning out a cave troll’s latrine.",
         "“Become an apprentice they said. Learn ancient wisdom! Learn arcane powers! Learn the secrets of magic! Apprentice? More like servant,” the teen grumbles while wiping his sweaty brow. “Twenty-seven. Twenty-seven gold pieces my dad sold me for. One stinking harvest worth, we had three good years in a row and he still sold me. Lousy fart is probably getting fat off my share of the food…” The apprentice’s grumbling is cut short when the earth begins to shake and the resident troll comes scrambling forth.",
         '"Outta the way Zayne! Emergency! Emergency!”\n',

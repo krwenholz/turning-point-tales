@@ -8,10 +8,10 @@ const HelpIntentHandler = {
     );
   },
   handle(handlerInput) {
-    const isSubscribed = handlerInput.attributesManager.getSessionAttributes()
-      .isSubscribed;
+    const user = handlerInput.attributesManager.getSessionAttributes().user;
     const speechText = speechWithSubscriptionPrompt(
-      "You can list stories, start a story with start story name, make a decision in a story with go followed by the choice, go back in a story by saying go back, or restart a story by saying restart story."
+      "You can list stories, start a story with start story name, make a decision in a story with go followed by the choice, go back in a story by saying go back, or restart a story by saying restart story.",
+      user.isSubscribed
     );
 
     return handlerInput.responseBuilder
@@ -20,7 +20,7 @@ const HelpIntentHandler = {
       .withSimpleCard(speechText)
       .getResponse();
 
-    if (isSubscribed) return response.getResponse();
+    if (user.isLinked) return response.getResponse();
     return response.withLinkAccountCard().getResponse();
   }
 };

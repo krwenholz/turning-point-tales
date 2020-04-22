@@ -13,47 +13,70 @@ import {
   SkillRequestSignatureVerifier,
   TimestampVerifier
 } from "ask-sdk-express-adapter";
+import { findAccessToken } from "src/authentication/oauth";
+import { findUser, findUserSafeDetails } from "src/lib/server/users";
 import { logger } from "src/logging";
 
-// TODO(kyle): https://developer.amazon.com/en-US/docs/alexa/account-linking/steps-to-implement-account-linking.html
-// https://github.com/jaredhanson/oauth2orize
-// https://github.com/alexa/skill-sample-nodejs-zero-to-hero/
-// https://github.com/awais786327/oauth2orize-examples/blob/master/routes/oauth2.js
-
 const GetLinkedInfoInterceptor = {
-  process(handlerInput) {
+  async process(handlerInput) {
     logger.info(
-      handlerInput.requestEnvelope.session,
+      {
+        sessionId: handlerInput.requestEnvelope.session.sessionId,
+        accessToken: handlerInput.requestEnvelope.session.user
+      },
       "GetLinkedInfoInterceptor"
     );
-    if (
-      handlerInput.requestEnvelope.session.new &&
-      handlerInput.requestEnvelope.session.user.accessToken
-    ) {
+
+    const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+
+    if (!sessionAttributes.user) sessionAttributes.user = {};
+    sessionAttributes.user.subscriptionPeriodEnd = new Date("1990-07-13");
+
+    const accessToken = (handlerInput.requestEnvelope.session.user || {})
+      .accessToken;
+
+    // TODO(kyle): Must be a smarter way to update the user, but always
+    // updating this information is a pretty safe way to go.
+    if (accessToken) {
+      const accessData = await findAccessToken(accessToken);
       /**
-      return base.handle(handlerInput).then(responseBuilder => {
-        const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-        if (sessionAttributes.isAuthenticated !== false) {
-          responseBuilder.withLinkAccountCard();
+        if (error) {
+          logger.error({ error }, "Error fetching user data for Alexa");
+          return;
         }
- **/
-      // This is a new session and we have an access token,
-      // so get the user details from Cognito and persist in session attributes
-      const userData = getUserData(
-        handlerInput.requestEnvelope.session.user.accessToken
-      );
-      // console.log('GetLinkedInfoInterceptor: getUserData: ', userData);
-      if (userData.Username !== undefined) {
-        const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
-        sessionAttributes.firstName = getAttribute(
-          userData.UserAttributes,
-          "given_name"
-        );
-        handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+       **/
+      if (!accessData) return;
+      if (accessData.userId) {
+        const user = await findUser(accessData.userId);
+        /**
+        if (error) {
+          logger.error({ error }, "Error fetching user data for Alexa");
+          return;
+        }
+         **/
+        if (!user) {
+          logger.info(
+            "GetLinkedInfoInterceptor: No user data was found for token."
+          );
+          return;
+        }
+
+        sessionAttributes.user.id = user.id;
+        sessionAttributes.user.isLinked = true;
+        sessionAttributes.user.firstName = user.firstName;
+        sessionAttributes.user.subscriptionPeriodEnd =
+          user.subscriptionPeriodEnd;
       } else {
-        logger.info("GetLinkedInfoInterceptor: No user data was found.");
+        logger.error(
+          { accessToken },
+          "Received a token strategy request we were not expecting"
+        );
       }
     }
+
+    sessionAttributes.user.isSubscribed =
+      sessionAttributes.user.subscriptionPeriodEnd > new Date();
+    handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
   }
 };
 

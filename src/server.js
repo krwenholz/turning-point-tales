@@ -138,12 +138,10 @@ app.use(...middleware);
 
 app.get("/oauth/authorize", oauth.authorize);
 
-app.post("/oauth/authorize/decision", logResponse, oauth.server.decision());
+app.post("/oauth/authorize/decision", oauth.server.decision());
 
 app.post(
   "/oauth/token",
-  logResponse,
-  logRequestHeadersAndBody,
   passport.authenticate(["basic"], {
     session: false
   }),
@@ -151,11 +149,7 @@ app.post(
   oauth.server.errorHandler()
 );
 
-app.post(
-  "/alexa",
-  passport.authenticate(["bearer", "anonymous"], { session: false }),
-  alexaPost
-);
+app.post("/alexa", alexaPost);
 
 app.use(
   "/",

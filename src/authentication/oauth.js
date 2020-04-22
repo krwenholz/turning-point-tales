@@ -1,16 +1,11 @@
 import config from "config";
 import oauth2orize from "oauth2orize";
 import passportHttpBearer from "passport-http-bearer";
-import securePassword from "secure-password";
 import uuidv4 from "uuid/v4";
-import { passport } from "src/authentication";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
-import { logger, logResponse } from "src/logging";
+import { logger } from "src/logging";
 import { pool } from "src/lib/server/database.js";
 import { join, times, includes } from "lodash";
-
-// TODO(kyle): create a route for users to delete tokens
-const tokenHasher = securePassword();
 
 export const server = oauth2orize.createServer();
 
@@ -25,9 +20,9 @@ const findAuthorizationCode = async (code, done) => {
     const { rows } = await pool.query(
       `
     SELECT
-        client_id AS client_id,
-        redirect_uri AS redirect_uri,
-        user_id AS user_id
+        client_id AS "clientId",
+        redirect_uri AS "redirectUri",
+        user_id AS "userId"
     FROM
         oauth_authorization_codes
     WHERE
@@ -68,10 +63,7 @@ const saveAuthorizationCode = async (
   }
 };
 
-const findAccessToken = async (token, done) => {
-  const hash = await tokenHasher.hash(Buffer.from(token));
-
-  logger.info({ token, hash }, "fetching access token xxx");
+export const findAccessToken = async (token, done) => {
   try {
     await pool.query(
       `
@@ -83,34 +75,32 @@ const findAccessToken = async (token, done) => {
     const { rows } = await pool.query(
       `
     SELECT
-        client_id AS client_id,
-        user_id AS user_id
+        client_id AS "clientId",
+        user_id AS "userId"
     FROM
         oauth_access_tokens
     WHERE
         token = $1
     `,
-      [hash]
+      [token]
     );
 
-    return done(null, rows[0]);
+    return rows[0];
   } catch (err) {
     logger.error(err);
-    return done(err);
+    throw err;
   }
 };
 
-const saveAccessToken = async (token, userId, clientId, done) => {
+const saveAccessToken = async (token, clientId, userId, done) => {
   try {
-    const hash = await tokenHasher.hash(Buffer.from(token));
-
     await pool.query(
       `
       INSERT INTO
-        oauth_access_tokens
+        oauth_access_tokens (token, client_id, user_id, created, modified)
       VALUES ($1, $2, $3, NOW(), NOW())
     `,
-      [hash, clientId, userId]
+      [token, clientId, userId]
     );
 
     logger.info({ userId }, "Access token added");
@@ -138,26 +128,28 @@ server.grant(
 );
 
 server.serializeClient((client, done) => {
-  logger.info(client, "Serializing oauth client");
   done(null, client.clientId);
 });
 
-server.deserializeClient((clientId, done) => {
+server.deserializeClient((id, done) => {
   // We only have one client right now, so this is pretty dumb
-  if (clientId !== config.get("alexa.clientId")) return done(null, false);
-  return done(null, { clientId, isTrusted: true });
+  if (id !== config.get("alexa.clientId")) return done(null, false);
+  return done(null, { clientId: id, isTrusted: true });
 });
 
 server.exchange(
   oauth2orize.exchange.code((client, code, redirectUri, done) => {
     findAuthorizationCode(code, (error, authData) => {
-      logger.info({ error, authData }, "looked up authorization code xxx");
       if (error) return done(error);
-      if (client.id !== authData.client_id) return done(null, false);
-      if (redirectUri !== authData.redirect_uri) return done(null, false);
+      logger.info("yyy");
+      if (client.clientId !== authData.clientId) return done(null, false);
+      logger.info("zzz");
+      if (redirectUri !== authData.redirectUri) return done(null, false);
+      logger.info("fff");
 
       const token = join(times(16, uuidv4), "");
-      saveAccessToken(token, authData.user_id, authData.client_id, error => {
+      saveAccessToken(token, authData.clientId, authData.userId, error => {
+        logger.info({ error, token }, "saving access token");
         if (error) return done(error);
         // Add custom params, e.g. the username
         let params = { expires_in: 60 * 60 * 24 * 365 };
@@ -168,55 +160,7 @@ server.exchange(
   })
 );
 
-/**
- * BearerStrategy
- *
- * This strategy is used to authenticate either users or clients based on an access token
- * (aka a bearer token). If a user, they must have previously authorized a client
- * application, which is issued an access token to make requests on behalf of
- * the authorizing user.
- */
-export const tokenStrategy = new passportHttpBearer.Strategy(
-  (accessToken, done) => {
-    findAccessToken(accessToken, (error, accessData) => {
-      logger.info(
-        { error, accessToken, accessData },
-        "looked up access token xxx"
-      );
-      if (error) return done(error);
-      if (!accessData) return done(null, false);
-      if (accessData.user_id) {
-        findUser(accessData.user_id, (error, user) => {
-          if (error) return done(error);
-          if (!user) return done(null, false);
-          done(null, user, { scope: "*" });
-        });
-      } else {
-        // The request came from a client only since userId is null,
-        // therefore the client is passed back instead of a user.
-        /**
-        db.clients.findByClientId(token.clientId, (error, client) => {
-          if (error) return done(error);
-          if (!client) return done(null, false);
-          // To keep this example simple, restricted scopes are not implemented,
-          // and this is just for illustrative purposes.
-          done(null, client, { scope: '*' });
-        });
-        */
-        logger.error(
-          { accessToken },
-          "Received a token strategy request we were not expecting"
-        );
-      }
-    });
-  }
-);
-
 const findAccessTokenByUserIdAndClientId = async (userId, clientId, done) => {
-  logger.info(
-    { userId, clientId },
-    "attempting access token by user and client id xxx"
-  );
   try {
     const results = await pool.query(
       `
