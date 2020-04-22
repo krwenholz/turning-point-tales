@@ -7,7 +7,6 @@ import { Strategy as AnonymousStrategy } from "passport-anonymous";
 import { ensureLoggedIn } from "connect-ensure-login";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
 import { logger } from "src/logging";
-import { tokenStrategy } from "./oauth";
 
 const passwordHasher = securePassword();
 
@@ -173,8 +172,6 @@ export const initPassport = () => {
       }
     )
   );
-
-  passport.use(tokenStrategy);
 
   passport.use(new AnonymousStrategy());
 

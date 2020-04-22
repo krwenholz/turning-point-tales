@@ -74,7 +74,7 @@ ADD CONSTRAINT "session_pkey"
 PRIMARY KEY("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 CREATE TABLE IF NOT EXISTS oauth_authorization_codes(
-  code TEXT PRIMARY KEY,
+  code TEXT NOT NULL,
   client_id TEXT NOT NULL,
   redirect_uri TEXT NOT NULL,
   user_id uuid REFERENCES users(id),
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS oauth_authorization_codes(
 );
 
 CREATE TABLE IF NOT EXISTS oauth_access_tokens(
-  token TEXT PRIMARY KEY,
+  token TEXT NOT NULL,
   client_id TEXT NOT NULL,
   user_id uuid REFERENCES users(id),
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,

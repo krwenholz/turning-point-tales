@@ -108,7 +108,7 @@ export const listStoriesForAlexa = handlerInput => {
   return Stories.list().then(results => {
     const stories = filter(
       results.rows,
-      story => sessionAttributes.isSubscribed || story.general_release
+      story => sessionAttributes.user.isSubscribed || story.general_release
     );
     const storyTitleChoices = map(stories, story => {
       return {
@@ -116,7 +116,10 @@ export const listStoriesForAlexa = handlerInput => {
         name: {
           value: asConfirmable(asSpeakable(story.title)),
           synonyms: [
-            asConfirmable(asSpeakable(`${story.title} by ${story.author}`))
+            asConfirmable(asSpeakable(`${story.title} by ${story.author}`)),
+            asConfirmable(
+              asSpeakable(story.title.slice(lastIndexOf(story.title, "-")))
+            )
           ]
         }
       };
@@ -142,7 +145,7 @@ export const listStoriesForAlexa = handlerInput => {
     const speechText = speechWithSubscriptionPrompt(
       "Choose a story by saying start followed by the title. You can choose " +
         join(storyList, speechPauseList()),
-      sessionAttributes.isSubscribed
+      sessionAttributes.user.isSubscribed
     );
 
     const response = handlerInput.responseBuilder
@@ -152,7 +155,7 @@ export const listStoriesForAlexa = handlerInput => {
       .addDirective(updateStoryTitlesDirective)
       .withShouldEndSession(false);
 
-    if (!sessionAttributes.isSubscribed) {
+    if (!sessionAttributes.user.isLinked) {
       return response.withLinkAccountCard().getResponse();
     }
     return response.getResponse();
@@ -173,19 +176,19 @@ export const startFreshStory = (storyId, handlerInput) => {
       }
     ]
   };
-  // TODO(kyle): make it a real subscription
-  const subscriptionEnd =
-    sessionAttributes.subscriptionEnd || new Date("1990-07-13");
   sessionAttributes.store = store;
   handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
 
   return Stories.select(storyId).then(results => {
     const story = results.rows[0];
 
-    if (!story["general_release"] && subscriptionEnd < new Date()) {
+    if (!story["general_release"] && !sessionAttributes.user.isSubscribed) {
       logger.info(
-        { release: story["general_release"], sub: subscriptionEnd },
-        "checking xxx"
+        {
+          release: story["general_release"],
+          use: sessionAttributes.user.id
+        },
+        "A user tried to start a story they don't have access to"
       );
       return listStoriesForAlexa(handlerInput);
     }
