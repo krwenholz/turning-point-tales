@@ -30,30 +30,21 @@ const GetLinkedInfoInterceptor = {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
 
     if (!sessionAttributes.user) sessionAttributes.user = {};
-    sessionAttributes.user.subscriptionPeriodEnd = new Date("1990-07-13");
+    const sessionUser = sessionAttributes.user;
+    sessionUser.subscriptionPeriodEnd =
+      sessionUser.subscriptionPeriodEnd || new Date("1990-07-13");
 
-    const accessToken = (handlerInput.requestEnvelope.session.user || {})
-      .accessToken;
+    const accessToken = user.accessToken;
 
-    // TODO(kyle): Must be a smarter way to update the user, but always
-    // updating this information is a pretty safe way to go.
-    if (accessToken) {
+    const startOfDay = new Date();
+    startOfDay.setHours(0);
+    const userNeedsUpdating = sessionUser.subscriptionPeriodEnd > startOfDay;
+
+    if (accessToken && userNeedsUpdating) {
       const accessData = await findAccessToken(accessToken);
-      /**
-        if (error) {
-          logger.error({ error }, "Error fetching user data for Alexa");
-          return;
-        }
-       **/
       if (!accessData) return;
       if (accessData.userId) {
         const user = await findUser(accessData.userId);
-        /**
-        if (error) {
-          logger.error({ error }, "Error fetching user data for Alexa");
-          return;
-        }
-         **/
         if (!user) {
           logger.info(
             "GetLinkedInfoInterceptor: No user data was found for token."
@@ -61,11 +52,10 @@ const GetLinkedInfoInterceptor = {
           return;
         }
 
-        sessionAttributes.user.id = user.id;
-        sessionAttributes.user.isLinked = true;
-        sessionAttributes.user.firstName = user.firstName;
-        sessionAttributes.user.subscriptionPeriodEnd =
-          user.subscriptionPeriodEnd;
+        sessionUser.id = user.id;
+        sessionUser.isLinked = true;
+        sessionUser.firstName = user.firstName;
+        sessionUser.subscriptionPeriodEnd = user.subscriptionPeriodEnd;
       } else {
         logger.error(
           { accessToken },
@@ -74,8 +64,7 @@ const GetLinkedInfoInterceptor = {
       }
     }
 
-    sessionAttributes.user.isSubscribed =
-      sessionAttributes.user.subscriptionPeriodEnd > new Date();
+    sessionUser.isSubscribed = sessionUser.subscriptionPeriodEnd > new Date();
     handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
   }
 };
