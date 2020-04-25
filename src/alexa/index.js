@@ -19,14 +19,6 @@ import { logger } from "src/logging";
 
 const GetLinkedInfoInterceptor = {
   async process(handlerInput) {
-    logger.info(
-      {
-        sessionId: handlerInput.requestEnvelope.session.sessionId,
-        accessToken: handlerInput.requestEnvelope.session.user
-      },
-      "GetLinkedInfoInterceptor"
-    );
-
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
 
     sessionAttributes.user = sessionAttributes.user || {};
@@ -34,15 +26,29 @@ const GetLinkedInfoInterceptor = {
     sessionUser.subscriptionPeriodEnd =
       sessionUser.subscriptionPeriodEnd || new Date("1990-07-13");
 
-    const accessToken = sessionUser.accessToken;
+    const accessToken = (handlerInput.requestEnvelope.session.user || {})
+      .accessToken;
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const userNeedsUpdating = sessionUser.subscriptionPeriodEnd < tomorrow;
 
     if (accessToken && userNeedsUpdating) {
+      logger.info(
+        {
+          sessionId: handlerInput.requestEnvelope.session.sessionId,
+          sessionUser
+        },
+        "GetLinkedInfoInterceptor: updating user information"
+      );
       const accessData = await findAccessToken(accessToken);
-      if (!accessData) return;
+      if (!accessData) {
+        logger.info(
+          { sessionId: handlerInput.requestEnvelope.session.sessionId },
+          "GetLinkedInfoInterceptor: Access token not found."
+        );
+        return;
+      }
       if (accessData.userId) {
         const user = await findUser(accessData.userId);
         if (!user) {
@@ -65,6 +71,7 @@ const GetLinkedInfoInterceptor = {
     }
 
     sessionUser.isSubscribed = sessionUser.subscriptionPeriodEnd > new Date();
+    sessionAttributes.user = sessionUser;
     handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
   }
 };
