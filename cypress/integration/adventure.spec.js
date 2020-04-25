@@ -47,7 +47,10 @@ describe("Adventure", () => {
         .contains("Continue...")
         .click()
         .url()
-        .should("match", /\/story\/mr-banks-[a-z0-9-]+\?storyNode=start/);
+        .should(
+          "match",
+          /\/story\/mr-banks-([a-z0-9-]+|[a-z0-9-]\?storyNode=start)/
+        );
     });
   });
 
