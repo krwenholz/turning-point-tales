@@ -12,7 +12,6 @@
     stories = filter(stories, story => story.general_release).concat(
       filter(stories, story => !story.general_release)
     );
-    console.log(stories);
   }
 </script>
 

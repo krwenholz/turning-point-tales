@@ -44,7 +44,6 @@ export const logResponse = (req, res, next) => {
       referer: req.headers.referer || ""
     });
 
-    // console.log(body);
     oldEnd.apply(res, restArgs);
   };
 

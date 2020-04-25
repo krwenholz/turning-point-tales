@@ -29,12 +29,12 @@ const GetLinkedInfoInterceptor = {
 
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
 
-    if (!sessionAttributes.user) sessionAttributes.user = {};
+    sessionAttributes.user = sessionAttributes.user || {};
     const sessionUser = sessionAttributes.user;
     sessionUser.subscriptionPeriodEnd =
       sessionUser.subscriptionPeriodEnd || new Date("1990-07-13");
 
-    const accessToken = user.accessToken;
+    const accessToken = sessionUser.accessToken;
 
     const startOfDay = new Date();
     startOfDay.setHours(0);
