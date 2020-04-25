@@ -36,9 +36,9 @@ const GetLinkedInfoInterceptor = {
 
     const accessToken = sessionUser.accessToken;
 
-    const startOfDay = new Date();
-    startOfDay.setHours(0);
-    const userNeedsUpdating = sessionUser.subscriptionPeriodEnd > startOfDay;
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const userNeedsUpdating = sessionUser.subscriptionPeriodEnd < tomorrow;
 
     if (accessToken && userNeedsUpdating) {
       const accessData = await findAccessToken(accessToken);
@@ -71,7 +71,7 @@ const GetLinkedInfoInterceptor = {
 
 const LogRequestInterceptor = {
   process(handlerInput, response) {
-    logger.info(handlerInput.requestEnvelope, "Handling Alexa request");
+    logger.info(handlerInput.requestEnvelope.request, "Handling Alexa request");
   }
 };
 
