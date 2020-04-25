@@ -2,7 +2,7 @@ import * as Alexa from "ask-sdk-core";
 import * as History from "src/components/Adventure/history";
 import * as Stories from "src/routes/story/_stories";
 import { logger } from "src/logging";
-import { map, join, filter, find } from "lodash";
+import { map, join, filter, find, lastIndexOf } from "lodash";
 
 const decisionLabels = [
   "one",
