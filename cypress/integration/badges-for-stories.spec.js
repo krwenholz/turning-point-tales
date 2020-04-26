@@ -10,7 +10,7 @@ describe("Stories", () => {
   });
 
   it("displays badges when earned", () => {
-    cy.contains("Continue...").click();
+    cy.contains("Read now").click();
     cy.location()
       .then(loc => {
         cy.visit(
@@ -26,7 +26,7 @@ describe("Stories", () => {
   });
 
   it("displays correct options at end", () => {
-    cy.contains("Continue...").click();
+    cy.contains("Read now").click();
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=stop_the_clocks");
     });
