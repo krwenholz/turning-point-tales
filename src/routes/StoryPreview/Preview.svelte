@@ -90,16 +90,6 @@
   <header>
     <h2>{title}</h2>
     <small>by {author}</small>
-    {#if !generalRelease}
-      <small>Subscribers only</small>
-      {#if $session.user && !isSubscriber}
-        <small>
-          <a href="/user/profile?tab=adventurer">
-            Become a full adventurer now to unlock access.
-          </a>
-        </small>
-      {/if}
-    {/if}
   </header>
   <div class="tags">
     {#each tags as tag}
@@ -108,7 +98,19 @@
   </div>
   <p>{preview}</p>
   {#if isSubscriber || generalRelease}
-    <ButtonLink href="/story/{id}">Continue...</ButtonLink>
+    <ButtonLink href="/story/{id}">Read now</ButtonLink>
+  {:else if $session.user}
+    <ButtonLink
+      href="/user/profile?tab=adventurer"
+      disabled="true"
+      variation="secondary"
+    >
+      Subscribe now
+    </ButtonLink>
+  {:else}
+    <ButtonLink href="/user/new" disabled="true" variation="secondary">
+      Subscribers only
+    </ButtonLink>
   {/if}
   {#if $session.user}
     <hr />

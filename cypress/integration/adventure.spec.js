@@ -2,7 +2,7 @@ describe("Adventure", () => {
   beforeEach(() => {
     cy.logIn();
     cy.visit("/");
-    cy.contains("Continue...").click();
+    cy.contains("Read now").click();
   });
 
   it('defaults to "start" for storyNode if not provided, and no local storage', () => {
@@ -28,7 +28,7 @@ describe("Adventure", () => {
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=file_a_formal_complaint")
         .visit("/")
-        .contains("Continue...")
+        .contains("Read now")
         .click()
         .url()
         .should(
@@ -44,7 +44,7 @@ describe("Adventure", () => {
         .visit("/")
         .clearLocalStorage()
         .visit("/")
-        .contains("Continue...")
+        .contains("Read now")
         .click()
         .url()
         .should(
