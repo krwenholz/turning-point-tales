@@ -6,12 +6,19 @@ const stories = require("../stories/index.js");
 decision_texts = [];
 
 forOwn(stories, (story, _) => {
+  let decision_count = 0;
+  let node_count = 0;
   forOwn(story.content, (node, _) => {
     if (!node.decisions) return;
     for (const decision of node.decisions) {
       decision_texts.push(decision.label);
+      decision_count++;
     }
+    node_count++;
   });
+  console.log(
+    `Story: ${story.title}, decisions: ${decision_count}, nodes: ${node_count}`
+  );
 });
 
 const word_count_frequencies = {};
@@ -34,7 +41,8 @@ each(
   }
 );
 
-console.log("Total decisions: ", decision_texts.length);
+console.log("----------------------------------");
+console.log("Total decisions: ", decision_texts.length / stories.length);
 console.log("Word count frequencies: ", JSON.stringify(word_count_frequencies));
 console.log(
   "Word length frequencies: ",
