@@ -47,6 +47,9 @@
 <style>
   .decisions {
     margin-right: 32px;
+    height: 100%;
+    overflow-y: scroll;
+    padding-right: 16px;
   }
 
   .decisions :global(.text-area) {
@@ -57,12 +60,12 @@
     display: flex;
   }
 
-  .decision :global(.delete-decision) {
-    margin-right: 32px;
+  .decision:not(:last-of-type) {
+    margin-bottom: 42px;
   }
 
-  .decision:not(:last-of-type) {
-    margin-bottom: 32px;
+  .decision :global(.delete-decision) {
+    margin-right: 32px;
   }
 
   .decisions :global(svg:hover) {
@@ -78,8 +81,8 @@
     margin-bottom: 24px;
   }
 
-  header :global(button) {
-    margin-left: 8px;
+  .decisions :global(.add-new-decision) {
+    margin-left: 0px;
   }
 
   header :global(svg) {
@@ -94,20 +97,14 @@
 
   .form-group {
     display: flex;
-    flex-flow: row;
-    align-items: center;
+    flex-flow: column;
+    align-items: flex-start;
     position: relative;
     margin-top: 24px;
   }
 
   .form-group label {
-    display: flex;
-    margin-left: 16px;
-    display: inline-flex;
-    align-items: center;
-    width: 30%;
-    max-width: 130px;
-    margin: 0 24px 12px 0;
+    margin-bottom: 6px;
   }
 
   .form-group :global(.input) {
@@ -126,15 +123,14 @@
 
 <section class="decisions">
   {#if !isFinalNode}
-    <header>
-      <Button
-        variation="link"
-        on:click="{() => onAddNewDecision([storyNode, 'decisions'])}"
-      >
-        <Plus />
-        add new decision
-      </Button>
-    </header>
+    <Button
+      className="add-new-decision"
+      variation="link"
+      on:click="{() => onAddNewDecision([storyNode, 'decisions'])}"
+    >
+      <Plus />
+      add new decision
+    </Button>
   {/if}
 
   {#if isFinalNode}
@@ -185,7 +181,7 @@
         </Trash>
         <ul>
           <li class="form-group">
-            <label>Label</label>
+            <label>Button label</label>
             <Input
               value="{decision.label}"
               placeholder="button text"
@@ -205,7 +201,7 @@
           </li>
 
           <li class="form-group">
-            <label>StoryNode</label>
+            <label>Goes to StoryNode</label>
             <Input
               value="{decision.storyNode}"
               placeholder="Name of story node"

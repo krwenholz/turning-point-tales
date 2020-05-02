@@ -18,12 +18,19 @@
   .about-story {
     margin-right: 32px;
     --form-group-spacing: 24px;
+    flex: 1;
+  }
+
+  ul {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
   }
 
   .form-group {
     display: flex;
-    flex-flow: row;
-    align-items: center;
+    flex-flow: column;
+    align-items: flex-start;
     margin-top: var(--form-group-spacing);
   }
 
@@ -31,21 +38,20 @@
     margin-top: 0;
   }
 
-  .form-group label {
-    display: flex;
-    display: inline-flex;
-    align-items: center;
-    margin-right: 10px;
-    min-width: 10%;
-  }
-
   .form-group :global(.text-area),
   .form-group :global(.input) {
-    flex: 1;
+    width: 100%;
+  }
+
+  .form-group label {
+    margin-bottom: 6px;
   }
 
   .preview {
-    align-items: flex-start;
+    flex: 1;
+  }
+  .preview :global(textarea) {
+    height: 100%;
   }
 </style>
 

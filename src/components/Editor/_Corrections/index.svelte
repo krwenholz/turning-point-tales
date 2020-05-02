@@ -1,27 +1,30 @@
 <script>
   export let corrections = { messages: [] };
-
-  console.log(corrections);
 </script>
 
 <style>
   .corrections {
+    flex: 1;
     display: flex;
     flex-flow: column;
-    flex: 1;
+    overflow-y: scroll;
   }
 
-  pre {
+  h4:not(:first-of-type) {
+    margin-top: 32px;
+  }
+
+  span {
     padding-left: 16px;
     color: var(--root-color-error);
   }
 </style>
 
 <div class="corrections">
-  {#each corrections.all as correction}
+  {#each corrections.getAll() as correction}
   <h4>- {correction.description}</h4>
-  <pre>
+  <span>
     {correction.messages.join('\n\n')}
-  </pre>
+  </span>
   {/each}
 </div>

@@ -119,7 +119,6 @@
   }
 
   .adventure {
-    min-height: 100%;
     max-width: 80ch;
     flex: 1 0 auto;
     display: flex;

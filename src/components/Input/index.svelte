@@ -24,6 +24,10 @@
     font-size: var(--root-font-size-md);
   }
 
+  input.disabled {
+    cursor: not-allowed;
+  }
+
   .error {
     border: 2px solid red;
   }
@@ -43,4 +47,5 @@
   on:keypress
   on:keydown
   autocomplete="on"
+  aria-disabled={disabled}
 />
