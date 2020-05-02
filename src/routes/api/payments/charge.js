@@ -1,7 +1,7 @@
 import { logger } from "src/logging";
 import config from "config";
 import rp from "request-promise-native";
-import { setSubscriptionDetails } from "src/lib/server/users";
+import { setSubscriptionDetails } from "src/db/users";
 
 /**
  * If this user is already registered in Stripe, cool, otherwise register them.

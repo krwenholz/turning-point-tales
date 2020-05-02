@@ -8,6 +8,7 @@ import {
   updateStoryDecisionChoicesDirective,
   findConfirmedSlotValue
 } from "src/alexa/_utilities";
+import { addVisitation } from "src/db/visitations";
 import * as Stories from "src/routes/story/_stories";
 import * as History from "src/components/Adventure/history";
 
@@ -30,7 +31,16 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
 
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
     const storyId = sessionAttributes.storyId;
-    // TODO(kyle): record visitation
+
+    // Record the visitation asynchronously
+    addVisitation({
+      userId: (sessionAttributes.user || {}).id,
+      storyId: storyId,
+      nodeName: storyNode,
+      previousNode: (sessionAttributes.store || {}).storyNode,
+      source: "alexa"
+    });
+
     sessionAttributes.store = History.goToDecision(
       decision,
       sessionAttributes.store

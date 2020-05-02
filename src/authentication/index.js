@@ -5,7 +5,7 @@ import securePassword from "secure-password";
 import { BasicStrategy } from "passport-http";
 import { Strategy as AnonymousStrategy } from "passport-anonymous";
 import { ensureLoggedIn } from "connect-ensure-login";
-import { findUser, findUserSafeDetails } from "src/lib/server/users";
+import { findUser, findUserSafeDetails } from "src/db/users";
 import { logger } from "src/logging";
 
 const passwordHasher = securePassword();

@@ -1,1 +1,1 @@
-module.exports = jest.genMockFromModule('src/lib/server/users');
+module.exports = jest.genMockFromModule("src/db/users");

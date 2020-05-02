@@ -1,39 +1,30 @@
-import * as jwt from 'jwt-simple';
-import {
-  findUser,
-  updateUserPassword
-} from './users';
+import * as jwt from "jwt-simple";
+import { findUser, updateUserPassword } from "src/db/users";
 
-export const getResetUrl = async (req) => {
+export const getResetUrl = async req => {
   const email = req.body.email;
 
-  const {
-    id,
+  const { id, passwordHash } = await findUser(email);
+
+  const token = jwt.encode(
+    {
+      id,
+      email
+    },
     passwordHash
-  } = await findUser(email);
+  );
 
-  const token = jwt.encode({
-    id,
-    email
-  }, passwordHash);
-
-  return `${req.protocol}://${req.get('host')}/password-reset?id=${id}&token=${token}`;
+  return `${req.protocol}://${req.get(
+    "host"
+  )}/password-reset?id=${id}&token=${token}`;
 };
 
-export const setNewPassword = async ({
-  id: suppliedId,
-  token,
-  password
-}) => {
-  const {
-    passwordHash
-  } = await findUser(suppliedId);
+export const setNewPassword = async ({ id: suppliedId, token, password }) => {
+  const { passwordHash } = await findUser(suppliedId);
 
-  const {
-    id
-  } = jwt.decode(token, passwordHash)
+  const { id } = jwt.decode(token, passwordHash);
 
   return updateUserPassword(id, {
     password
   });
-}
+};

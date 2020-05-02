@@ -14,7 +14,7 @@ import {
   TimestampVerifier
 } from "ask-sdk-express-adapter";
 import { findAccessToken } from "src/authentication/oauth";
-import { findUser, findUserSafeDetails } from "src/lib/server/users";
+import { findUser, findUserSafeDetails } from "src/db/users";
 import { logger } from "src/logging";
 
 // TODO(kyle): add session saving

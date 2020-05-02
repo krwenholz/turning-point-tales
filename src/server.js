@@ -25,7 +25,7 @@ import {
   logRequestHeadersAndBody
 } from "./logging";
 import { passport, initPassport } from "src/authentication";
-import { pool } from "src/lib/server/database.js";
+import { pool } from "src/db/database";
 import { requireHttps } from "src/lib/server/require_https";
 import { requireRoot } from "src/lib/server/require_root";
 

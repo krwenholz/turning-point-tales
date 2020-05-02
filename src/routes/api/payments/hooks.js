@@ -2,10 +2,7 @@ import { logger } from "src/logging";
 import config from "config";
 import rp from "request-promise-native";
 import stripe from "stripe";
-import {
-  findUserSafeDetails,
-  setSubscriptionDetails
-} from "src/lib/server/users";
+import { findUserSafeDetails, setSubscriptionDetails } from "src/db/users";
 
 const updateSubscription = (stripeCustomerId, event) => {
   const status = event.data.object.status;

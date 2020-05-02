@@ -1,8 +1,8 @@
 import AWS from "aws-sdk";
-import { logger } from "src/logging";
 import config from "config";
 import securePassword from "secure-password";
-import { pool } from "src/lib/server/database.js";
+import { logger } from "src/logging";
+import { pool } from "src/db/database";
 
 const passwordHasher = securePassword();
 

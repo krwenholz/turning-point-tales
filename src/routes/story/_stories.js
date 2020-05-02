@@ -1,5 +1,5 @@
 import sql from "sql";
-import { pool } from "src/lib/server/database.js";
+import { pool } from "src/db/database";
 import { logger } from "src/logging";
 
 sql.setDialect("postgres");

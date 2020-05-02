@@ -1,7 +1,7 @@
 import { logger } from "src/logging";
 import config from "config";
 import rp from "request-promise-native";
-import { setSubscriptionDetails } from "src/lib/server/users";
+import { setSubscriptionDetails } from "src/db/users";
 
 /**
  * Cancels a subscription with Stripe and deletes our record.

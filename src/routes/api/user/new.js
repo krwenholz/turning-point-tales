@@ -3,7 +3,7 @@ import config from "config";
 import passport from "passport";
 import securePassword from "secure-password";
 import { Strategy as LocalStrategy } from "passport-local";
-import { findUser, addUser } from "src/lib/server/users";
+import { findUser, addUser } from "src/db/users";
 
 const get = (req, res) => {
   res.redirect("/");
