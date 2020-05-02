@@ -10,29 +10,6 @@
   export const focus = () => self.focus();
 
   let self = {};
-
-  // Praise be to stack overflow,
-  // resize textarea but also avoid scroll-window jumping on resizing : D
-  const resize = () => {
-    const scrollLeft = window.pageXOffset ||
-      (document.documentElement || document.body.parentNode || document.body).scrollLeft;
-
-    const scrollTop  = window.pageYOffset ||
-      (document.documentElement || document.body.parentNode || document.body).scrollTop;
-
-    const prevHeight = self.style.height.slice(0, -2);
-
-    self.style.height = "auto";
-
-    const nextHeight = self.scrollHeight;
-
-    self.style.height = self.scrollHeight + 'px';
-
-    safeWindow().scrollTo(scrollLeft, scrollTop + (nextHeight - prevHeight));
-  };
-
-  afterUpdate(resize);
-
 </script>
 
 <style>
@@ -62,7 +39,6 @@
   on:keydown
   on:keyup
   on:change
-  on:input="{resize}"
   on:input
   on:blur
 ></textarea>

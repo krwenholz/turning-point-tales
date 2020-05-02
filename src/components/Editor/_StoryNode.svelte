@@ -25,22 +25,22 @@
     margin-bottom: 16px;
   }
 
+  .story-node label {
+    margin-right: 16px;
+  }
+
   .story-node :global(svg) {
     fill: black;
-    margin-right: 16px;
+    margin-left: 16px;
   }
 
   .story-node :global(svg:hover) {
     cursor: pointer;
   }
-
-  .story-node :global(.input),
-  .story-node :global(label) {
-    margin: 0;
-  }
 </style>
 
 <div class="story-node">
+  <label>Current StoryNode: </label>
   {#if storyNode === 'start'}
     <Input
       value="{storyNode}"
@@ -49,14 +49,14 @@
     />
   {/if}
   {#if storyNode !== 'start'}
-    <Trash on:click="{onDelete}">
-      Delete
-    </Trash>
     <Input
       value="{storyNode}"
       placeholder="Name of story node"
       on:keydown={onKeydown}
       onBlur={onEditStoryNode}
     />
+    <Trash on:click="{onDelete}">
+      Delete
+    </Trash>
   {/if}
 </div>

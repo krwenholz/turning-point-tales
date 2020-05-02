@@ -2,7 +2,6 @@ import {
   values,
   find,
   reject,
-  flatMap,
   map,
   isEmpty,
   every,
@@ -12,28 +11,22 @@ import {
 export default class Corrections {
   constructor(story) {
     this._story = story;
-
-    this.decisionsHaveValidLabels = this._decisionsHaveValidLabels();
-    this.decisionsHaveValidStoryNodes = this._decisionsHaveValidStoryNodes();
-    this.atLeastOneFinalNode = this._atLeastOneFinalNode();
-    this.storyNodesHaveValidText = this._storyNodesHaveValidText();
   }
 
-  get storyIsValid() {
-    return every(this.all, { isValid: true });
-  }
-
-  get all() {
+  getAll() {
     return reject([
-      this.storyNodesHaveValidText,
-      this.decisionsHaveValidLabels,
-      this.decisionsHaveValidStoryNodes,
-      this.atLeastOneFinalNode,
+      this.storyNodesHaveValidText(),
+      this.decisionsHaveValidLabels(),
+      this.decisionsHaveValidStoryNodes(),
+      this.atLeastOneFinalNode(),
     ], { isValid: true });
   }
 
+  storyIsValid() {
+    return every(this.getAll(), { isValid: true });
+  }
 
-  _atLeastOneFinalNode() {
+  atLeastOneFinalNode() {
     const hasFinalNode = find(values(this._story), {final: true});
 
     if (hasFinalNode) return { isValid: true };
@@ -46,7 +39,7 @@ export default class Corrections {
     }
   }
 
-  _storyNodesHaveValidText() {
+  storyNodesHaveValidText() {
     const storyFragmentsWithNoText = keys(this._story)
     .map(storyNode => ({
       storyNode,
@@ -61,12 +54,12 @@ export default class Corrections {
     return {
       isValid: false,
       description: 'The following storyNodes are missing text',
-      messages: storyFragmentsWithNoText.map(storyNode => storyNode),
+      messages: map(storyFragmentsWithNoText, 'storyNode'),
       results: map(storyFragmentsWithNoText, 'storyNode'),
     };
   }
 
-  _decisionsHaveValidStoryNodes() {
+  decisionsHaveValidStoryNodes() {
     const decisionsWithInvalidStoryNodes = reject(
       keys(this._story),
       { final: true }
@@ -94,7 +87,7 @@ export default class Corrections {
     };
   }
 
-  _decisionsHaveValidLabels() {
+  decisionsHaveValidLabels() {
     const decisionsWithInvalidStoryNodes = reject(
       keys(this._story),
       { final: true }

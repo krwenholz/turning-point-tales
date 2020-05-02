@@ -10,11 +10,13 @@
   const save = (editedPackagedStory) => {
     $packagedStory = editedPackagedStory;
   }
+
+  let segment = "WHAT";
 </script>
 
 <style>
-  :global(html) {
-    overflow-y: scroll;
+  :global(.editor) {
+    height: 85vh;
   }
 </style>
 

@@ -6,17 +6,18 @@
   import Adventure from "src/components/Adventure/index";
   import FuzzySelect from 'src/components/FuzzySelect';
   import Overview from "src/components/Overview/index";
-  import { isValidStory } from 'src/components/Adventure/validation';
   import Button from 'src/components/Button.svelte';
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
+  import About from './_About.svelte';
+  import Feedback from './_Corrections/index.svelte';
   import { renameKey, dropIdx } from 'src/lib/utilities.js'
   import { saveFile, loadFile } from 'src/lib/load-and-save-files.js';
   import { safeWindow } from 'src/lib/client/safe-window.js';
   import WritingPane from './_WritingPane.svelte';
   import Decisions from './_Decisions.svelte';
-  import StoryNode from './_StoryNode.svelte';
   import Graph from './_graph/index';
   import Corrections from './_Corrections';
+  import Circle from 'src/components/icons/Circle.svelte';
   import { getSyntaxError } from './_get-syntax-error.js';
   import { normalizeToPackagedStory } from './normalizeToPackagedStory.js';
 
@@ -69,7 +70,6 @@
   const loadStoryFile = () => loadFile(data => {
     try {
       const file = normalizeToPackagedStory(yaml.load(data));
-      console.log(JSON.stringify(file.badges, null, 2));
       story = file.story;
       author = file.author;
       title = file.title;
@@ -271,16 +271,23 @@
 </script>
 
 <style>
+  .editor {
+    display: flex;
+    flex: 1;
+    flex-flow: column;
+  }
+
   .editor :global(.tabs) {
     display: flex;
-    margin-bottom: 24px;
+    flex: 1;
+    height: 100%;
   }
 
   .editor :global(.tablist) {
     margin-bottom: 24px;
   }
 
-  .editor :global(.edit-actions button) {
+  .editor .editor-buttons :global(button) {
     margin-left: 24px;
   }
 
@@ -305,14 +312,36 @@
 
   .panes {
     display: flex;
-  }
-
-  .panes :global(.tabs) {
     flex: 1;
   }
 
-  .panes :global(.writing-pane) {
-    flex: 1.5;
+  .left-pane {
+    flex: 1;
+    padding-right: 8px;
+    width: 35%;
+  }
+
+  .right-pane {
+    flex: 2 0;
+  }
+
+  .right-pane :global(.textarea-for-story) {
+    font-size: 14px;
+    width: 100%;
+    height: 65vh;
+    overflow-y: scroll;
+  }
+
+  .editor :global(.corrections.tab) {
+    position: relative;
+  }
+
+  .editor :global(.corrections svg) {
+    position: absolute;
+    left: 100%;
+    color: var(--root-color-warning);
+    opacity: .5;
+    width: 10px;
   }
 
   .preview-text {
@@ -329,15 +358,15 @@
 <NotificationDisplay themes="{{ success: 'green' }}" />
 
 <section class="editor">
-  <Tabs onTabSwitch={resetOverview} >
+  <Tabs onTabSwitch={resetOverview}>
     <TabList className="tablist" justification="center">
       <Tab name="edit">Edit</Tab>
       <Tab name="preview">Preview</Tab>
       <Tab name="graph">Graph</Tab>
     </TabList>
 
-    <TabPanel className="edit-actions">
-      <nav>
+    <TabPanel>
+      <nav class='editor-buttons'>
         <FuzzySelect
           {items}
           on:select="{e => (storyNode = e.detail.value)}"
@@ -359,58 +388,75 @@
           Download
         </Button>
       </nav>
-
       <div class="panes">
-        <Tabs>
-          <TabList justification="left">
-            <Tab name="story-node">Story Node</Tab>
-            <Tab name="decisions">Decisions</Tab>
-          </TabList>
-          <TabPanel className='story-node'>
-            <StoryNode
-              {storyNode}
+        <div class='left-pane'>
+          <Tabs>
+            <TabList justification="left">
+              <Tab name="about">About</Tab>
+              <Tab name="decisions">Decisions</Tab>
+              <Tab name="corrections" className='corrections' disabled={corrections.storyIsValid()}>
+                Corrections
+                {#if !corrections.storyIsValid()}
+                  <Circle/>
+                {/if}
+              </Tab>
+            </TabList>
+
+            <TabPanel>
+              <About
+                {onKeydown}
+                {onInput}
+                {author}
+                {title}
+                {preview}
+              />
+            </TabPanel>
+
+            <TabPanel>
+              <Decisions
+                {onKeydown}
+                {onInput}
+                {onAddNewDecision}
+                {onDeleteDecision}
+                {storyNode}
+                {badgeLookup}
+                {onSetAsFinalNode}
+                isFinalNode="{get(story, [storyNode, 'final'])}"
+                decisions="{get(story, [storyNode, 'decisions'])}"
+                decisionsWithInvalidLabels={
+                  corrections.decisionsHaveValidLabels().results
+                }
+                decisionsWithInvalidStoryNodes= {
+                  corrections.decisionsHaveValidStoryNodes().results
+                }
+              />
+            </TabPanel>
+
+            <TabPanel>
+              <Feedback {corrections} />
+            </TabPanel>
+          </Tabs>
+        </div>
+        <div class='right-pane'>
+          {#if syntaxError}
+            <pre class='error'>
+          {syntaxError}
+            </pre>
+          {:else}
+            <WritingPane
+              text={get(story, [storyNode, 'text'])}
+              storyNode={storyNode}
               {onInput}
               {onKeydown}
+              {corrections}
               {onEditStoryNode}
-              onDelete="{() => deleteStoryNode(storyNode)}"
+              {deleteStoryNode}
+              {title}
+              {author}
+              {preview}
             />
-          </TabPanel>
-          <TabPanel className='decisions'>
-            <Decisions
-              {onKeydown}
-              {onInput}
-              {onAddNewDecision}
-              {onDeleteDecision}
-              {storyNode}
-              {badgeLookup}
-              {onSetAsFinalNode}
-              decisionsWithInvalidLabels={
-                corrections.decisionsHaveValidLabels.results
-              }
-              decisionsWithInvalidStoryNodes= {
-                corrections.decisionsHaveValidStoryNodes.results
-              }
-              isFinalNode="{get(story, [storyNode, 'final'])}"
-              decisions="{get(story, [storyNode, 'decisions'])}"
-            />
-          </TabPanel>
-        </Tabs>
-        {#if syntaxError}
-          <pre class='error'>
-            {syntaxError}
-          </pre>
-        {:else}
-          <WritingPane
-            text={get(story, [storyNode, 'text'])}
-            storyNode={storyNode}
-            {onInput}
-            {onKeydown}
-            {corrections}
-            {title}
-            {author}
-            {preview}
-          />
-        {/if}
+          {/if}
+        </div>
       </div>
     </TabPanel>
 
@@ -426,8 +472,8 @@
       />
     </TabPanel>
 
-    <TabPanel>
-      {#if corrections.storyIsValid}
+    <TabPanel className="Graph">
+      {#if corrections.storyIsValid()}
         <h2 class="preview-text">Preview</h2>
         <Graph {story} />
       {:else}

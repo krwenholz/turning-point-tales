@@ -4,12 +4,8 @@
   const { register, selected } = getContext(TABS);
   const panel = {};
   register({ panel });
-
-  export let className = "";
 </script>
 
 {#if $selected.panel === panel}
-  <div class="{className}">
-    <slot />
-  </div>
+  <slot />
 {/if}

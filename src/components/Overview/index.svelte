@@ -14,6 +14,7 @@
   .overview {
     display: flex;
     flex-flow: column;
+    width: 300px;
   }
 
   :global(.history) {
