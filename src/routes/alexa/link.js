@@ -1,5 +1,5 @@
 import { logger } from "src/logging";
-import { pool } from "src/lib/server/database.js";
+import { pool } from "src/db/database";
 
 const get = (req, res) => {
   pool

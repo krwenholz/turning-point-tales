@@ -1,7 +1,7 @@
-import { pool } from "src/lib/server/database";
+import { pool } from "src/db/database";
 import { get, post } from "src/routes/story/visits";
 
-jest.mock("src/lib/server/database");
+jest.mock("src/db/database");
 
 let req;
 let res;

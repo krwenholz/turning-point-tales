@@ -2,9 +2,9 @@ import config from "config";
 import oauth2orize from "oauth2orize";
 import passportHttpBearer from "passport-http-bearer";
 import uuidv4 from "uuid/v4";
-import { findUser, findUserSafeDetails } from "src/lib/server/users";
+import { findUser, findUserSafeDetails } from "src/db/users";
 import { logger } from "src/logging";
-import { pool } from "src/lib/server/database.js";
+import { pool } from "src/db/database";
 import { join, times, includes } from "lodash";
 
 export const server = oauth2orize.createServer();

@@ -1,7 +1,7 @@
 import * as Stories from "./_stories.js";
 import { idFromSlug } from "src/lib/slugs";
 import { logger } from "src/logging";
-import { pool } from "src/lib/server/database.js";
+import { pool } from "src/db/database";
 
 export const get = async (req, res, next) => {
   return Stories.select(idFromSlug(req.params.slug))

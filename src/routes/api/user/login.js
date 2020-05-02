@@ -2,7 +2,7 @@ import config from "config";
 import passport from "passport";
 import securePassword from "secure-password";
 import { Strategy as LocalStrategy } from "passport-local";
-import { findUserSafeDetails } from "src/lib/server/users";
+import { findUserSafeDetails } from "src/db/users";
 import { logger } from "src/logging";
 
 const post = (req, res, next) => {
