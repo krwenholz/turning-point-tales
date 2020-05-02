@@ -81,6 +81,19 @@ const seedUsers = async () => {
   );
   await addUser("Admin", "admin", "test-admin@h2wib.com", "foo", 20);
   await addUser("Creator", "creator", "test-creator@h2wib.com", "foo", 10);
+
+  const token =
+    "b7556992-8158-4017-97f9-9af9417980efb91ac334-0c9b-4ad8-8d10-426c4a89d270166096d3-1446-4805-bb76-34def16df1c9b3533cd4-8b8d-4008-b2c6-fb722661a387623e5083-0ff4-4b9b-9176-f65f421302aa170a5beb-6852-4569-854f-66ee086b1c76588c55c4-6e3f-4154-8d0a-5d1f63928475b5123cad-4bb8-4d45-97f0-9120f729a85399bbacf8-e1d2-4365-804c-082ae4b270f99e3399ef-8d72-4195-a416-b7a748d49b05b6641148-375c-4f1d-bb92-73721a9ee99753a9318f-5cef-43a9-8413-aaccadea2a0aec21df81-09a7-4ff6-b636-42f0e1135304569a92f7-b2c9-484a-b7ca-9579206819e4d20ce7f0-b825-4906-826b-a0dedfb78f2c6d295095-b073-4f39-9d95-f68aa0f67042";
+  await pool.query(
+    `
+      INSERT INTO
+        oauth_access_tokens (user_id, token, client_id)
+      SELECT id, $2, $3
+      FROM users
+      WHERE email = $1;
+    `,
+    ["test-subscriber@h2wib.com", token, "turning-point-test"]
+  );
 };
 
 /*

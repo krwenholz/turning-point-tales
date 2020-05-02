@@ -185,8 +185,8 @@ export const startFreshStory = (storyId, handlerInput) => {
     if (!story["general_release"] && !sessionAttributes.user.isSubscribed) {
       logger.info(
         {
-          release: story["general_release"],
-          use: sessionAttributes.user.id
+          title: storyId,
+          user: sessionAttributes.user.id
         },
         "A user tried to start a story they don't have access to"
       );

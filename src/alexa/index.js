@@ -17,27 +17,33 @@ import { findAccessToken } from "src/authentication/oauth";
 import { findUser, findUserSafeDetails } from "src/lib/server/users";
 import { logger } from "src/logging";
 
+// TODO(kyle): add session saving
+// TODO(kyle): guard reset and go back without a story in progress
+// TODO(kyle): make story list prompts easier to choose
+// TODO(kyle): check pattern for starting specific story immediately
 const GetLinkedInfoInterceptor = {
   async process(handlerInput) {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
 
     sessionAttributes.user = sessionAttributes.user || {};
-    const sessionUser = sessionAttributes.user;
-    sessionUser.subscriptionPeriodEnd =
-      sessionUser.subscriptionPeriodEnd || new Date("1990-07-13");
+    // Deserialize _or_ set an old subscription preiod ending
+    sessionAttributes.user.subscriptionPeriodEnd = new Date(
+      sessionAttributes.user.subscriptionPeriodEnd
+    );
 
     const accessToken = (handlerInput.requestEnvelope.session.user || {})
       .accessToken;
 
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const userNeedsUpdating = sessionUser.subscriptionPeriodEnd < tomorrow;
+    const userNeedsUpdating =
+      sessionAttributes.user.subscriptionPeriodEnd < tomorrow;
 
     if (accessToken && userNeedsUpdating) {
       logger.info(
         {
           sessionId: handlerInput.requestEnvelope.session.sessionId,
-          sessionUser
+          userNow: sessionAttributes.user
         },
         "GetLinkedInfoInterceptor: updating user information"
       );
@@ -58,10 +64,11 @@ const GetLinkedInfoInterceptor = {
           return;
         }
 
-        sessionUser.id = user.id;
-        sessionUser.isLinked = true;
-        sessionUser.firstName = user.firstName;
-        sessionUser.subscriptionPeriodEnd = user.subscriptionPeriodEnd;
+        sessionAttributes.user.id = user.id;
+        sessionAttributes.user.isLinked = true;
+        sessionAttributes.user.firstName = user.firstName;
+        sessionAttributes.user.subscriptionPeriodEnd =
+          user.subscriptionPeriodEnd;
       } else {
         logger.error(
           { accessToken },
@@ -70,15 +77,22 @@ const GetLinkedInfoInterceptor = {
       }
     }
 
-    sessionUser.isSubscribed = sessionUser.subscriptionPeriodEnd > new Date();
-    sessionAttributes.user = sessionUser;
+    sessionAttributes.user.isSubscribed =
+      sessionAttributes.user.subscriptionPeriodEnd > new Date();
     handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
   }
 };
 
 const LogRequestInterceptor = {
   process(handlerInput, response) {
-    logger.info(handlerInput.requestEnvelope.request, "Handling Alexa request");
+    logger.info(
+      {
+        request: handlerInput.requestEnvelope.request,
+        user: handlerInput.requestEnvelope.session.user,
+        sessionAttributes: handlerInput.attributesManager.getSessionAttributes()
+      },
+      "Handling Alexa request"
+    );
   }
 };
 
