@@ -39,14 +39,13 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
 
     return Stories.select(storyId).then(results => {
       const story = results.rows[0];
-      const decisions = History.filterAvailable(
-        story["content"][storyNode]["decisions"],
-        sessionAttributes.store
-      );
+      const decisions = story["content"][storyNode]["decisions"];
 
       let decisionPrompt;
       if (decisions) {
-        decisionPrompt = asSpeakableDecisions(decisions);
+        decisionPrompt = asSpeakableDecisions(
+          History.filterAvailable(decisions, sessionAttributes.store)
+        );
       } else {
         decisionPrompt =
           "The End. To start another story say " +

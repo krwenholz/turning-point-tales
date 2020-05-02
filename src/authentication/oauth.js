@@ -141,15 +141,11 @@ server.exchange(
   oauth2orize.exchange.code((client, code, redirectUri, done) => {
     findAuthorizationCode(code, (error, authData) => {
       if (error) return done(error);
-      logger.info("yyy");
       if (client.clientId !== authData.clientId) return done(null, false);
-      logger.info("zzz");
       if (redirectUri !== authData.redirectUri) return done(null, false);
-      logger.info("fff");
 
       const token = join(times(16, uuidv4), "");
       saveAccessToken(token, authData.clientId, authData.userId, error => {
-        logger.info({ error, token }, "saving access token");
         if (error) return done(error);
         // Add custom params, e.g. the username
         let params = { expires_in: 60 * 60 * 24 * 365 };
