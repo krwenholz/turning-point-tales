@@ -9,6 +9,7 @@ import {
   findConfirmedSlotValue
 } from "src/alexa/_utilities";
 import { addVisitation } from "src/db/visitations";
+import * as Saves from "src/db/saves";
 import * as Stories from "src/routes/story/_stories";
 import * as History from "src/components/Adventure/history";
 
@@ -32,7 +33,13 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
     const storyId = sessionAttributes.storyId;
 
-    // Record the visitation asynchronously
+    sessionAttributes.store = History.goToDecision(
+      decision,
+      sessionAttributes.store
+    );
+    handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+
+    // Record the visitation and save asynchronously
     addVisitation({
       userId: (sessionAttributes.user || {}).id,
       storyId: storyId,
@@ -41,11 +48,9 @@ const DecisionGivenChooseStoryDecisionIntentHandler = {
       source: "alexa"
     });
 
-    sessionAttributes.store = History.goToDecision(
-      decision,
-      sessionAttributes.store
-    );
-    handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
+    if (sessionAttributes.user.id) {
+      Saves.save(sessionAttributes.user.id, storyId, sessionAttribute.store);
+    }
 
     return Stories.select(storyId).then(results => {
       const story = results.rows[0];

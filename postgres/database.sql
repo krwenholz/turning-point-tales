@@ -60,6 +60,16 @@ CREATE TABLE IF NOT EXISTS subscriptions(
   modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS saves(
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id uuid REFERENCES users(id),
+  story_id uuid REFERENCES stories(id),
+  store JSONB NOT NULL,
+  created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (user_id, story_id)
+);
+
 --Users, ends up managed by connect - pg - simple
 CREATE TABLE "user_sessions"(
   "sid"
