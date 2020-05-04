@@ -13,9 +13,6 @@
     logger.info({ user: $session.user }, "Establishing fullstory identity");
     FS.identify($session.user.id, {
       displayName: $session.user.firstName
-      // TODO: Add your own custom user variables here, details at
-      // https://help.fullstory.com/hc/en-us/articles/360020623294-FS-setUserVars-Recording-custom-user-data
-      //reviewsWritten_int: 14
     });
   }
   /**

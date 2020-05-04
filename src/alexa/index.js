@@ -17,7 +17,6 @@ import { findAccessToken } from "src/authentication/oauth";
 import { findUser, findUserSafeDetails } from "src/db/users";
 import { logger } from "src/logging";
 
-// TODO(kyle): add session saving
 // TODO(kyle): guard reset and go back without a story in progress
 // TODO(kyle): make story list prompts easier to choose
 // TODO(kyle): check pattern for starting specific story immediately
@@ -28,7 +27,7 @@ const GetLinkedInfoInterceptor = {
     sessionAttributes.user = sessionAttributes.user || {};
     // Deserialize _or_ set an old subscription preiod ending
     sessionAttributes.user.subscriptionPeriodEnd = new Date(
-      sessionAttributes.user.subscriptionPeriodEnd
+      sessionAttributes.user.subscriptionPeriodEnd || null
     );
 
     const accessToken = (handlerInput.requestEnvelope.session.user || {})
@@ -65,7 +64,6 @@ const GetLinkedInfoInterceptor = {
         }
 
         sessionAttributes.user.id = user.id;
-        sessionAttributes.user.isLinked = true;
         sessionAttributes.user.firstName = user.firstName;
         sessionAttributes.user.subscriptionPeriodEnd =
           user.subscriptionPeriodEnd;
@@ -88,7 +86,6 @@ const LogRequestInterceptor = {
     logger.info(
       {
         request: handlerInput.requestEnvelope.request,
-        user: handlerInput.requestEnvelope.session.user,
         sessionAttributes: handlerInput.attributesManager.getSessionAttributes()
       },
       "Handling Alexa request"
