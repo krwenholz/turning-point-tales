@@ -1,4 +1,5 @@
 import { pool } from "src/db/database.js";
+import { logger } from "src/logging";
 
 export const save = async (userId, storyId, store) => {
   try {
@@ -23,16 +24,17 @@ export const save = async (userId, storyId, store) => {
 
 export const get = async (userId, storyId) => {
   try {
-    const results = await pool.query(
+    const { rows } = await pool.query(
       `
-      SELECT DISTINCT id, user_id, story_id, store
+      SELECT DISTINCT id, user_id, story_id, store, created
       FROM saves
       WHERE user_id = $1 AND story_id = $2;
     `,
       [userId, storyId]
     );
 
-    return Promise.resolve(results.rows[0]);
+    if (rows.length) return Promise.resolve(rows[0]);
+    return Promise.resolve(null);
   } catch (err) {
     logger.error(err);
     return Promise.reject(err);

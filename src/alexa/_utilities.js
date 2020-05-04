@@ -1,6 +1,8 @@
 import * as Alexa from "ask-sdk-core";
 import * as History from "src/components/Adventure/history";
+import * as Saves from "src/db/saves";
 import * as Stories from "src/routes/story/_stories";
+import * as Visitations from "src/db/visitations";
 import { logger } from "src/logging";
 import { map, join, filter, find, lastIndexOf } from "lodash";
 
@@ -35,7 +37,7 @@ export const speechPauseList = () => {
 export const storyDecisionChoices = decisions => {
   return map(decisions, (decision, index) => {
     return {
-      id: decision["storyNode"],
+      id: index,
       name: {
         value: asConfirmable(asSpeakable(decision["label"])),
         synonyms: ["option " + decisionLabels[index]]
@@ -155,10 +157,74 @@ export const listStoriesForAlexa = handlerInput => {
       .addDirective(updateStoryTitlesDirective)
       .withShouldEndSession(false);
 
-    if (!sessionAttributes.user.isLinked) {
+    if (!sessionAttributes.user.id) {
       return response.withLinkAccountCard().getResponse();
     }
     return response.getResponse();
+  });
+};
+
+export const moveToNode = (
+  handlerInput,
+  storyId,
+  storyNode,
+  preprompt = () => ""
+) => {
+  const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
+  // Record the visitation and save asynchronously
+  Visitations.addVisitation({
+    userId: (sessionAttributes.user || {}).id,
+    storyId: storyId,
+    nodeName: storyNode,
+    previousNode: (sessionAttributes.store || {}).storyNode,
+    source: "alexa"
+  });
+
+  if (sessionAttributes.user.id) {
+    Saves.save(sessionAttributes.user.id, storyId, sessionAttributes.store);
+  }
+
+  return Stories.select(storyId).then(results => {
+    const story = results.rows[0];
+
+    if (!story["general_release"] && !sessionAttributes.user.isSubscribed) {
+      logger.info(
+        {
+          title: storyId,
+          user: sessionAttributes.user.id
+        },
+        "A user tried to start a story they don't have access to"
+      );
+      return listStoriesForAlexa(handlerInput);
+    }
+
+    const decisions = story["content"][storyNode]["decisions"];
+
+    let decisionPrompt;
+    if (decisions) {
+      decisionPrompt = asSpeakableDecisions(
+        History.filterAvailable(decisions, sessionAttributes.store)
+      );
+      sessionAttributes.decisions = decisions;
+    } else {
+      decisionPrompt =
+        "The End. To start another story say " +
+        speechPauseList() +
+        "list stories.";
+    }
+
+    return handlerInput.responseBuilder
+      .speak(
+        preprompt(story) +
+          asSpeakableStoryText(story, storyNode, decisionPrompt)
+      )
+      .reprompt(decisionPrompt)
+      .withSimpleCard(decisionPrompt)
+      .addDirective(
+        updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
+      )
+      .withShouldEndSession(false)
+      .getResponse();
   });
 };
 
@@ -179,39 +245,10 @@ export const startFreshStory = (storyId, handlerInput) => {
   sessionAttributes.store = store;
   handlerInput.attributesManager.setSessionAttributes(sessionAttributes);
 
-  return Stories.select(storyId).then(results => {
-    const story = results.rows[0];
-
-    if (!story["general_release"] && !sessionAttributes.user.isSubscribed) {
-      logger.info(
-        {
-          title: storyId,
-          user: sessionAttributes.user.id
-        },
-        "A user tried to start a story they don't have access to"
-      );
-      return listStoriesForAlexa(handlerInput);
-    }
-
-    const decisions = History.filterAvailable(
-      story["content"][storyNode]["decisions"],
-      store
-    );
-
-    const decisionPrompt = asSpeakableDecisions(decisions);
-
-    return handlerInput.responseBuilder
-      .speak(
-        "Starting " +
-          story.title +
-          speechPauseParagraph() +
-          asSpeakableStoryText(story, storyNode, decisionPrompt)
-      )
-      .reprompt(decisionPrompt)
-      .addDirective(
-        updateStoryDecisionChoicesDirective(storyDecisionChoices(decisions))
-      )
-      .withShouldEndSession(false)
-      .getResponse();
-  });
+  return moveToNode(
+    handlerInput,
+    storyId,
+    storyNode,
+    story => `Starting ${story.title} ${speechPauseParagraph()}`
+  );
 };

@@ -20,7 +20,7 @@ const HelpIntentHandler = {
       .withSimpleCard(speechText)
       .getResponse();
 
-    if (user.isLinked) return response.getResponse();
+    if (user.id) return response.getResponse();
     return response.withLinkAccountCard().getResponse();
   }
 };
