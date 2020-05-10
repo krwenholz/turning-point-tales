@@ -13,8 +13,7 @@
     "jest": "jest --config=jest.config.js",
     "format": "prettier --write --plugin-search-dir=. ./**/*.html ./**/*.svelte ./**/*.js",
     "db:seed": "node postgres/dev/seed.js",
-    "db:update_only": "NODE_PATH='./' node postgres/dev/update_only.js",
-    "experimental": "NODE_PATH='./' node scripts/experimental.js"
+    "db:update_only": "NODE_PATH='./' node postgres/dev/update_only.js"
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "7.6.2",
