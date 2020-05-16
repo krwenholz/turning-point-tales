@@ -11,10 +11,7 @@
   .about {
     display: flex;
     flex-flow: column;
-    max-width: 90%;
-    min-width: 320px;
-    margin: auto;
-    margin-bottom: 16px;
+    margin: auto auto 16px auto;
   }
 
   .about h1 {
@@ -25,13 +22,6 @@
     display: flex-start;
     align-items: center;
     grid-area: enticement;
-    max-width: 80ch;
-  }
-
-  .explainer {
-    display: flex-start;
-    align-items: center;
-    grid-area: explainer;
     max-width: 80ch;
   }
 
