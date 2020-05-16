@@ -20,7 +20,7 @@
 
 <script>
   import Introduction from "src/components/Introduction.svelte";
-  import StoryPreview from "./StoryPreview";
+  import StoryCards from "./StoryCards";
   import { onMount } from "svelte";
   import { userSubscribed } from "src/lib/client/user";
   import { stores } from "@sapper/app";
@@ -68,13 +68,6 @@
   }
 </script>
 
-<style>
-  .everything {
-    max-width: 1000px;
-    margin: auto;
-  }
-</style>
-
 <svelte:head>
   <title>Turning Point Tales</title>
   <meta
@@ -84,15 +77,13 @@
   />
 </svelte:head>
 
-<div class="everything">
-  {#if $page.query.user === 'new'}
-    <p>
-      Congratulations on creating your new user! We hope you enjoy the
-      adventure.
-    </p>
-  {/if}
+{#if $page.query.user === 'new'}
+  <p>
+    Congratulations on creating your new user! We hope you enjoy the
+    adventure.
+  </p>
+{/if}
 
-  <Introduction isSubscriber="{userSubscribed($session.user)}" />
+<Introduction isSubscriber="{userSubscribed($session.user)}" />
 
-  <StoryPreview {stories} isSubscriber="{userSubscribed($session.user)}" />
-</div>
+<StoryCards {stories} isSubscriber="{userSubscribed($session.user)}" />
