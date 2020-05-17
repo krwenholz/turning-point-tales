@@ -30,7 +30,7 @@
     grid-area: image;
     margin: 0 auto 0 auto;
     min-width: 200px;
-    max-width: 100%;
+    max-width: 500px;
   }
 
   h1 {
