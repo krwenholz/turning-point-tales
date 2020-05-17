@@ -54,19 +54,20 @@
     margin: 4px 0 4px 0;
     height: 100px;
     width: 100%;
-    background-color: cadetblue;
+    background-color: lightgray;
   }
 
   .tag {
     float: right;
     height: fit-content;
     height: -moz-fit-content;
-    color: black;
+    background-color: #5e5d5e;
+    color: whitesmoke;
     font-weight: normal;
     padding: 4px;
     margin-left: 4px;
-    border: 1px solid var(--root-color-primary);
-    border-radius: 1px;
+    border: none;
+    border-radius: 3px;
     font-size: 10px;
   }
 
