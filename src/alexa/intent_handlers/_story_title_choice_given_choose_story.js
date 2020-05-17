@@ -23,6 +23,7 @@ const StoryTitleChoiceGivenChooseStoryIntentHandler = {
       handlerInput.requestEnvelope,
       "STORY_TITLE_CHOICE"
     );
+    sessionAttributes.storyId = storyId;
 
     return Saves.get(sessionAttributes.user.id, storyId)
       .then(save => {
