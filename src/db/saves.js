@@ -40,3 +40,24 @@ export const get = async (userId, storyId) => {
     return Promise.reject(err);
   }
 };
+
+export const mostRecent = async userId => {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT id, user_id, story_id, store, created
+      FROM saves
+      WHERE user_id = $1
+      ORDER BY created DESC
+      LIMIT 1;
+    `,
+      [userId]
+    );
+
+    if (rows.length) return Promise.resolve(rows[0]);
+    return Promise.resolve(null);
+  } catch (err) {
+    logger.error(err);
+    return Promise.reject(err);
+  }
+};

@@ -62,8 +62,8 @@ CREATE TABLE IF NOT EXISTS subscriptions(
 
 CREATE TABLE IF NOT EXISTS saves(
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id uuid REFERENCES users(id),
-  story_id uuid REFERENCES stories(id),
+  user_id uuid REFERENCES users(id) NOT NULL,
+  story_id uuid REFERENCES stories(id) NOT NULL,
   store JSONB NOT NULL,
   created TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
   modified TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -9,6 +9,7 @@ import RestartStoryIntentHandler from "./intent_handlers/restart_story";
 import SessionEndedRequestHandler from "./request_handlers/session_ended";
 import StartedInProgressChooseStoryIntentHandler from "./intent_handlers/started_in_progress_choose_story";
 import StoryTitleChoiceGivenChooseStoryIntentHandler from "./intent_handlers/story_title_choice_given_choose_story";
+import ResumeStoryIntentHandler from "./intent_handlers/resume_story";
 import {
   SkillRequestSignatureVerifier,
   TimestampVerifier
@@ -108,6 +109,7 @@ const skill = Alexa.SkillBuilders.custom()
     DecisionGivenChooseStoryDecisionIntentHandler,
     GoBackIntentHandler,
     RestartStoryIntentHandler,
+    ResumeStoryIntentHandler,
     HelpIntentHandler,
     CancelAndStopIntentHandler,
     SessionEndedRequestHandler
