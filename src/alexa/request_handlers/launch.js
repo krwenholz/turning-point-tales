@@ -9,7 +9,7 @@ const LaunchRequestHandler = {
   },
   handle(handlerInput) {
     const speechText =
-      "Welcome to Turning Point Tales. You can list tales or choose your next adventure.";
+      "Welcome to Turning Point Tales. You can list tales, resume or directly start your next adventure.";
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
 
     return Stories.list().then(results => {
