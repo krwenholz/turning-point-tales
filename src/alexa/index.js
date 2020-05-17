@@ -1,14 +1,14 @@
 import * as Alexa from "ask-sdk-core";
-import CancelAndStopIntentHandler from "./intent_handlers/_cancel_and_stop";
-import DecisionGivenChooseStoryDecisionIntentHandler from "./intent_handlers/_decision_given_choose_story_decision";
-import ErrorHandler from "./_error_handler";
-import GoBackIntentHandler from "./intent_handlers/_go_back";
-import HelpIntentHandler from "./intent_handlers/_help";
-import LaunchRequestHandler from "./request_handlers/_launch";
-import RestartStoryIntentHandler from "./intent_handlers/_restart_story";
-import SessionEndedRequestHandler from "./request_handlers/_session_ended";
-import StartedInProgressChooseStoryIntentHandler from "./intent_handlers/_started_in_progress_choose_story";
-import StoryTitleChoiceGivenChooseStoryIntentHandler from "./intent_handlers/_story_title_choice_given_choose_story";
+import CancelAndStopIntentHandler from "./intent_handlers/cancel_and_stop";
+import DecisionGivenChooseStoryDecisionIntentHandler from "./intent_handlers/decision_given_choose_story_decision";
+import ErrorHandler from "./error_handler";
+import GoBackIntentHandler from "./intent_handlers/go_back";
+import HelpIntentHandler from "./intent_handlers/help";
+import LaunchRequestHandler from "./request_handlers/launch";
+import RestartStoryIntentHandler from "./intent_handlers/restart_story";
+import SessionEndedRequestHandler from "./request_handlers/session_ended";
+import StartedInProgressChooseStoryIntentHandler from "./intent_handlers/started_in_progress_choose_story";
+import StoryTitleChoiceGivenChooseStoryIntentHandler from "./intent_handlers/story_title_choice_given_choose_story";
 import {
   SkillRequestSignatureVerifier,
   TimestampVerifier
