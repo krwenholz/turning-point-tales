@@ -13,6 +13,7 @@
   export let tags;
   export let generalRelease;
   export let isSubscriber;
+  export let src = '';
 
   $: releaseDate = new Date(generalRelease);
 
