@@ -45,20 +45,21 @@
   }
 
   h2 {
-    font-size: 16px;
+    font-size: 14px;
     text-align: start;
     text-decoration: underline;
     margin: 0;
+    min-height: 70px;
   }
 
   img {
-    margin: auto;
+    margin: 4px 0 12px 0;
     height: auto;
     width: 100%;
     max-width: 360px;
-    border: 1px solid var(--root-color-primary);
+    border: 1px solid gray;
     border-radius: 3px;
-    box-shadow: 5px 34px 54px -37px rgba(0,0,0,0.75);
+    box-shadow: 0px 7px 13px -9px rgba(0,0,0,0.75);
   }
 
   .tag {
