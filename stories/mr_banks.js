@@ -3,7 +3,6 @@ const mr_banks = {
   title: "Mr. Banks",
   tags: ["funny", "existential"],
   generalRelease: true,
-  storyCardImgSrc: 'wagons-and-dragons.png'
   badges: [
     {
       node: "file_actual_weather_change",
