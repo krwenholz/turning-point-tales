@@ -13,12 +13,11 @@
   export let tags;
   export let generalRelease;
   export let isSubscriber;
-  export let src = '';
-
-  $: releaseDate = new Date(generalRelease);
 
   let acheivedBadges = [];
   let undiscoveredBadgePercent = 0;
+
+  $: releaseDate = new Date(generalRelease);
 
   $: {
     acheivedBadges = [];
@@ -29,6 +28,7 @@
     }
     undiscoveredBadgePercent = undiscoveredBadgePercent / badges.length;
   }
+
 </script>
 
 <style>
@@ -53,8 +53,9 @@
 
   img {
     margin: 4px 0 4px 0;
-    height: 100px;
+    height: auto;
     width: 100%;
+    max-width: 360px;
     background-color: lightgray;
   }
 
@@ -123,7 +124,7 @@
     {title}
   </h2>
 
-  <img src="//placehold.it/100x200" width="500" height="300" alt="" />
+  <img src={`/story-card-images/${title}`} width="500" height="300" alt="" />
 
   <p>{preview}</p>
 
