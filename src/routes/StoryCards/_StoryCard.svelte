@@ -52,11 +52,13 @@
   }
 
   img {
-    margin: 4px 0 4px 0;
+    margin: auto;
     height: auto;
     width: 100%;
     max-width: 360px;
-    background-color: lightgray;
+    border: 1px solid var(--root-color-primary);
+    border-radius: 3px;
+    box-shadow: 5px 34px 54px -37px rgba(0,0,0,0.75);
   }
 
   .tag {
