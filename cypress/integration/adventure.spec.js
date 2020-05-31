@@ -2,7 +2,7 @@ describe("Adventure", () => {
   beforeEach(() => {
     cy.logIn();
     cy.visit("/");
-    cy.contains("Read now").click();
+    cy.contains("Read").click();
   });
 
   it('defaults to "start" for storyNode if not provided, and no local storage', () => {
@@ -28,13 +28,11 @@ describe("Adventure", () => {
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=file_a_formal_complaint")
         .visit("/")
-        .contains("Read now")
+        .contains("Read")
         .click()
-        .url()
-        .should(
-          "match",
-          /\/story\/mr-banks-[a-z0-9-]+\?storyNode=file_a_formal_complaint/
-        );
+
+        // Text from "file_a_formal_complaint";
+        cy.contains("Swiveling in his chair")
     });
   });
 
@@ -44,7 +42,7 @@ describe("Adventure", () => {
         .visit("/")
         .clearLocalStorage()
         .visit("/")
-        .contains("Read now")
+        .contains("Read")
         .click()
         .url()
         .should(
