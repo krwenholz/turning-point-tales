@@ -15,7 +15,7 @@ const get = async (req, res) => {
       res.end(JSON.stringify(visitations));
     })
     .catch(error => {
-      logger.error({ userId: req.user.id }, "Error fetching visitation");
+      logger.error({ userId: req.user.id, error }, "Error fetching visitation");
       res.status(500);
       res.end();
     });

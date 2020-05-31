@@ -1,4 +1,5 @@
-import { pool } from "src/db/database.js";
+import { pool } from "src/db/database";
+import { logger } from "src/logging";
 
 export const addVisitation = async ({
   userId,
@@ -26,7 +27,8 @@ export const getVisitations = async userId => {
   try {
     const results = await pool.query(
       `
-      SELECT DISTINCT story_id, node_name FROM visitations
+      SELECT DISTINCT story_id, node_name
+      FROM visitations
       WHERE user_id = $1
       GROUP BY story_id, node_name;
     `,

@@ -19,7 +19,8 @@ const post = async (req, res) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      free_story_used: req.cookies.FREE_STORY_RECORD
     });
 
     req.logIn(newUser, error => {

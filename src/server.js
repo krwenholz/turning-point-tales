@@ -18,6 +18,7 @@ import { Store } from "svelte/store";
 import { Strategy as LocalStrategy } from "passport-local";
 import { csrfProtection, exposeCsrfMiddleware } from "src/lib/server/csrf";
 import { exposeStripeKeyMiddleware } from "src/lib/server/stripe";
+import { setStorySeen } from "src/lib/server/free-story-record";
 import {
   logger,
   logResponse,
@@ -156,6 +157,7 @@ app.use(
   csrfProtection,
   exposeCsrfMiddleware,
   exposeStripeKeyMiddleware,
+  setStorySeen,
   passport.authenticateNonDefaultRoutes(),
   sapper.middleware({
     session: req => ({

@@ -4,7 +4,7 @@ const fakeStorage = {
   getItem: () => null,
   key: () => null,
   length: () => null,
-  clear: () => null,
+  clear: () => null
 };
 
 const fakeWindow = {
@@ -17,20 +17,23 @@ const fakeWindow = {
   scrollTo: () => {},
   scrollBy: () => {},
   location: {
-    pathname: () => '',
-    replace: () => '',
-    href: () => '',
+    pathname: () => "",
+    replace: () => "",
+    hostname: () => "",
+    href: () => ""
   },
   history: {
-    replaceState: () => '',
+    replaceState: () => ""
   },
   document: {
+    cookie: () => "",
     querySelector: () => {},
     addEventListener: () => {},
     activeElement: {
-      blur: () => {},
+      blur: () => {}
     }
   }
-}
+};
 
-export const safeWindow = () => typeof(window) === 'undefined' ? fakeWindow : window;
+export const safeWindow = () =>
+  typeof window === "undefined" ? fakeWindow : window;

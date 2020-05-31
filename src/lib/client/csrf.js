@@ -1,6 +1,8 @@
+import { safeWindow } from "src/lib/client/safe-window";
+
 const fetchCsrf = () => {
-  return (document.cookie || "")
-    .split(";")
+  return safeWindow()
+    .document.cookie.split(";")
     .filter(item => {
       return item.trim().indexOf("XSRF-TOKEN=") == 0;
     })[0]
