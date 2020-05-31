@@ -34,6 +34,7 @@
   import BadgePopup from "src/routes/story/_BadgePopup.svelte";
   import Button from "src/components/Button.svelte";
   import { logger } from "src/lib/client/logger";
+  import { setStorySeen } from "src/lib/client/free-story-record";
   import { fetchCsrf } from "src/lib/client/csrf";
   import { mainAdventure } from "src/lib/global-state-stores/browserStore/main-adventure";
   import { onMount } from "svelte";
@@ -51,6 +52,7 @@
   const ONE_DAY = 1 * 24 * 60 * 60 * 1000;
 
   const { page, session } = stores();
+  const storyId = idFromSlug($page.params.slug);
   const isSubscribed = userSubscribed($session.user);
   let haveRemainingDecisions = true;
   let badgePopup;
@@ -69,6 +71,10 @@
   const scrollToTop = () => safeWindow().scrollTo(0, 0);
 
   const recordVisit = detail => {
+    if (detail.final) {
+      setStorySeen(storyId);
+    }
+
     fetch("/story/visits", {
       method: "POST",
       headers: {
@@ -76,7 +82,7 @@
         "XSRF-TOKEN": csrf
       },
       body: JSON.stringify({
-        storyId: idFromSlug($page.params.slug),
+        storyId: storyId,
         nodeName: detail.storyNode,
         previousNodeName: previousNodeName
       })
