@@ -10,9 +10,8 @@ describe("creating and deleting accounts", () => {
 
     // TODO(kyle): Why is this so flaky?
     cy.url()
-      .wait(100)
       .should("match", /\//)
-      .get("header nav span")
+      .get("span")
       .contains("Login");
   });
 
@@ -22,16 +21,15 @@ describe("creating and deleting accounts", () => {
     logOut(cy);
 
     cy.url()
-      .wait(100)
       .should("match", /\//)
-      .get("header nav span")
+      .get("span")
       .contains("Login");
 
     logInAs(cy, user);
 
     cy.url()
-      .wait(100)
-      .get("header nav span")
+      .should("match", /\//)
+      .get("span")
       .contains(user.firstName);
 
     deleteUser(cy);
