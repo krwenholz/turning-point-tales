@@ -36,8 +36,11 @@
 <input
   {...$$props}
   {type}
+  {placeholder}
+  {name}
+  {id}
   bind:this={self}
-  class="input"
+  class={`input ${className}`}
   class:disabled
   class:error
   on:change

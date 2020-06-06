@@ -10,7 +10,7 @@
 
 <svg
   version="1.1"
-  class="has-solid "
+  class={`has-solid ${className}`}
   viewBox="0 0 36 36"
   preserveAspectRatio="xMidYMid meet"
   xmlns="http://www.w3.org/2000/svg"

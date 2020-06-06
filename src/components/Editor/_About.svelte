@@ -9,9 +9,9 @@
   export let author = '';
   export let title = '';
   export let preview = '';
-  export let clearFocusPath = () => {};
   export let onKeydown = () => {};
   export let onInput = () => {};
+  export const clearFocusPath = () => {};
 </script>
 
 <style>

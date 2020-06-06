@@ -3,11 +3,7 @@
   import StoryNode from './_StoryNode.svelte';
 
   export let storyNode = '';
-  export let title = '';
-  export let author = '';
-  export let preview = '';
   export let text = [];
-  export let corrections = {};
   export let onKeydown = () => {};
   export let onInput = () => {};
   export let onEditStoryNode = () => {};
@@ -18,8 +14,8 @@
 
 <StoryNode
   {storyNode}
-  {oninput}
-  {onkeydown}
+  {onInput}
+  {onKeydown}
   {onEditStoryNode}
   onDelete="{() => deleteStoryNode(storyNode)}"
 />

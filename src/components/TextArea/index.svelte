@@ -5,7 +5,6 @@
   export let id = '';
   export let value = "";
   export let className = "";
-  export let autoSize = true;
   export let placeholder = "";
   export const focus = () => self.focus();
 

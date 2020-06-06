@@ -4,7 +4,7 @@
   import Select from 'svelte-select';
 
   export let className = '';
-  export let focus = () => self.querySelector('input').focus();
+  export const focus = () => self.querySelector('input').focus();
 
   let self = {};
 </script>
@@ -32,6 +32,7 @@
 >
   <Select
     {...$$props}
+    class={className}
     on:select
     on:clear
   />
