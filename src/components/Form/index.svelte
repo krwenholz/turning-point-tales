@@ -23,7 +23,8 @@
 <form
   {...$$props}
   bind:this="{form}"
-  class="{`form ${className}`}"
+  {id}
+  class={`form ${className}`}
   action="javascript:void(0);"
   on:submit="{e => {
     e.preventDefault();

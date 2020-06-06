@@ -1,6 +1,5 @@
 <script>
   export let id = "";
-  export let required = false;
   export let className = "";
   export let checked = false;
 </script>

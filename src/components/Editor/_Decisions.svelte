@@ -9,8 +9,6 @@
   import emojis from 'src/lib/emojis.json';
   import { find } from 'lodash';
 
-  export let decisionsWithInvalidLabels = [];
-  export let decisionsWithInvalidStoryNodes = [];
   export let onKeydown = () => {};
   export let onInput = () => {};
   export let onAddNewDecision = () => {};
@@ -76,23 +74,8 @@
     width: 100%;
   }
 
-  header {
-    display: flex;
-    margin-bottom: 24px;
-  }
-
   .decisions :global(.add-new-decision) {
     margin-left: 0px;
-  }
-
-  header :global(svg) {
-    margin-right: 8px;
-  }
-
-  .label :global(svg) {
-    margin-left: 16px;
-    width: 32px;
-    height: 32px;
   }
 
   .form-group {

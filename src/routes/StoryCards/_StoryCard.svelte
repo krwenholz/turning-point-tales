@@ -40,10 +40,6 @@
     border-radius: var(--root-border-radius);
   }
 
-  header {
-    display: flex;
-  }
-
   h2 {
     font-size: 14px;
     text-align: start;
@@ -127,7 +123,9 @@
     {title}
   </h2>
 
-  <img src={`/story-card-images/${title}`} width="500" height="300" alt="" />
+  <a href="/story/{id}">
+    <img src={`/story-card-images/${title}`} alt="click to go to story"/>
+  </a>
 
   <p>{preview}</p>
 
