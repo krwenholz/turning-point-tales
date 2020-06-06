@@ -2,9 +2,11 @@
   import ButtonLink from "src/components/ButtonLink.svelte";
   import { goto } from "@sapper/app";
   import { stores } from "@sapper/app";
+  import { testIds } from 'src/lib/test-ids.js';
 
   const { session } = stores();
 
+  export let idx = '';
   export let id;
   export let author;
   export let title;
@@ -113,7 +115,7 @@
   }
 </style>
 
-<article>
+<article data-test-id={`${testIds.STORY_CARD}-${idx}`}>
   <h2>
     {#each tags as tag}
       <span class="tag">
