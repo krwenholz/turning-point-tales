@@ -4,13 +4,12 @@ describe("Stories", () => {
   });
 
   it("displays earned badges", () => {
-    cy.contains("📁", { timeout: 3000 }).should("exist");
-    cy.contains("... only a small number remaining.").should("exist");
-    cy.contains("... many more to discover.").should("exist");
+    cy.get('span').should('contain', "📁");
+    cy.get("span").should("contain", "only a small number remaining");
   });
 
   it("displays badges when earned", () => {
-    cy.contains("Read").click();
+    cy.get('a').contains("Read").click();
     cy.location()
       .then(loc => {
         cy.visit(
@@ -26,10 +25,12 @@ describe("Stories", () => {
   });
 
   it("displays correct options at end", () => {
-    cy.contains("Read").click();
+    cy.get('a').contains("Read").click();
+
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=stop_the_clocks");
     });
+
     cy.contains("restart").should("exist");
     cy.contains("go back").should("exist");
     cy.contains("Explore other stories").should("exist");
