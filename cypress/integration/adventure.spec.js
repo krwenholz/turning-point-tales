@@ -1,8 +1,10 @@
 describe("Adventure", () => {
   beforeEach(() => {
     cy.logIn();
-    cy.visit("/");
-    cy.contains("Read").click();
+    cy.visit("/")
+      .get("a")
+      .contains("Read")
+      .click();
   });
 
   it('defaults to "start" for storyNode if not provided, and no local storage', () => {
@@ -27,12 +29,14 @@ describe("Adventure", () => {
   it("saves last storyNode from visited story", () => {
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=file_a_formal_complaint")
-        .visit("/")
-        .contains("Read")
-        .click()
 
-        // Text from "file_a_formal_complaint";
-        cy.contains("Swiveling in his chair")
+      cy.visit("/")
+        .get("a")
+        .contains("Read")
+        .click();
+
+      cy.get("p")
+        .should('contain', "Swiveling in his chair")
     });
   });
 
@@ -40,15 +44,15 @@ describe("Adventure", () => {
     cy.location().then(loc => {
       cy.visit(loc.pathname + "?storyNode=file_a_formal_complaint")
         .visit("/")
-        .clearLocalStorage()
-        .visit("/")
+        .clearLocalStorage();
+
+      cy.visit("/")
+        .get('a')
         .contains("Read")
         .click()
-        .url()
-        .should(
-          "match",
-          /\/story\/mr-banks-([a-z0-9-]+|[a-z0-9-]\?storyNode=start)/
-        );
+
+      cy.get("p")
+        .should('contain', "It was a beautiful summer")
     });
   });
 
