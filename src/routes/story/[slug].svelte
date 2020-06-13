@@ -1,5 +1,6 @@
 <script context="module">
   import { idFromSlug } from "src/lib/slugs";
+
   export function preload({ params, query }) {
     return this.fetch(`story/${idFromSlug(params.slug)}.json`, {
       credentials: "include"
@@ -33,15 +34,18 @@
   import Adventure from "src/components/Adventure";
   import BadgePopup from "src/routes/story/_BadgePopup.svelte";
   import Button from "src/components/Button.svelte";
-  import { logger } from "src/lib/client/logger";
-  import { setStorySeen } from "src/lib/client/free-story-record";
   import { fetchCsrf } from "src/lib/client/csrf";
+  import { goto, stores } from "@sapper/app";
+  import { logger } from "src/lib/client/logger";
   import { mainAdventure } from "src/lib/global-state-stores/browserStore/main-adventure";
   import { onMount } from "svelte";
-  import { goto, stores } from "@sapper/app";
-  import { userSubscribed } from "src/lib/client/user";
-  import { some } from "lodash";
   import { safeWindow } from "src/lib/client/safe-window";
+  import {
+    freeStoryAvailable,
+    setFreeStoryRecord
+  } from "src/lib/client/free-story-record";
+  import { some } from "lodash";
+  import { userSubscribed } from "src/lib/client/user";
 
   export let story;
   export let author;
@@ -60,6 +64,8 @@
   let previousNodeName = $page.query.storyNode;
   let visitations = [];
 
+  $: isStoryAvailableFree = freeStoryAvailable(storyId, $session.user);
+
   const setURL = storyNode => {
     safeWindow().history.replaceState(
       "",
@@ -72,7 +78,7 @@
 
   const recordVisit = detail => {
     if (detail.final) {
-      setStorySeen(storyId);
+      setFreeStoryRecord(storyId);
     }
 
     fetch("/story/visits", {
@@ -160,7 +166,7 @@
   />
 </svelte:head>
 
-{#if (process.browser && isSubscribed) || generalRelease}
+{#if (process.browser && isSubscribed) || isStoryAvailableFree}
   <div class="route-adventure">
     <Adventure
       {story}
@@ -201,7 +207,13 @@
   </div>
 {:else}
   <p>
-    Looks like this story isn't released to non-subscribers yet.
-    <a href="/user/profile?tab=adventurer">Become a full adventurer now.</a>
+    Looks like this story isn't available to you.
+    {#if $session.user}
+      <a href="/user/profile?tab=adventurer">Become a full adventurer now.</a>
+    {:else}
+      <a href="/user/create">
+        Create your user and subscribe to become a full adventurer.
+      </a>
+    {/if}
   </p>
 {/if}

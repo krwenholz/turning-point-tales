@@ -1,6 +1,7 @@
 <script>
-  import { stores } from "@sapper/app";
+  import { freeStoryAvailable } from "src/lib/client/free-story-record";
   import { onMount } from "svelte";
+  import { stores } from "@sapper/app";
 
   export let isSubscriber;
 
@@ -80,13 +81,20 @@
       <a href="/briefing">is here.</a>
       Earn badges, learn about upcoming adventures, and more by
       <a href="/user/new">creating an account.</a>
-      Or just read a story below!
+      {#if freeStoryAvailable($session.user, null)}
+        Or just read a story below! (You get one free.)
+      {:else}
+        You've already read a bunch of one story. To read more and support our
+        authors,
+        <a href="/user/new">create an account and become a subscriber.</a>
+      {/if}
     </p>
-  {:else if !isSubscriber}
+  {:else if !(isSubscriber || freeStoryAvailable($session.user, null))}
     <p class="enticement">
       Looks like you aren't subscribed yet. That's keeping you from the freshest
       content, exclusive previews, and more. You can fix this by
       <a href="/user/profile?tab=adventurer">becoming an adventurer.</a>
+      Your one free story is always accessible.
     </p>
   {:else}
     <p class="enticement">

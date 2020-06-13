@@ -8,7 +8,7 @@ const passwordHasher = securePassword();
 
 const users = [];
 
-const findUser = async identifier => {
+export const findUser = async identifier => {
   try {
     const results = await pool.query(
       `
@@ -41,7 +41,7 @@ const findUser = async identifier => {
   }
 };
 
-const findUserSafeDetails = async identifier => {
+export const findUserSafeDetails = async identifier => {
   try {
     const results = await pool.query(
       `
@@ -75,7 +75,7 @@ const findUserSafeDetails = async identifier => {
   }
 };
 
-const addUser = async ({ firstName, lastName, email, password }) => {
+export const addUser = async ({ firstName, lastName, email, password }) => {
   try {
     const hash = await passwordHasher.hash(Buffer.from(password));
 
@@ -96,7 +96,7 @@ const addUser = async ({ firstName, lastName, email, password }) => {
   }
 };
 
-const removeUser = async identifier => {
+export const removeUser = async identifier => {
   try {
     await pool.query(
       `
@@ -118,7 +118,7 @@ const removeUser = async identifier => {
   }
 };
 
-const updateUserPassword = async (identifier, { password }) => {
+export const updateUserPassword = async (identifier, { password }) => {
   const hash = await passwordHasher.hash(Buffer.from(password));
 
   try {
@@ -143,7 +143,30 @@ const updateUserPassword = async (identifier, { password }) => {
   }
 };
 
-const setSubscriptionDetails = async (
+export const updateUserFreeStoryUsed = async (identifier, storyId) => {
+  try {
+    await pool.query(
+      `
+      UPDATE
+        users
+      SET
+        free_story_used = $2
+      WHERE
+        email = $1
+      OR
+        id::text = $1;
+    `,
+      [identifier, storyId]
+    );
+
+    return Promise.resolve({});
+  } catch (err) {
+    logger.error(err);
+    return Promise.reject(err);
+  }
+};
+
+export const setSubscriptionDetails = async (
   identifier,
   stripeCustomerId,
   subscriptionId,
@@ -186,13 +209,4 @@ const setSubscriptionDetails = async (
     logger.error(err);
     return Promise.reject(err);
   }
-};
-
-export {
-  addUser,
-  findUser,
-  findUserSafeDetails,
-  removeUser,
-  setSubscriptionDetails,
-  updateUserPassword
 };

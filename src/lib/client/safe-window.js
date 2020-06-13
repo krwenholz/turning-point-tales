@@ -26,7 +26,7 @@ const fakeWindow = {
     replaceState: () => ""
   },
   document: {
-    cookie: () => "",
+    cookie: "",
     querySelector: () => {},
     addEventListener: () => {},
     activeElement: {

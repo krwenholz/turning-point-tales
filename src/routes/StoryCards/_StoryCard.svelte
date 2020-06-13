@@ -1,12 +1,13 @@
 <script>
   import ButtonLink from "src/components/ButtonLink.svelte";
+  import { freeStoryAvailable } from "src/lib/client/free-story-record";
   import { goto } from "@sapper/app";
   import { stores } from "@sapper/app";
-  import { testIds } from 'src/lib/test-ids.js';
+  import { testIds } from "src/lib/test-ids.js";
 
   const { session } = stores();
 
-  export let idx = '';
+  export let idx = "";
   export let id;
   export let author;
   export let title;
@@ -20,6 +21,7 @@
   let undiscoveredBadgePercent = 0;
 
   $: releaseDate = new Date(generalRelease);
+  $: isStoryAvailableFree = freeStoryAvailable(id, $session.user);
 
   $: {
     acheivedBadges = [];
@@ -30,7 +32,6 @@
     }
     undiscoveredBadgePercent = undiscoveredBadgePercent / badges.length;
   }
-
 </script>
 
 <style>
@@ -57,7 +58,7 @@
     max-width: 360px;
     border: 1px solid gray;
     border-radius: 3px;
-    box-shadow: 0px 7px 13px -9px rgba(0,0,0,0.75);
+    box-shadow: 0px 7px 13px -9px rgba(0, 0, 0, 0.75);
   }
 
   .tag {
@@ -115,26 +116,24 @@
   }
 </style>
 
-<article data-test-id={`${testIds.STORY_CARD}-${idx}`}>
+<article data-test-id="{`${testIds.STORY_CARD}-${idx}`}">
   <h2>
     {#each tags as tag}
-      <span class="tag">
-        {tag.charAt(0).toUpperCase() + tag.slice(1)}
-      </span>
+      <span class="tag">{tag.charAt(0).toUpperCase() + tag.slice(1)}</span>
     {/each}
     {title}
   </h2>
 
   <a href="/story/{id}">
-    <img src={`/story-card-images/${title}`} alt="click to go to story"/>
+    <img src="{`/story-card-images/${title}`}" alt="click to go to story" />
   </a>
 
   <p>{preview}</p>
 
-  <div class='row'>
-    {#if isSubscriber || generalRelease}
+  <div class="row">
+    {#if isSubscriber}
       <ButtonLink href="/story/{id}">Read</ButtonLink>
-    {:else if $session.user}
+    {:else if $session.user || !isStoryAvailableFree}
       <ButtonLink
         href="/user/profile?tab=adventurer"
         disabled="true"
@@ -142,30 +141,33 @@
       >
         Subscribe now
       </ButtonLink>
-    {:else}
-      <ButtonLink href="/user/new" disabled="true" variation="secondary">
-        Subscribers only
-      </ButtonLink>
+    {:else if isStoryAvailableFree}
+      <ButtonLink href="/story/{id}">Read your one freebie</ButtonLink>
     {/if}
-    {#if $session.user}{#if badges.length}
-        <p class='badges'>Badges:
+    {#if $session.user}
+      {#if badges.length}
+        <p class="badges">
+          Badges:
           {#each badges as badge}
             {#if badge.visited}
               <span class="badge">{badge.icon}</span>
             {/if}
           {/each}
           {#if undiscoveredBadgePercent > 0.5}
-            <span class='badge'><i> none</i></span>
+            <span class="badge">
+              <i>none</i>
+            </span>
           {:else if undiscoveredBadgePercent > 0}
-            <span class='badge'>... only a small number remaining</span>
+            <span class="badge">... only a small number remaining</span>
           {/if}
         </p>
-    {/if}{/if}
+      {/if}
+    {/if}
   </div>
 
   <hr />
 
   <footer>
-    <small class='author'>by {author}</small>
-    </footer>
+    <small class="author">by {author}</small>
+  </footer>
 </article>
