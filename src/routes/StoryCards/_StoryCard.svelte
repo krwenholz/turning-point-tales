@@ -19,6 +19,7 @@
   let acheivedBadges = [];
   let undiscoveredBadgePercent = 0;
 
+  $: src = title;
   $: releaseDate = new Date(generalRelease);
 
   $: {
@@ -29,8 +30,8 @@
       else undiscoveredBadgePercent++;
     }
     undiscoveredBadgePercent = undiscoveredBadgePercent / badges.length;
-  }
 
+  }
 </script>
 
 <style>
@@ -125,9 +126,15 @@
     {title}
   </h2>
 
+  {#if process.browser}
   <a href="/story/{id}">
-    <img src={`/story-card-images/${title}`} alt="click to go to story"/>
+    <img
+      src={`/story-card-images/${src}`}
+      on:error={() => title = 'placeholder.png'}
+      alt="click to go to story"
+    />
   </a>
+  {/if}
 
   <p>{preview}</p>
 
