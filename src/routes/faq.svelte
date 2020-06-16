@@ -26,7 +26,7 @@
     <summary>What kind of content is this?</summary>
     Choice oriented tales. We're working with creators interested in producing
     science fiction, fantasy, murder mystery, and even geographic noir. As long
-    as their tale allows the reader to enjoy in the agency of creation, we're
+    as their tale allows the reader to enjoy the agency of creation, we're
     interested in publishing.
   </details>
 
@@ -37,7 +37,8 @@
     interesting tales we think people would like. If you or someone you know can
     do that then please reach out to us at
     <a href="mailto:creators@h2wib.com">creators@h2wib.com</a>
-    .
+    . Creators get paid for helping us find intrepid adventurers (subscribers),
+    so if you like the content, subscrbibe!
   </details>
 
   <details>
@@ -48,10 +49,11 @@
   </details>
 
   <details>
-    <summary>What benefits do account recieve?</summary>
-    Accounts can earn badges, learn about upcoming adventures in the form of
-    newsletters, and help us share information with new creators on where and
-    how their stories are being enjoyed.
+    <summary>What benefits do accounts recieve?</summary>
+    Registered accounts can earn badges, learn about upcoming adventures in the
+    form of newsletters, and help us share information with new creators on
+    where and how their stories are being enjoyed. Paid subscribers help fund
+    our creators and keep this site running. We want you!
   </details>
 
   <details>

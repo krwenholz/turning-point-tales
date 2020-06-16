@@ -160,7 +160,8 @@
   <p>
     {#if $session.user.subscriptionPeriodEnd > new Date()}
       Looks like we have current payment information for you and you should be
-      adventuring smoothly! You can use the form below to update your payment
+      adventuring smoothly! (While our creators are brewing the ingredients for
+      your next adventure.) You can use the form below to update your payment
       details if you'd like.
     {:else if $session.user.stripeCustomerId}
       We don't seem to have good payment information for you or something is
@@ -174,8 +175,8 @@
   </p>
 {:else}
   <p>
-    Become an adventurer for $4/month. Adventurers see no ads, access all
-    content, support our paid creators, and claim a soft spot in our hearts.
+    Become an adventurer for $4/month. Adventurers support our creators, can
+    access all content, and claim a soft spot in our hearts.
   </p>
 
   <p>Our hearts are of a very squishy variety, so there's room for everyone.</p>
@@ -218,7 +219,8 @@
   <div id="cancellation">
     <p>
       If you'd like to cancel your subscription and join the regular townfolk,
-      that's okay. You can use the button below to unsubscribe.
+      that's okay. You can use the button below to unsubscribe. Our authors will
+      probably be fine.... Probably.
     </p>
 
     {#if unsubscribeErrors}
