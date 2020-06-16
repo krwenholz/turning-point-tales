@@ -75,20 +75,26 @@ export const findUserSafeDetails = async identifier => {
   }
 };
 
-export const addUser = async ({ firstName, lastName, email, password }) => {
+export const addUser = async ({
+  firstName,
+  lastName,
+  email,
+  password,
+  freeStoryUsed
+}) => {
   try {
     const hash = await passwordHasher.hash(Buffer.from(password));
 
     await pool.query(
       `
       INSERT INTO
-        users
-      VALUES (DEFAULT, $1, $2, $3, $4, NOW(), NOW())
+        users (id, email, first_name, last_name, password_hash, type, free_story_used, created, modified)
+      VALUES (DEFAULT, $1, $2, $3, $4, DEFAULT, $5, NOW(), NOW())
     `,
-      [email, firstName, lastName, hash]
+      [email, firstName, lastName, hash, freeStoryUsed]
     );
 
-    logger.info({ email }, "User added");
+    logger.info({ email, freeStoryUsed }, "User added");
     return findUserSafeDetails(email);
   } catch (err) {
     logger.error(err);

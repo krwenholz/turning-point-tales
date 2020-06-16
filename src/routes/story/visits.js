@@ -8,7 +8,7 @@ const get = async (req, res) => {
   return getVisitations(req.user.id)
     .then(visitations => {
       logger.info(
-        { userId: req.user.id, visitationsLegth: visitations.length },
+        { userId: req.user.id, visitationsLength: visitations.length },
         "Fetched visitations"
       );
       res.status(200);

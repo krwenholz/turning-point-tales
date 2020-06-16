@@ -1,7 +1,5 @@
 import { logger } from "src/lib/client/logger";
 import { safeWindow } from "src/lib/client/safe-window";
-// TODO(kyle): update intro copy
-// TODO(kyle): tests
 
 export const setFreeStoryRecord = storyId => {
   const existingRecord = getLocalFreeStoryRecord();
@@ -19,9 +17,11 @@ export const setFreeStoryRecord = storyId => {
 };
 
 export const getLocalFreeStoryRecord = () => {
-  return safeWindow()
-    .document.cookie.split("; ")
-    .find(row => row.startsWith("FREE_STORY_RECORD"));
+  return (
+    safeWindow()
+      .document.cookie.split("; ")
+      .find(row => row.startsWith("FREE_STORY_RECORD")) || ""
+  ).replace("FREE_STORY_RECORD=", "");
 };
 
 export const freeStoryAvailable = (storyId, user) => {

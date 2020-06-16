@@ -2,26 +2,27 @@
   import ButtonLink from "src/components/ButtonLink.svelte";
   import { freeStoryAvailable } from "src/lib/client/free-story-record";
   import { goto } from "@sapper/app";
+  import { idFromSlug } from "src/lib/slugs";
   import { stores } from "@sapper/app";
   import { testIds } from "src/lib/test-ids.js";
 
   const { session } = stores();
 
   export let idx = "";
-  export let id;
+  export let slug;
   export let author;
   export let title;
   export let preview;
   export let badges;
   export let tags;
-  export let generalRelease;
   export let isSubscriber;
 
   let acheivedBadges = [];
   let undiscoveredBadgePercent = 0;
-
-  $: releaseDate = new Date(generalRelease);
-  $: isStoryAvailableFree = freeStoryAvailable(id, $session.user);
+  let isStoryAvailableFree = freeStoryAvailable(
+    idFromSlug(slug),
+    $session.user
+  );
 
   $: {
     acheivedBadges = [];
@@ -124,7 +125,7 @@
     {title}
   </h2>
 
-  <a href="/story/{id}">
+  <a href="/story/{slug}">
     <img src="{`/story-card-images/${title}`}" alt="click to go to story" />
   </a>
 
@@ -132,17 +133,17 @@
 
   <div class="row">
     {#if isSubscriber}
-      <ButtonLink href="/story/{id}">Read</ButtonLink>
-    {:else if $session.user || !isStoryAvailableFree}
-      <ButtonLink
-        href="/user/profile?tab=adventurer"
-        disabled="true"
-        variation="secondary"
-      >
+      <ButtonLink href="/story/{slug}">Read</ButtonLink>
+    {:else if isStoryAvailableFree}
+      <ButtonLink href="/story/{slug}">Read your one freebie</ButtonLink>
+    {:else if $session.user}
+      <ButtonLink href="/user/profile?tab=adventurer" variation="secondary">
         Subscribe now
       </ButtonLink>
-    {:else if isStoryAvailableFree}
-      <ButtonLink href="/story/{id}">Read your one freebie</ButtonLink>
+    {:else}
+      <ButtonLink href="/user/new" variation="secondary">
+        Create an account and subscribe
+      </ButtonLink>
     {/if}
     {#if $session.user}
       {#if badges.length}
