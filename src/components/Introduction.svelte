@@ -91,8 +91,9 @@
     </p>
   {:else if !(isSubscriber || freeStoryAvailable($session.user, null))}
     <p class="enticement">
-      Looks like you aren't subscribed yet. That's keeping you from the freshest
-      content, exclusive previews, and more. You can fix this by
+      Looks like you aren't subscribed yet. That's holding you back from full
+      story access and the gratitude of our creators, who like getting paid! You
+      can fix this by
       <a href="/user/profile?tab=adventurer">becoming an adventurer.</a>
       Your one free story is always accessible.
     </p>
