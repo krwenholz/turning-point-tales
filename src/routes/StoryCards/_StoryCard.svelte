@@ -24,6 +24,8 @@
     $session.user
   );
 
+  $: src = title;
+
   $: {
     acheivedBadges = [];
     undiscoveredBadgePercent = 0;
@@ -125,9 +127,15 @@
     {title}
   </h2>
 
+  {#if process.browser}
   <a href="/story/{slug}">
-    <img src="{`/story-card-images/${title}`}" alt="click to go to story" />
+    <img
+      src={`/story-card-images/${src}`}
+      on:error={() => title = 'placeholder.png'}
+      alt="click to go to story"
+    />
   </a>
+  {/if}
 
   <p>{preview}</p>
 
