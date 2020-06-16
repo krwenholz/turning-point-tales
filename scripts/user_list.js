@@ -24,9 +24,19 @@ const listUsers = async () => {
 };
 
 (async () => {
-  console.log("----------------------------------");
-  console.log("Users: ");
   const users = await listUsers();
+
+  console.log("----------------------------------");
+  console.log("Names and emails");
+  console.log(
+    join(
+      map(users, user => `${user.first_name}: ${user.email}`),
+      "\n"
+    )
+  );
+
+  console.log("----------------------------------");
+  console.log("Emails");
   console.log(
     join(
       map(users, user => user.email),

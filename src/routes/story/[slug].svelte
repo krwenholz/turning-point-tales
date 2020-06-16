@@ -19,8 +19,7 @@
           story: story.content,
           author: story.author,
           title: story.title,
-          badges: story.badges,
-          generalRelease: story.general_release
+          badges: story.badges
         };
       })
       .catch(error => {
@@ -51,7 +50,6 @@
   export let author;
   export let title;
   export let badges;
-  export let generalRelease;
 
   const ONE_DAY = 1 * 24 * 60 * 60 * 1000;
 
@@ -166,8 +164,8 @@
   />
 </svelte:head>
 
-{#if (process.browser && isSubscribed) || isStoryAvailableFree}
-  <div class="route-adventure">
+<div class="route-adventure">
+  {#if (process.browser && isSubscribed) || isStoryAvailableFree}
     <Adventure
       {story}
       {title}
@@ -204,16 +202,16 @@
         </Button>
       </div>
     {/if}
-  </div>
-{:else}
-  <p>
-    Looks like this story isn't available to you.
-    {#if $session.user}
-      <a href="/user/profile?tab=adventurer">Become a full adventurer now.</a>
-    {:else}
-      <a href="/user/create">
-        Create your user and subscribe to become a full adventurer.
-      </a>
-    {/if}
-  </p>
-{/if}
+  {:else}
+    <p>
+      Looks like this story isn't available to you.
+      {#if $session.user}
+        <a href="/user/profile?tab=adventurer">Become a full adventurer now.</a>
+      {:else}
+        <a href="/user/new">
+          Create your user and subscribe to become a full adventurer.
+        </a>
+      {/if}
+    </p>
+  {/if}
+</div>

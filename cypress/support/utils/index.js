@@ -16,7 +16,7 @@ export const createUser = cy => {
   cy.visit("/")
     .contains("Login")
     .click();
-  cy.contains("create an account").click();
+  cy.contains("create an account.").click();
   cy.url().should("match", /\/user\/new/);
 
   entries(user).forEach(([key, value]) => {
@@ -35,8 +35,7 @@ export const createUser = cy => {
 export const deleteUser = cy => {
   cy.visit("/user/profile?tab=settings");
 
-  cy.contains("DELETE")
-    .click();
+  cy.contains("DELETE").click();
 };
 
 export const logOut = cy => {
