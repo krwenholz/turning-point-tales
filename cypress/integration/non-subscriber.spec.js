@@ -42,12 +42,12 @@ describe("NonSubscriber", () => {
     const user = createUser(cy);
 
     cy.clearCookies();
-    cy.logIn(user.email);
+    cy.logIn(user.email)
+      .get("header nav span")
+      .should("have.text", user.firstName);
 
-    cy.get("header nav span").should("have.text", user.firstName);
-
-    cy.visit("/");
-    cy.get(".story-previews")
+    cy.visit("/")
+      .get(".story-previews")
       .contains("Read your one freebie")
       .should("have.length", 1);
     cy.get(".story-previews")
