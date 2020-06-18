@@ -1,5 +1,5 @@
 const stories = require("../../stories/index.js");
-const { createUser } = require("../support/utils");
+const { createUser, logInAs } = require("../support/utils");
 
 export const visitAFinalNode = cy => {
   cy.visit("/");
@@ -42,9 +42,9 @@ describe("NonSubscriber", () => {
     const user = createUser(cy);
 
     cy.clearCookies();
-    cy.logIn(user.email)
-      .get("header nav span")
-      .should("have.text", user.firstName);
+
+    logInAs(cy, user);
+    cy.get("header nav span").should("have.text", user.firstName);
 
     cy.visit("/")
       .get(".story-previews")
