@@ -10,7 +10,7 @@ const HelpIntentHandler = {
   handle(handlerInput) {
     const user = handlerInput.attributesManager.getSessionAttributes().user;
     const speechText = speechWithSubscriptionPrompt(
-      "You can list stories, start a story with start story name, make a decision in a story with go followed by the choice, go back in a story by saying go back, or restart a story by saying restart story.",
+      "You can list stories, start a story with start story name, make a decision in a story with go followed by the choice, go back in a story by saying go back, or restart a story by saying restart story. Story choices can be indicated by saying option and the number or saying the full choice text.",
       user.isSubscribed
     );
 
