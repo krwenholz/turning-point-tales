@@ -24,7 +24,7 @@
   {#each corrections.getAll() as correction}
   <h4>- {correction.description}</h4>
   <span>
-    {correction.messages.join('\n\n')}
+    {@html correction.messages.join('</br></br>')}
   </span>
   {/each}
 </div>
