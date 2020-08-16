@@ -14,6 +14,7 @@ const _stories = sql.define({
     "preview",
     "content",
     "tags",
+    "content_warnings",
     "general_release",
     "created",
     "modified"
@@ -40,6 +41,7 @@ export const listPreview = () => {
         _stories.badges,
         _stories.preview,
         _stories.tags,
+        _stories.content_warnings,
         _stories.general_release
       )
       .from(_stories)

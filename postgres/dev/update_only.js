@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-require = require('esm')(module);
+require = require("esm")(module);
 const { Pool } = require("pg");
 const securePassword = require("secure-password");
 const stories = require("../../stories/index.js");
@@ -18,14 +18,15 @@ const addStory = async ({
   preview,
   content,
   tags,
+  contentWarnings,
   generalRelease
 }) => {
   try {
     await pool.query(
       `
       INSERT INTO
-        stories (title, author, badges, preview, content, tags, general_release)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+        stories (title, author, badges, preview, content, tags, content_warnings, general_release)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       ON CONFLICT(title, author)
       DO UPDATE
         SET
@@ -33,7 +34,8 @@ const addStory = async ({
           preview = $4,
           content = $5,
           tags = $6,
-          general_release = $7;
+          content_warnings = $7,
+          general_release = $8;
     `,
       [
         title,
@@ -42,6 +44,7 @@ const addStory = async ({
         preview,
         JSON.stringify(content),
         tags,
+        contentWarnings || "",
         generalRelease
       ]
     );
