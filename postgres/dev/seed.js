@@ -143,14 +143,15 @@ const addStory = async ({
   preview,
   content,
   tags,
+  contentWarnings,
   generalRelease
 }) => {
   try {
     await pool.query(
       `
       INSERT INTO
-        stories (title, author, badges, preview, content, tags, general_release)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+        stories (title, author, badges, preview, content, tags, content_warnings, general_release)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     `,
       [
         title,
@@ -159,6 +160,7 @@ const addStory = async ({
         preview,
         JSON.stringify(content),
         tags,
+        contentWarnings || "",
         generalRelease
       ]
     );

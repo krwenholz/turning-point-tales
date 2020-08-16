@@ -1,5 +1,7 @@
 <script>
   import ButtonLink from "src/components/ButtonLink.svelte";
+  import StripedCone from "src/components/icons/StripedCone.svelte";
+  import Tooltip from "src/components/Tooltip.svelte";
   import { freeStoryAvailable } from "src/lib/client/free-story-record";
   import { goto } from "@sapper/app";
   import { idFromSlug } from "src/lib/slugs";
@@ -15,6 +17,7 @@
   export let preview;
   export let badges;
   export let tags;
+  export let contentWarnings = "";
   export let isSubscriber;
 
   let acheivedBadges = [];
@@ -109,7 +112,8 @@
 
   footer {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .author {
@@ -128,13 +132,13 @@
   </h2>
 
   {#if process.browser}
-  <a href="/story/{slug}">
-    <img
-      src={`/story-card-images/${src}`}
-      on:error={() => title = 'placeholder.png'}
-      alt="click to go to story"
-    />
-  </a>
+    <a href="/story/{slug}">
+      <img
+        src="{`/story-card-images/${src}`}"
+        on:error="{() => (title = 'placeholder.png')}"
+        alt="click to go to story"
+      />
+    </a>
   {/if}
 
   <p>{preview}</p>
@@ -178,5 +182,10 @@
 
   <footer>
     <small class="author">by {author}</small>
+    {#if contentWarnings}
+      <Tooltip text="{contentWarnings}">
+        <StripedCone color="var(--root-color-error)" />
+      </Tooltip>
+    {/if}
   </footer>
 </article>
