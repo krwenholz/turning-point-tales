@@ -2,7 +2,7 @@ const forgotten_forest = {
   title: "The Forgotten Forest",
   author: "Sean Wong-Westbrooke",
   tags: ["mystery", "horror"],
-  content_warnings: "Contains violence and frightening imagery",
+  contentWarnings: "Contains violence and frightening imagery",
   generalRelease: false,
   badges: [
     {
