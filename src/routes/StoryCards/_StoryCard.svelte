@@ -17,7 +17,7 @@
   export let preview;
   export let badges;
   export let tags;
-  export let contentWarnings = "";
+  export let content_warnings = "";
   export let isSubscriber;
 
   let acheivedBadges = [];
@@ -182,8 +182,8 @@
 
   <footer>
     <small class="author">by {author}</small>
-    {#if contentWarnings}
-      <Tooltip text="{contentWarnings}">
+    {#if content_warnings}
+      <Tooltip text="{content_warnings}">
         <StripedCone color="var(--root-color-error)" />
       </Tooltip>
     {/if}

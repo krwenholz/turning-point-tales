@@ -27,7 +27,7 @@
 
 <div class="wrapper">
   <section class="story-previews">
-    {#each stories as { id, author, title, badges, preview, tags, general_release }, idx}
+    {#each stories as { id, author, title, badges, preview, tags, content_warnings, general_release }, idx}
       <Preview
         slug="{slug(title, id)}"
         {idx}
@@ -36,6 +36,7 @@
         {badges}
         {preview}
         {tags}
+        {content_warnings}
         generalRelease="{general_release}"
         {isSubscriber}
       />
