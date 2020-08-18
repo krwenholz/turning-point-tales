@@ -2,6 +2,7 @@ const playing_detective = {
   author: "Clayton Lewis",
   title: "Playing Detective",
   tags: ["noir", "mystery", "murderous"],
+  contentWarnings: "Contains violence and depictions of criminal activity",
   generalRelease: false,
   badges: [
     {

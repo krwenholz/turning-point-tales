@@ -2,6 +2,7 @@ const goblins_on_the_warfront = {
   author: "Sean Wong-Westbrooke",
   title: "Wagons and Dragons - Side Quests - Goblins on the Warfront",
   tags: ["fun", "fantasy", "adventure", "war"],
+  contentWarnings: "Contains some fantasy violence and gore",
   generalRelease: false,
   badges: [
     {

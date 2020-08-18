@@ -2,6 +2,7 @@ const wagons_and_dragons = {
   author: "Sean Wong-Westbrooke",
   title: "Wagons and Dragons: Caravan to the Capital",
   tags: ["fantasy", "fast-paced"],
+  contentWarnings: "Contains some fantasy violence and gore",
   generalRelease: false,
   badges: [
     {
