@@ -22,7 +22,6 @@
   import Introduction from "src/components/Introduction.svelte";
   import StoryCards from "./StoryCards";
   import { onMount } from "svelte";
-  import { userSubscribed } from "src/lib/client/user";
   import { stores } from "@sapper/app";
   import { visited } from "src/lib/global-state-stores/browserStore/visited";
 
@@ -79,11 +78,10 @@
 
 {#if $page.query.user === 'new'}
   <p>
-    Congratulations on creating your new user! We hope you enjoy the
-    adventure.
+    Congratulations on creating your new user! We hope you enjoy the adventure.
   </p>
 {/if}
 
-<Introduction isSubscriber="{userSubscribed($session.user)}" />
+<Introduction />
 
-<StoryCards {stories} isSubscriber="{userSubscribed($session.user)}" />
+<StoryCards {stories} />

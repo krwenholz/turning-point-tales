@@ -21,20 +21,6 @@ module.exports = {
         process.env.DATABASE_URL + (includeSSL ? "?ssl=true" : "")
     }
   },
-  stripe: {
-    endpointSecret: process.env.STRIPE_ENDPOINT_SECRET || "",
-    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-    secretKey: Buffer.from(process.env.STRIPE_SECRET_KEY || "").toString(
-      "base64"
-    ),
-    subscriptionId: process.env.STRIPE_SUBSCRIPTION_PLAN_ID || "",
-    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET || ""
-  },
-  alexa: {
-    clientId: process.env.ALEXA_CLIENT_ID || "",
-    secret: process.env.ALEXA_SECRET || "",
-    redirectUris: (process.env.ALEXA_REDIRECT_URIS || "").split(",")
-  },
   aws: {
     default: {},
     production: {}

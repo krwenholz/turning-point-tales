@@ -5,7 +5,6 @@
   import { sortBy, filter } from "lodash";
 
   export let stories = [];
-  export let isSubscriber;
 
   $: {
     stories = sortBy(stories, story => story.created);
@@ -38,7 +37,6 @@
         {tags}
         {content_warnings}
         generalRelease="{general_release}"
-        {isSubscriber}
       />
     {/each}
   </section>

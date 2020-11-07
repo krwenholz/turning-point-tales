@@ -1,9 +1,6 @@
 <script>
-  import { freeStoryAvailable } from "src/lib/client/free-story-record";
   import { onMount } from "svelte";
   import { stores } from "@sapper/app";
-
-  export let isSubscriber;
 
   const { page, session } = stores();
 </script>
@@ -81,21 +78,7 @@
       <a href="/briefing">is here.</a>
       Earn badges, learn about upcoming adventures, and more by
       <a href="/user/new">creating an account.</a>
-      {#if freeStoryAvailable($session.user, null)}
-        Or just read a story below! (You get one free.)
-      {:else}
-        You've already read a bunch of one story. To read more and support our
-        authors,
-        <a href="/user/new">create an account and become a subscriber.</a>
-      {/if}
-    </p>
-  {:else if !(isSubscriber || freeStoryAvailable($session.user, null))}
-    <p class="enticement">
-      Looks like you aren't subscribed yet. That's holding you back from full
-      story access and the gratitude of our creators, who like getting paid! You
-      can fix this by
-      <a href="/user/profile?tab=adventurer">becoming an adventurer.</a>
-      Your one free story is always accessible.
+      Or just read a story below!
     </p>
   {:else}
     <p class="enticement">

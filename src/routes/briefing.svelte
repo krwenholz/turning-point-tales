@@ -47,7 +47,7 @@
 
 <section class="briefing">
   <h2>This is for you</h2>
-  <p>New stories come out every month, subscribers get first pick!</p>
+  <p>Loads of great stories under so many different genres!</p>
 
   <h2>Great stories are just waiting to be found.</h2>
   <p>
