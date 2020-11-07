@@ -3,7 +3,6 @@
   import Notifications from "./Notifications.svelte";
   import Settings from "./Settings.svelte";
   import User from "src/components/icons/User.html";
-  import { Customer } from "./Stripe";
   import { Tabs, Tab, TabList, TabPanel } from "src/components/Tabs";
   import { sample } from "lodash";
   import { safeWindow } from "src/lib/client/safe-window";
@@ -85,13 +84,8 @@
 
   <Tabs onTabSwitch="{updateUrl}" selectedTab="{$page.query.tab}">
     <TabList on:tabSelected="{updateUrl}">
-      <Tab name="adventurer">Adventurer</Tab>
       <Tab name="settings">Settings</Tab>
     </TabList>
-
-    <TabPanel>
-      <Customer />
-    </TabPanel>
 
     <TabPanel>
       <Settings />

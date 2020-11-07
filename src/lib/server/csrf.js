@@ -13,13 +13,7 @@ const csrf = csurf({
 });
 
 const csrfProtection = (req, res, next) => {
-  const noCsrfRoutes = [
-    "/api/payments/hooks",
-    "/api/alexa",
-    "/oauth/token",
-    "/oauth/authorize",
-    "/csp_report"
-  ];
+  const noCsrfRoutes = ["/api/payments/hooks", "/csp_report"];
   if (noCsrfRoutes.includes(req.path)) next();
   else csrf(req, res, next);
 };

@@ -22,27 +22,6 @@ const users = async () => {
   }
 };
 
-const subscriptions = async () => {
-  try {
-    const results = await pool.query(
-      `
-    SELECT
-        MAX(created) AS most_recent_created,
-        MAX(modified) AS most_recent_modified,
-        COUNT(*) FILTER(WHERE subscription_period_end > CURRENT_DATE) AS total_active
-    FROM
-        subscriptions;
-    `,
-      []
-    );
-
-    return results.rows[0];
-  } catch (err) {
-    logger.error(err);
-    return Promise.reject(err);
-  }
-};
-
 const recentVisitations = async () => {
   try {
     const results = await pool.query(
@@ -72,7 +51,6 @@ export const get = async (req, res, next) => {
   try {
     const results = {};
     results["users"] = await users();
-    results["subscriptions"] = await subscriptions();
     results["recentVisitations"] = await recentVisitations();
     res.writeHead(200, {
       "Content-Type": "application/json"
