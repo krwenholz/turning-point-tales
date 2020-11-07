@@ -39,12 +39,7 @@
   import { mainAdventure } from "src/lib/global-state-stores/browserStore/main-adventure";
   import { onMount } from "svelte";
   import { safeWindow } from "src/lib/client/safe-window";
-  import {
-    freeStoryAvailable,
-    setFreeStoryRecord
-  } from "src/lib/client/free-story-record";
   import { some } from "lodash";
-  import { userSubscribed } from "src/lib/client/user";
 
   export let story;
   export let author;
@@ -55,14 +50,11 @@
 
   const { page, session } = stores();
   const storyId = idFromSlug($page.params.slug);
-  const isSubscribed = userSubscribed($session.user);
   let haveRemainingDecisions = true;
   let badgePopup;
   let csrf;
   let previousNodeName = $page.query.storyNode;
   let visitations = [];
-
-  $: isStoryAvailableFree = freeStoryAvailable(storyId, $session.user);
 
   const setURL = storyNode => {
     safeWindow().history.replaceState(
@@ -75,10 +67,6 @@
   const scrollToTop = () => safeWindow().scrollTo(0, 0);
 
   const recordVisit = detail => {
-    if (detail.final) {
-      setFreeStoryRecord(storyId);
-    }
-
     fetch("/story/visits", {
       method: "POST",
       headers: {
@@ -165,7 +153,7 @@
 </svelte:head>
 
 <div class="route-adventure">
-  {#if (process.browser && isSubscribed) || isStoryAvailableFree}
+  {#if process.browser}
     <Adventure
       {story}
       {title}
@@ -185,14 +173,6 @@
     <BadgePopup {badges} bind:this="{badgePopup}" />
     {#if !haveRemainingDecisions}
       <div class="final-options">
-        {#if !isSubscribed}
-          <Button
-            variation="link"
-            on:click="{() => goto('/user/profile?tab=adventurer')}"
-          >
-            <span>Enjoy more great tales, become an adventurer now</span>
-          </Button>
-        {/if}
         <Button
           className="{'explore-other-stories'}"
           variation="link"
@@ -207,10 +187,6 @@
       Looks like this story isn't available to you.
       {#if $session.user}
         <a href="/user/profile?tab=adventurer">Become a full adventurer now.</a>
-      {:else}
-        <a href="/user/new">
-          Create your user and subscribe to become a full adventurer.
-        </a>
       {/if}
     </p>
   {/if}

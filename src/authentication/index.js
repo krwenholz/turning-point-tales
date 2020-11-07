@@ -62,7 +62,6 @@ const noAuthRoutes = [
   "/example-story",
   "/faq",
   "/index",
-  "/oauth/token",
   "/password-reset",
   "/privacy",
   "/service-worker.js",
@@ -174,19 +173,6 @@ export const initPassport = () => {
   );
 
   passport.use(new AnonymousStrategy());
-
-  // We only do this for Alexa OAUTH.
-  passport.use(
-    new BasicStrategy(function(userId, secret, done) {
-      if (userId != config.get("alexa.clientId")) {
-        return done(err);
-      }
-      if (secret != config.get("alexa.secret")) {
-        return done(null, false);
-      }
-      return done(null, { clientId: userId });
-    })
-  );
 
   passport.authenticateNonDefaultRoutes = () => authenticateNonDefaultRoutes;
 };

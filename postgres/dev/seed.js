@@ -26,7 +26,6 @@ const reset = async () => {
     TRUNCATE user_sessions CASCADE;
     TRUNCATE stories CASCADE;
     TRUNCATE visitations CASCADE;
-    TRUNCATE subscriptions CASCADE;
     `
     );
 
@@ -94,43 +93,6 @@ const seedUsers = async () => {
     `,
     ["test-subscriber@h2wib.com", token, "turning-point-test"]
   );
-};
-
-/*
- * SUBSCRIPTIONS
- */
-// Want a real subscription? You can use a dummy card:
-// https://stripe.com/docs/testing#cards
-const addSubscription = async (
-  userEmail,
-  subscriptionPeriodEnd,
-  stripeCustomerId
-) => {
-  try {
-    await pool.query(
-      `
-      INSERT INTO
-        subscriptions (user_id, subscription_period_end, stripe_customer_id)
-      SELECT id, $2, $3
-      FROM users
-      WHERE email = $1;
-    `,
-      [userEmail, subscriptionPeriodEnd, stripeCustomerId]
-    );
-
-    logger.info({ userEmail }, "... Subscription added");
-  } catch (err) {
-    logger.error(err);
-    return Promise.reject(err);
-  }
-};
-
-const seedSubscriptions = async () => {
-  logger.info("Seeding subscriptions...");
-
-  const subEnd = new Date();
-  subEnd.setMonth(subEnd.getMonth() + 1);
-  await addSubscription("test-subscriber@h2wib.com", subEnd, "DUMMY");
 };
 
 /*
@@ -232,7 +194,6 @@ const seedVisitations = async () => {
 
   await reset();
   await seedUsers();
-  await seedSubscriptions();
   await seedStories();
   await seedVisitations();
 

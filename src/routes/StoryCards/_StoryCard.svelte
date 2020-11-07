@@ -2,7 +2,6 @@
   import ButtonLink from "src/components/ButtonLink.svelte";
   import StripedCone from "src/components/icons/StripedCone.svelte";
   import Tooltip from "src/components/Tooltip.svelte";
-  import { freeStoryAvailable } from "src/lib/client/free-story-record";
   import { goto } from "@sapper/app";
   import { idFromSlug } from "src/lib/slugs";
   import { stores } from "@sapper/app";
@@ -18,14 +17,9 @@
   export let badges;
   export let tags;
   export let content_warnings = "";
-  export let isSubscriber;
 
   let acheivedBadges = [];
   let undiscoveredBadgePercent = 0;
-  let isStoryAvailableFree = freeStoryAvailable(
-    idFromSlug(slug),
-    $session.user
-  );
 
   $: src = title;
 
@@ -144,19 +138,7 @@
   <p>{preview}</p>
 
   <div class="row">
-    {#if isSubscriber}
-      <ButtonLink href="/story/{slug}">Read</ButtonLink>
-    {:else if isStoryAvailableFree}
-      <ButtonLink href="/story/{slug}">Read your one freebie</ButtonLink>
-    {:else if $session.user}
-      <ButtonLink href="/user/profile?tab=adventurer" variation="secondary">
-        Subscribe now
-      </ButtonLink>
-    {:else}
-      <ButtonLink href="/user/new" variation="secondary">
-        Create an account and subscribe
-      </ButtonLink>
-    {/if}
+    <ButtonLink href="/story/{slug}">Read</ButtonLink>
     {#if $session.user}
       {#if badges.length}
         <p class="badges">

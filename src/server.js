@@ -1,6 +1,4 @@
-import * as oauth from "src/authentication/oauth";
 import * as sapper from "@sapper/server";
-import alexaPost from "src/alexa";
 import bodyParser from "body-parser";
 import compression from "compression";
 import config from "config";
@@ -17,11 +15,6 @@ import uuidv4 from "uuid/v4";
 import { Store } from "svelte/store";
 import { Strategy as LocalStrategy } from "passport-local";
 import { csrfProtection, exposeCsrfMiddleware } from "src/lib/server/csrf";
-import { exposeStripeKeyMiddleware } from "src/lib/server/stripe";
-import {
-  setFreeStoryRecord,
-  recordFreeStoryUsed
-} from "src/lib/server/free-story-record";
 import {
   logger,
   logResponse,
@@ -102,32 +95,25 @@ const middleware = [
       defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
-        "https://js.stripe.com",
         "https://edge.fullstory.com",
         "https://www.fullstory.com",
         (req, res) => `'nonce-${res.locals.nonce}'`
       ],
       connectSrc: [
         "'self'",
-        "https://api.stripe.com",
-        "https://js.stripe.com",
         "https://fonts.googleapis.com",
         "https://fonts.gstatic.com",
         "https://rs.fullstory.com",
         "https://www.fullstory.com",
         "https://edge.fullstory.com"
       ].concat(additionalSrcs),
-      frameSrc: ["js.stripe.com", "https://hooks.stripe.com"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "https://*.stripe.com"],
+      imgSrc: ["'self'"],
       workerSrc: [
         "'self'",
         "https://fonts.gstatic.com",
         "https://fonts.googleapis.com",
-        "https://hooks.stripe.com",
-        "https://api.stripe.com",
-        "https://js.stripe.com",
         "https://rs.fullstory.com",
         "https://edge.fullstory.com",
         "https://www.fullstory.com"
@@ -140,28 +126,10 @@ const middleware = [
 
 app.use(...middleware);
 
-app.get("/oauth/authorize", oauth.authorize);
-
-app.post("/oauth/authorize/decision", oauth.server.decision());
-
-app.post(
-  "/oauth/token",
-  passport.authenticate(["basic"], {
-    session: false
-  }),
-  oauth.server.token(),
-  oauth.server.errorHandler()
-);
-
-app.post("/alexa", alexaPost);
-
 app.use(
   "/",
   csrfProtection,
   exposeCsrfMiddleware,
-  exposeStripeKeyMiddleware,
-  setFreeStoryRecord,
-  recordFreeStoryUsed,
   passport.authenticateNonDefaultRoutes(),
   sapper.middleware({
     session: req => ({

@@ -37,23 +37,18 @@
     interesting tales we think people would like. If you or someone you know can
     do that then please reach out to us at
     <a href="mailto:creators@h2wib.com">creators@h2wib.com</a>
-    . Creators get paid for helping us find intrepid adventurers (subscribers),
-    so if you like the content, subscrbibe!
+    .
   </details>
 
   <details>
     <summary>When is the next story coming?</summary>
-    Subscribers should expect a new story every month. At some point, we may
-    release the story for non-subscribers. In between releases, subscribers
-    should expect emails with teasers, creator interviews, and more.
+    We aren't actively posting new stories right now, but interest from authors
+    or the community may change that!
   </details>
 
   <details>
     <summary>What benefits do accounts recieve?</summary>
-    Registered accounts can earn badges, learn about upcoming adventures in the
-    form of newsletters, and help us share information with new creators on
-    where and how their stories are being enjoyed. Paid subscribers help fund
-    our creators and keep this site running. We want you!
+    Registered accounts can earn badges and save badges!
   </details>
 
   <details>
@@ -61,23 +56,10 @@
     When creating an account, we keep your name and email private. We only share
     it for services like payments, personalizing your reading experience and to
     send you exciting updates about new stories and authors. In lieu of sharing
-    your data and browsing with a third party, we handcraft stories, and are
-    supported by readers choosing a paid subscription. For more information,
-    review our
+    your data and browsing with a third party, we're just offering this for
+    free! For more information, review our
     <a href="/privacy">privacy policy</a>
     .
-  </details>
-
-  <details>
-    <summary>How do I cancel a subscription?</summary>
-    We hate to see you go. If there's anything we can do to convince you to
-    stay, please reach out at
-    <a href="mailto:support@turningpointtales.com">
-      support@turningpointtales.com.
-    </a>
-    If you still want to become a regular townsperson again and leave paid
-    adventuring behind, then log in, head to your profile and select the option
-    to "Cancel subscription".
   </details>
 
   <details>

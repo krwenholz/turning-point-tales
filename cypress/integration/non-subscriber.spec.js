@@ -21,22 +21,19 @@ export const visitAFinalNode = cy => {
 };
 
 describe("NonSubscriber", () => {
-  it("allows a first free read", () => {
+  it("allows free reads", () => {
     visitAFinalNode(cy);
     cy.getCookies().then(cookies => {
       cy.log(`${JSON.stringify(cookies)} xxxxxx`);
     });
 
-    cy.visit("/");
-    cy.get(".story-previews")
-      .find('a[href="/user/new"]')
-      .should("have.length", stories.length - 1);
-    cy.get(".story-previews")
-      .contains("Read")
-      .should("exist");
+    cy.visit("/")
+      .get(".story-previews")
+      .find("article a")
+      .should("have.length", stories.length * 2);
   });
 
-  it("keeps free read recorded after signing up", () => {
+  it("keeps free reads recorded after signing up", () => {
     visitAFinalNode(cy);
 
     const user = createUser(cy);
@@ -48,10 +45,7 @@ describe("NonSubscriber", () => {
 
     cy.visit("/")
       .get(".story-previews")
-      .contains("Read your one freebie")
-      .should("have.length", 1);
-    cy.get(".story-previews")
-      .find('a[href="/user/profile?tab=adventurer"]')
-      .should("have.length", stories.length - 1);
+      .find("article a")
+      .should("have.length", stories.length * 2);
   });
 });
