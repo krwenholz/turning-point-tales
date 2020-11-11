@@ -6,57 +6,57 @@ const super_lia = {
     {
       node: "Zeke_Fart",
       text: "Fart for the win??",
-      icon: null
+      icon: "💨"
     },
     {
       node: "Jason_Sleep",
       text: "Magic rocks.",
-      icon: null
+      icon: "🗿"
     },
     {
       node: "Magic_Leave",
       text: "Magic is cool.",
-      icon: null
+      icon: "😎"
     },
     {
       node: "Home",
-      text: "All is well, Mom's rock too,=,",
-      icon: null
+      text: "All is well, Moms rock too,=,",
+      icon: "🤰"
     },
     {
       node: "Home2",
       text: "Family First",
-      icon: null
+      icon: "👪"
     },
     {
       node: "Home3",
       text: "Raw Power!",
-      icon: null
+      icon: "🔋"
     },
     {
       node: "Lab3_Alone",
       text: "Made a new friend!",
-      icon: null
+      icon: "🎎"
     },
     {
       node: "Lab3_Maca",
       text: "Helped a new friend.",
-      icon: null
+      icon: "🦮"
     },
     {
       node: "Lab2_Jason",
-      text: "Better Late than never.",
-      icon: null
+      text: "Better late than never.",
+      icon: "⏲️"
     },
     {
       node: "Lab2_Jason_Maca",
       text: "Well, at least you made a new friend.",
-      icon: null
+      icon: "🤝"
     },
     {
       node: "Lab2_Jason_Maca_Windee",
       text: "Wow! Everybody saved.",
-      icon: null
+      icon: "🙌"
     },
     {
       node: "Attack_M",
