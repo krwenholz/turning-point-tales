@@ -129,7 +129,7 @@
     <a href="/story/{slug}">
       <img
         src="{`/story-card-images/${src}`}"
-        on:error="{() => (title = 'placeholder.png')}"
+        on:error="{() => (src = 'placeholder.png')}"
         alt="click to go to story"
       />
     </a>
