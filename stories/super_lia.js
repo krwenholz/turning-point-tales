@@ -1,7 +1,8 @@
 const super_lia = {
   author: "John Zakour",
   title: "Super Lia",
-  preview: "",
+  tags: ["funny", "teenage", "empowering"],
+  generalRelease: true,
   badges: [
     {
       node: "Zeke_Fart",
